@@ -1,0 +1,19 @@
+#' A measure of lack of fit
+#' 
+#' This function calculates a lack-of-fit measure for
+#' a model, \eqn{\hat{Q}_M}.  It currently simply
+#' returns the negative log-likelihood value of an
+#' estimated model object.
+#' 
+#' @param object an object of class \code{"lm"}.  Actually any
+#'   object from which a log-likelihood value can be extracted.
+#'   Will need more thought if/when other methods are implemented.
+#' @param method method the model selection method to be used. Currently
+#'   only \code{method = "ML"} is supported (perhaps in the future
+#'   \code{method = "MVC"} will be implemented).
+
+Qm = function(object,method){
+  if(method=="ML"){
+    return(-as.numeric(logLik(object)))
+  }
+}

@@ -1,0 +1,8 @@
+bibentry("Manual",
+   title = "fencer: Model selection based on the fence procedure",
+   author = person("Garth Tarr", "Samuel Müller", "Alan Welsh"),
+   year   = 2014,
+   url    = "http://www.R-project.org/package=fencer",
+
+   mheader = "To cite fencer in publications use:"
+)
