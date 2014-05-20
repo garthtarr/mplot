@@ -1,7 +1,7 @@
 Package: mplot
 Type: Package
 Title: Graphical model stability and model selection procedures
-Version: 0.1
+Version: 0.1.1
 Date: 2014-05-19
 Authors@R: c(person("Garth", "Tarr", role = c("aut", "cre"),
     email = "garth.tarr@gmail.com"),
@@ -15,7 +15,8 @@ Description: The mplot package implements model stability curves
 License: GPL (>= 2)
 Suggests:
     doMC,
-    foreach
+    foreach,
+    googleVis
 Depends:
     leaps
 URL: https://github.com/garthtarr/mplot
