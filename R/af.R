@@ -135,9 +135,10 @@ af = function(fixed, random, data,
   null.ff = as.formula(paste(yname,"~1"))
   m0 = lm(null.ff, data = data) # null model
   Qm0 = Qm(m0, method=method) # Qm for the null model
-  Xstar = data.frame(X,redu = rnorm(n)) # full model plus a redundant variable
+  red.var = rnorm(n)
+  Xstar = data.frame(X,red.var=red.var) # full model plus a redundant variable
   full.mod = as.formula(paste(yname,"~."))
-  mfstar = lm(full.mod, data = Xstar) # full model + 1
+  mfstar = lm(full.mod, data = Xstar) # full model + red.var
   Qmfstar = Qm(mfstar, method=method)
   c.max=c.min=c.range=NA
   if (initial.stepwise) {
@@ -193,7 +194,7 @@ af = function(fixed, random, data,
         ystar = mu + rnorm(n,0,sighat)
         Xstar[,1] = ystar
         fms = lmfence(fixed=fixed,data=Xstar,
-                      cstar=c.range[j],trace=TRUE,
+                      cstar=c.range[j],trace=FALSE,
                       best.only=best.only)
         fence.mod = c(fence.mod,fms)
       } # find most frequently arising set of covariates
@@ -234,16 +235,13 @@ af = function(fixed, random, data,
   n.pstarmods = length(pstarmods)
   p.star = cbind(p.star,match(p.star[,2], names(pstarmods)))
   
+  # if want runs of maximums
   tf = p.star[,1] == max(p.star[,1])
-  a = rle(tf)
-  # forget about the longest run issue
-  # want runs of maximums or runs of very high vaues of p*
+  # if want runs of very high vaues of p*
   # e.g. p*>1-1/sqrt(B)
-  
-  # identify how long the longest run of true values goes for:
-  longest.true.run = max(a$lengths[a$values==TRUE])
-  # where in the sequence do we find this/these runs?
-  pos = which(a$lengths==longest.true.run)
+  # tf = p.star[,1] > 1-1/sqrt(B)
+  a = rle(tf)
+  pos = which(a$values==TRUE)
   # what if there was a sequence of falses of the same length?
   # keep only the position of these runs where we had true values
   pos = pos[a$values[pos]==TRUE]
@@ -257,7 +255,16 @@ af = function(fixed, random, data,
     }
   }
   mid = floor(mid)
-  c.star = min(c.range[mid])
+  test=vector(length=length(mid))
+  substrRight <- function(x, n){
+    substr(x, nchar(x)-n+1, nchar(x))
+  }
+  for(i in 1:length(mid)){
+    # check the corresponding model for the presence of red.var
+    # if redu is present discount this model from consideration
+    test[i] = substrRight(p.star[mid[i],2],7)=="red.var"
+  }
+  c.star = min(c.range[mid[test==FALSE]])
   
   # set up the output object class
   afout = list()
@@ -292,8 +299,6 @@ plot.af = function(x,pch,...){
   axis(side=3, at=x$c.star, 
        labels=paste("c*=", round(x$c.star,1),sep=""))
 }
-#)
-
 #' Print method for an af object
 #' 
 #' Prints basic output of the bootstrap results of an 

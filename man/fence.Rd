@@ -3,7 +3,7 @@
 \alias{fence}
 \title{Fence based model selection}
 \usage{
-fence(fixed, random, data, method = c("ML", "MVC"), cn = "adaptive",
+fence(fixed, random, data, method = c("ML", "MVC"), adaptive = TRUE,
   B = 100, R = 100, nvmax, trace = FALSE, exhaustive = FALSE,
   use.leaps = FALSE, normalize = TRUE, intercept = TRUE)
 }

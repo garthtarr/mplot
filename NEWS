@@ -1,4 +1,15 @@
-mselect 0.1
+mplot 0.2
+==========
+
+* added basic functionality for generalised linear models
+
+mplot 0.2
+==========
+
+* added model selection curves
+* added basic functionality for linear mixed models
+
+mplot 0.1
 ==========
 
 * adaptive fence implementation for linear models

@@ -1,11 +1,10 @@
-#' Model selection based on the fence procedure
+#' Graphical model stability and model selection procedures
 #' 
 #' More detail
 #' ...
-#' @name fencer-package
-#' @aliases granovaGG
+#' @name mplot-package
 #' @docType package
-#' @title Model selection based on the fence procedure.
+#' @title Graphical model stability and model selection procedures
 #' @author Garth Tarr
 #' @keywords package
 #' @seealso \code{\link{...}}
