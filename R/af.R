@@ -145,13 +145,18 @@ af = function(fixed, random, data,
     # k.range = krange(mfstar, m0, n, lower=null.ff, upper=full.mod, data=Xstar)
     # took out of a function due to data passing issues
     # backwards model selection using BIC
-    bwards = step(mfstar, scope = list(lower=null.ff, upper=full.mod),
+    bwds.BIC = step(mfstar, scope = list(lower=null.ff, upper=full.mod),
                   direction="backward", k=log(n), trace=0)
-    k.min = max(length(bwards$coef)-1,1)
+    fwds.BIC = step(m0, scope = list(lower=null.ff, upper=full.mod),
+                      direction="backward", k=log(n), trace=0)
+    k.min = max(min(length(bwds$coef),length(fw-1,1)
+    bwds.AIC = step(mfstar, scope = list(lower=null.ff, upper=full.mod),
+                      direction="backward", k=2, trace=0)
+    
     # forwards model selection using AIC
-    fwards = step(m0, scope = list(lower=null.ff, upper=full.mod),
+    fwds.AIC = step(m0, scope = list(lower=null.ff, upper=full.mod),
                   direction="backward", k=2, trace=0)
-    k.max = min(length(bwards$coef)+1,k.full)  
+    k.max = min(length(bwds$coef)+1,k.full)  
     k.range = list(k.min=k.min,k.max=k.max)
     Q.range = qrange(k.range=k.range, data=Xstar, yname=yname, fixed=fixed, method=method)
     c.max = (Q.range$Q.max - Qmfstar)*1.1
@@ -289,15 +294,45 @@ af = function(fixed, random, data,
 # S3 method for class 'af'
 #setMethod("plot", signature(x="af"),
 plot.af = function(x,pch,...){
-  if(missing(pch)) pch=19
-  plot(x$p.star[,1]~x$c.range,
-       ylim=c(0,1), pch=pch,
-       col=x$p.star[,3],
-       ylab = "p*", xlab = "c")
-  legend("bottomleft",legend=unique(x$p.star[,2]),
-         pch=pch,col=unique(x$p.star[,3]),bty="n")
-  axis(side=3, at=x$c.star, 
-       labels=paste("c*=", round(x$c.star,1),sep=""))
+  if(!require(googleVis)){
+    if(missing(pch)) pch=19
+    plot(x$p.star[,1]~x$c.range,
+         ylim=c(0,1), pch=pch,
+         col=x$p.star[,3],
+         ylab = "p*", xlab = "c")
+    legend("bottomleft",legend=unique(x$p.star[,2]),
+           pch=pch,col=unique(x$p.star[,3]),bty="n")
+    axis(side=3, at=x$c.star, 
+         labels=paste("c*=", round(x$c.star,1),sep=""))
+  } else {
+    require(googleVis)
+    names(x$p.star)
+    x$c.range
+    dat <- matrix(NA, nrow = nrow(x$p.star), ncol = nlevels(x$p.star$model) + 1)
+    for(i in 1:nlevels(x$p.star$model)){
+      lvl <- levels(x$p.star$model)[i]
+      ind <- which(x$p.star$model == lvl)
+      dat[ind, c(1, i+1)] <- x$p.star$pstar[ind]
+    }
+    plot.dat = data.frame(c.range = as.numeric(x$c.range), 
+                          dat[,-1])
+    colnames(plot.dat) = c("c.range",levels(x$p.star$model))
+    plot.dat = round(plot.dat,2)
+    # FOR FUN ON A RAINY DAY
+    # INCLUDE ANNOTATION USING `ROLES'
+    # SEE HERE: http://cran.r-project.org/web/packages/googleVis/vignettes/Using_Roles_via_googleVis.html
+    gvis.title = paste("Adaptive fence: c*=",round(x$c.star,1),sep="")
+    plot(gvisScatterChart(data=plot.dat,
+                          options=list(title=gvis.title,
+                                       vAxis="{title:'p*',minValue:0,maxValue:1,
+                  ticks: [0.0,0.2,0.4,0.6,0.8,1.0]}",
+                                       hAxis="{title:'c'}",
+                                       axisTitlesPosition="out",
+                                       chartArea="{left:50,top:30,width:'60%',height:'80%'}",
+                                       width=800, height=400),
+                          chartid="AdaptiveFence"))
+    
+  }
 }
 #' Print method for an af object
 #' 
