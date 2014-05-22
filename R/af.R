@@ -106,15 +106,17 @@
 #' lmfence(y3~.,dat=dat3,cstar=af4$c.star)
 #' 
 #' # Real example
-#' bfat = af(Bodyfat~.,data=bodyfat,n.cores=3,
+#' bfat.full = af(Bodyfat~.,data=bodyfat,n.cores=3,
 #'           n.c=100,initial.stepwise=FALSE)
+#' bfat.stepwise = af(Bodyfat~.,data=bodyfat,n.cores=3,
+#'           n.c=50,initial.stepwise=TRUE)
 
 af = function(fixed, random, data,
               method="ML", B=60, n.c=20,
               n.cores=1,
               best.only=FALSE,
               initial.stepwise=TRUE, ...){
-  
+  cl <- match.call()
   yname = deparse(fixed[[2]])
   mf = lm(fixed, data = data) # full model
   # using this approach to cope when there are indicator
@@ -135,34 +137,35 @@ af = function(fixed, random, data,
   null.ff = as.formula(paste(yname,"~1"))
   m0 = lm(null.ff, data = data) # null model
   Qm0 = Qm(m0, method=method) # Qm for the null model
-  red.var = rnorm(n)
-  Xstar = data.frame(X,red.var=red.var) # full model plus a redundant variable
+  # add robustness into the redundent variable name
+  RED.VAR.DEL = rnorm(n)
+  Xstar = data.frame(X,RED.VAR.DEL=RED.VAR.DEL) # full model plus a redundant variable
   full.mod = as.formula(paste(yname,"~."))
-  mfstar = lm(full.mod, data = Xstar) # full model + red.var
+  mfstar = lm(full.mod, data = Xstar) # full model + RED.VAR.DEL
   Qmfstar = Qm(mfstar, method=method)
   c.max=c.min=c.range=NA
   if (initial.stepwise) {
     # k.range = krange(mfstar, m0, n, lower=null.ff, upper=full.mod, data=Xstar)
     # took out of a function due to data passing issues
-    # backwards model selection using BIC
+    # backwards and forwards model selection using
+    # BIC (conservative) and AIC (less conservative)
     bwds.BIC = step(mfstar, scope = list(lower=null.ff, upper=full.mod),
-                  direction="backward", k=log(n), trace=0)
-    fwds.BIC = step(m0, scope = list(lower=null.ff, upper=full.mod),
-                      direction="backward", k=log(n), trace=0)
-    k.min = max(min(length(bwds$coef),length(fw-1,1)
+                    direction="backward", k=log(n), trace=0)
+    fwds.BIC = step(m0, scope = list(lower=null.ff, upper=as.formula(mf$model)),
+                    direction="forward", k=log(n), trace=0)
+    k.min = max(min(length(bwds.BIC$coef),length(fwds.BIC$coef))-1,1)
     bwds.AIC = step(mfstar, scope = list(lower=null.ff, upper=full.mod),
-                      direction="backward", k=2, trace=0)
-    
-    # forwards model selection using AIC
-    fwds.AIC = step(m0, scope = list(lower=null.ff, upper=full.mod),
-                  direction="backward", k=2, trace=0)
-    k.max = min(length(bwds$coef)+1,k.full)  
+                    direction="backward", k=2, trace=0)
+    fwds.AIC = step(m0, scope = list(lower=null.ff, upper=as.formula(mf$model)),
+                    direction="forward", k=2, trace=0)
+    k.max = min(max(length(bwds.AIC$coef),length(fwds.AIC$coef))+1,k.full)  
     k.range = list(k.min=k.min,k.max=k.max)
     Q.range = qrange(k.range=k.range, data=Xstar, yname=yname, fixed=fixed, method=method)
     c.max = (Q.range$Q.max - Qmfstar)*1.1
     c.min = max(Q.range$Q.min - Qmfstar,0)*0.9
     c.range = seq(c.min,c.max,length.out=n.c)
   } else {
+    k.range = list(k.min=1,k.max=k.full)
     c.max = (Qm0-Qmfstar)*1.1
     c.min = 0
     c.range = seq(c.min,c.max,length.out=n.c)
@@ -238,13 +241,18 @@ af = function(fixed, random, data,
   }
   pstarmods = sort(table(p.star[,2]),decreasing=TRUE)
   n.pstarmods = length(pstarmods)
-  p.star = cbind(p.star,match(p.star[,2], names(pstarmods)))
+  p.star = data.frame(pstar = as.numeric(p.star[,1]),
+                      model = as.character(p.star[,2]),
+                      modelident = match(p.star[,2], names(pstarmods)))
+  redundent.vars = grepl("RED.VAR.DEL",as.character(p.star$model))
+  c.range = c.range[!redundent.vars]
+  p.star = p.star[!redundent.vars,]
+  p.star$model = droplevels(p.star$model)
   
-  # if want runs of maximums
-  tf = p.star[,1] == max(p.star[,1])
-  # if want runs of very high vaues of p*
-  # e.g. p*>1-1/sqrt(B)
-  # tf = p.star[,1] > 1-1/sqrt(B)
+  
+  # if want runs of (near) maximums
+  max.p = max(p.star[,1]) - 2/B
+  tf = p.star[,1] >= max.p
   a = rle(tf)
   pos = which(a$values==TRUE)
   # what if there was a sequence of falses of the same length?
@@ -260,25 +268,44 @@ af = function(fixed, random, data,
     }
   }
   mid = floor(mid)
-  test=vector(length=length(mid))
-  substrRight <- function(x, n){
-    substr(x, nchar(x)-n+1, nchar(x))
-  }
-  for(i in 1:length(mid)){
-    # check the corresponding model for the presence of red.var
-    # if redu is present discount this model from consideration
-    test[i] = substrRight(p.star[mid[i],2],7)=="red.var"
-  }
-  c.star = min(c.range[mid[test==FALSE]])
+  c.star = min(c.range[mid])
+  # if we didn't discard the redundent variable earlier on
+  # we would need to do something like this:
+  #test=vector(length=length(mid))
+  #substrRight <- function(x, n){
+  #  substr(x, nchar(x)-n+1, nchar(x))
+  #}
+  #for(i in 1:length(mid)){
+  ## check the corresponding model for the presence of RED.VAR.DEL
+  #  # if redu is present discount this model from consideration
+  #  test[i] = substrRight(p.star[mid[i],2],7)=="RED.VAR.DEL"
+  #}
+  #c.star = min(c.range[mid[test==FALSE]])
+  
+  afmod = lmfence(fixed=fixed,data=X,
+                  cstar=c.star,trace=FALSE,
+                  best.only=TRUE)
+  attributes(afmod[[1]]) = NULL
+  #afmod = afmod[[1]]
   
   # set up the output object class
   afout = list()
   class(afout) = "af"
-  afout$p.star = data.frame(p.star)
-  colnames(afout$p.star) = c("pstar","model","modelident")
+  afout$p.star = p.star
+  #colnames(afout$p.star) = c("pstar","model","modelident")
   afout$p.star[,1] = as.numeric(as.character(afout$p.star[,1]))
   afout$c.range = c.range
   afout$c.star = c.star
+  afout$model = afmod
+  afout$call = cl
+  if(initial.stepwise){
+    afout$initial.stepwise = list(
+      fwds.AIC = as.formula(fwds.AIC),
+      fwds.BIC = as.formula(fwds.BIC),
+      bwds.AIC = as.formula(bwds.AIC),
+      bwds.BIC = as.formula(bwds.BIC))
+  } else {afout$initial.stepwise=NULL}
+  afout$k.range = k.range
   return(afout)
 }
 
@@ -306,8 +333,6 @@ plot.af = function(x,pch,...){
          labels=paste("c*=", round(x$c.star,1),sep=""))
   } else {
     require(googleVis)
-    names(x$p.star)
-    x$c.range
     dat <- matrix(NA, nrow = nrow(x$p.star), ncol = nlevels(x$p.star$model) + 1)
     for(i in 1:nlevels(x$p.star$model)){
       lvl <- levels(x$p.star$model)[i]
@@ -343,7 +368,16 @@ plot.af = function(x,pch,...){
 #' @param ... other parameters to be passed through to 
 #'   plotting functions.
 # S3 method for class 'af'
-# print.af = function(x,...)
+print.af = function (x, ...) {
+  cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), 
+      "\n\n", sep = "")
+  cat("Adaptive fence model (c*=")
+  cat(round(af1$c.star,1))
+  cat("):\n")
+  cat(deparse(x$model))
+  cat("\n\n")
+  invisible(x)
+}
 
 #' Summary method for an af object
 #' 
@@ -354,5 +388,34 @@ plot.af = function(x,pch,...){
 #' @param ... other parameters to be passed through to 
 #'   plotting functions.
 # S3 method for class 'af'
-# summary.af = function(x,...)
-
+summary.af = function (x, ...) {
+  cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), 
+      "\n\n", sep = "")
+  cat("Adaptive fence model (c*=")
+  cat(round(af1$c.star,1))
+  cat("):\n")
+  cat(deparse(x$model))
+  cat("\n\n")
+  cat("Model sizes considered: ")
+  cat(x$k.range$k.min)
+  cat(" to ")
+  cat(x$k.range$k.max)
+  cat(" (including intercept).")
+  cat("\n\n")
+  if(!is.null(x$initial.stepwise)){
+    cat("Stepwise procedures:\n")
+    cat("Forwards AIC: ")
+    cat(deparse(x$initial.stepwise$fwds.AIC))
+    cat("\n")
+    cat("Backwards AIC: ")
+    cat(deparse(x$initial.stepwise$bwds.AIC))
+    cat("\n")
+    cat("Forwards BIC: ")
+    cat(deparse(x$initial.stepwise$fwds.BIC))
+    cat("\n")
+    cat("Backwards BIC: ")
+    cat(deparse(x$initial.stepwise$bwds.BIC))
+    cat("\n\n")
+  }
+  invisible(x)
+}
