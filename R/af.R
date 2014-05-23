@@ -118,7 +118,7 @@ af = function(fixed, random, data,
               initial.stepwise=TRUE, ...){
   cl <- match.call()
   yname = deparse(fixed[[2]])
-  mf = lm(fixed, data = data) # full model
+  mf = lm(fixed, data = data,x=TRUE) # full model
   # using this approach to cope when there are indicator
   # variables in the formula, they get spelled out in
   # model.matrix
@@ -149,6 +149,8 @@ af = function(fixed, random, data,
     # took out of a function due to data passing issues
     # backwards and forwards model selection using
     # BIC (conservative) and AIC (less conservative)
+    # there is currently an issue with the stepwise procedures
+    # and including a factor variable.
     bwds.BIC = step(mfstar, scope = list(lower=null.ff, upper=full.mod),
                     direction="backward", k=log(n), trace=0)
     fwds.BIC = step(m0, scope = list(lower=null.ff, upper=as.formula(mf$model)),

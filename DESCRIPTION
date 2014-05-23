@@ -16,9 +16,11 @@ License: GPL (>= 2)
 Suggests:
     doMC,
     foreach,
-    googleVis
+    googleVis,
+    knitr
 Depends:
     leaps
 URL: https://github.com/garthtarr/mplot
 Roxygen: list(wrap = FALSE)
 LazyData: yes
+VignetteBuilder: knitr
