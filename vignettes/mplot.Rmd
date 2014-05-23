@@ -1,7 +1,7 @@
 ---
 title: "mplot"
 author: "Garth Tarr"
-date: '`r Sys.Date()`'
+date: '`s Sys.Date()`'
 output:
   html_document:
     css: assets/fix-bootstrap.css
@@ -15,6 +15,12 @@ output:
 
 mplot
 ========================================================
+
+Vignette for the mplot package
+
+```s
+library(mplot)
+```
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring web pages (click the **Help** toolbar button for more details on using R Markdown).
 

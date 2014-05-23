@@ -57,15 +57,15 @@
 #'   'correct' then it will be the only model at that size
 #'   that passes the fence.  This can help to determine where
 #'   the correct peak is to select c*.
-#' @param pch plotting ‘character’, i.e., symbol to use. 
+#' @param pch plotting 'character', i.e., symbol to use. 
 #'   This can either be a single character or an integer 
 #'   code for one of a set of graphics symbols.
 #' @param initial.stepwise logical.  Performs an initial stepwise 
 #'   procedure to look for the range of model sizes where attention
 #'   should be focussed. See details for implementation.
 #' @param ... optional extra parameters passed through (?? necessary)
-#' @seealso \code{\link{lmfence}}, \code{\link{lmmfence}}
-#' @references Jiang et. al. (2009); Tarr, Müller and Welsh (2014)
+#' @seealso \code{\link[mplot]{lmfence}}, \code{\link[mplot]{lmmfence}}
+#' @references Jiang et. al. (2009); Tarr, M\:uller and Welsh (2014)
 #' @export
 #' @family fence
 #' @examples
