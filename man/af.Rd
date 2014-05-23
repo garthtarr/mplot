@@ -43,7 +43,7 @@ p* values.  The rationale being that if a model is
 that passes the fence.  This can help to determine where
 the correct peak is to select c*.}
 
-\item{pch}{plotting ‘character’, i.e., symbol to use.
+\item{pch}{plotting 'character', i.e., symbol to use.
 This can either be a single character or an integer
 code for one of a set of graphics symbols.}
 
@@ -126,10 +126,10 @@ bfat.stepwise = af(Bodyfat~.,data=bodyfat,n.cores=3,
           n.c=50,initial.stepwise=TRUE)
 }
 \references{
-Jiang et. al. (2009); Tarr, Müller and Welsh (2014)
+Jiang et. al. (2009); Tarr, M\:uller and Welsh (2014)
 }
 \seealso{
-\code{\link{lmfence}}, \code{\link{lmmfence}}
+\code{\link[mplot]{lmfence}}, \code{\link[mplot]{lmmfence}}
 
 Other fence: \code{\link{lmfence}}
 }
