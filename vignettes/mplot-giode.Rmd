@@ -1,0 +1,17 @@
+---
+title: "Not an Introduction to knitr"
+author: "Yihui Xie"
+date: "`s Sys.Date()`"
+output: html_document
+---
+
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Not an Introduction to knitr}
+-->
+
+The **knitr** package is an alternative tool to Sweave based on a
+different design with more features. This document is not an introduction,
+but only serves as a placeholder to guide you to the real manuals, which are
+functions in this package. There is a book for this package, but
+it may not be useful to those who prefer digging out information on the web.

@@ -1,0 +1,87 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage{Sweave}
+\usepackage{thumbpdf}
+\usepackage{url}
+%\usepackage{wrapfig}
+\usepackage{hyperref}
+
+\hypersetup{
+  pdftitle={Using the Google Chart Tools with R},%
+  pdfauthor={Markus Gesmann},%
+}
+
+%\VignetteEngine(Sweave)
+%\VignetteIndexEntry{Using the Google Chart Tools with R}
+%\VignetteDepends{googleVis}
+%\VignetteKeywords{google, visualisation, api}
+%\VignettePackage{googleVis}
+
+
+\SweaveOpts{engine=R, eps=FALSE, keep.source = TRUE}
+<<options, echo=FALSE>>=
+options(prompt = "R> ", digits = 4, show.signif.stars = FALSE)
+@
+
+
+%\keywords{google, visualisation, api, \proglang{R}}
+
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{2mm}
+
+\newcommand{\googleVis}{\textbf{\texttt{googleVis}} }
+\newcommand{\knitr}{\textbf{\texttt{knitr}} }
+\newcommand{\rsp}{\textbf{\texttt{R.rsp }}}
+\newcommand{\brew}{\textbf{\texttt{brew }}}
+\newcommand{\rapache}{\emph{{RApache }}}
+\newcommand{\Rook}{\emph{{Rook }}}
+\newcommand{\shiny}{\textbf{\texttt{shiny }}}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\author{Markus Gesmann\footnote{markus.gesmann@gmail.com},
+  Diego de Castillo\footnote{decastillo@gmail.com}\\
+Contact: rvisualisation@gmail.com}
+\title{Using the Google Chart Tools with R:\\
+  googleVis-\Sexpr{packageDescription("googleVis")[['Version']]} Package Vignette
+}
+\maketitle
+\begin{abstract}
+  The \googleVis package provides an interface between R and the
+  Google Chart Tools.  The Google Chart Tools offer interactive
+  charts which can be embedded into web pages. The best 
+  known of these charts is probably the Motion Chart, popularised 
+  by Hans Rosling in his TED talks. 
+ 
+  The functions of the \googleVis package allow the user to visualise
+  data stored in R data frames with the Google Chart Tools
+  without uploading the data to Google. The output of a \googleVis
+  function is html code that contains the data and references to
+  JavaScript functions hosted by Google.
+  
+  googleVis makes use of the internal R HTTP server to display the
+  output locally. A modern browser with an Internet connection is
+  required and for some charts Flash.
+
+\end{abstract}
+
+\clearpage
+\tableofcontents
+\clearpage
+
+\section{Introduction}\label{sec:Intro}
+
+\subsection{Motivation}\label{sec:Motivation}
+More and more data is becoming available, and yet
+stories and insights are still often missed: we are lost in the data
+jungle and struggle to see the wood for the trees. 
+
+Hence, new tools are required to bring data to life, to engage with
+users, to enable them to slice and dice the data, to view it from
+various angles and to find stories worth telling: outliers, trends or
+even the obvious. 
+
+\end{document}
