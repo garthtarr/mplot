@@ -6,7 +6,7 @@
 \method{print}{af}(x, ...)
 }
 \arguments{
-\item{x}{\code{af} object, the result of \code{\link{af}}}
+\item{x}{an \code{af} object, the result of \code{\link{af}}}
 
 \item{...}{other parameters to be passed through to
 plotting functions.}

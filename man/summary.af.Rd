@@ -3,13 +3,10 @@
 \alias{summary.af}
 \title{Summary method for an af object}
 \usage{
-\method{summary}{af}(x, ...)
+\method{summary}{af}(x)
 }
 \arguments{
 \item{x}{\code{af} object, the result of \code{\link{af}}}
-
-\item{...}{other parameters to be passed through to
-plotting functions.}
 }
 \description{
 Provides comprehensive  output of the bootstrap results of an

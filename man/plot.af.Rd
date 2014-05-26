@@ -3,10 +3,14 @@
 \alias{plot.af}
 \title{Plot diagnostics for an af object}
 \usage{
-\method{plot}{af}(x, pch, ...)
+\method{plot}{af}(x, pch, classic = FALSE, ...)
 }
 \arguments{
 \item{x}{\code{af} object, the result of \code{\link{af}}}
+
+\item{classic}{logical.  If \code{classic=TRUE} a
+base graphics plot is provided instead of a googleVis plot.
+Default is \code{classic=FALSE}.}
 
 \item{...}{other parameters to be passed through to
 plotting functions.}

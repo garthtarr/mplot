@@ -3,7 +3,7 @@
 \alias{af}
 \title{The adaptive fence procedure (currently only for linear models)}
 \usage{
-af(fixed, random, data, method = "ML", B = 60, n.c = 20, n.cores = 1,
+af(fixed, random, data, n.cores, method = "ML", B = 60, n.c = 20,
   best.only = FALSE, initial.stepwise = TRUE, ...)
 }
 \arguments{

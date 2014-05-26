@@ -1,10 +1,6 @@
 \documentclass{article}
-%\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{Sweave}
-\usepackage{thumbpdf}
 \usepackage{url}
-%\usepackage{wrapfig}
 \usepackage{hyperref}
 
 \hypersetup{
@@ -18,9 +14,8 @@
 %\VignetteKeywords{model selection, model stability, adaptive fence}
 %\VignettePackage{mplot}
 
-
-%\SweaveOpts{engine=R, eps=FALSE, keep.source = TRUE}
 <<options, echo=FALSE>>=
+require(knitr)
 opts_knit$set(prompt = FALSE)
 @
 
@@ -37,7 +32,6 @@ opts_knit$set(prompt = FALSE)
 \renewcommand{\familydefault}{\sfdefault}
 
 \begin{document}
-%\SweaveOpts{concordance=TRUE}
 
 \author{Garth Tarr\footnote{garth.tarr@gmail.com}, 
   Samuel Müller\footnote{samuel.mueller@sydney.edu.au}, 

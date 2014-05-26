@@ -296,7 +296,6 @@ af = function(fixed, random, data, n.cores,
   
   # set up the output object class
   afout = list()
-  class(afout) = "af"
   afout$p.star = p.star
   #colnames(afout$p.star) = c("pstar","model","modelident")
   afout$p.star[,1] = as.numeric(as.character(afout$p.star[,1]))
@@ -312,82 +311,11 @@ af = function(fixed, random, data, n.cores,
       bwds.BIC = as.formula(bwds.BIC))
   } else {afout$initial.stepwise=NULL}
   afout$k.range = k.range
+  class(afout) = "af"
   return(afout)
 }
 
 
-#' Plot diagnostics for an af object
-#' 
-#' Summary plot of the bootstrap results of an 
-#' af object.
-#' 
-#' @param x \code{af} object, the result of \code{\link{af}}
-#' @param ... other parameters to be passed through to 
-#'   plotting functions.
-# S3 method for class 'af'
-#setMethod("plot", signature(x="af"),
-plot.af = function(x,pch,...){
-  if(!require(googleVis)){
-    if(missing(pch)) pch=19
-    plot(x$p.star[,1]~x$c.range,
-         ylim=c(0,1), pch=pch,
-         col=x$p.star[,3],
-         ylab = "p*", xlab = "c")
-    legend("bottomleft",legend=unique(x$p.star[,2]),
-           pch=pch,col=unique(x$p.star[,3]),bty="n")
-    axis(side=3, at=x$c.star, 
-         labels=paste("c*=", round(x$c.star,1),sep=""))
-  } else {
-    require(googleVis)
-    dat <- matrix(NA, nrow = nrow(x$p.star), ncol = nlevels(x$p.star$model) + 1)
-    for(i in 1:nlevels(x$p.star$model)){
-      lvl <- levels(x$p.star$model)[i]
-      ind <- which(x$p.star$model == lvl)
-      dat[ind, c(1, i+1)] <- x$p.star$pstar[ind]
-    }
-    plot.dat = data.frame(c.range = as.numeric(x$c.range), 
-                          dat[,-1])
-    colnames(plot.dat) = c("c.range",levels(x$p.star$model))
-    plot.dat = round(plot.dat,2)
-    # FOR FUN ON A RAINY DAY
-    # INCLUDE ANNOTATION USING `ROLES'
-    # SEE HERE: http://cran.r-project.org/web/packages/googleVis/vignettes/Using_Roles_via_googleVis.html
-    gvis.title = paste("Adaptive fence: c*=",round(x$c.star,1),sep="")
-    namefunc <- function(v1) {
-      deparse(substitute(v1))
-    }
-    plot(gvisScatterChart(data=plot.dat,
-                          options=list(title=gvis.title,
-                                       vAxis="{title:'p*',minValue:0,maxValue:1,
-                  ticks: [0.0,0.2,0.4,0.6,0.8,1.0]}",
-                                       hAxis="{title:'c'}",
-                                       axisTitlesPosition="out",
-                                       chartArea="{left:50,top:30,width:'60%',height:'80%'}",
-                                       width=800, height=400)#,
-                          #chartid=namefunc(x)
-    ))
-    
-  }
-}
-#' Print method for an af object
-#' 
-#' Prints basic output of the bootstrap results of an 
-#' af object.
-#' 
-#' @param x \code{af} object, the result of \code{\link{af}}
-#' @param ... other parameters to be passed through to 
-#'   plotting functions.
-# S3 method for class 'af'
-print.af = function (x, ...) {
-  cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), 
-      "\n\n", sep = "")
-  cat("Adaptive fence model (c*=")
-  cat(round(af1$c.star,1))
-  cat("):\n")
-  cat(deparse(x$model))
-  cat("\n\n")
-  invisible(x)
-}
 
 #' Summary method for an af object
 #' 
@@ -395,10 +323,9 @@ print.af = function (x, ...) {
 #' af object.
 #' 
 #' @param x \code{af} object, the result of \code{\link{af}}
-#' @param ... other parameters to be passed through to 
-#'   plotting functions.
+#' @export
 # S3 method for class 'af'
-summary.af = function (x, ...) {
+summary.af = function (x) {
   cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), 
       "\n\n", sep = "")
   cat("Adaptive fence model (c*=")
@@ -429,3 +356,81 @@ summary.af = function (x, ...) {
   }
   invisible(x)
 }
+
+
+#' Plot diagnostics for an af object
+#' 
+#' Summary plot of the bootstrap results of an 
+#' af object.
+#' 
+#' @param x \code{af} object, the result of \code{\link{af}}
+#' @param classic logical.  If \code{classic=TRUE} a 
+#'   base graphics plot is provided instead of a googleVis plot.
+#'   Default is \code{classic=FALSE}.
+#' @param ... other parameters to be passed through to 
+#'   plotting functions.
+#' @export
+# S3 method for class 'af'
+plot.af = function(x,pch,classic=FALSE,...){
+  if(!require(googleVis)|classic){
+    if(missing(pch)) pch=19
+    plot(x$p.star[,1]~x$c.range,
+         ylim=c(0,1), pch=pch,
+         col=x$p.star[,3],
+         ylab = "p*", xlab = "c")
+    legend("bottomleft",legend=unique(x$p.star[,2]),
+           pch=pch,col=unique(x$p.star[,3]),bty="n")
+    axis(side=3, at=x$c.star, 
+         labels=paste("c*=", round(x$c.star,1),sep=""))
+  } else {
+    suppressPackageStartupMessages(library(googleVis))
+    dat <- matrix(NA, nrow = nrow(x$p.star), ncol = nlevels(x$p.star$model) + 1)
+    for(i in 1:nlevels(x$p.star$model)){
+      lvl <- levels(x$p.star$model)[i]
+      ind <- which(x$p.star$model == lvl)
+      dat[ind, c(1, i+1)] <- x$p.star$pstar[ind]
+    }
+    plot.dat = data.frame(c.range = as.numeric(x$c.range), 
+                          dat[,-1])
+    colnames(plot.dat) = c("c.range",levels(x$p.star$model))
+    plot.dat = round(plot.dat,2)
+    # FOR FUN ON A RAINY DAY
+    # INCLUDE ANNOTATION USING `ROLES'
+    # SEE HERE: http://cran.r-project.org/web/packages/googleVis/vignettes/Using_Roles_via_googleVis.html
+    gvis.title = paste("Adaptive fence: c*=",round(x$c.star,1),sep="")
+    namefunc <- function(v1) {
+      deparse(substitute(v1))
+    }
+    plot(gvisScatterChart(data=plot.dat,
+                          options=list(title=gvis.title,
+                                       vAxis="{title:'p*',minValue:0,maxValue:1,
+                  ticks: [0.0,0.2,0.4,0.6,0.8,1.0]}",
+                                       hAxis="{title:'c'}",
+                                       axisTitlesPosition="out",
+                                       chartArea="{left:50,top:30,width:'60%',height:'80%'}",
+                                       width=800, height=400)))
+  }
+}
+
+
+#' Print method for an af object
+#' 
+#' Prints basic output of the bootstrap results of an 
+#' af object.
+#' 
+#' @param x an \code{af} object, the result of \code{\link{af}}
+#' @param ... other parameters to be passed through to 
+#'   plotting functions.
+#' @export
+# S3 method for class 'af'
+print.af = function (x, ...) {
+  cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), 
+      "\n\n", sep = "")
+  cat("Adaptive fence model (c*=")
+  cat(round(af1$c.star,1))
+  cat("):\n")
+  cat(deparse(x$model))
+  cat("\n\n")
+  invisible(x)
+}
+

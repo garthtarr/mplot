@@ -5,7 +5,7 @@
 \title{Body fat data set}
 \format{A data frame with 128 observations on 15 variables.}
 \usage{
-\code{bodyfat}
+data(bodyfat)
 }
 \description{
 Description of the body fat data set here.  This is more
@@ -25,4 +25,5 @@ Johnson W (1996, Vol 4). Fitting percentage of
   An expanded version is included in this package:
   http://cran.r-project.org/web/packages/mfp/mfp.pdf
 }
+\keyword{datasets}
 

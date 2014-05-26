@@ -62,7 +62,7 @@
 #' X = cbind(1,matrix(rnorm(n*(K-1)),ncol=K-1))
 #' e = rnorm(n)
 #' y = X%*%beta + e
-#' dat = data.frame(X[,-1])
+#' dat = data.frame(y,X[,-1])
 #' # Non-adaptive approach (not recommended)
 #' lmfence(y~.,data=dat,cstar=log(n),adaptive=FALSE)
 

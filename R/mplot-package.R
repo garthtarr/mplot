@@ -9,6 +9,8 @@
 #' @keywords package
 #' @seealso \code{\link{...}}
 NULL
+
+
 #' Body fat data set
 #' 
 #' Description of the body fat data set here.  This is more 
@@ -17,11 +19,12 @@ NULL
 #' to use.  See the documentation in \code{\link{af}} for an 
 #' example which uses it.
 #' 
-#' @usage \code{bodyfat}
 #' @name bodyfat
 #' @format A data frame with 128 observations on 15 variables.
 #' @details Details about the bodyfat data set go here.
 #' @docType data
+#' @keywords datasets
+#' @usage data(bodyfat)
 #' @references Johnson W (1996, Vol 4). Fitting percentage of 
 #'   body fat to simple body measurements. Journal of Statistics 
 #'   Education. Bodyfat data retrieved from 
