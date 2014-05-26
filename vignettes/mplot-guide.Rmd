@@ -1,0 +1,68 @@
+---
+title: "A brief introduction to mplot"
+author: "Garth Tarr"
+date: "`s Sys.Date()`"
+output: html_document
+---
+
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{A brief introduction to mplot}
+-->
+
+The **mplot** package implements a range of model selection procedures and model stability plots designed to provide users with the information they need to make informed decisions about model selection issues in linear and mixed models.
+
+There are two main componenets: model selection via the adaptive fence procedure (Jiang et. al., 2009) and model stability curves as described in M\:uller and Welsh (2010).
+
+## Adaptive fence
+
+The adaptive fence procedure is ... super brief recap of theory here.
+
+It is implemented through the function **af** as follows:
+
+```s
+n = 100
+set.seed(11)
+e = rnorm(n)
+x0 = 1
+x1 = rnorm(n)
+x2 = rnorm(n)
+x3 = x1^2
+x4 = x2^2
+x5 = x1*x2
+
+# Model I
+yI = x0 + x1 + x2 + e
+datI = data.frame(yI,x1,x2,x3,x4,x5)
+af1 = af(yI~., data=datI, n.cores=2)
+summary(af1)
+plot(af1)
+```
+
+### Real world example
+
+If there exists a `true' model, the adaptive fence tends to find it quite easily.  In practice, there is rarely such a well defined data generating process and it is up to the investigator to make a judgement call as to which model *best* describes the underlying process.  A nice feature of the adaptive fence procedure is its ability to guide the investigator and highlight plausible candidate models.
+
+Consider the body fat example of CITATION HERE.  
+
+```s
+bfat.full = af(Bodyfat~.,data=bodyfat,n.cores=3,
+           n.c=100,initial.stepwise=FALSE)
+plot(bfat.full)
+```
+
+Note that if we consider the full range of possible values for the parameter c, it appears that there is one dominant variable, XXXX, and hence naiively, one might chose a simple linear regression of bfat on XXXX.
+
+Instead, one might like to incorporate some additional information to better inform our choice.  In particular, let us consider the number of variables that AIC and BIC forward and backward stepwise procedures and investigate only models of similar size.
+
+```s
+bfat.stepwise = af(Bodyfat~.,data=bodyfat,n.cores=3,
+           n.c=50,initial.stepwise=TRUE)
+plot(bfat.stepwise)
+```
+
+Doing this, we focus attention on smaller c values, i.e. larger model sizes.  We can see that the regression of bfat on XXXX and YYYY is chosen over a large range of c values.  However, it is also important to note that in this range, the pstar values are all quite low, suggesting that there is no one dominant model that *best* describes the data generating process.
+
+## Model selection curves
+
+Yet to be implemented.
