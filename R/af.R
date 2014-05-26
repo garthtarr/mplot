@@ -183,7 +183,6 @@ af = function(fixed, random, data, n.cores,
       n.cores=1
     } else n.cores = max(detectCores()-1,1)
   }
-  
   if(n.cores>1){
     if(.Platform$OS.type!="unix"){
       warning("The parallel programming implementation of the \n
@@ -198,6 +197,10 @@ af = function(fixed, random, data, n.cores,
               Setting n.cores=1 (this will be slower).")
       n.cores=1
     }
+  }
+  if(n.cores>1){
+    require(doMC)
+    require(foreach)
     registerDoMC(cores=n.cores)
     p.star = foreach(j = 1:n.c,.combine=rbind) %dopar% {
       fence.mod = list()
