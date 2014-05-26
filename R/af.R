@@ -111,9 +111,8 @@
 #' bfat.stepwise = af(Bodyfat~.,data=bodyfat,n.cores=3,
 #'           n.c=50,initial.stepwise=TRUE)
 
-af = function(fixed, random, data,
+af = function(fixed, random, data, n.cores,
               method="ML", B=60, n.c=20,
-              n.cores=1,
               best.only=FALSE,
               initial.stepwise=TRUE, ...){
   cl <- match.call()
@@ -173,17 +172,19 @@ af = function(fixed, random, data,
     c.range = seq(c.min,c.max,length.out=n.c)
   }
   
-  
   mu = predict(mfstar)
   sighat = summary(mfstar)$sigma
   fence.mod = list()
-  if(n.cores>1){
+  if(missing(n.cores)){
     if(!require(doMC)&!require(foreach)){
       warning("To use parallel programming you need to install \n
               the packages doMC and foreach using \n 
               install.packages(\"doMC\", \"foreach\").")
       n.cores=1
-    }
+    } else n.cores = max(detectCores()-1,1)
+  }
+  
+  if(n.cores>1){
     if(.Platform$OS.type!="unix"){
       warning("The parallel programming implementation of the \n
               bootstrap is currently only available on unix-type \n
@@ -194,7 +195,7 @@ af = function(fixed, random, data,
       warning("It appears you are running R in a GUI (for example R.app).
               The multicore functionality only works when R is run
               from the command line (using RStudio also works). 
-              Changing to n.cores=1 (this will be slower).")
+              Setting n.cores=1 (this will be slower).")
       n.cores=1
     }
     registerDoMC(cores=n.cores)
@@ -349,6 +350,9 @@ plot.af = function(x,pch,...){
     # INCLUDE ANNOTATION USING `ROLES'
     # SEE HERE: http://cran.r-project.org/web/packages/googleVis/vignettes/Using_Roles_via_googleVis.html
     gvis.title = paste("Adaptive fence: c*=",round(x$c.star,1),sep="")
+    namefunc <- function(v1) {
+      deparse(substitute(v1))
+    }
     plot(gvisScatterChart(data=plot.dat,
                           options=list(title=gvis.title,
                                        vAxis="{title:'p*',minValue:0,maxValue:1,
@@ -356,8 +360,9 @@ plot.af = function(x,pch,...){
                                        hAxis="{title:'c'}",
                                        axisTitlesPosition="out",
                                        chartArea="{left:50,top:30,width:'60%',height:'80%'}",
-                                       width=800, height=400),
-                          chartid="AdaptiveFence"))
+                                       width=800, height=400)#,
+                          #chartid=namefunc(x)
+    ))
     
   }
 }
