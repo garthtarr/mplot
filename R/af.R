@@ -219,34 +219,54 @@ af = function(fixed, random, family, data, n.cores,
     require(doMC)
     require(foreach)
     registerDoMC(cores=n.cores)
-    p.star = foreach(j = 1:n.c,.combine=rbind) %dopar% {
-      fence.mod = list()
-      for(i in 1:B){
-        ystar = mu + rnorm(n,0,sighat)
-        Xstar[,1] = ystar
-        if(missing(family)){
+    if(missing(family)){
+      p.star = foreach(j = 1:n.c,.combine=rbind) %dopar% {
+        fence.mod = list()
+        for(i in 1:B){
+          ystar = mu + rnorm(n,0,sighat)
+          Xstar[,1] = ystar
+          
           fms = lmfence(fixed=fixed,data=Xstar,
                         cstar=c.range[j],trace=FALSE,
                         best.only=best.only)
-        } else {
+          
+          fence.mod = c(fence.mod,fms)
+        } # find most frequently arising set of covariates
+        # note that the width.cutoff could be an issue for 
+        # long variable names and large numbers of variables
+        # return to this later to find a more elegant solution
+        temp = sort(table(sapply(fence.mod,deparse,
+                                 width.cutoff=500)),
+                    decreasing=TRUE)
+        pstarj = as.numeric(temp[1]/length(fence.mod))
+        pstarnamej = names(temp)[1]
+        c(pstarj,pstarnamej)
+      }
+    } else { ### the ONLY DIFFERENCE IS lmfence above vs glmfence below
+      p.star = foreach(j = 1:n.c,.combine=rbind) %dopar% {
+        fence.mod = list()
+        for(i in 1:B){
+          ystar = mu + rnorm(n,0,sighat)
+          Xstar[,1] = ystar
+          
           fms = glmfence(fixed=fixed,data=Xstar, family=family,
-                        cstar=c.range[j],trace=FALSE,
-                        best.only=best.only)
-        }
-        fence.mod = c(fence.mod,fms)
-      } # find most frequently arising set of covariates
-      # note that the width.cutoff could be an issue for 
-      # long variable names and large numbers of variables
-      # return to this later to find a more elegant solution
-      temp = sort(table(sapply(fence.mod,deparse,
-                               width.cutoff=500)),
-                  decreasing=TRUE)
-      pstarj = as.numeric(temp[1]/length(fence.mod))
-      pstarnamej = names(temp)[1]
-      c(pstarj,pstarnamej)
+                         cstar=c.range[j],trace=FALSE,
+                         best.only=best.only)
+          
+          fence.mod = c(fence.mod,fms)
+        } # find most frequently arising set of covariates
+        # note that the width.cutoff could be an issue for 
+        # long variable names and large numbers of variables
+        # return to this later to find a more elegant solution
+        temp = sort(table(sapply(fence.mod,deparse,
+                                 width.cutoff=500)),
+                    decreasing=TRUE)
+        pstarj = as.numeric(temp[1]/length(fence.mod))
+        pstarnamej = names(temp)[1]
+        c(pstarj,pstarnamej)
+      }
     }
-  } 
-  if(n.cores==1) {
+  } else if(n.cores==1) {
     p.star = matrix(NA,nrow=n.c,ncol=2)
     for(j in 1:n.c){
       fence.mod = list()
@@ -259,8 +279,8 @@ af = function(fixed, random, family, data, n.cores,
                         best.only=best.only)
         } else {
           fms = glmfence(fixed=fixed,data=Xstar,family=family,
-                        cstar=c.range[j],trace=FALSE,
-                        best.only=best.only)  
+                         cstar=c.range[j],trace=FALSE,
+                         best.only=best.only)  
         }
         fence.mod = c(fence.mod,fms)
       } # find most frequently arising set of covariates
@@ -323,8 +343,8 @@ af = function(fixed, random, family, data, n.cores,
                     best.only=TRUE)  
   } else {
     afmod = glmfence(fixed=fixed,data=X,family=family,
-                    cstar=c.star,trace=FALSE,
-                    best.only=TRUE)  
+                     cstar=c.star,trace=FALSE,
+                     best.only=TRUE)  
   }
   attributes(afmod[[1]]) = NULL
   #afmod = afmod[[1]]
@@ -349,6 +369,7 @@ af = function(fixed, random, family, data, n.cores,
   class(afout) = "af"
   return(afout)
 }
+
 
 
 
@@ -437,13 +458,13 @@ plot.af = function(x,pch,classic=FALSE,html.only=FALSE,...){
       deparse(substitute(v1))
     }
     fplot = gvisScatterChart(data=plot.dat,
-                          options=list(title=gvis.title,
-                                       vAxis="{title:'p*',minValue:0,maxValue:1,
+                             options=list(title=gvis.title,
+                                          vAxis="{title:'p*',minValue:0,maxValue:1,
                   ticks: [0.0,0.2,0.4,0.6,0.8,1.0]}",
-                                       hAxis="{title:'c'}",
-                                       axisTitlesPosition="out",
-                                       chartArea="{left:50,top:30,width:'60%',height:'80%'}",
-                                       width=800, height=400))
+                                          hAxis="{title:'c'}",
+                                          axisTitlesPosition="out",
+                                          chartArea="{left:50,top:30,width:'60%',height:'80%'}",
+                                          width=800, height=400))
     if(html.only){
       return(fplot)
     } else {
@@ -451,23 +472,23 @@ plot.af = function(x,pch,classic=FALSE,html.only=FALSE,...){
     }
   }
   ## Experimental using rCharts
-#   require(devtools)
-#   install_github('rCharts', 'ramnathv')
-#   
-#   require(rCharts)
-#   
-#   df = data.frame(ps = x$p.star[,1],
-#                   model = x$p.star[,2],
-#                   cr = x$c.range)
-#   np = nPlot(ps~cr, group='model',data = df,
-#              type = 'scatterChart',ylim=c(0,1))
-#   np$chart(showControls = FALSE)
-#   np$xAxis(axisLabel = 'c')  
-#   np$yAxis(axisLabel = 'p*')  
-#   np$chart(forceY = c(0, 1))
-#   np$chart(forceX = c(floor(min(x$c.range)), 
-#                       floor(max(x$c.range))+1))
-#   np
+  #   require(devtools)
+  #   install_github('rCharts', 'ramnathv')
+  #   
+  #   require(rCharts)
+  #   
+  #   df = data.frame(ps = x$p.star[,1],
+  #                   model = x$p.star[,2],
+  #                   cr = x$c.range)
+  #   np = nPlot(ps~cr, group='model',data = df,
+  #              type = 'scatterChart',ylim=c(0,1))
+  #   np$chart(showControls = FALSE)
+  #   np$xAxis(axisLabel = 'c')  
+  #   np$yAxis(axisLabel = 'p*')  
+  #   np$chart(forceY = c(0, 1))
+  #   np$chart(forceX = c(floor(min(x$c.range)), 
+  #                       floor(max(x$c.range))+1))
+  #   np
 }
 
 
