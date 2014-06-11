@@ -3,7 +3,7 @@
 \alias{af}
 \title{The adaptive fence procedure (currently only for linear models)}
 \usage{
-af(fixed, random, data, n.cores, method = "ML", B = 60, n.c = 20,
+af(fixed, random, family, data, n.cores, method = "ML", B = 60, n.c = 20,
   best.only = FALSE, initial.stepwise = TRUE, ...)
 }
 \arguments{
@@ -13,6 +13,8 @@ specifying the full model that can be fitted.}
 \item{random}{(not yet implemented) an object of
 class \code{\link[stats]{formula}}
 specifying the random effect components.}
+
+\item{family}{specify the family for a glm model}
 
 \item{data}{a data frame containing the variables in the full
 model.  Currently this is required.  Future development will
@@ -131,6 +133,6 @@ Jiang et. al. (2009); Tarr, M\:uller and Welsh (2014)
 \seealso{
 \code{\link[mplot]{lmfence}}, \code{\link[mplot]{lmmfence}}
 
-Other fence: \code{\link{lmfence}}
+Other fence: \code{\link{glmfence}}; \code{\link{lmfence}}
 }
 

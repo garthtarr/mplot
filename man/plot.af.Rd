@@ -3,7 +3,7 @@
 \alias{plot.af}
 \title{Plot diagnostics for an af object}
 \usage{
-\method{plot}{af}(x, pch, classic = FALSE, ...)
+\method{plot}{af}(x, pch, classic = FALSE, html.only = FALSE, ...)
 }
 \arguments{
 \item{x}{\code{af} object, the result of \code{\link{af}}}

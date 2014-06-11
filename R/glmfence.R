@@ -18,7 +18,7 @@
 #'   function to be used in the model. This can be a character 
 #'   string naming a family function, a family function or the 
 #'   result of a call to a family function. (See 
-#'   \code{\link[stats]family}} for details of family functions.)
+#'   \code{\link[stats]{family}} for details of family functions.)
 #' @param cstar the boundary of the fence, typically found
 #'   through bootstrapping.
 #' @param nvmax the maximum number of variables that will be
