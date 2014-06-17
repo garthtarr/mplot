@@ -1,6 +1,8 @@
 library(shiny)
 data = shiny.data.in
 
+
+
 # Define server logic required to summarize and view the selected dataset
 shinyServer(function(input, output) {
   
@@ -30,15 +32,25 @@ shinyServer(function(input, output) {
   })
   
   output$lvp.gvis <- renderGvis({
-    #if(!input$classic.mode){
-    plot(lvp.res,html.only=TRUE,highlight=input$highlight)
-    #} else NULL
+    if(input$boot_lvp=="No"){
+      plot(lvp.res,html.only=TRUE,highlight=input$highlight,which="msc")
+    } else if(input$boot_lvp=="Yes") {
+      plot(lvp.res,html.only=TRUE,highlight=input$highlight,which="boot")
+    }
+  })
+  
+  output$vip.gvis <- renderGvis({
+    plot(lvp.res,html.only=TRUE,which="vip")
   })
   
   output$af.gvis <- renderGvis({
     if(!is.null(af.res)){
       plot(af.res,html.only=TRUE)#,highlight=input$highlight)
     } else return(NULL)
+  })
+  
+  output$af.verb = renderPrint({
+    summary(af.res)
   })
   
   # The output$view depends on both the databaseInput reactive expression

@@ -117,7 +117,6 @@ glmfence = function(fixed, data, family, cstar,
                              IC = "BIC",
                              TopModels = 1,
                              nvmax = nvmax)$Subsets[,1:kf]+0
-  
   for(i in 2:nvmax){
     if(trace) cat(paste("Model size:",i,""))
     UB = Qmf + cstar*sigMM(k.mod=i, method, k.full=kf,adaptive=adaptive)
@@ -153,7 +152,6 @@ glmfence = function(fixed, data, family, cstar,
           }
           ret = c(ret,formula(em))
         }
-        
       }
       if(adaptive==TRUE) {
         if(best.only==TRUE){

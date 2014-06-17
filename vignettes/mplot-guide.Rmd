@@ -76,10 +76,78 @@ Doing this, we focus attention on smaller $c$ values, i.e. larger model sizes.  
 summary(bfat.stepwise)
 ```
 
+### Generalised linear models
+
+It works basically the same for generalised linear models, except a LOT slower as we are unable to take advantage of the wonders of the **leaps** package.  Instead we call on the **bestglm** package which essentially does an exhaustive search when the link function is not normal.
+
+```{r binom.eg, results='asis', tidy=FALSE}
+require(mvtnorm)
+n=200
+set.seed(11)
+p = 6
+cor.mat = diag(p)
+cor.mat[1,2] = cor.mat[2,1] = 0.7
+cor.mat[5,6] = cor.mat[6,5] = 0.7
+X = rmvnorm(n,sigma=cor.mat)
+beta = c(1,2.1,0,1.5,0,0.9,1.1)
+z = cbind(1,X)%*%beta
+pr = 1/(1+exp(-z))
+y = rbinom(n,1,pr) 
+glm.df = data.frame(y,X)
+af.glm = af(fixed=y~., data=glm.df, family="binomial", n.cores=4)
+```
+```{r af.glm.plot, results='asis', tidy=FALSE}
+plot(af.glm)
+```
+
 ### Mixed model example
 
-Yet to be implemented.
+Will be implemented via a wild bootstrap approach to leverage the power of leaps while (hopefully) retaining a level of validity that needs to be investigated empirically and mathematically.
 
 ## Model selection curves
 
-Yet to be implemented.
+The standard plots are the model stability and variable inclusion plots.  Both of these are performed using the (poorly named) `lvp()` function.  We illustrate using the binomial glm defined previously:
+
+```{r lvp1.eg, results='asis', tidy=FALSE, warning=FALSE}
+lvp1 = lvp(fixed=y~.,data=glm.df,family="binomial",B=50)
+```
+
+### Model stability plots
+
+There are two variants here.  The first simply iterates over all possible models at each model size and returns a scatter plot showing a goodness of fit measure (-2*loglik) against model size.  You need to specify which variable to highlight (this is done best via the Shiny interface, see below).
+
+```{r msc, results='asis', tidy=FALSE}
+plot(lvp1,which="msc",highlight="X1")
+```
+
+The second, performs a simple weighted bootstrap to see which models perform *best* at conditional on the model size.
+
+```{r boot, results='asis', tidy=FALSE}
+plot(lvp1,which="boot",highlight="X1")
+```
+
+### Variable inclusion plots
+
+The variable inclusion plots use that same bootstrap simulations as the second model selection curve plot and identifies how often each variable is selected as being in the *best* model for a given penalty.
+
+```{r vip, results='asis', tidy=FALSE}
+plot(lvp1,which="vip")
+```
+
+## Shiny interface
+
+All of these can be accessed, and interacted with, via a Shiny web interface.  The first tab is a scatterplot of the data, you start by selecting some variables and go from there - nothing technical here, just a nice interactive way to view a moderate dimensional data set.  You can select points and see them highlighted across all plots and (optionally) see a data table.
+
+The other tabs show the model stability plots, the fence plot and the variable inclusion plots.
+
+This functionality is currently acessed through the `msc()` function (another poorly named function). 
+
+For the above example, you'd use the following code:
+
+`msc(fixed=y~., data = glm.df, family="binomial", lvp = lvp1, fence=af.glm)`
+
+If you had not already run the adaptive fence routine on this data set, you could also just specify `fence=TRUE`:
+
+`msc(fixed=y~., data = glm.df, family="binomial", lvp = lvp1, fence=TRUE)`
+
+Personally I prefer to run the `lvp()` and `af()` functions and then feeding those saved objects to the `msc()` function.  Otherwise, it can take quite a while for `msc()` to run (especially with glm models).

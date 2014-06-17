@@ -14,7 +14,7 @@
 #' @references Müller and Welsh (2010); Murray, Heritier and Müller (2013)
 #' @export
 
-msc = function(fixed,data,family,fence=FALSE){
+msc = function(fixed,data,family,lvp,fence=FALSE,B=100,...){
   if(!require(shiny)){
     install.packages("shiny")
   }
@@ -42,7 +42,11 @@ msc = function(fixed,data,family,fence=FALSE){
   # if there are lots of variables, use leaps first then
   # only output lvp results for dimensions up to a couple 
   # larger than leaps
-  lvp.res <<- lvp(fixed=fixed, data = data, family = family)
+  if(class(lvp)=="lvp"){
+    lvp.res <<- lvp
+  } else {
+    lvp.res <<- lvp(fixed=fixed, data = data, family = family, B=B)
+  }
   yname <<- deparse(fixed[[2]])
   if(!require(googleVis)) install.packages("googleVis")
   shiny::runApp(system.file('mplot', package='mplot'))

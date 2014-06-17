@@ -116,6 +116,13 @@ af = function(fixed, random, family, data, n.cores,
               method="ML", B=60, n.c=20,
               best.only=FALSE,
               initial.stepwise=TRUE, ...){
+  if(!missing(family)){
+    if(!require(bestglm)){
+      install.packages("bestglm")
+    }
+    require(bestglm)
+  }
+  
   cl <- match.call()
   yname = deparse(fixed[[2]])
   null.ff = as.formula(paste(yname,"~1"))
@@ -185,12 +192,14 @@ af = function(fixed, random, family, data, n.cores,
   }
   
   
-  if(missing(family)){
-    mu = predict(mfstar)
-    sighat = summary(mfstar)$sigma
-  } else {
-    stop("Need to implement parametric boostrap for glms.")
-  }
+  #   if(missing(family)){
+  #     mu = predict(mfstar)
+  #     sighat = summary(mfstar)$sigma
+  #   } else {
+  #     stop("Need to implement parametric boostrap for glms.")
+  #   }
+  # Better than above for parametric bootstrap:
+  
   fence.mod = list()
   if(missing(n.cores)){
     if(!require(doMC)&!require(foreach)){
@@ -222,14 +231,13 @@ af = function(fixed, random, family, data, n.cores,
     if(missing(family)){
       p.star = foreach(j = 1:n.c,.combine=rbind) %dopar% {
         fence.mod = list()
+        ystar = simulate(object=mfstar,nsim=B)
         for(i in 1:B){
-          ystar = mu + rnorm(n,0,sighat)
-          Xstar[,1] = ystar
-          
+          # ystar = mu + rnorm(n,0,sighat)
+          Xstar[,1] = ystar[,i]
           fms = lmfence(fixed=fixed,data=Xstar,
                         cstar=c.range[j],trace=FALSE,
                         best.only=best.only)
-          
           fence.mod = c(fence.mod,fms)
         } # find most frequently arising set of covariates
         # note that the width.cutoff could be an issue for 
@@ -245,14 +253,13 @@ af = function(fixed, random, family, data, n.cores,
     } else { ### the ONLY DIFFERENCE IS lmfence above vs glmfence below
       p.star = foreach(j = 1:n.c,.combine=rbind) %dopar% {
         fence.mod = list()
+        ystar = simulate(object=mfstar,nsim=B)
         for(i in 1:B){
-          ystar = mu + rnorm(n,0,sighat)
-          Xstar[,1] = ystar
-          
+          #ystar = mu + rnorm(n,0,sighat)
+          Xstar[,1] = ystar[,i]
           fms = glmfence(fixed=fixed,data=Xstar, family=family,
                          cstar=c.range[j],trace=FALSE,
                          best.only=best.only)
-          
           fence.mod = c(fence.mod,fms)
         } # find most frequently arising set of covariates
         # note that the width.cutoff could be an issue for 

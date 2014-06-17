@@ -74,7 +74,6 @@ lmfence = function(fixed, data, cstar,
                    trace=TRUE,
                    best.only=FALSE,...){
   
-  
   yname = deparse(fixed[[2]])
   mf = lm(fixed, data = data) # full model
   # using this approach to cope when there are indicator
@@ -192,9 +191,6 @@ lmfence = function(fixed, data, cstar,
       cat(paste("Model size:",i))
       UB = Qmf + cstar*sigMM(k.mod=i, method, k.full=k.full,adaptive=adaptive)
       for(j in 1:dim(var.name.mat)[2]){
-        #mframe = data.frame(X[,which(ms[j,]==1)])
-        #names(mframe) = names(mf$coef)[which(ms[j,]==1)] unnecessary now that null model is done separately
-        #ff = paste(names(mf$coef)[1]," ~ ",paste(names(mframe)[-1],collapse="+"),sep="")
         ff = paste(yname," ~ ",paste(var.name.mat[,j],collapse="+"),sep="")
         ff = as.formula(ff)
         em = lm(formula=ff, data=X)

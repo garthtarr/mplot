@@ -1,11 +1,25 @@
-lmmfence = function(fixed,random,method,data,cn,B,exhaustive){
+lmmfence = function(formula, random, data, cstar,
+                    type=c("lme4","nlme"),
+                    nvmax, method="ML",
+                    exhaustive=FALSE,
+                    use.leaps=TRUE,
+                    adaptive=TRUE,
+                    trace=TRUE,
+                    best.only=FALSE,...){
   
   #trim.ws <- function(text) gsub("^[\ \t]", "", gsub("[\ \t]*$", "", text))
   #RHS.s = trim.ws(strsplit(RHS,fixed=TRUE,split="+")[[1]])
   
+  if(type=="lme4"){
+    require(lme4)
+    #mf = lmer()
+  } else if(type=="nlme"){
+    require(nlme)
+    #mf = lme()
+  }
+  
   X = model.frame(fixed,data=data)
   X = X[,!(names(X) %in% all.vars(random))] # fixed design matrix
-  # y = X[,1] # dependent variable obtained from fixed formula
   k.full = dim(X)[2] # p+1 (includes intercept)
   n = dim(X)[1]
   RHS = deparse(fixed[[3]])
@@ -49,7 +63,6 @@ lmmfence = function(fixed,random,method,data,cn,B,exhaustive){
     UB = Qmf + cn*hatsigMM
     for(j in 1:dim(ms)[1]){
       mframe = data.frame(X[,which(ms[j,]==1)])
-      #names(mframe) = colnames(X)[which(ms[j,]==1)]
       ff = paste(names(X)[1]," ~ ",paste(names(mframe)[-1],collapse="+"),sep="")
       ff = as.formula(ff)
       em = lme(fixed=ff, random=random, data=mframe)
@@ -60,7 +73,7 @@ lmmfence = function(fixed,random,method,data,cn,B,exhaustive){
         cat(deparse(ff), "with random component", deparse(random))
         cat("\n")
         flag = TRUE
-      } #else cat("No candidate models \n")
+      } 
     }
     if(flag==TRUE & exhaustive==FALSE) return(invisible())
   }

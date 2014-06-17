@@ -19,22 +19,28 @@ shinyUI(
     sidebarPanel(
       conditionalPanel(
         condition = "input.tabs1 == 2",
-        p("You can use the settings below to adjust the y-axis 
-          OR you can click and drag on the plot to highlight a 
-          region that you'd like to zoom in on."),
-        numericInput("lvp.y.max", "Maximum for the y axis:", round(max(lvp.res$lk$LL))+5),
-        numericInput("lvp.y.min", "Minimum for the y axis:", round(min(lvp.res$lk$LL))-5),
+        #p("You can use the settings below to adjust the y-axis 
+        #  OR you can click and drag on the plot to highlight a 
+        #  region that you'd like to zoom in on."),
+        #numericInput("lvp.y.max", "Maximum for the y axis:", round(max(lvp.res$lk$LL))+5),
+        #numericInput("lvp.y.min", "Minimum for the y axis:", round(min(lvp.res$lk$LL))-5),
         radioButtons("highlight",label="Highlight models with which variable?", 
                      choices=names(data)[names(data)!=yname]),
-        p("Not yet implemented:"),
-        radioButtons("highlight.model",label="Highlight which 'optimal' model?", 
-                     choices=c("Fence" = "fence",
-                               "Forwards AIC" = "fAIC",
-                               "Backwards AIC" = "bAIC",
-                               "Forwards BIC" = "fBIC",
-                               "Backwards BIC" = "bBIC")),
-        selectInput("classic.mode",label="Classic mode? (Used in development)", 
-                    choices=c("FALSE","TRUE"))
+        #p("Not yet implemented:"),
+        #radioButtons("highlight.model",label="Highlight which 'optimal' model?", 
+        #             choices=c("Fence" = "fence",
+        #                       "Forwards AIC" = "fAIC",
+        #                       "Backwards AIC" = "bAIC",
+        #                       "Forwards BIC" = "fBIC",
+        #                       "Backwards BIC" = "bBIC")),
+        selectInput("boot_lvp","Bootstrap?",choices=c("No","Yes")),
+        conditionalPanel(
+          condition = "input.boot_lvp == 'Yes'",
+          p("Note that only models that have a non-zero bootstrap
+              probability are shown.")
+        )
+        #selectInput("classic.mode",label="Classic mode? (Used in development)", 
+        #            choices=c("FALSE","TRUE"))
       ),
       conditionalPanel(
         condition = "input.tabs1 == 1",
@@ -69,12 +75,21 @@ shinyUI(
                  br(),br(),
                  dataTableOutput(outputId="outputTable"),
                  value=1),
-        tabPanel("L vs p", list(htmlOutput("lvp.gvis"),
-                                plotOutput("lvp.classic")),
+        tabPanel("Model stability", list(htmlOutput("lvp.gvis"),
+                                         #plotOutput("lvp.classic"),
+                                         htmlOutput("lvp.boot.gvis")),
                  value=2),
-        tabPanel("Fence", list(htmlOutput("af.gvis")),
+        # aslo think about perhaps adding in the MELCC (maximum
+        # enveloping lower convex curve)
+        tabPanel("Fence", list(htmlOutput("af.gvis"),
+                               br(),br(),
+                               verbatimTextOutput("af.verb")),
                  value=3),
+        tabPanel("Variable inclusion", list(htmlOutput("vip.gvis")),
+                 value=4),
         id="tabs1")
     ) 
   )
 )
+
+

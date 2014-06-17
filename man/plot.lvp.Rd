@@ -3,7 +3,8 @@
 \alias{plot.lvp}
 \title{Plot diagnostics for an lvp object}
 \usage{
-\method{plot}{lvp}(x, highlight, classic = FALSE, html.only = FALSE, ...)
+\method{plot}{lvp}(x, highlight, classic = FALSE, html.only = FALSE,
+  which = c("msc", "boot", "vip"), ...)
 }
 \arguments{
 \item{x}{\code{lvp} object, the result of \code{\link{lvp}}}

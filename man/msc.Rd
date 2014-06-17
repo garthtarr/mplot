@@ -3,7 +3,7 @@
 \alias{msc}
 \title{Model selection/stability curves}
 \usage{
-msc(fixed, data, family, fence = FALSE)
+msc(fixed, data, family, lvp, fence = FALSE, B = 100, ...)
 }
 \arguments{
 \item{data}{a data frame containing the variables in the full

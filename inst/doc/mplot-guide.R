@@ -38,3 +38,40 @@ plot(bfat.stepwise)
 summary(bfat.stepwise)
 
 
+## ----binom.eg, results='asis', tidy=FALSE--------------------------------
+require(mvtnorm)
+n=200
+set.seed(11)
+p = 6
+cor.mat = diag(p)
+cor.mat[1,2] = cor.mat[2,1] = 0.7
+cor.mat[5,6] = cor.mat[6,5] = 0.7
+X = rmvnorm(n,sigma=cor.mat)
+beta = c(1,2.1,0,1.5,0,0.9,1.1)
+z = cbind(1,X)%*%beta
+pr = 1/(1+exp(-z))
+y = rbinom(n,1,pr) 
+glm.df = data.frame(y,X)
+af.glm = af(fixed=y~., data=glm.df, family="binomial", n.cores=4)
+
+
+## ----af.glm.plot, results='asis', tidy=FALSE-----------------------------
+plot(af.glm)
+
+
+## ----lvp1.eg, results='asis', tidy=FALSE, warning=FALSE------------------
+lvp1 = lvp(fixed=y~.,data=glm.df,family="binomial",B=50)
+
+
+## ----msc, results='asis', tidy=FALSE-------------------------------------
+plot(lvp1,which="msc",highlight="X1")
+
+
+## ----boot, results='asis', tidy=FALSE------------------------------------
+plot(lvp1,which="boot",highlight="X1")
+
+
+## ----vip, results='asis', tidy=FALSE-------------------------------------
+plot(lvp1,which="vip")
+
+
