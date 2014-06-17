@@ -392,7 +392,7 @@ summary.af = function (x) {
   cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), 
       "\n\n", sep = "")
   cat("Adaptive fence model (c*=")
-  cat(round(af1$c.star,1))
+  cat(round(x$c.star,1))
   cat("):\n")
   cat(deparse(x$model))
   cat("\n\n")
@@ -513,7 +513,7 @@ print.af = function (x, ...) {
   cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), 
       "\n\n", sep = "")
   cat("Adaptive fence model (c*=")
-  cat(round(af1$c.star,1))
+  cat(round(x$c.star,1))
   cat("):\n")
   cat(deparse(x$model))
   cat("\n\n")
