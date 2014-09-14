@@ -434,7 +434,7 @@ summary.af = function (x) {
 #'   plotting functions.
 #' @export
 # S3 method for class 'af'
-plot.af = function(x,pch,classic=FALSE,html.only=FALSE,...){
+plot.af = function(x,pch,classic=FALSE,html.only=FALSE,width=800,height=400,fontSize=12,...){
   if(!require(googleVis)|classic){
     if(missing(pch)) pch=19
     plot(x$p.star[,1]~x$c.range,
@@ -466,12 +466,13 @@ plot.af = function(x,pch,classic=FALSE,html.only=FALSE,...){
     }
     fplot = gvisScatterChart(data=plot.dat,
                              options=list(title=gvis.title,
+                             fontSize=fontSize,
                                           vAxis="{title:'p*',minValue:0,maxValue:1,
                   ticks: [0.0,0.2,0.4,0.6,0.8,1.0]}",
                                           hAxis="{title:'c'}",
                                           axisTitlesPosition="out",
                                           chartArea="{left:50,top:30,width:'60%',height:'80%'}",
-                                          width=800, height=400))
+                                          width=width, height=height))
     if(html.only){
       return(fplot)
     } else {
