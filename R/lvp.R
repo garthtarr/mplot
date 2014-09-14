@@ -188,7 +188,7 @@ lvp=function(fixed,data,family,nvmax,B=100,lambda.max,...){
 #' @export
 # S3 method for class 'af'
 plot.lvp = function(x,highlight,classic=FALSE,html.only=FALSE,
-                    which=c("msc","boot","vip"),width=800,height=400,...){
+                    which=c("msc","boot","vip"),width=800,height=400,fontSize=12,...){
   find.var = function(x,highlight){
     is.element(highlight,x)
   }
