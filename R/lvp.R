@@ -188,7 +188,7 @@ lvp=function(fixed,data,family,nvmax,B=100,lambda.max,...){
 #' @export
 # S3 method for class 'af'
 plot.lvp = function(x,highlight,classic=FALSE,html.only=FALSE,
-                    which=c("msc","boot","vip"),...){
+                    which=c("msc","boot","vip"),width=800,height=400,...){
   find.var = function(x,highlight){
     is.element(highlight,x)
   }
@@ -404,7 +404,7 @@ plot.lvp = function(x,highlight,classic=FALSE,html.only=FALSE,
                                          axisTitlesPosition="out",
                                          series = lineseries,
                                          chartArea="{left:50,top:30,width:'60%',height:'80%'}",
-                                         width=800, height=400,
+                                         width=width, height=height,
                                          annotations = "{style:'line'}",
                                          explorer= "{axis: 'vertical',  
                     keepInBounds: true,
