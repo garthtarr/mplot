@@ -1,8 +1,6 @@
 library(shiny)
 data = shiny.data.in
 
-
-
 # Define server logic required to summarize and view the selected dataset
 shinyServer(function(input, output) {
   
@@ -45,7 +43,7 @@ shinyServer(function(input, output) {
   
   output$af.gvis <- renderGvis({
     if(!is.null(af.res)){
-      plot(af.res,html.only=TRUE)#,highlight=input$highlight)
+      plot(af.res,html.only=TRUE,best.only=input$bo)#,highlight=input$highlight)
     } else return(NULL)
   })
   

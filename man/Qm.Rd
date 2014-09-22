@@ -6,9 +6,7 @@
 Qm(object, method)
 }
 \arguments{
-\item{object}{an object of class \code{"lm"}.  Actually any
-object from which a log-likelihood value can be extracted.
-Will need more thought if/when other methods are implemented.}
+\item{Any}{object from which a log-likelihood value can be extracted.}
 
 \item{method}{method the model selection method to be used. Currently
 only \code{method = "ML"} is supported (perhaps in the future

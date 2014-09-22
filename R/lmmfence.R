@@ -1,80 +1,51 @@
-lmmfence = function(formula, random, data, cstar,
-                    type=c("lme4","nlme"),
+#' The fence procedure for linear mixed models
+#' 
+#' Relies on a varient of the wild bootstrap in that
+#' it only considers the fixed effects.
+#' 
+
+lmmfence = function(mf, cstar,
                     nvmax, method="ML",
-                    exhaustive=FALSE,
-                    use.leaps=TRUE,
                     adaptive=TRUE,
                     trace=TRUE,
-                    best.only=FALSE,...){
-  
-  #trim.ws <- function(text) gsub("^[\ \t]", "", gsub("[\ \t]*$", "", text))
-  #RHS.s = trim.ws(strsplit(RHS,fixed=TRUE,split="+")[[1]])
-  
-  if(type=="lme4"){
-    require(lme4)
-    #mf = lmer()
-  } else if(type=="nlme"){
-    require(nlme)
-    #mf = lme()
-  }
-  
-  X = model.frame(fixed,data=data)
-  X = X[,!(names(X) %in% all.vars(random))] # fixed design matrix
-  k.full = dim(X)[2] # p+1 (includes intercept)
-  n = dim(X)[1]
-  RHS = deparse(fixed[[3]])
-  "%w/o%" = function(x, y) x[!x %in% y]
-  if(substr(RHS,1,1)=="."){
-    LHS = paste(fixed[[2]],fixed[[1]])
-    RHS = paste(names(X[,-1]) %w/o% all.vars(fixed[[3]]),collapse="+")
-    full.ff = as.formula(paste(LHS,RHS))
-    # try full.ff = formula(X) because X is fixed design matrix
-  } else full.ff = fixed
-  mf = lme(full.ff, random=random, data = data) # full model
-  null.ff = as.formula(paste(fixed[[2]],fixed[[1]],"1"))
-  m0 = lme(null.ff, random=random, data = data) # null model
-  Qmf = Qm(mf, method=method) # Qm for the full model
-  Qm0 = Qm(m0, method=method) # Qm for the null model
-  flag=FALSE
-  if(missing(cn)) cn=sqrt(n)
-  
-  all.fixed.models = ASM(k.full-1,intcpt=TRUE)
-  rsums = apply(all.fixed.models,1,sum)
-  ms=NULL
-  mframe=NULL
-  
-  # Null model
-  cat(paste("Null model \n"))
-  hatsigMM = sigMM(k.mod=1, method, k.full=k.full)
-  UB = Qmf + cn*hatsigMM
-  if(Qm0<=UB){
-    cat(paste("hatQm:", round(Qm0,2),"; Upper bound:", round(UB,2)),"\n")
-    cat(paste("hatQm <= UB:",Qm0<=UB,"\n"))
-    cat(deparse(null.ff), "with random component", deparse(random))
-    cat("\n")
-    flag = TRUE
-  }
-  if(flag==TRUE & exhaustive==FALSE) return(invisible())
-  # Remaining possibilities
-  for(i in 2:k.full){
-    ms = matrix(all.fixed.models[rsums==i,],ncol=k.full)
-    cat(paste("Model size:",i,"\n"))
-    hatsigMM = sigMM(k.mod=i, method, k.full=k.full)
-    UB = Qmf + cn*hatsigMM
-    for(j in 1:dim(ms)[1]){
-      mframe = data.frame(X[,which(ms[j,]==1)])
-      ff = paste(names(X)[1]," ~ ",paste(names(mframe)[-1],collapse="+"),sep="")
-      ff = as.formula(ff)
-      em = lme(fixed=ff, random=random, data=mframe)
-      hatQm = Qm(em,method=method)
-      if(hatQm<=UB){
-        cat(paste("hatQm:", round(hatQm,2),"; Upper bound:", round(UB,2)),"\n")
-        cat(paste("hatQm <= UB:",hatQm<=UB,"\n"))
-        cat(deparse(ff), "with random component", deparse(random))
-        cat("\n")
-        flag = TRUE
-      } 
+                    force.in=NULL,...){
+  if(class(mf)=="lmerMod"){ # lme4 package
+    X = model.matrix(mf)
+    data = data.frame(model.frame(mf)) # or slot(mf, "frame")
+    if(isGLMM(mf)){
+      family = family(mf) # 
+      # pass to glm ?? 
+      # i.e. wild bootstrap appropriate for glmm's too?
+      # though should really call glmer for the full model
+      # so it may be the case that class(mf) won't be lmerMod
+      # if the family argument was passed to it as lmer() 
+      # calls glmer() if there is a family argument present
     }
-    if(flag==TRUE & exhaustive==FALSE) return(invisible())
+    yname = deparse(formula(mf)[[2]])
+    X = data.frame(data[,yname],X)
+    colnames(X)[1] = yname
+    fixed.formula = paste(yname,"~",
+                          paste(names(fixef(mf))[-1],collapse="+"))
+    lmf = lm(fixed.formula,data = X)
+    lmfence(lmf,cstar=cstar,
+            nvmax=nvmax, method=method,
+            adaptive=adaptive,
+            trace=trace,
+            force.in=force.in,...)
+  } else if(class(mf)=="lme"){ # nlme package
+    data = mf$data
+    X = model.matrix(mf,data = data)
+    # nlme package assumes gaussian errors 
+    yname = deparse(formula(mf)[[2]])
+    X = data.frame(data[,yname],X)
+    colnames(X)[1] = yname
+    fixed.formula = paste(yname,"~",
+                          paste(names(coef(mf))[-1],collapse="+"))
+    lmf = lm(fixed.formula, data = X)
+    lmfence(lmf,cstar=cstar,
+            nvmax=nvmax, method=method,
+            adaptive=adaptive,
+            trace=trace,
+            force.in=force.in,...)
   }
 }

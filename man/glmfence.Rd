@@ -3,27 +3,12 @@
 \alias{glmfence}
 \title{The fence procedure for generalised linear models}
 \usage{
-glmfence(fixed, data, family, cstar, nvmax, method = "ML",
-  exhaustive = FALSE, adaptive = TRUE, trace = TRUE, best.only = FALSE,
+glmfence(mf, cstar, nvmax, method = "ML", adaptive = TRUE, trace = TRUE,
   ...)
 }
 \arguments{
-\item{fixed}{an object of class \code{\link[stats]{formula}}
-specifying the full model that can be fitted.}
-
-\item{data}{a data frame containing the variables in the full
-model.  Currently this is required.  Future development will
-look at the \code{lm} function to replicate functionality,
-whereby if \code{data} is missing or variables are not found
-in \code{data}, the variables are taken from
-\code{environment(formula)}, typically the
-environment from which \code{lmfence} is called.}
-
-\item{family}{a description of the error distribution and link
-function to be used in the model. This can be a character
-string naming a family function, a family function or the
-result of a call to a family function. (See
-\code{\link[stats]{family}} for details of family functions.)}
+\item{mf}{an object of class \code{\link[stats]{glm}}
+specifying the full model.}
 
 \item{cstar}{the boundary of the fence, typically found
 through bootstrapping.}
@@ -36,25 +21,6 @@ explanatory variables in \code{fixed}).}
 only \code{method = "ML"} is supported (perhaps in the future
 \code{method = "MVC"} will be implemented).}
 
-\item{exhaustive}{logical. If \code{TRUE} the search for a best
-model contines through the entire model space and returns
-all models that passed the hurdle at all model sizes
-(rather than stopping at the smallest possible model that
-passes the fence hurdle).  It was something Garth used in
-development priorto the incorporating leaps functionality and
-should probably be retired.}
-
-\item{use.leaps}{logical. If \code{TRUE} the \code{regsubsets}
-function from the \code{leaps} package is used to find the best
-candidate model at each dimension.  Then the fence criteria is
-sequentially applied to each of these "best" models.  Once a
-candidate model is found, other models at that dimension are
-checked.  Garth can't think of a reason why this wouldn't always
-be the preferred option - so perhaps the full search code
-should be retired and use.leaps removed as an option (forced
-\code{TRUE}).  Note that if the number of parameters is large
-it is required that \code{use.leaps = TRUE}.}
-
 \item{adaptive}{logical. If \code{TRUE} the boundary of the fence is
 given by cstar.  Otherwise, it the original (non-adaptive) fence
 is performed where the boundary is cstar*hat(sigma)_{M,tildeM}.}
@@ -62,19 +28,11 @@ is performed where the boundary is cstar*hat(sigma)_{M,tildeM}.}
 \item{trace}{logical. If \code{TRUE} the function prints out its
 progress as it iterates up through the dimensions.}
 
-\item{best.only}{logical.  If \code{TRUE} the function returns
-only one model - the "best" one at the smallest model size for
-which there is (at least) one candidate that passes the fence.
-Otherwise it returns all candidate models which pass the fence
-at that model size.}
-
 \item{...}{optional extra parameters passed through (?? necessary)}
 }
 \description{
 This function implements the fence procedure to
-find the best generalised linear model.  STILL NEED TO ADD IN THE OPTION
-TO FORCE VARIABLES INTO THE MODEL (THIS SHOULD BE EASY TO
-IMPLEMENT).
+find the best generalised linear model.
 }
 \references{
 Tarr, Müller and Welsh (2014)

@@ -1,6 +1,5 @@
 #' Graphical model stability and model selection procedures
 #' 
-#' More detail
 #' ...
 #' @name mplot-package
 #' @docType package
@@ -29,7 +28,5 @@ NULL
 #'   body fat to simple body measurements. Journal of Statistics 
 #'   Education. Bodyfat data retrieved from 
 #'   http://www.amstat.org/publications/jse/v4n1/datasets.johnson.html
-#'   An expanded version is included in this package:
-#'   http://cran.r-project.org/web/packages/mfp/mfp.pdf
-#' 
+#'   An expanded version is included in the \code{mfp} R package.
 NULL

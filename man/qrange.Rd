@@ -3,7 +3,7 @@
 \alias{qrange}
 \title{Identify an appropriate rance of values over which to bootstrap}
 \usage{
-qrange(k.range, yname, fixed, data, method)
+qrange(k.range, yname, fixed, data, method, force.in)
 }
 \description{
 This function takes an upper and lower dimension size (obtained by

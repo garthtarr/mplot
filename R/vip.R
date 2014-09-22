@@ -1,14 +1,11 @@
-# ## variable inclusion plot
+# Variable inclusion plot
 # 
 # The VIP  visualises inclusion probabilities
 # as a function of the penalty multiplier lambda.
 # For each variable x_j subject to selection
 # the proportion of times this variable is retained
 # in the B final selected bootstrapped model
-# is plotted for a range of lambda values, for 
-# example lambda in [0,2log(n)].  More specifically,
-# we calculate for each bootstrap sample b=1,...,B
-# and
+# is plotted for a range of lambda values.
 
 vip = function(fixed,data,family,nvmax,lambda.max){
   yname = deparse(fixed[[2]])

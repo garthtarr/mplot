@@ -3,7 +3,8 @@
 \alias{plot.af}
 \title{Plot diagnostics for an af object}
 \usage{
-\method{plot}{af}(x, pch, classic = FALSE, html.only = FALSE, ...)
+\method{plot}{af}(x, pch, classic = FALSE, html.only = FALSE,
+  best.only = TRUE, ...)
 }
 \arguments{
 \item{x}{\code{af} object, the result of \code{\link{af}}}
@@ -11,6 +12,14 @@
 \item{classic}{logical.  If \code{classic=TRUE} a
 base graphics plot is provided instead of a googleVis plot.
 Default is \code{classic=FALSE}.}
+
+\item{best.only}{logical.  A modification to the adaptive
+procedure which considers all models at a particular
+size that pass the fence hurdle when calculating the
+p* values.  The rationale being that if a model is
+'correct' then it will be the only model at that size
+that passes the fence.  This can help to determine where
+the correct peak is to select c*.}
 
 \item{...}{other parameters to be passed through to
 plotting functions.}

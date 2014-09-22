@@ -9,13 +9,14 @@ reactiveSvg <- function (outputId) {
              sep=""))
 }
 
-
+## separater:
+## 
 
 
 # Define UI for dataset viewer application
 shinyUI(
   fluidPage(
-    headerPanel("Model stability/selection or variable inclusion plots"),
+    headerPanel(""),
     sidebarPanel(
       conditionalPanel(
         condition = "input.tabs1 == 2",
@@ -25,7 +26,7 @@ shinyUI(
         #numericInput("lvp.y.max", "Maximum for the y axis:", round(max(lvp.res$lk$LL))+5),
         #numericInput("lvp.y.min", "Minimum for the y axis:", round(min(lvp.res$lk$LL))-5),
         radioButtons("highlight",label="Highlight models with which variable?", 
-                     choices=names(data)[names(data)!=yname]),
+                     choices=names(coef(full.model))[!names(coef(full.model))=="(Intercept)"]),
         #p("Not yet implemented:"),
         #radioButtons("highlight.model",label="Highlight which 'optimal' model?", 
         #             choices=c("Fence" = "fence",
@@ -63,7 +64,14 @@ shinyUI(
                       choices=c("No" = 0,
                                 "Yes" = 1))
         )
-      )
+      ),
+      conditionalPanel(
+        condition = "input.tabs1 == 3",
+        radioButtons("bo",label="Best Only",choices=c("TRUE"=TRUE,
+                                                      "FALSE" = FALSE))
+      ),
+      "-----",
+      "The mplot package."
     ),
     # add a button to run pairedVis such that it opens in a new window
     #selectInput("yvar", "Response variable:", choices = names(data)),

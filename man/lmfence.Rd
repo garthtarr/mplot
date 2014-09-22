@@ -3,9 +3,8 @@
 \alias{lmfence}
 \title{The fence procedure for linear models}
 \usage{
-lmfence(fixed, data, cstar, nvmax, method = "ML", exhaustive = FALSE,
-  use.leaps = TRUE, adaptive = TRUE, trace = TRUE, best.only = FALSE,
-  ...)
+lmfence(mf, cstar, nvmax, method = "ML", adaptive = TRUE, trace = TRUE,
+  force.in = NULL, ...)
 }
 \arguments{
 \item{fixed}{an object of class \code{\link[stats]{formula}}
@@ -29,25 +28,6 @@ explanatory variables in \code{fixed}).}
 \item{method}{the model selection method to be used. Currently
 only \code{method = "ML"} is supported (perhaps in the future
 \code{method = "MVC"} will be implemented).}
-
-\item{exhaustive}{logical. If \code{TRUE} the search for a best
-model contines through the entire model space and returns
-all models that passed the hurdle at all model sizes
-(rather than stopping at the smallest possible model that
-passes the fence hurdle).  It was something Garth used in
-development priorto the incorporating leaps functionality and
-should probably be retired.}
-
-\item{use.leaps}{logical. If \code{TRUE} the \code{regsubsets}
-function from the \code{leaps} package is used to find the best
-candidate model at each dimension.  Then the fence criteria is
-sequentially applied to each of these "best" models.  Once a
-candidate model is found, other models at that dimension are
-checked.  Garth can't think of a reason why this wouldn't always
-be the preferred option - so perhaps the full search code
-should be retired and use.leaps removed as an option (forced
-\code{TRUE}).  Note that if the number of parameters is large
-it is required that \code{use.leaps = TRUE}.}
 
 \item{adaptive}{logical. If \code{TRUE} the boundary of the fence is
 given by cstar.  Otherwise, it the original (non-adaptive) fence

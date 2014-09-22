@@ -38,8 +38,10 @@ x4 = x2^2
 x5 = x1*x2
 y = x0 + x1 + x2 + e
 dat = data.frame(y,x1,x2,x3,x4,x5)
-af1 = af(y~., data=dat, n.cores=3)
+lm1 = lm(y~., data=dat)
+af1 = af(lm1, n.cores=3)
 ```
+
 ```{r}
 summary(af1)
 ```
@@ -57,7 +59,8 @@ If there exists a *true* model, the adaptive fence tends to find it quite easily
 Consider the body fat example of CITATION HERE.  
 
 ```{r bdat.full.plot, results='asis', tidy=FALSE}
-bfat.full = af(Bodyfat~.,data=bodyfat,n.cores=3, n.c=100,initial.stepwise=FALSE)
+bfat.lm = lm(Bodyfat~.,data=bodyfat)
+bfat.full = af(bfat.lm, n.cores=4, initial.stepwise=FALSE)
 plot(bfat.full)
 ```
 
@@ -66,7 +69,7 @@ Note that if we consider the full range of possible values for the parameter $c$
 Instead, one might like to incorporate some additional information to better inform our choice.  In particular, let us consider the number of variables that AIC and BIC forward and backward stepwise procedures and investigate only models of similar size.
 
 ```{r bfat.stepwise.plot, results='asis', tidy=FALSE}
-bfat.stepwise = af(Bodyfat~.,data=bodyfat,n.cores=3, n.c=50,initial.stepwise=TRUE)
+bfat.stepwise = af(bfat.lm,n.cores=4, n.c=50,initial.stepwise=TRUE)
 plot(bfat.stepwise)
 ```
 
@@ -94,7 +97,8 @@ z = cbind(1,X)%*%beta
 pr = 1/(1+exp(-z))
 y = rbinom(n,1,pr) 
 glm.df = data.frame(y,X)
-af.glm = af(fixed=y~., data=glm.df, family="binomial", n.cores=4)
+glm1 = glm(y~.,data=glm.df,family="binomial")
+af.glm = af(glm1, n.cores=4)
 ```
 ```{r af.glm.plot, results='asis', tidy=FALSE}
 plot(af.glm)
@@ -109,7 +113,7 @@ Will be implemented via a wild bootstrap approach to leverage the power of leaps
 The standard plots are the model stability and variable inclusion plots.  Both of these are performed using the (poorly named) `lvp()` function.  We illustrate using the binomial glm defined previously:
 
 ```{r lvp1.eg, results='asis', tidy=FALSE, warning=FALSE}
-lvp1 = lvp(fixed=y~.,data=glm.df,family="binomial",B=50)
+lvp1 = lvp(glm1,B=50)
 ```
 
 ### Model stability plots

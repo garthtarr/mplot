@@ -3,20 +3,10 @@
 \alias{lvp}
 \title{Model selection/stability curves and variable importance}
 \usage{
-lvp(fixed, data, family, nvmax, B = 100, lambda.max, ...)
+lvp(mf, nvmax, B = 100, lambda.max, ...)
 }
 \arguments{
-\item{fixed}{}
-
-\item{data}{a data frame containing the variables in the full
-model.  Currently this is required.  Future development will
-look at the \code{lm} function to replicate functionality,
-whereby if \code{data} is missing or variables are not found
-in \code{data}, the variables are taken from
-\code{environment(formula)}, typically the
-environment from which the function is called.}
-
-\item{family}{for glms}
+\item{mf}{the full fitted model of type lm or glm}
 
 \item{nvmax}{the max number of variables to consider as being important}
 

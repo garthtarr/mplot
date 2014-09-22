@@ -2,32 +2,47 @@
 #' 
 #' This function takes an upper and lower dimension size (obtained by
 #' forwards and backwards model selection and then adding and subtracting
-#' 1 from each of the extremes to encompas a broader range of models).
+#' 2 from each of the extremes to encompas a broader range of models).
 #' For both the small and large model size, the "best" model is identified
 #' using the \code{leaps} package and the corresponding lack of fit measure
 #' is calculated.
-qrange = function(k.range,yname,fixed,data,method){
-  candidate.models = summary(regsubsets(x = fixed, 
-                                        data = data, 
-                                        nbest = 1,
-                                        nvmax = k.range$k.max-1))$which+0
-  
-  small.row = which(rowSums(candidate.models)==k.range$k.min)
-  small.names = colnames(candidate.models)[which(candidate.models[small.row,]==1)]
+qrange = function(k.range,yname,fixed,
+                  data,method,force.in,
+                  model.type,family){
+  kf = k.range$k.max
+  if(model.type=="lm"){
+    cand.models = summary(regsubsets(x = fixed, 
+                                     data = data, 
+                                     nbest = 1,
+                                     nvmax = kf,
+                                     force.in=force.in))$which+0
+  } else if(model.type=="glm"){
+    cand.models = bestglm(Xy=data, 
+                          family=family,
+                          IC = "BIC",
+                          TopModels = 1,
+                          nvmax = )$Subsets[,1:kf]+0
+  }
+  small.row = which(rowSums(cand.models)==k.range$k.min)
+  small.names = colnames(cand.models)[which(cand.models[small.row,]==1)]
   if(length(small.names)>1){
     small.ff = paste(yname," ~ ",paste(small.names[-1],collapse="+"),sep="")
   } else small.ff = paste(yname,"~1")  
   small.ff = as.formula(small.ff)
-  small.em = lm(small.ff, data=data)
   
-  big.row = which(rowSums(candidate.models)==k.range$k.max)
-  big.names = colnames(candidate.models)[which(candidate.models[big.row,]==1)]
+  big.row = which(rowSums(cand.models)==kf)
+  big.names = colnames(cand.models)[which(cand.models[big.row,]==1)]
   if(length(big.names)>1){
     big.ff = paste(yname," ~ ",paste(big.names[-1],collapse="+"),sep="")
   } else big.ff = paste(yname,"~1")  
   big.ff = as.formula(big.ff)
-  big.em = lm(big.ff, data=data)
-  
+  if(model.type=="lm"){
+    small.em = lm(small.ff, data=data)
+    big.em = lm(big.ff, data=data)
+  } else if(model.type=="glm"){
+    small.em = glm(small.ff, data=data, family=family)
+    big.em = glm(big.ff, data=data, family=family)
+  }
   Q.min = Qm(big.em,method=method)
   Q.max = Qm(small.em,method=method)
   return(list(Q.min=Q.min,Q.max=Q.max))

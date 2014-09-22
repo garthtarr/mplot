@@ -3,26 +3,12 @@
 \alias{af}
 \title{The adaptive fence procedure (currently only for linear models)}
 \usage{
-af(fixed, random, family, data, n.cores, method = "ML", B = 60, n.c = 20,
-  best.only = FALSE, initial.stepwise = TRUE, ...)
+af(mf, n.cores, method = "ML", B = 60, n.c = 20,
+  initial.stepwise = TRUE, force.in = NULL, nvmax, ...)
 }
 \arguments{
-\item{fixed}{an object of class \code{\link[stats]{formula}}
-specifying the full model that can be fitted.}
-
-\item{random}{(not yet implemented) an object of
-class \code{\link[stats]{formula}}
-specifying the random effect components.}
-
-\item{family}{specify the family for a glm model}
-
-\item{data}{a data frame containing the variables in the full
-model.  Currently this is required.  Future development will
-look at the \code{lm} function to replicate functionality,
-whereby if \code{data} is missing or variables are not found
-in \code{data}, the variables are taken from
-\code{environment(formula)}, typically the
-environment from which \code{lmfence} is called.}
+\item{mf}{a fitted 'full' model, the result of a call
+to lm, glm, lme or lmer.}
 
 \item{method}{the model selection method to be used. Currently
 only \code{method = "ML"} is supported (perhaps in the future
@@ -37,14 +23,6 @@ boundary value}
 processing the bootstrap (currently only available on
 UNIX-type machines, e.g. Mac OS X).}
 
-\item{best.only}{logical.  A modification to the adaptive
-procedure which considers all models at a particular
-size that pass the fence hurdle when calculating the
-p* values.  The rationale being that if a model is
-'correct' then it will be the only model at that size
-that passes the fence.  This can help to determine where
-the correct peak is to select c*.}
-
 \item{pch}{plotting 'character', i.e., symbol to use.
 This can either be a single character or an integer
 code for one of a set of graphics symbols.}
@@ -52,6 +30,9 @@ code for one of a set of graphics symbols.}
 \item{initial.stepwise}{logical.  Performs an initial stepwise
 procedure to look for the range of model sizes where attention
 should be focussed. See details for implementation.}
+
+\item{force.in}{the names of variables that should be forced
+into all estimated models.}
 
 \item{...}{optional extra parameters passed through (?? necessary)}
 }
@@ -68,10 +49,8 @@ using BIC.  In general the backwise selection via the more
 conservative BIC will tend to select a smaller model than that
 of the forward selection AIC approach.  The size of these two
 models is found, and we go one dimension smaller and one dimension
-bigger to estiamte a sensible range of c values over which to
-perform a parametric bootstrap.  THIS DESCRIPTION IS VERY VAUGE
-POSSIBLY NEEDS MORE DETAIL/MORE THOUGH ON HOW TO EXPRESS THE
-PROCEDURE SUCCINCTLY.
+bigger to estiamte a sensible range of \code{c} values over which to
+perform a parametric bootstrap.
 
 This procedure can take some time.  It is recommended that you start
 with a relatively small number of bootstrap samples and grid of c
@@ -122,10 +101,10 @@ plot(af4)
 lmfence(y3~.,dat=dat3,cstar=af4$c.star)
 
 # Real example
-bfat.full = af(Bodyfat~.,data=bodyfat,n.cores=3,
-          n.c=100,initial.stepwise=FALSE)
-bfat.stepwise = af(Bodyfat~.,data=bodyfat,n.cores=3,
-          n.c=50,initial.stepwise=TRUE)
+bfat.full = af(Bodyfat~.,data=bodyfat,n.ces=3,
+               initial.stepwise=FALSE)
+bfat.stepwise = af(Bodyfat~.,data=bodyfat,
+                   initial.stepwise=TRUE)
 }
 \references{
 Jiang et. al. (2009); Tarr, M\:uller and Welsh (2014)

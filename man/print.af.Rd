@@ -3,10 +3,18 @@
 \alias{print.af}
 \title{Print method for an af object}
 \usage{
-\method{print}{af}(x, ...)
+\method{print}{af}(x, best.only = TRUE, ...)
 }
 \arguments{
 \item{x}{an \code{af} object, the result of \code{\link{af}}}
+
+\item{best.only}{logical.  A modification to the adaptive
+procedure which considers all models at a particular
+size that pass the fence hurdle when calculating the
+p* values.  The rationale being that if a model is
+'correct' then it will be the only model at that size
+that passes the fence.  This can help to determine where
+the correct peak is to select c*.}
 
 \item{...}{other parameters to be passed through to
 plotting functions.}
