@@ -4,7 +4,7 @@ The mplot package provides a collection of functions designed for exploratory mo
 
 Model stability curves are implemented.
 
-The fence implements the adaptive fence routine with sensible defaults, new graphics to highlight model selection stability and experimental automated "best" model selection.  It currently only supports linear models, however work is progressing to incorporate mixed models.
+The fence implements the adaptive fence routine with sensible defaults, new graphics to highlight model selection stability and experimental automated "best" model selection.  It currently only supports linear and generalised linear models, however work is progressing to incorporate mixed models.
 
 The speed of implementation comes from the leaps package and multicore support for bootstrapping.
 

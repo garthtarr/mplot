@@ -12,27 +12,14 @@
 #' @export
 
 vis=function(mf,nvmax,B=100,lambda.max,...){
-  fixed = formula(mf)
-  yname = deparse(fixed[[2]])
-  # using this approach to cope when there are indicator
-  # variables in the formula, they get spelled out in
-  # model.matrix
-  X = model.matrix(mf)
-  if(colnames(X)[1]=="(Intercept)"){
-    # overwrite intercept with y-variable
-    X[,1] = model.frame(mf)[,yname] 
-    no.int = FALSE
-  } else {
-    X = cbind(model.frame(mf)[,yname],X)
-  }  
-  colnames(X)[1] = yname
-  X = data.frame(X)
-  n <- nrow(X)
-  k.full <- length(mf$coef) 
-  
-  if(missing(nvmax)) nvmax = length(mf$coef)
-  family=family(mf)
-  
+  m = mextract(mf) 
+  fixed = m$fixed
+  yname = m$yname
+  family = m$family
+  X = m$X
+  kf = m$k
+  n = m$n
+  if(missing(nvmax)) nvmax = kf
   ## iterate over all possible models
   res.names= list()
   res.names[[1]] = "1"
@@ -53,12 +40,10 @@ vis=function(mf,nvmax,B=100,lambda.max,...){
       k=k+1
     }
   }
-  
   res = matrix(NA,nrow = nrow(res.names.full),ncol=B)
   res.2ll = list()
   res.ll.model = list()
   res.min.model.names = list()
-  
   #### SINGLE PASS OVER ALL MODELS ####
   ff = paste(yname," ~ 1")
   ff = as.formula(ff)
@@ -91,9 +76,6 @@ vis=function(mf,nvmax,B=100,lambda.max,...){
     res.2ll[[i]] = ll
     res.ll.model[[i]] = ll.model
   }
-  
-  
-  
   #### BOOTSTRAPPING COMPONENT ####
   if(B>1){
     for(b in 1:B){ # runs over the number of replications
@@ -132,7 +114,6 @@ vis=function(mf,nvmax,B=100,lambda.max,...){
     }
     ks = apply(res.names.full,1,lngth)+1
     ks[1] = 1
-    
     ### Variable Importance Plot Calculations
     if(missing(lambda.max)) lambda.max = 2*log(n)
     lambdas = seq(0,lambda.max,0.01)
@@ -141,7 +122,6 @@ vis=function(mf,nvmax,B=100,lambda.max,...){
       resl = res+lambdas[i]*ks
       min.pos[i,] = apply(resl,2,which.min)
     }
-    
     #### LvP where bubbles reflect frequencey of choice
     t1 = split(res,f=ks)
     t2 = lapply(t1,matrix,ncol=ncol(res))
@@ -185,17 +165,26 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                     which=c("vip","lvk","boot"),
                     width=800,height=400,fontSize=12,
                     left=50,top=30,chartWidth="60%",chartHeight="80%",
-                    axisTitlesPosition="out",dataOpacity=0.5,...){
+                    axisTitlesPosition="out",dataOpacity=0.5,
+                    options=NULL,...){
   find.var = function(x,highlight){
     is.element(highlight,x)
   }
-  if(which=="lvk"){
-    if(!require(googleVis)|classic){
-      if(missing(highlight)){
+  no.highlight = FALSE  
+  if(missing(highlight)){ # highlight best bivariate variable
+    no.highlight = TRUE
+    k2which = a$lk$k==2
+    k2LL = a$lk[k2which,1]
+    k2mods = a$models[k2which,1]
+    highlight = k2mods[which.min(k2LL)]
+  }
+  if("lvk"%in%which){
+    if(classic){
+      if(no.highlight){
         # step through the explanatory variables
         vars = unique(na.omit(as.vector(x$model)))
         var.ident = NA
-        for(i in 1:length(vars)){
+        for(i in 2:length(vars)){
           if(i %% 2 == 0){
             colbg=rgb(1,0,0,0.5)
             colfg=rgb(1,0,0)
@@ -206,8 +195,7 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
           var.ident = apply(x$model, 1, find.var, highlight=vars[i])
           par(ask=TRUE)
           plot(x$lk$LL[!var.ident]~x$lk$k[!var.ident],
-               bg=gray(0.1, alpha=0.5),
-               pch=22, cex=1.3,
+               pch=1, cex=1.3,
                xlab = "Number of parameters",
                ylab = "-2*Log-likelihood",
                ylim = c(min(x$lk$LL),max(x$lk$LL)),
@@ -265,32 +253,26 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                         ",width:'",chartWidth,
                         "',height:'",chartHeight,"'}",sep="")
       if(is.null(options)){
-        options=list(title=gvis.title,
-                     vAxis="{title:'-2*Log-likelihood'}",
-                     hAxis=gvis.hAxis,
-                     axisTitlesPosition=axisTitlesPosition,
-                     chartArea=chartArea,
-                     width=width, height=height,
-                     dataOpacity=dataOpacity,
-                     series= "{0:{color: 'gray', 
-                                  visibleInLegend: true},
-                               1:{color: 'blue', 
-                                  visibleInLegend: true}}",
-                     explorer= "{axis: 'vertical',  
-                                 keepInBounds: true,
-                                 maxZoomOut: 1,
-                                 maxZoomIn: 0.01,
-                                 actions: ['dragToZoom', 
-                                    'rightClickToReset']}")
-      }
-      fplot = gvisScatterChart(data=dat,options=options)
+        use.options=list(title=gvis.title,
+                         fontSize = fontSize,
+                         vAxis="{title:'-2*Log-likelihood'}",
+                         hAxis=gvis.hAxis,
+                         axisTitlesPosition=axisTitlesPosition,
+                         chartArea=chartArea,
+                         width=width, height=height,
+                         dataOpacity=dataOpacity,
+                         series= "{0:{color: 'gray', visibleInLegend: true}, 1:{color: 'blue', visibleInLegend: true}}",
+                         explorer= "{axis: 'vertical',  keepInBounds: true, maxZoomOut: 1, maxZoomIn: 0.01, actions: ['dragToZoom', 'rightClickToReset']}")
+      } else {use.options = options}
+      fplot = gvisScatterChart(data=dat,options=use.options)
       if(html.only){
-        return(fplot)
+        fplot
       } else {
-        return(plot(fplot))
+        plot(fplot)
       }
     }
-  } else if(which=="boot"){
+  } 
+  if("boot"%in%which){
     if(is.null(x$best.models))
       stop("You need to run vis() with B>1")
     suppressPackageStartupMessages(library(googleVis))
@@ -335,32 +317,35 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
     bubble = paste("{opacity:",dataOpacity,
                    ", textStyle: {color: 'none'}}",sep="")
     if(is.null(options)){
-      options=list(title=gvis.title,
-                   vAxis="{title:'-2*Log-likelihood'}",
-                   hAxis=gvis.hAxis,
-                   sizeAxis = "{minValue: 0, minSize: 1,  
+      use.options=list(title=gvis.title,
+                       fontSize = fontSize,
+                       vAxis="{title:'-2*Log-likelihood'}",
+                       hAxis=gvis.hAxis,
+                       sizeAxis = "{minValue: 0, minSize: 1,  
                                 maxSize: 20, maxValue:1}",
-                   axisTitlesPosition=axisTitlesPosition,
-                   bubble = bubble,
-                   chartArea=chartArea,
-                   width=width, height=height,
-                   explorer= "{axis: 'vertical',  
+                       axisTitlesPosition=axisTitlesPosition,
+                       bubble = bubble,
+                       chartArea=chartArea,
+                       width=width, height=height,
+                       explorer= "{axis: 'vertical',  
                                keepInBounds: true,
                                maxZoomOut: 1,
                                maxZoomIn: 0.01,
                                actions: ['dragToZoom', 
                                          'rightClickToReset']}")
-    }
+    } else {use.options = options}
     fplot = gvisBubbleChart(data=dat,idvar = "mods",xvar = "k",
                             yvar = "LL", colorvar = "var.ident", 
                             sizevar = "prob",
-                            options=options)
+                            options=use.options)
     if(html.only){
-      return(fplot)
+      fplot
     } else {
-      return(plot(fplot))
+      plot(fplot)
     } 
-  } else if (which=="vip"){
+  }
+  if("vip"%in%which){
+    suppressPackageStartupMessages(library(googleVis))
     for(i in 1:length(x$lambdas)){
       ### VIP plot here!
       var.names = x$models[dim(x$models)[1],]
@@ -391,43 +376,40 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
       lineseries="[{lineDashStyle: [2,2], lineWidth: 2, color:'gray',
                       visibleInLegend: false},
                     {lineDashStyle: [2,2], lineWidth: 2, color:'gray',
-                      visibleInLegend: false},
-                   {lineDashStyle: [1], lineWidth: 5}, 
-                   {lineDashStyle: [10, 10, 10, 10], lineWidth: 4},
-                   {lineDashStyle: [5, 20, 10, 20, 5], lineWidth: 4}]"
+                      visibleInLegend: false}]"
       chartArea = paste("{left:",left,
                         ",top:",top,
-                        ",width:'",width,
-                        "',height:'",height,"'}",sep="")
+                        ",width:'",chartWidth,
+                        "',height:'",chartHeight,"'}",sep="")
       if(is.null(options)){
-        options=list(title=gvis.title,
-                     vAxis="{title:'Bootstrapped probability'}",
-                     hAxis="{title:'λ'}",
-                     sizeAxis = "{minValue: 0, minSize: 1,  
-                                  maxSize: 20, maxValue: 1}",
-                     axisTitlesPosition=axisTitlesPosition,
-                     series = lineseries,
-                     chartArea=chartArea,
-                     width=width, height=400,
-                     annotations = "{style:'line'}",
-                     explorer= "{axis: 'vertical',  
-                                 keepInBounds: true,
-                                 maxZoomOut: 1,
-                                 maxZoomIn: 0.01,
-                                 actions: ['dragToZoom', 
-                                           'rightClickToReset']}")
-      }
+        use.options=list(title=gvis.title,
+                         fontSize = fontSize,
+                         vAxis="{title:'Bootstrapped probability'}",
+                         hAxis="{title:'Penalty'}",
+                         sizeAxis = "{minValue: 0, minSize: 1,  
+                                maxSize: 20, maxValue:1}",
+                         axisTitlesPosition=axisTitlesPosition,
+                         series = lineseries,
+                         chartArea=chartArea,
+                         width=width, height=height,
+                         annotations = "{style:'line'}",
+                         explorer= "{axis: 'vertical',  
+                               keepInBounds: true,
+                               maxZoomOut: 1,
+                               maxZoomIn: 0.01,
+                               actions: ['dragToZoom', 'rightClickToReset']}")
+      } else {use.options = options}
       fplot = gvisLineChart(data=vip.df,
                             xvar="lambda",
                             yvar=c("AIC","AIC.annotation",
                                    "BIC","BIC.annotation",
                                    sortnames),
-                            options=options)
+                            options=use.options)
       if(html.only){
         return(fplot)
       } else {
         return(plot(fplot))
-      } 
+      }
     }
-  }
+  } else return()
 }

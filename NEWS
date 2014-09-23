@@ -1,33 +1,13 @@
-mplot 0.4
+Change log
 ==========
 
-* inputs changed so that now all that's really required is
-  the estimated full model - the internals extract
-  data, formula, family, etc.
-* variable importance plots inclided
-* msc function renamed vis (this is the function that loads
-  up the shiny web interfave).
-* the adaptive fence procedure via af() has been made up to
-  2 times faster by carefully going through the code and 
-  implementing sensible defaults and reducing the number of
-  times regsubsets() and bestglm() were called.
-* basic (linear) mixed model functionality has been added to
-  the adaptive fence function.  It essentially extracts the
-  fixed part of the model and treats that as a linear model.
+## mplot 0.4.5
 
-mplot 0.3
-==========
-
-* added basic functionality for generalised linear models
-* added a d3 pairs plot implentation to the shiny interface 
+* adaptive fence implementation for linear and generalised
+  linear models
+* model selection curves are implemented
+* variable importance plots are implemented
+* d3 based pairs plot implentated in the shiny interface 
   for interactive multivariate visualisation
 
-mplot 0.2
-==========
 
-* added model selection curves
-
-mplot 0.1
-==========
-
-* adaptive fence implementation for linear models

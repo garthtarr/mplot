@@ -18,7 +18,10 @@
 #'   into all estimated models.
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{af}}, \code{\link{glmfence}}
-#' @references Jiang et. al. (2008)
+#' @references Jiming Jiang, Thuan Nguyen, J. Sunil Rao, 
+#'   A simplified adaptive fence procedure, Statistics & 
+#'   Probability Letters, Volume 79, Issue 5, 1 March 2009, 
+#'   Pages 625-629, http://dx.doi.org/10.1016/j.spl.2008.10.014.
 #' @export
 #' @family fence
 #' @examples
