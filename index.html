@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>mplot by garthtarr</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>mplot</h1>
+        <p>Model selection and stability plots</p>
+
+        <p class="view"><a href="https://github.com/garthtarr/mplot">View the Project on GitHub <small>garthtarr/mplot</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/garthtarr/mplot/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/garthtarr/mplot/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/garthtarr/mplot">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="mplot" class="anchor" href="#mplot"><span class="octicon octicon-link"></span></a>mplot</h1>
+
+<p>The mplot package provides a collection of functions designed for exploratory model sleection.</p>
+
+<p>We implement the adaptive fence routine with sensible defaults, new graphics to highlight model selection stability and experimental automated "best" model selection.  It currently only supports linear and generalised linear models, however work is progressing to incorporate mixed models.</p>
+
+<p>The speed of implementation comes from the leaps package and multicore support for bootstrapping.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>You can install the development version from <a href="https://github.com/garthtarr/mplot">Github</a>:</p>
+
+<div class="highlight highlight-s"><pre><span class="kn">require</span><span class="p">(</span>devtools<span class="p">)</span>
+install_github<span class="p">(</span><span class="s">"garthtarr/mplot"</span><span class="p">,</span>quick<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+
+<p>To get the most out of the mplot package, you will need a few extra packages too:</p>
+
+<div class="highlight highlight-s"><pre>install.packages<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">"leaps"</span><span class="p">,</span><span class="s">"googleVis"</span><span class="p">,</span><span class="s">"foreach"</span><span class="p">,</span><span class="s">"doMC"</span><span class="p">))</span>
+</pre></div>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<div class="highlight highlight-s"><pre><span class="kn">require</span><span class="p">(</span>mplot<span class="p">)</span>
+<span class="o">?</span>mplot
+</pre></div>
+
+<h2>
+<a name="uninstall" class="anchor" href="#uninstall"><span class="octicon octicon-link"></span></a>Uninstall</h2>
+
+<p>After you've used the development version you may like to remove it to avoid any potential conflicts in the future with:</p>
+
+<div class="highlight highlight-s"><pre><span class="kn">detach</span><span class="p">(</span><span class="s">"package:mplot"</span><span class="p">,</span> unload<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+remove.packages<span class="p">(</span><span class="s">"mplot"</span><span class="p">)</span>
+</pre></div>
+
+<p>Then the next time you want to use it, you'll need to install the package again from github.</p>
+
+<h2>
+<a name="known-issues" class="anchor" href="#known-issues"><span class="octicon octicon-link"></span></a>Known issues</h2>
+
+<p>The <code>vis</code> function is not yet optimised to take advantage of leaps
+technology and so it can take a while to run on moderately large data sets.</p>
+
+<p>Please report any issues <a href="https://github.com/garthtarr/mplot/issues">here</a>.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/garthtarr">garthtarr</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-55731407-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
