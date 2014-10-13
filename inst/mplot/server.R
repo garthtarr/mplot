@@ -1,5 +1,7 @@
 library(shiny)
 data = shiny.data.in
+af.res = af.res
+lvp.res = lvp.res
 
 # Define server logic required to summarize and view the selected dataset
 shinyServer(function(input, output) {
@@ -31,19 +33,47 @@ shinyServer(function(input, output) {
   
   output$lvp.gvis <- renderGvis({
     if(input$boot_lvp=="No"){
-      plot(lvp.res,html.only=TRUE,highlight=input$highlight,which="msc")
+      plot(lvp.res,shiny=TRUE,
+           highlight=input$highlight,which="lvk")
     } else if(input$boot_lvp=="Yes") {
-      plot(lvp.res,html.only=TRUE,highlight=input$highlight,which="boot")
+      plot(lvp.res,shiny=TRUE,
+           highlight=input$highlight,which="boot")
     }
   })
   
   output$vip.gvis <- renderGvis({
-    plot(lvp.res,html.only=TRUE,which="vip")
+    plot(lvp.res,shiny=TRUE,which="vip")
   })
   
+  output$afUI = renderUI({
+    if(is.null(af.res)){
+      actionButton(inputId="test", label="test", icon = NULL)
+    }
+  })
+  
+  af.run <- reactive({
+    if(is.null(af.res)){
+    af.res <<- af(full.model)
+    }
+  })
+  
+  output$af.run.gvis <- renderGvis({
+    input$test
+    af.run()
+    plot(af.res,html.only=TRUE,best.only=input$bo)
+  })
+  
+  output$af.run.verb = renderPrint({
+    input$test
+    summary(af.res)
+  })
+  
+  AF_STAT <- reactive({is.null(af.res)})
+  
   output$af.gvis <- renderGvis({
+    input$test
     if(!is.null(af.res)){
-      plot(af.res,html.only=TRUE,best.only=input$bo)#,highlight=input$highlight)
+      plot(af.res,html.only=TRUE,best.only=input$bo)
     } else return(NULL)
   })
   
@@ -55,10 +85,10 @@ shinyServer(function(input, output) {
   # and input$obs, so will be re-executed whenever input$dataset or 
   # input$obs is changed. 
   output$view = renderDataTable(data, 
-                                options = list(iDisplayLength = 20,
-                                               aLengthMenu = list(c(20, 50, -1), 
-                                                                  c('20', '50', 'All')),
-                                               bFilter = FALSE))
+                                options = list(pageLength = 20,
+                                               lengthMenu = list(c(20, 50, -1), 
+                                                                 c('20', '50', 'All')),
+                                               searching = FALSE))
   
   ### Scatterplot Tab
   choices<-reactive({
@@ -109,8 +139,8 @@ shinyServer(function(input, output) {
       return(NULL)
     }
   }, 
-  options = list(iDisplayLength = 20,
-                 aLengthMenu = list(c(20, 50, -1), c('20', '50', 'All')),
-                 bFilter = FALSE)
+  options = list(pageLength = 20,
+                 lengthMenu = list(c(20, 50, -1), c('20', '50', 'All')),
+                 searching = FALSE)
   )
 })

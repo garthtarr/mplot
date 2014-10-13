@@ -1,13 +1,6 @@
-Change log
-==========
+mplot 0.4.5 [2014-10-14]
+------------------------
 
-## mplot 0.4.5
-
-* adaptive fence implementation for linear and generalised
-  linear models
-* model selection curves are implemented
-* variable importance plots are implemented
-* d3 based pairs plot implentated in the shiny interface 
-  for interactive multivariate visualisation
+First public version
 
 

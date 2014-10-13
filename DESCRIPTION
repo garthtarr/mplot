@@ -16,11 +16,11 @@ License: GPL (>= 2)
 Suggests:
     doMC,
     foreach,
-    knitr
+    knitr,
+    googleVis
 Depends:
     leaps,
     bestglm,
-    googleVis,
     parallel
 URL: https://github.com/garthtarr/mplot
 Roxygen: list(wrap = FALSE)

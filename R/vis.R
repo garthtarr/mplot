@@ -1,17 +1,67 @@
-#' Model selection/stability curves and variable importance
+#' Model stability curves and variable importance plots
 #' 
-#' Performs the heavy lifting and provides the plot methods for lvk, 
-#' boot and vip
+#' Calculates and provides the plot methods for standard
+#' and bootstrap enhanced model stability curves (lvk and
+#' boot) as well as variable importance plots (vip).
 #' 
-#' @param mf the full fitted model of type lm or glm
-#' @param nvmax the max number of variables to consider as being important
-#' @param B the number of bootstrap replications
-#' @param lambda.max the maximum penalty value for the vip plot, 
+#' @param mf a fitted 'full' model, the result of a call
+#'   to lm or glm (and in the future lme or lmer).
+#' @param nvmax size of the largest model that can still be 
+#'   considered as a viable candidate.
+#' @param B number of bootstrap replications
+#' @param lambda.max maximum penalty value for the vip plot, 
 #'   defaults to 2*log(n)
-#' @references Müller and Welsh (2010); Murray, Heritier and Müller (2013)
+#' @param n.cores number of cores to be used when parallel
+#'   processing the bootstrap (currently only available on
+#'   UNIX-type machines, e.g. Mac OS X).
+#' @param force.in the names of variables that should be forced
+#'   into all estimated models. (Not yet implemented.)
+#' @details The result of this function is essentially just a
+#'   list. The supplied plot method provides a way to visualise the
+#'   results.  
+#' @seealso \code{\link{plot.vis}}
+#' @references Müller, S. and Welsh, A. H. (2010), On Model 
+#'   Selection Curves. International Statistical Review, 78:240-256. 
+#'   doi: 10.1111/j.1751-5823.2010.00108.x
+#'   
+#'   Murray, K., Heritier, S. and Müller, S. (2013), Graphical 
+#'   tools for model selection in generalized linear models. 
+#'   Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
 #' @export
+#' @examples
+#' n = 100
+#' set.seed(11)
+#' e = rnorm(n)
+#' x1 = rnorm(n)
+#' x2 = rnorm(n)
+#' x3 = x1^2
+#' x4 = x2^2
+#' x5 = x1*x2
+#' y = 1 + x1 + x2 + e
+#' dat = data.frame(y,x1,x2,x3,x4,x5)
+#' lm1 = lm(y~.,data=dat)
+#' v1 = vis(lm1)
+#' plot(v1,highlight="x1")
 
-vis=function(mf,nvmax,B=100,lambda.max,...){
+vis=function(mf,nvmax,B=100,lambda.max,
+             n.cores=2,force.in=NULL,...){
+  
+  if(n.cores>1){
+    if(.Platform$OS.type!="unix"){
+      warning("The parallel programming implementation of the \n
+              bootstrap is currently only available on unix-type \n
+              systems.  Changing to n.cores=1.")
+      n.cores=1
+    }
+    if(.Platform$GUI=="AQUA"){
+      warning("It appears you are running R in a GUI (for example R.app).
+              The multicore functionality only works when R is run
+              from the command line (using RStudio also works). 
+              Setting n.cores=1 (this will be slower).")
+      n.cores=1
+    }
+  }
+  
   m = mextract(mf) 
   fixed = m$fixed
   yname = m$yname
@@ -42,7 +92,6 @@ vis=function(mf,nvmax,B=100,lambda.max,...){
   }
   res = matrix(NA,nrow = nrow(res.names.full),ncol=B)
   res.2ll = list()
-  res.ll.model = list()
   res.min.model.names = list()
   #### SINGLE PASS OVER ALL MODELS ####
   ff = paste(yname," ~ 1")
@@ -53,59 +102,120 @@ vis=function(mf,nvmax,B=100,lambda.max,...){
     em = lm(formula=ff, data=X)
   }
   k=1
+  #res.2ll[[1]] = list(ll=-2*as.numeric(logLik(em)))
   res.2ll[[1]] = -2*as.numeric(logLik(em))
-  res.ll.model[[1]] = ff
-  for(i in 2:nvmax){ # runs over the different model sizes
-    var.name.mat = combn(names(mf$coef)[-1],i-1)
-    ll=NA # still need this as usual
-    ll.model=NA
-    # run over each model of a given size
-    for(j in 1:dim(var.name.mat)[2]){ 
-      ff = paste(yname," ~ ",
-                 paste(var.name.mat[,j],collapse="+"),sep="")
-      ll.model[j] = ff
-      ff = as.formula(ff)
-      if(any(class(mf)=="glm")==TRUE){
-        em = glm(formula=ff, data=X, family=family)
-      } else {
-        em = lm(formula=ff, data=X)
+  if(kf>10 & n.cores>1){ # multicore functionality for high dimensions
+    require(doMC)
+    require(foreach)
+    registerDoMC(cores=n.cores)
+    res.2ll.temp = foreach(i = 2:nvmax) %dopar% {
+      ll=NA # still need this as usual
+      ll.model=NA
+      # run over each model of a given size
+      for(j in 1:dim(res.names[[i]])[2]){ 
+        ff = paste(yname," ~ ",
+                   paste(res.names[[i]][,j],collapse="+"),sep="")
+        ll.model[j] = ff
+        ff = as.formula(ff)
+        if(any(class(mf)=="glm")==TRUE){
+          em = glm(formula=ff, data=X, family=family)
+        } else {
+          em = lm(formula=ff, data=X)
+        }
+        hatQm = -2*as.numeric(logLik(em))
+        ll[j] = hatQm 
       }
-      hatQm = -2*as.numeric(logLik(em))
-      ll[j] = hatQm 
+      ll
     }
-    res.2ll[[i]] = ll
-    res.ll.model[[i]] = ll.model
+    res.2ll = c(res.2ll,res.2ll.temp)
+  } else { 
+    for(i in 2:nvmax){ # runs over the different model sizes
+      ll=NA # still need this as usual
+      ll.model=NA
+      # run over each model of a given size
+      for(j in 1:dim(res.names[[i]])[2]){ 
+        ff = paste(yname," ~ ",
+                   paste(res.names[[i]][,j],collapse="+"),sep="")
+        ll.model[j] = ff
+        ff = as.formula(ff)
+        if(any(class(mf)=="glm")==TRUE){
+          em = glm(formula=ff, data=X, family=family)
+        } else {
+          em = lm(formula=ff, data=X)
+        }
+        hatQm = -2*as.numeric(logLik(em))
+        ll[j] = hatQm 
+      }
+      res.2ll[[i]] = ll
+    }
   }
   #### BOOTSTRAPPING COMPONENT ####
   if(B>1){
-    for(b in 1:B){ # runs over the number of replications
-      wts = rexp(n=n,rate=1)
-      ## null model
-      ff = paste(yname," ~ 1")
-      ff = as.formula(ff)
-      if(any(class(mf)=="glm")==TRUE){
-        em = glm(formula=ff, data=X, family=family, weights=wts)
-      } else {
-        em = lm(formula=ff, data=X, weights=wts)
-      }
-      k=1
-      res[k,b] = -2*as.numeric(logLik(em)) 
-      res.min.model.names[[1]] = "y ~ 1"
-      # run over the different model sizes:
-      for(i in 2:nvmax){ 
-        var.name.mat = combn(names(mf$coef)[-1],i-1)
-        # run over each model of a given size:
-        for(j in 1:dim(var.name.mat)[2]){ 
-          ff = paste(yname," ~ ",
-                     paste(var.name.mat[,j],collapse="+"),sep="")
-          ff = as.formula(ff)
-          if(any(class(mf)=="glm")==TRUE){
-            em = glm(formula=ff, data=X, family=family,weights=wts)
-          } else {
-            em = lm(formula=ff, data=X,weights=wts)
+    if(n.cores>1){
+      require(doMC)
+      require(foreach)
+      registerDoMC(cores=n.cores)
+      res = foreach(b = 1:B, .combine = cbind) %dopar% {
+        res.temp = rep(NA,nrow(res.names.full))
+        wts = rexp(n=n,rate=1)
+        ## null model
+        ff = paste(yname," ~ 1")
+        ff = as.formula(ff)
+        if(any(class(mf)=="glm")==TRUE){
+          em = glm(formula=ff, data=X, family=family, weights=wts)
+        } else {
+          em = lm(formula=ff, data=X, weights=wts)
+        }
+        k=1
+        res.temp[k] = -2*as.numeric(logLik(em)) 
+        res.min.model.names[[1]] = "y ~ 1"
+        # run over the different model sizes:
+        for(i in 2:nvmax){ 
+          # run over each model of a given size:
+          for(j in 1:dim(res.names[[i]])[2]){ 
+            ff = paste(yname," ~ ",
+                       paste(res.names[[i]][,j],collapse="+"),sep="")
+            ff = as.formula(ff)
+            if(any(class(mf)=="glm")==TRUE){
+              em = glm(formula=ff, data=X, family=family,weights=wts)
+            } else {
+              em = lm(formula=ff, data=X,weights=wts)
+            }
+            k=k+1
+            res.temp[k] = -2*as.numeric(logLik(em))
           }
-          k=k+1
-          res[k,b] = -2*as.numeric(logLik(em))
+        }
+        res.temp
+      }
+    } else {
+      for(b in 1:B){ # runs over the number of replications
+        wts = rexp(n=n,rate=1)
+        ## null model
+        ff = paste(yname," ~ 1")
+        ff = as.formula(ff)
+        if(any(class(mf)=="glm")==TRUE){
+          em = glm(formula=ff, data=X, family=family, weights=wts)
+        } else {
+          em = lm(formula=ff, data=X, weights=wts)
+        }
+        k=1
+        res[k,b] = -2*as.numeric(logLik(em)) 
+        res.min.model.names[[1]] = "y ~ 1"
+        # run over the different model sizes:
+        for(i in 2:nvmax){ 
+          # run over each model of a given size:
+          for(j in 1:dim(res.names[[i]])[2]){ 
+            ff = paste(yname," ~ ",
+                       paste(res.names[[i]][,j],collapse="+"),sep="")
+            ff = as.formula(ff)
+            if(any(class(mf)=="glm")==TRUE){
+              em = glm(formula=ff, data=X, family=family,weights=wts)
+            } else {
+              em = lm(formula=ff, data=X,weights=wts)
+            }
+            k=k+1
+            res[k,b] = -2*as.numeric(logLik(em))
+          }
         }
       }
     }
@@ -122,7 +232,7 @@ vis=function(mf,nvmax,B=100,lambda.max,...){
       resl = res+lambdas[i]*ks
       min.pos[i,] = apply(resl,2,which.min)
     }
-    #### LvP where bubbles reflect frequencey of choice
+    #### lvk where bubbles reflect frequencey of choice
     t1 = split(res,f=ks)
     t2 = lapply(t1,matrix,ncol=ncol(res))
     which.fn = function(x) which(x==min(x))
@@ -149,33 +259,83 @@ vis=function(mf,nvmax,B=100,lambda.max,...){
 
 #' Plot diagnostics for an vis object
 #' 
-#' Summary plot of the vis results.
+#' A plot method to visualise the results of a \code{vis} object.
 #' 
 #' @param x \code{vis} object, the result of \code{\link{vis}}
-#' @param highlight a vector indicating which variables 
-#'   should be highlighted.
+#' @param highlight the name of a variable that will be highlighted.
 #' @param classic logical.  If \code{classic=TRUE} a 
 #'   base graphics plot is provided instead of a googleVis plot.
 #'   Default is \code{classic=FALSE}.
-#' @param ... other parameters to be passed through to 
-#'   plotting functions.
+#' @param html.only logical. Use \code{html.only=TRUE} when including
+#'   interactive plots in markdown documents (this includes rpres files).
+#' @param which a vector specifying the plots to be output.  Variable 
+#'   importance plots \code{which="vip"}; description loss against model
+#'   size \code{which="lvk"}; bootstrapped description loss against 
+#'   model size \code{which="boot"}.
+#' @param width Width of the googleVis chart canvas area, in pixels. 
+#'   Default: 800.
+#' @param height Height of the googleVis chart canvas area, in pixels. 
+#'   Default: 400.
+#' @param chartWidth googleVis chart area width.  
+#'   A simple number is a value in pixels; 
+#'   a string containing a number followed by \code{\%} is a percentage. 
+#'   Default: \code{"60\%"}
+#' @param chartHeight googleVis chart area height. 
+#'   A simple number is a value in pixels; 
+#'   a string containing a number followed by \code{\%} is a percentage. 
+#'   Default: \code{"80\%"}
+#' @param axisTitlesPosition Where to place the googleVis axis titles, compared to the chart area. Supported values:
+#'   "in" - Draw the axis titles inside the the chart area.
+#'   "out" - Draw the axis titles outside the chart area.
+#'   "none" - Omit the axis titles.
+#' @param dataOpacity The transparency of googleVis data points, 
+#'   with 1.0 being completely opaque and 0.0 fully transparent. 
+#' @param options a list to be passed to the googleVis function giving
+#'   complete control over the output.  Specifying a value for 
+#'   \code{options} overwrites all other plotting variables.
+#' @param shiny logical. Used internally to facilitate proper display
+#'   of plots within the mplot shiny user interface.  Use 
+#'   \code{shiny=TRUE} when displaying output within a shiny interface.
+#' @param ... further arguments (currently unused)
+#' @seealso \code{\link{vis}}
+#' @references Müller, S. and Welsh, A. H. (2010), On Model 
+#'   Selection Curves. International Statistical Review, 78:240-256. 
+#'   doi: 10.1111/j.1751-5823.2010.00108.x
+#'   
+#'   Murray, K., Heritier, S. and Müller, S. (2013), Graphical 
+#'   tools for model selection in generalized linear models. 
+#'   Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
 #' @export
-# S3 method for class 'af'
+#' @examples
+#' n = 100
+#' set.seed(11)
+#' e = rnorm(n)
+#' x1 = rnorm(n)
+#' x2 = rnorm(n)
+#' x3 = x1^2
+#' x4 = x2^2
+#' x5 = x1*x2
+#' y = 1 + x1 + x2 + e
+#' dat = data.frame(y,x1,x2,x3,x4,x5)
+#' lm1 = lm(y~.,data=dat)
+#' v1 = vis(lm1)
+#' plot(v1,highlight="x1",which="lvk")
+
 plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                     which=c("vip","lvk","boot"),
                     width=800,height=400,fontSize=12,
                     left=50,top=30,chartWidth="60%",chartHeight="80%",
                     axisTitlesPosition="out",dataOpacity=0.5,
-                    options=NULL,...){
+                    options=NULL,shiny=FALSE,...){
   find.var = function(x,highlight){
     is.element(highlight,x)
   }
   no.highlight = FALSE  
   if(missing(highlight)){ # highlight best bivariate variable
     no.highlight = TRUE
-    k2which = a$lk$k==2
-    k2LL = a$lk[k2which,1]
-    k2mods = a$models[k2which,1]
+    k2which = x$lk$k==2
+    k2LL = x$lk[k2which,1]
+    k2mods = x$models[k2which,1]
     highlight = k2mods[which.min(k2LL)]
   }
   if("lvk"%in%which){
@@ -265,7 +425,9 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                          explorer= "{axis: 'vertical',  keepInBounds: true, maxZoomOut: 1, maxZoomIn: 0.01, actions: ['dragToZoom', 'rightClickToReset']}")
       } else {use.options = options}
       fplot = gvisScatterChart(data=dat,options=use.options)
-      if(html.only){
+      if(shiny){
+        return(fplot)
+      } else if(html.only){
         fplot
       } else {
         plot(fplot)
@@ -338,78 +500,78 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                             yvar = "LL", colorvar = "var.ident", 
                             sizevar = "prob",
                             options=use.options)
-    if(html.only){
+    if(shiny){
+      return(fplot)
+    } else if(html.only){
       fplot
     } else {
       plot(fplot)
     } 
   }
-  if("vip"%in%which){
+  if("vip"%in%which){ # variable importance plot
     suppressPackageStartupMessages(library(googleVis))
+    var.names = names(table(unlist(x$models)))
+    var.names = var.names[var.names!="1"] # remove the intercept
+    B = dim(x$min.pos)[2]
+    p.var = matrix(NA,nrow=length(x$lambdas),ncol = length(var.names))
+    colnames(p.var) = var.names
     for(i in 1:length(x$lambdas)){
-      ### VIP plot here!
-      var.names = x$models[dim(x$models)[1],]
-      B = dim(x$min.pos)[2]
-      # first lambda value BS reps
-      # turn in to a function and use apply
-      p.var = matrix(NA,nrow=length(x$lambdas),ncol = length(var.names))
-      colnames(p.var) = var.names
-      for(i in 1:length(x$lambdas)){
-        l1 = x$min.pos[i,] 
-        selected.mods = x$models[l1,]
-        selected.mods = factor(selected.mods,levels=var.names)
-        p.var[i,] = table(selected.mods)/B
-      }
-      sortnames = names(sort(apply(p.var,2,mean),decreasing=TRUE))
-      vip.df = p.var[,sortnames]
-      vip.df = data.frame(lambda=x$lambdas,AIC=NA,AIC.annotation=NA,
-                          BIC=NA,BIC.annotation=NA,vip.df)
-      aicline = rbind(c(2,0,NA,NA,NA,rep(NA,length(var.names))),
-                      c(2,1,"AIC",NA,NA,rep(NA,length(var.names))),
-                      c(log(x$n),NA,NA, 0,NA,rep(NA,length(var.names))),
-                      c(log(x$n),NA,NA,1,"BIC",rep(NA,length(var.names))))
-      colnames(aicline) = colnames(vip.df)
-      vip.df = rbind(vip.df,aicline)
-      tid = c(1,2,4,6:dim(vip.df)[2])
-      vip.df[, tid] = sapply(vip.df[, tid], as.numeric)
-      gvis.title = "Variable inclusion plot"
-      lineseries="[{lineDashStyle: [2,2], lineWidth: 2, color:'gray',
+      l1 = x$min.pos[i,] 
+      selected.mods = x$models[l1,]
+      selected.mods = factor(selected.mods,levels=var.names)
+      p.var[i,] = table(selected.mods)/B
+    }
+    sortnames = names(sort(apply(p.var,2,mean),decreasing=TRUE))
+    vip.df = p.var[,sortnames]
+    vip.df = data.frame(lambda=x$lambdas,AIC=NA,AIC.annotation=NA,
+                        BIC=NA,BIC.annotation=NA,vip.df)
+    aicline = rbind(c(2,0,NA,NA,NA,rep(NA,length(var.names))),
+                    c(2,1,"AIC",NA,NA,rep(NA,length(var.names))),
+                    c(log(x$n),NA,NA, 0,NA,rep(NA,length(var.names))),
+                    c(log(x$n),NA,NA,1,"BIC",rep(NA,length(var.names))))
+    colnames(aicline) = colnames(vip.df)
+    vip.df = rbind(vip.df,aicline)
+    tid = c(1,2,4,6:dim(vip.df)[2])
+    vip.df[, tid] = sapply(vip.df[, tid], as.numeric)
+    gvis.title = "Variable inclusion plot"
+    lineseries="[{lineDashStyle: [2,2], lineWidth: 2, color:'gray',
                       visibleInLegend: false},
                     {lineDashStyle: [2,2], lineWidth: 2, color:'gray',
                       visibleInLegend: false}]"
-      chartArea = paste("{left:",left,
-                        ",top:",top,
-                        ",width:'",chartWidth,
-                        "',height:'",chartHeight,"'}",sep="")
-      if(is.null(options)){
-        use.options=list(title=gvis.title,
-                         fontSize = fontSize,
-                         vAxis="{title:'Bootstrapped probability'}",
-                         hAxis="{title:'Penalty'}",
-                         sizeAxis = "{minValue: 0, minSize: 1,  
+    chartArea = paste("{left:",left,
+                      ",top:",top,
+                      ",width:'",chartWidth,
+                      "',height:'",chartHeight,"'}",sep="")
+    if(is.null(options)){
+      use.options=list(title=gvis.title,
+                       fontSize = fontSize,
+                       vAxis="{title:'Bootstrapped probability'}",
+                       hAxis="{title:'Penalty'}",
+                       sizeAxis = "{minValue: 0, minSize: 1,  
                                 maxSize: 20, maxValue:1}",
-                         axisTitlesPosition=axisTitlesPosition,
-                         series = lineseries,
-                         chartArea=chartArea,
-                         width=width, height=height,
-                         annotations = "{style:'line'}",
-                         explorer= "{axis: 'vertical',  
+                       axisTitlesPosition=axisTitlesPosition,
+                       series = lineseries,
+                       chartArea=chartArea,
+                       width=width, height=height,
+                       annotations = "{style:'line'}",
+                       explorer= "{axis: 'vertical',  
                                keepInBounds: true,
                                maxZoomOut: 1,
                                maxZoomIn: 0.01,
                                actions: ['dragToZoom', 'rightClickToReset']}")
-      } else {use.options = options}
-      fplot = gvisLineChart(data=vip.df,
-                            xvar="lambda",
-                            yvar=c("AIC","AIC.annotation",
-                                   "BIC","BIC.annotation",
-                                   sortnames),
-                            options=use.options)
-      if(html.only){
-        return(fplot)
-      } else {
-        return(plot(fplot))
-      }
+    } else {use.options = options}
+    fplot = gvisLineChart(data=vip.df,
+                          xvar="lambda",
+                          yvar=c("AIC","AIC.annotation",
+                                 "BIC","BIC.annotation",
+                                 sortnames),
+                          options=use.options)
+    if(shiny){
+      return(fplot)
+    } else if(html.only){
+      return(fplot)
+    } else {
+      return(plot(fplot))
     }
-  } else return()
+  } else return(invisible())
 }

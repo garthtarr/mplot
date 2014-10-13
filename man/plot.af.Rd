@@ -23,8 +23,7 @@ p* values.  The rationale being that if a model is
 that passes the fence.  This can help to determine where
 the correct peak is to select c*.}
 
-\item{...}{other parameters to be passed through to
-plotting functions.}
+\item{...}{further arguments (currently unused)}
 }
 \description{
 Summary plot of the bootstrap results of an

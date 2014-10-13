@@ -3,7 +3,7 @@
 \alias{mplot}
 \title{Model selection and stability curves}
 \usage{
-mplot(mf, vis = NULL, af = NULL, B = 100, ...)
+mplot(mf, vis = NULL, af = NULL, B = 100)
 }
 \arguments{
 \item{mf}{a fitted model.}
@@ -11,13 +11,27 @@ mplot(mf, vis = NULL, af = NULL, B = 100, ...)
 \item{vis}{(optional) an object of type vis created using the
 vis() function.}
 
-\item{af}{(optional) an af object of}
+\item{af}{(optional) an object of type af created using the af()
+function.}
 }
 \description{
 Opens a shiny GUI to investigate a range of model selection
 and stability issues
 }
-\references{
-Müller and Welsh (2010); Murray, Heritier and Müller (2013)
+\examples{
+n = 100
+set.seed(11)
+e = rnorm(n)
+x1 = rnorm(n)
+x2 = rnorm(n)
+x3 = x1^2
+x4 = x2^2
+x5 = x1*x2
+y = 1 + x1 + x2 + e
+dat = data.frame(y,x1,x2,x3,x4,x5)
+lm1 = lm(y~.,data=dat)
+v1 = vis(lm1,n.cores=3)
+af1 = af(lm1,n.cores=3)
+mplot(lm1,vis=v1,af=af1)
 }
 

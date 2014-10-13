@@ -26,7 +26,7 @@ into all estimated models.}
 processing the bootstrap (currently only available on
 UNIX-type machines, e.g. Mac OS X).}
 
-\item{nvmax}{size of the largest model  that can still be
+\item{nvmax}{size of the largest model that can still be
 considered as a viable candidate.  Included for performance
 reasons but if it is an active constraint it could lead to
 missleading results.}

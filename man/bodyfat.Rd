@@ -8,14 +8,20 @@
 data(bodyfat)
 }
 \description{
-Description of the body fat data set here.  This is more
-an example to show how I can document a real data set included
-with the package.  I don't think this is the best real data set
-to use.  See the documentation in \code{\link{af}} for an
-example which uses it.
+A data frame with 128 observations on 15 variables.
 }
 \details{
 Details about the bodyfat data set go here.
+}
+\examples{
+data(bodyfat)
+full.mod = lm(Bodyfat~.,data=subset(bodyfat,select=-Id))
+af.bf = af(full.mod,n.cores=detectCores(),initial.stepwise=TRUE)
+plot(af.bf)
+summary(af.bf)
+af.bf2 = af(full.mod,n.cores=detectCores(),c.max=20)
+plot(af.bf2)
+mplot(full.mod,af = af.bf2)
 }
 \references{
 Johnson W (1996, Vol 4). Fitting percentage of

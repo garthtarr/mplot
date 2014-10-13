@@ -41,7 +41,7 @@
 #' @param n.cores number of cores to be used when parallel
 #'   processing the bootstrap (currently only available on
 #'   UNIX-type machines, e.g. Mac OS X).
-#' @param nvmax size of the largest model  that can still be 
+#' @param nvmax size of the largest model that can still be 
 #'   considered as a viable candidate.  Included for performance
 #'   reasons but if it is an active constraint it could lead to
 #'   missleading results.
@@ -77,8 +77,6 @@ af = function(mf,
               initial.stepwise=FALSE,
               force.in=NULL, 
               n.cores, nvmax, c.max, ...){
-  # removed from the function until other options 
-  # are implemented:
   method="ML"
   cl <- match.call()
   if(!missing(c.max) & initial.stepwise==TRUE) {
@@ -383,8 +381,7 @@ summary.af = function (x,best.only=TRUE) {
 #'   'correct' then it will be the only model at that size
 #'   that passes the fence.  This can help to determine where
 #'   the correct peak is to select c*.
-#' @param ... other parameters to be passed through to 
-#'   plotting functions.
+#' @param ... further arguments (currently unused)
 #' @export
 # S3 method for class 'af'
 plot.af = function(x,pch,classic=FALSE,
@@ -466,8 +463,7 @@ plot.af = function(x,pch,classic=FALSE,
 #'   'correct' then it will be the only model at that size
 #'   that passes the fence.  This can help to determine where
 #'   the correct peak is to select c*.
-#' @param ... other parameters to be passed through to 
-#'   plotting functions.
+#' @param ... further arguments (currently unused)
 #' @export
 # S3 print method for class 'af'
 print.af = function (x, best.only=TRUE, ...) {

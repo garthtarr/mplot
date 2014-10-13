@@ -1,7 +1,7 @@
 ---
 title: "A brief introduction to mplot"
 author: "Garth Tarr"
-date: "`s Sys.Date()`"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -12,19 +12,15 @@ output: html_document
 
 # A brief introduction to mplot
 
-The **mplot** package implements a range of model selection procedures and model stability plots designed to provide users with the information they need to make informed decisions about model selection issues in linear and mixed models.
+The **mplot** package implements a range of model selection procedures and model stability plots designed to provide users with the information they need to make informed decisions about model selection issues in linear and generalised linear models.  Future versions of this package will also consider mixed models.
 
 There are two main componenets: model selection via the adaptive fence procedure (Jiang et. al., 2009) and model stability curves as described in Müller and Welsh (2010).
 
-## Adaptive fence
+### Example 1
 
-The adaptive fence procedure is ... super brief recap of theory here.
+The adaptive fence procedure is implemented through the function `af` as follows:
 
-### Artificial example
-
-The adaptive fence procedure is (currently; in future it will be wrapped into the higher level `fencer` function) implemented through the function `af` as follows:
-
-```{r artificial.eg, results='asis', tidy=FALSE}
+```{r artificial.eg, tidy=FALSE, cache=TRUE}
 require(mplot,quietly=TRUE)
 op = options(gvis.plot.tag = "chart")
 n = 100
@@ -39,10 +35,7 @@ x5 = x1*x2
 y = x0 + x1 + x2 + e
 dat = data.frame(y,x1,x2,x3,x4,x5)
 lm1 = lm(y~., data=dat)
-af1 = af(lm1, n.cores=3)
-```
-
-```{r}
+af1 = af(lm1, n.cores=4)
 summary(af1)
 ```
 
@@ -50,15 +43,91 @@ summary(af1)
 plot(af1)
 ```
 
-In this example, we can see that the first (and only) peak in the plot of $p^*$ against $c$ occurs for the model of $y$ against $x_1$ and $x_2$.  The $c^*$ value is `r round(af1$c.star,1)`, and the model selected as a result of using that $c^*$ value is given in the summary output.  Note that the range of $c$ was predetermined by considering models selected using an initial application of forward and backward searches.
+In this example, we can see that the first (and only) peak in the plot of $p^*$ against $c$ occurs for the model of $y$ against $x_1$ and $x_2$.  The $c^*$ value is `r round(af1$bestOnly$c.star,1)`, and the model selected as a result of using that $c^*$ value is given in the summary output.  
+
+
+Note that the range of $c$ can be set manually using the `c.max` argument or it can be selected using an initial application of forward and backward searches.
+
+```{r af.stepwise, results='asis', tidy=FALSE, cache=TRUE}
+af1.step = af(lm1, n.cores=4, initial.stepwise=TRUE)
+summary(af1.step)
+```
+
+```{r af1.step.plot, results='asis', tidy=FALSE}
+plot(af1.step)
+```
+
+### Example 2
+
+
+If you have something like
+```{r afeg2, cache=TRUE}
+n = 100
+set.seed(11)
+e = rnorm(n)
+x0 = 1
+x1 = rnorm(n)
+x2 = rnorm(n)
+x6 = rep(c("A","B","C","D"),n/4)
+x3 = x1^2
+x4 = x2^2
+x5 = x1*x2
+gp = as.numeric(factor(x6)) 
+yI = x0 + x1 + x2 + gp + e
+datI = data.frame(yI,x1,x2,x3,x4,x5,x6)
+lmI = lm(yI~., data=datI)
+af2 = af(lmI, n.cores=4, initial.stepwise=TRUE)
+summary(af2)
+```
+
+The model chosen by the automated procedure is wrong, however, if we look at the plot, we can see that there was an earlier peak, though in this instance, it didn't achieve a level higher than the second peak, so it wasn't picked.
+
+```{r af2plot, results='asis', tidy=FALSE}
+plot(af2)
+```
+
+Take home message: it is important to look at the plot!
+
+### Example 3
+
+It works basically the same for generalised linear models, except a LOT slower as we are unable to take advantage of the wonders of the **leaps** package.  Instead we call on the **bestglm** package which essentially does an exhaustive search when the link function is not normal.
+
+```{r binom.eg, results='hide', tidy=FALSE, cache=TRUE}
+require(mvtnorm)
+n=100
+set.seed(11)
+p = 4
+cor.mat = diag(p)
+cor.mat[1,2] = cor.mat[2,1] = 0.7
+X = rmvnorm(n,sigma=cor.mat)
+beta = c(1,2.1,0,0.9,1.1)
+z = cbind(1,X)%*%beta
+pr = 1/(1+exp(-z))
+y = rbinom(n,1,pr) 
+glm.df = data.frame(y,X)
+glm1 = glm(y~.,data=glm.df,family="binomial")
+af.glm = af(glm1, n.cores=4)
+```
+
+```{r af.glm.sum}
+summary(af.glm)
+```
+
+
+
+```{r af.glm.plot, results='asis', tidy=FALSE}
+plot(af.glm)
+```
+
 
 ### Real world example
 
 If there exists a *true* model, the adaptive fence tends to find it quite easily.  In practice, there is rarely such a well defined and readily identifiable data generating process and it is the role of the investigator to make a judgement call as to which model *best* describes the underlying process.  A nice feature of the adaptive fence procedure is its ability to guide the investigator and highlight plausible candidate models.
 
-Consider the body fat example of CITATION HERE.  
+Consider the body fat example of Johnson (1996).  
 
-```{r bdat.full.plot, results='asis', tidy=FALSE}
+```{r bdat.full.plot, results='asis', tidy=FALSE,cache=TRUE}
+data(bodyfat)
 bfat.lm = lm(Bodyfat~.,data=bodyfat)
 bfat.full = af(bfat.lm, n.cores=4, initial.stepwise=FALSE)
 plot(bfat.full)
@@ -68,7 +137,7 @@ Note that if we consider the full range of possible values for the parameter $c$
 
 Instead, one might like to incorporate some additional information to better inform our choice.  In particular, let us consider the number of variables that AIC and BIC forward and backward stepwise procedures and investigate only models of similar size.
 
-```{r bfat.stepwise.plot, results='asis', tidy=FALSE}
+```{r bfat.stepwise.plot, results='asis', tidy=FALSE,cache=TRUE}
 bfat.stepwise = af(bfat.lm,n.cores=4, n.c=50,initial.stepwise=TRUE)
 plot(bfat.stepwise)
 ```
@@ -79,41 +148,13 @@ Doing this, we focus attention on smaller $c$ values, i.e. larger model sizes.  
 summary(bfat.stepwise)
 ```
 
-### Generalised linear models
-
-It works basically the same for generalised linear models, except a LOT slower as we are unable to take advantage of the wonders of the **leaps** package.  Instead we call on the **bestglm** package which essentially does an exhaustive search when the link function is not normal.
-
-```{r binom.eg, results='asis', tidy=FALSE}
-require(mvtnorm)
-n=200
-set.seed(11)
-p = 6
-cor.mat = diag(p)
-cor.mat[1,2] = cor.mat[2,1] = 0.7
-cor.mat[5,6] = cor.mat[6,5] = 0.7
-X = rmvnorm(n,sigma=cor.mat)
-beta = c(1,2.1,0,1.5,0,0.9,1.1)
-z = cbind(1,X)%*%beta
-pr = 1/(1+exp(-z))
-y = rbinom(n,1,pr) 
-glm.df = data.frame(y,X)
-glm1 = glm(y~.,data=glm.df,family="binomial")
-af.glm = af(glm1, n.cores=4)
-```
-```{r af.glm.plot, results='asis', tidy=FALSE}
-plot(af.glm)
-```
-
-### Mixed model example
-
-Will be implemented via a wild bootstrap approach to leverage the power of leaps while (hopefully) retaining a level of validity that needs to be investigated empirically and mathematically.
 
 ## Model selection curves
 
-The standard plots are the model stability and variable inclusion plots.  Both of these are performed using the (poorly named) `lvp()` function.  We illustrate using the binomial glm defined previously:
+The standard plots are the model stability and variable inclusion plots.  Both of these are performed using the `vis()` function.  We illustrate using the linear model defined previously:
 
-```{r lvp1.eg, results='asis', tidy=FALSE, warning=FALSE}
-lvp1 = lvp(glm1,B=50)
+```{r vis1.eg, results='asis', tidy=FALSE, warning=FALSE,cache=TRUE}
+vis1 = vis(lmI,n.cores=4,B=50)
 ```
 
 ### Model stability plots
@@ -121,13 +162,13 @@ lvp1 = lvp(glm1,B=50)
 There are two variants here.  The first simply iterates over all possible models at each model size and returns a scatter plot showing a goodness of fit measure (-2*loglik) against model size.  You need to specify which variable to highlight (this is done best via the Shiny interface, see below).
 
 ```{r msc, results='asis', tidy=FALSE}
-plot(lvp1,which="msc",highlight="X1")
+plot(vis1,which="lvk",highlight="X1")
 ```
 
 The second, performs a simple weighted bootstrap to see which models perform *best* at conditional on the model size.
 
 ```{r boot, results='asis', tidy=FALSE}
-plot(lvp1,which="boot",highlight="X1")
+plot(vis1,which="boot",highlight="X1")
 ```
 
 ### Variable inclusion plots
@@ -135,8 +176,29 @@ plot(lvp1,which="boot",highlight="X1")
 The variable inclusion plots use that same bootstrap simulations as the second model selection curve plot and identifies how often each variable is selected as being in the *best* model for a given penalty.
 
 ```{r vip, results='asis', tidy=FALSE}
-plot(lvp1,which="vip")
+plot(vis1,which="vip")
 ```
+
+### Bodyfat example
+
+```{r vis, results='hide', tidy=FALSE, cache=TRUE}
+data(bodyfat)
+full.mod = lm(Bodyfat~.,data=subset(bodyfat,select=-Id))
+vis.bf = vis(full.mod, n.cores=4, nvmax = 4)
+```
+
+```{r, lvk.bf, results='asis'}
+plot(vis.bf, which="lvk",highlight = "Abdo")
+```
+
+```{r, boot2, results='asis'}
+plot(vis.bf, which="boot", highlight = "Abdo")
+```
+
+```{r, vip2, results='asis'}
+plot(vis.bf, which="vip")
+```
+
 
 ## Shiny interface
 
@@ -144,14 +206,10 @@ All of these can be accessed, and interacted with, via a Shiny web interface.  T
 
 The other tabs show the model stability plots, the fence plot and the variable inclusion plots.
 
-This functionality is currently acessed through the `msc()` function (another poorly named function). 
+This functionality is currently acessed through the `mplot()` function. For the above example, you'd use the following code:
 
-For the above example, you'd use the following code:
+`mplot(lm1, vis = vis1, fence=af1)`
 
-`msc(fixed=y~., data = glm.df, family="binomial", lvp = lvp1, fence=af.glm)`
+If you had not already run the adaptive fence routine on this data set, you could also just specify `mplot(lm1, vis = vis1)` and the fence routine will be run when you click on the fence tab.
 
-If you had not already run the adaptive fence routine on this data set, you could also just specify `fence=TRUE`:
-
-`msc(fixed=y~., data = glm.df, family="binomial", lvp = lvp1, fence=TRUE)`
-
-Personally I prefer to run the `lvp()` and `af()` functions and then feeding those saved objects to the `msc()` function.  Otherwise, it can take quite a while for `msc()` to run (especially with glm models).
+Personally I prefer to run the `vis()` and `af()` functions and then feeding those saved objects to the `mplot()` function.  Otherwise, it can take quite a while for `mplot()` to run (especially with glm models).
