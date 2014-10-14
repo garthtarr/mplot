@@ -10,8 +10,6 @@ output: html_document
 %\VignetteIndexEntry{A brief introduction to mplot}
 -->
 
-# A brief introduction to mplot
-
 The **mplot** package implements a range of model selection procedures and model stability plots designed to provide users with the information they need to make informed decisions about model selection issues in linear and generalised linear models.  Future versions of this package will also consider mixed models.
 
 There are two main componenets: model selection via the adaptive fence procedure (Jiang et. al., 2009) and model stability curves as described in Müller and Welsh (2010).
@@ -45,10 +43,9 @@ plot(af1)
 
 In this example, we can see that the first (and only) peak in the plot of $p^*$ against $c$ occurs for the model of $y$ against $x_1$ and $x_2$.  The $c^*$ value is `r round(af1$bestOnly$c.star,1)`, and the model selected as a result of using that $c^*$ value is given in the summary output.  
 
-
 Note that the range of $c$ can be set manually using the `c.max` argument or it can be selected using an initial application of forward and backward searches.
 
-```{r af.stepwise, results='asis', tidy=FALSE, cache=TRUE}
+```{r af.stepwise, tidy=FALSE, cache=TRUE}
 af1.step = af(lm1, n.cores=4, initial.stepwise=TRUE)
 summary(af1.step)
 ```
@@ -90,11 +87,11 @@ Take home message: it is important to look at the plot!
 
 ### Example 3
 
-It works basically the same for generalised linear models, except a LOT slower as we are unable to take advantage of the wonders of the **leaps** package.  Instead we call on the **bestglm** package which essentially does an exhaustive search when the link function is not normal.
+It works basically the same for generalised linear models, except a LOT slower as we are unable to take advantage of the wonders of the **leaps** package.  Instead we call on the **bestglm** package which essentially does an exhaustive search when the link function is not normal.  The following quite simple example takes a few minutes to run.
 
-```{r binom.eg, results='hide', tidy=FALSE, cache=TRUE}
+```{r binom.eg, results='hide', tidy=FALSE, eval=FALSE}
 require(mvtnorm)
-n=100
+n=200
 set.seed(11)
 p = 4
 cor.mat = diag(p)
@@ -106,16 +103,8 @@ pr = 1/(1+exp(-z))
 y = rbinom(n,1,pr) 
 glm.df = data.frame(y,X)
 glm1 = glm(y~.,data=glm.df,family="binomial")
-af.glm = af(glm1, n.cores=4)
-```
-
-```{r af.glm.sum}
+af.glm = af(glm1, n.cores=4, c.max=14, n.c=40, B = 100)
 summary(af.glm)
-```
-
-
-
-```{r af.glm.plot, results='asis', tidy=FALSE}
 plot(af.glm)
 ```
 
@@ -128,24 +117,24 @@ Consider the body fat example of Johnson (1996).
 
 ```{r bdat.full.plot, results='asis', tidy=FALSE,cache=TRUE}
 data(bodyfat)
-bfat.lm = lm(Bodyfat~.,data=bodyfat)
+bfat.lm = lm(Bodyfat~.,data=subset(bodyfat,select=-Id))
 bfat.full = af(bfat.lm, n.cores=4, initial.stepwise=FALSE)
 plot(bfat.full)
 ```
 
-Note that if we consider the full range of possible values for the parameter $c$, by setting `initial.stepwise=FALSE`, it appears that there is one dominant variable, `abdo`, and hence naiively, one might chose a simple linear regression of `Bodyfat` on `abdo`.
+Note that if we consider an extended range of possible values for the parameter $c$, by setting `initial.stepwise=FALSE`, it appears that there is one dominant variable, `abdo`, and hence one might chose a simple linear regression of `Bodyfat` on `abdo`.
 
 Instead, one might like to incorporate some additional information to better inform our choice.  In particular, let us consider the number of variables that AIC and BIC forward and backward stepwise procedures and investigate only models of similar size.
 
 ```{r bfat.stepwise.plot, results='asis', tidy=FALSE,cache=TRUE}
-bfat.stepwise = af(bfat.lm,n.cores=4, n.c=50,initial.stepwise=TRUE)
-plot(bfat.stepwise)
+bfat.rest = af(bfat.lm, n.cores=4, n.c=50, c.max = 20)
+plot(bfat.rest)
 ```
 
-Doing this, we focus attention on smaller $c$ values, i.e. larger model sizes.  We can see that the regression of `Bodyfat` on `weight` and `abdo` is chosen over a large range of c values.  However, it is also important to note that in this range, the pstar values are all quite low, suggesting that there is no one dominant model that *best* describes the data generating process.
+Doing this, we focus attention on smaller $c$ values, i.e. larger model sizes.  We can see that the regression of `Bodyfat` on `weight` and `abdo` is chosen over a large range of c values.  However, it is also important to note that in this range, the pstar values are all quite low, suggesting that no second variable (in addition to `abdo`) is dominant.
 
 ```{r}
-summary(bfat.stepwise)
+summary(bfat.rest)
 ```
 
 
@@ -162,13 +151,13 @@ vis1 = vis(lmI,n.cores=4,B=50)
 There are two variants here.  The first simply iterates over all possible models at each model size and returns a scatter plot showing a goodness of fit measure (-2*loglik) against model size.  You need to specify which variable to highlight (this is done best via the Shiny interface, see below).
 
 ```{r msc, results='asis', tidy=FALSE}
-plot(vis1,which="lvk",highlight="X1")
+plot(vis1,which="lvk",highlight="x1")
 ```
 
 The second, performs a simple weighted bootstrap to see which models perform *best* at conditional on the model size.
 
 ```{r boot, results='asis', tidy=FALSE}
-plot(vis1,which="boot",highlight="X1")
+plot(vis1,which="boot",highlight="x1")
 ```
 
 ### Variable inclusion plots
@@ -183,8 +172,7 @@ plot(vis1,which="vip")
 
 ```{r vis, results='hide', tidy=FALSE, cache=TRUE}
 data(bodyfat)
-full.mod = lm(Bodyfat~.,data=subset(bodyfat,select=-Id))
-vis.bf = vis(full.mod, n.cores=4, nvmax = 4)
+vis.bf = vis(bfat.lm, n.cores=4, nvmax = 4)
 ```
 
 ```{r, lvk.bf, results='asis'}
@@ -208,8 +196,8 @@ The other tabs show the model stability plots, the fence plot and the variable i
 
 This functionality is currently acessed through the `mplot()` function. For the above example, you'd use the following code:
 
-`mplot(lm1, vis = vis1, fence=af1)`
+`mplot(lm1, vis=vis1, fence=af1)`
 
-If you had not already run the adaptive fence routine on this data set, you could also just specify `mplot(lm1, vis = vis1)` and the fence routine will be run when you click on the fence tab.
+If you had not already run the adaptive fence routine on this data set, you could also just specify `mplot(lm1, vis=vis1)` and the fence routine will be run when you click on the fence tab.
 
 Personally I prefer to run the `vis()` and `af()` functions and then feeding those saved objects to the `mplot()` function.  Otherwise, it can take quite a while for `mplot()` to run (especially with glm models).

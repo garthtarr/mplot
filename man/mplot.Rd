@@ -3,7 +3,7 @@
 \alias{mplot}
 \title{Model selection and stability curves}
 \usage{
-mplot(mf, vis = NULL, af = NULL, B = 100)
+mplot(mf, vis = NULL, af = NULL)
 }
 \arguments{
 \item{mf}{a fitted model.}
@@ -28,7 +28,7 @@ x3 = x1^2
 x4 = x2^2
 x5 = x1*x2
 y = 1 + x1 + x2 + e
-dat = data.frame(y,x1,x2,x3,x4,x5)
+dat = round(data.frame(y,x1,x2,x3,x4,x5),2)
 lm1 = lm(y~.,data=dat)
 v1 = vis(lm1,n.cores=3)
 af1 = af(lm1,n.cores=3)

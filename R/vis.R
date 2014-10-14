@@ -2,7 +2,7 @@
 #' 
 #' Calculates and provides the plot methods for standard
 #' and bootstrap enhanced model stability curves (lvk and
-#' boot) as well as variable importance plots (vip).
+#' boot) as well as variable inclusion plots (vip).
 #' 
 #' @param mf a fitted 'full' model, the result of a call
 #'   to lm or glm (and in the future lme or lmer).

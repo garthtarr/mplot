@@ -27,7 +27,7 @@ into all estimated models. (Not yet implemented.)}
 \description{
 Calculates and provides the plot methods for standard
 and bootstrap enhanced model stability curves (lvk and
-boot) as well as variable importance plots (vip).
+boot) as well as variable inclusion plots (vip).
 }
 \details{
 The result of this function is essentially just a

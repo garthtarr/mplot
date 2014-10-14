@@ -88,7 +88,6 @@ af = function(mf,
     model.type = "lm"
   }
   if(any(class(mf)=="glm")==TRUE){
-    require(bestglm)
     family=family(mf)
     if(!is.null(force.in)){
       warning("force.in is not implemented for glms")
@@ -115,11 +114,9 @@ af = function(mf,
                               "+RED.VAR.DEL"))
   if(model.type=="glm"){
     m0 = glm(null.ff, data = Xy, family=family) 
-    # full model + RED.VAR.DEL
     mfstar = glm(full.mod, data = Xstar, family=family) 
   } else {
     m0 = lm(null.ff, data = Xy) 
-    # full model + RED.VAR.DEL
     mfstar = lm(full.mod, data = Xstar) 
   }
   Qm0 = Qm(m0, method=method)
@@ -327,7 +324,7 @@ af = function(mf,
 #' @param x \code{af} object, the result of \code{\link{af}}
 #' @export
 # S3 method for class 'af'
-summary.af = function (x,best.only=TRUE) {
+summary.af = function (x,best.only=TRUE,...) {
   if(best.only){
     xsub = x$bestOnly
   } else {
@@ -395,7 +392,7 @@ plot.af = function(x,pch,classic=FALSE,
   } else {
     x = x$all
   }
-  if(!require(googleVis,quietly=TRUE)|classic){
+  if(classic){
     if(missing(pch)) pch=19
     plot(x$p.star[,1]~x$c.range,
          ylim=c(0,1), pch=pch,
@@ -406,7 +403,6 @@ plot.af = function(x,pch,classic=FALSE,
     axis(side=3, at=x$c.star, 
          labels=paste("c*=", round(x$c.star,1),sep=""))
   } else {
-    suppressPackageStartupMessages(library(googleVis))
     dat <- matrix(NA, nrow = nrow(x$p.star), 
                   ncol = nlevels(x$p.star$model) + 1)
     for(i in 1:nlevels(x$p.star$model)){
