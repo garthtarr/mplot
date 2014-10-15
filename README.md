@@ -11,7 +11,7 @@ The speed of implementation comes from the leaps package and multicore support f
 You can install the development version from [Github](https://github.com/garthtarr/mplot):
 
 ```s
-# install.packages(devtools)
+# install.packages("devtools")
 require(devtools)
 install_github("garthtarr/mplot",quick=TRUE)
 ```
