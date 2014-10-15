@@ -1,6 +1,6 @@
 # mplot
 
-The mplot package provides a collection of functions designed for exploratory model sleection.
+The mplot package provides a collection of functions designed for exploratory model selection.
 
 We implement the adaptive fence routine with sensible defaults, new graphics to highlight model selection stability and experimental automated "best" model selection.  It currently only supports linear and generalised linear models, however work is progressing to incorporate mixed models.
 
@@ -11,6 +11,7 @@ The speed of implementation comes from the leaps package and multicore support f
 You can install the development version from [Github](https://github.com/garthtarr/mplot):
 
 ```s
+# install.packages(devtools)
 require(devtools)
 install_github("garthtarr/mplot",quick=TRUE)
 ```
