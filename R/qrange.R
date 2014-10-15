@@ -6,6 +6,15 @@
 #' For both the small and large model size, the "best" model is identified
 #' using the \code{leaps} package and the corresponding lack of fit measure
 #' is calculated.
+#' 
+#' @param k.range list with dimension elements k.max and k.min
+#' @param yname name of dependent variable
+#' @param fixed the full model formula
+#' @param data full data table
+#' @param method method used in Qm
+#' @param force.in which variables to force into the model
+#' @param model.type currently only lm or glm
+#' @param family for glms.
 qrange = function(k.range,yname,fixed,
                   data,method,force.in,
                   model.type,family){

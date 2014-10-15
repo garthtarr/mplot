@@ -28,12 +28,6 @@ NULL
 #' @examples
 #' data(bodyfat)
 #' full.mod = lm(Bodyfat~.,data=subset(bodyfat,select=-Id))
-#' af.bf = af(full.mod,n.cores=detectCores(),initial.stepwise=TRUE)
-#' plot(af.bf)
-#' summary(af.bf)
-#' af.bf2 = af(full.mod,n.cores=detectCores(),c.max=20)
-#' plot(af.bf2)
-#' mplot(full.mod,af = af.bf2)
 NULL
 
 
@@ -42,6 +36,8 @@ NULL
 #' This function extracts things like the formula,
 #' data matrix, etc. from a lm or glm object
 #' 
+#' @param model a fitted 'full' model, the result of a call
+#'   to lm or glm (and in the future lme or lmer).
 mextract = function(model){
   # what's the name of the dependent variable?
   yname = deparse(formula(model)[[2]])
@@ -102,6 +98,9 @@ mextract = function(model){
 #' This function provides the text for the case when trace=TRUE
 #' when using lmfence and glmfence functions.
 #' 
+#' @param score realised value
+#' @param UB upper bound
+#' @param obj fitted model object
 txt.fn = function(score,UB,obj){
   cat("\n")
   cat(paste("hatQm:", round(score,2),"; Upper bound:", round(UB,2)),"\n")
@@ -115,6 +114,8 @@ txt.fn = function(score,UB,obj){
 #' This function is used by the af function to process
 #' the results when iterating over different boundary values
 #' 
+#' @param fence.mod set of fence models
+#' @param fence.rank set of fence model ranks
 process.fn = function(fence.mod,fence.rank){
   # all that pass the fence
   temp.all = sort(table(sapply(fence.mod,deparse,

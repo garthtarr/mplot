@@ -80,7 +80,9 @@ dat = data.frame(y,x1,x2,x3,x4,x5,x6)
 lm1 = lm(y~.,data=dat)
 af1 = af(lm1, n.cores=4, initial.stepwise=TRUE)
 summary(af1)
+\dontrun{
 plot(af1)
+}
 }
 \references{
 Jiming Jiang, Thuan Nguyen, J. Sunil Rao,

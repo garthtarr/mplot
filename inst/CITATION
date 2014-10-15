@@ -1,8 +1,7 @@
 bibentry("Manual",
-   title = "fencer: Model selection based on the fence procedure",
-   author = person("Garth Tarr", "Samuel Müller", "Alan Welsh"),
+   title = "mplot: Graphical model stability and model selection procedures",
+   author = person("Garth Tarr", "Samuel Mueller", "Alan Welsh"),
    year   = 2014,
-   url    = "http://www.R-project.org/package=fencer",
-
-   mheader = "To cite fencer in publications use:"
+   url    = "https://github.com/garthtarr/mplot",
+   mheader = "To cite mplot in publications use:"
 )

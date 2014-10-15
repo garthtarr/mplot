@@ -70,7 +70,9 @@
 #' lm1 = lm(y~.,data=dat)
 #' af1 = af(lm1, n.cores=4, initial.stepwise=TRUE)
 #' summary(af1)
+#' \dontrun{
 #' plot(af1)
+#' }
 
 af = function(mf,
               B=60, n.c=20,
@@ -321,16 +323,22 @@ af = function(mf,
 #' Provides comprehensive  output of the bootstrap results of an 
 #' af object.
 #' 
-#' @param x \code{af} object, the result of \code{\link{af}}
+#' @param object \code{af} object, the result of \code{\link{af}}
+#' @param best.only logical determining whether the output used the
+#'   standard fence approach of only considering the best models
+#'   that pass the fence (\code{TRUE}) or if it should take into 
+#'   account all models that pass the fence at each boundary 
+#'   value (\code{FALSE}).
+#' @param ... further arguments (currently unused)
 #' @export
 # S3 method for class 'af'
-summary.af = function (x,best.only=TRUE,...) {
+summary.af = function (object,best.only=TRUE,...) {
   if(best.only){
-    xsub = x$bestOnly
+    xsub = object$bestOnly
   } else {
-    xsub = x$all
+    xsub = object$all
   }
-  cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), 
+  cat("\nCall:\n", paste(deparse(object$call), sep = "\n", collapse = "\n"), 
       "\n\n", sep = "")
   cat("Adaptive fence model (c*=")
   cat(round(xsub$c.star,1))
@@ -338,27 +346,27 @@ summary.af = function (x,best.only=TRUE,...) {
   cat(deparse(xsub$model))
   cat("\n\n")
   cat("Model sizes considered: ")
-  cat(x$k.range$k.min)
+  cat(object$k.range$k.min)
   cat(" to ")
-  cat(x$k.range$k.max)
+  cat(object$k.range$k.max)
   cat(" (including intercept).")
   cat("\n\n")
-  if(!is.null(x$initial.stepwise)){
+  if(!is.null(object$initial.stepwise)){
     cat("Stepwise procedures:\n")
     cat("Forwards AIC: ")
-    cat(deparse(x$initial.stepwise$fwds.AIC))
+    cat(deparse(object$initial.stepwise$fwds.AIC))
     cat("\n")
     cat("Backwards AIC: ")
-    cat(deparse(x$initial.stepwise$bwds.AIC))
+    cat(deparse(object$initial.stepwise$bwds.AIC))
     cat("\n")
     cat("Forwards BIC: ")
-    cat(deparse(x$initial.stepwise$fwds.BIC))
+    cat(deparse(object$initial.stepwise$fwds.BIC))
     cat("\n")
     cat("Backwards BIC: ")
-    cat(deparse(x$initial.stepwise$bwds.BIC))
+    cat(deparse(object$initial.stepwise$bwds.BIC))
     cat("\n\n")
   }
-  invisible(x)
+  invisible(object)
 }
 
 
@@ -378,6 +386,26 @@ summary.af = function (x,best.only=TRUE,...) {
 #'   'correct' then it will be the only model at that size
 #'   that passes the fence.  This can help to determine where
 #'   the correct peak is to select c*.
+#' @param pch plotting character, i.e., symbol to use.
+#' @param html.only logical was be used with rmarkdown, though perhaps
+#'   using \code{op = options(gvis.plot.tag = "chart")} is better.
+#' @param width Width of the googleVis chart canvas area, in pixels. 
+#'   Default: 800.
+#' @param height Height of the googleVis chart canvas area, in pixels. 
+#'   Default: 400.
+#' @param chartWidth googleVis chart area width.  
+#'   A simple number is a value in pixels; 
+#'   a string containing a number followed by \code{\%} is a percentage. 
+#'   Default: \code{"60\%"}
+#' @param chartHeight googleVis chart area height. 
+#'   A simple number is a value in pixels; 
+#'   a string containing a number followed by \code{\%} is a percentage. 
+#'   Default: \code{"80\%"}
+#' @param fontSize font size used in googleVis chart.  Default: 12.
+#' @param left space at left of chart (pixels?).  Default: "50".
+#' @param top space at top of chart (pixels?).  Default: "30".
+#' @param options If you want to specify the full set of googleVis 
+#'   options.
 #' @param ... further arguments (currently unused)
 #' @export
 # S3 method for class 'af'

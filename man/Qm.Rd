@@ -6,11 +6,11 @@
 Qm(object, method)
 }
 \arguments{
+\item{object}{Any object from which a log-likelihood value can be extracted.}
+
 \item{method}{method the model selection method to be used. Currently
 only \code{method = "ML"} is supported (perhaps in the future
 \code{method = "MVC"} will be implemented).}
-
-\item{Any}{object from which a log-likelihood value can be extracted.}
 }
 \description{
 This function calculates a lack-of-fit measure for

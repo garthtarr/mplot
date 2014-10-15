@@ -5,6 +5,13 @@
 \usage{
 txt.fn(score, UB, obj)
 }
+\arguments{
+\item{score}{realised value}
+
+\item{UB}{upper bound}
+
+\item{obj}{fitted model object}
+}
 \description{
 This function provides the text for the case when trace=TRUE
 when using lmfence and glmfence functions.

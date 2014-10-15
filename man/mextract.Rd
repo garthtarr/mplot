@@ -5,6 +5,10 @@
 \usage{
 mextract(model)
 }
+\arguments{
+\item{model}{a fitted 'full' model, the result of a call
+to lm or glm (and in the future lme or lmer).}
+}
 \description{
 This function extracts things like the formula,
 data matrix, etc. from a lm or glm object

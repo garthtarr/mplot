@@ -16,15 +16,16 @@
 #'   UNIX-type machines, e.g. Mac OS X).
 #' @param force.in the names of variables that should be forced
 #'   into all estimated models. (Not yet implemented.)
+#' @param ... further arguments (currently unused)
 #' @details The result of this function is essentially just a
 #'   list. The supplied plot method provides a way to visualise the
 #'   results.  
 #' @seealso \code{\link{plot.vis}}
-#' @references Müller, S. and Welsh, A. H. (2010), On Model 
+#' @references Mueller, S. and Welsh, A. H. (2010), On Model 
 #'   Selection Curves. International Statistical Review, 78:240-256. 
 #'   doi: 10.1111/j.1751-5823.2010.00108.x
 #'   
-#'   Murray, K., Heritier, S. and Müller, S. (2013), Graphical 
+#'   Murray, K., Heritier, S. and Mueller, S. (2013), Graphical 
 #'   tools for model selection in generalized linear models. 
 #'   Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
 #' @export
@@ -41,7 +42,9 @@
 #' dat = data.frame(y,x1,x2,x3,x4,x5)
 #' lm1 = lm(y~.,data=dat)
 #' v1 = vis(lm1)
+#' \dontrun{
 #' plot(v1,highlight="x1")
+#' }
 
 vis=function(mf,nvmax,B=100,lambda.max,
              n.cores=2,force.in=NULL,...){
@@ -284,7 +287,11 @@ vis=function(mf,nvmax,B=100,lambda.max,
 #'   A simple number is a value in pixels; 
 #'   a string containing a number followed by \code{\%} is a percentage. 
 #'   Default: \code{"80\%"}
-#' @param axisTitlesPosition Where to place the googleVis axis titles, compared to the chart area. Supported values:
+#' @param fontSize font size used in googleVis chart.  Default: 12.
+#' @param left space at left of chart (pixels?).  Default: "50".
+#' @param top space at top of chart (pixels?).  Default: "30".
+#' @param axisTitlesPosition Where to place the googleVis axis titles, 
+#'   compared to the chart area. Supported values:
 #'   "in" - Draw the axis titles inside the the chart area.
 #'   "out" - Draw the axis titles outside the chart area.
 #'   "none" - Omit the axis titles.
@@ -298,11 +305,11 @@ vis=function(mf,nvmax,B=100,lambda.max,
 #'   \code{shiny=TRUE} when displaying output within a shiny interface.
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{vis}}
-#' @references Müller, S. and Welsh, A. H. (2010), On Model 
+#' @references Mueller, S. and Welsh, A. H. (2010), On Model 
 #'   Selection Curves. International Statistical Review, 78:240-256. 
 #'   doi: 10.1111/j.1751-5823.2010.00108.x
 #'   
-#'   Murray, K., Heritier, S. and Müller, S. (2013), Graphical 
+#'   Murray, K., Heritier, S. and Mueller, S. (2013), Graphical 
 #'   tools for model selection in generalized linear models. 
 #'   Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
 #' @export
@@ -387,7 +394,6 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                pch = pch[iter])
       }
     } else {
-      suppressPackageStartupMessages(library(googleVis))
       var.ident = apply(x$model, 1, find.var, highlight=highlight)
       var.ident.na = var.ident
       var.ident.na[var.ident.na==FALSE]=NA
@@ -437,7 +443,6 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
   if("boot"%in%which){
     if(is.null(x$best.models))
       stop("You need to run vis() with B>1")
-    suppressPackageStartupMessages(library(googleVis))
     var.ident = apply(x$model, 1, find.var, highlight=highlight)
     var.ident[var.ident==TRUE] = paste("With",highlight)
     var.ident[var.ident==FALSE] = paste("Without",highlight)
@@ -509,7 +514,6 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
     } 
   }
   if("vip"%in%which){ # variable importance plot
-    suppressPackageStartupMessages(library(googleVis))
     var.names = names(table(unlist(x$models)))
     var.names = var.names[var.names!="1"] # remove the intercept
     B = dim(x$min.pos)[2]

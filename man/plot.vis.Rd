@@ -32,6 +32,12 @@ Default: 800.}
 \item{height}{Height of the googleVis chart canvas area, in pixels.
 Default: 400.}
 
+\item{fontSize}{font size used in googleVis chart.  Default: 12.}
+
+\item{left}{space at left of chart (pixels?).  Default: "50".}
+
+\item{top}{space at top of chart (pixels?).  Default: "30".}
+
 \item{chartWidth}{googleVis chart area width.
 A simple number is a value in pixels;
 a string containing a number followed by \code{\%} is a percentage.
@@ -42,7 +48,8 @@ A simple number is a value in pixels;
 a string containing a number followed by \code{\%} is a percentage.
 Default: \code{"80\%"}}
 
-\item{axisTitlesPosition}{Where to place the googleVis axis titles, compared to the chart area. Supported values:
+\item{axisTitlesPosition}{Where to place the googleVis axis titles,
+compared to the chart area. Supported values:
 "in" - Draw the axis titles inside the the chart area.
 "out" - Draw the axis titles outside the chart area.
 "none" - Omit the axis titles.}
@@ -79,11 +86,11 @@ v1 = vis(lm1)
 plot(v1,highlight="x1",which="lvk")
 }
 \references{
-Müller, S. and Welsh, A. H. (2010), On Model
+Mueller, S. and Welsh, A. H. (2010), On Model
   Selection Curves. International Statistical Review, 78:240-256.
   doi: 10.1111/j.1751-5823.2010.00108.x
 
-  Murray, K., Heritier, S. and Müller, S. (2013), Graphical
+  Murray, K., Heritier, S. and Mueller, S. (2013), Graphical
   tools for model selection in generalized linear models.
   Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
 }

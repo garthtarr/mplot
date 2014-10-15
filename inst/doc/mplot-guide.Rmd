@@ -14,7 +14,7 @@ output: html_document
 
 The **mplot** package implements a range of model selection procedures and model stability plots designed to provide users with the information they need to make informed decisions about model selection issues in linear and generalised linear models.  Future versions of this package will also consider mixed models.
 
-There are two main componenets: model selection via the adaptive fence procedure (Jiang et. al., 2009) and model stability curves as described in Mueller and Welsh (2010).
+There are two main componenets: model selection via the adaptive fence procedure (Jiang et. al., 2009) and model stability curves as described in Müller and Welsh (2010).
 
 ### Example 1
 

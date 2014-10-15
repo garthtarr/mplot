@@ -5,6 +5,11 @@
 \usage{
 process.fn(fence.mod, fence.rank)
 }
+\arguments{
+\item{fence.mod}{set of fence models}
+
+\item{fence.rank}{set of fence model ranks}
+}
 \description{
 This function is used by the af function to process
 the results when iterating over different boundary values

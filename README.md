@@ -26,6 +26,8 @@ install.packages(c("leaps","googleVis","foreach","doMC"))
 ```s
 require(mplot)
 ?mplot
+vignette("mplot-guide",package="mplot")
+vignette("mplot-stepwise",package="mplot")
 ```
 
 ## Uninstall

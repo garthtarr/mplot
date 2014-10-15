@@ -5,6 +5,23 @@
 \usage{
 qrange(k.range, yname, fixed, data, method, force.in, model.type, family)
 }
+\arguments{
+\item{k.range}{list with dimension elements k.max and k.min}
+
+\item{yname}{name of dependent variable}
+
+\item{fixed}{the full model formula}
+
+\item{data}{full data table}
+
+\item{method}{method used in Qm}
+
+\item{force.in}{which variables to force into the model}
+
+\item{model.type}{currently only lm or glm}
+
+\item{family}{for glms.}
+}
 \description{
 This function takes an upper and lower dimension size (obtained by
 forwards and backwards model selection and then adding and subtracting

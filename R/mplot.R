@@ -24,7 +24,9 @@
 #' lm1 = lm(y~.,data=dat)
 #' v1 = vis(lm1,n.cores=3)
 #' af1 = af(lm1,n.cores=3)
+#' \dontrun{
 #' mplot(lm1,vis=v1,af=af1)
+#' }
 
 mplot = function(mf,vis=NULL,af=NULL){
   # make the data globally accessible so shiny can access it

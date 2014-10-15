@@ -11,9 +11,14 @@
 \arguments{
 \item{x}{\code{af} object, the result of \code{\link{af}}}
 
+\item{pch}{plotting character, i.e., symbol to use.}
+
 \item{classic}{logical.  If \code{classic=TRUE} a
 base graphics plot is provided instead of a googleVis plot.
 Default is \code{classic=FALSE}.}
+
+\item{html.only}{logical was be used with rmarkdown, though perhaps
+using \code{op = options(gvis.plot.tag = "chart")} is better.}
 
 \item{best.only}{logical.  A modification to the adaptive
 procedure which considers all models at a particular
@@ -22,6 +27,31 @@ p* values.  The rationale being that if a model is
 'correct' then it will be the only model at that size
 that passes the fence.  This can help to determine where
 the correct peak is to select c*.}
+
+\item{width}{Width of the googleVis chart canvas area, in pixels.
+Default: 800.}
+
+\item{height}{Height of the googleVis chart canvas area, in pixels.
+Default: 400.}
+
+\item{fontSize}{font size used in googleVis chart.  Default: 12.}
+
+\item{left}{space at left of chart (pixels?).  Default: "50".}
+
+\item{top}{space at top of chart (pixels?).  Default: "30".}
+
+\item{chartWidth}{googleVis chart area width.
+A simple number is a value in pixels;
+a string containing a number followed by \code{\%} is a percentage.
+Default: \code{"60\%"}}
+
+\item{chartHeight}{googleVis chart area height.
+A simple number is a value in pixels;
+a string containing a number followed by \code{\%} is a percentage.
+Default: \code{"80\%"}}
+
+\item{options}{If you want to specify the full set of googleVis
+options.}
 
 \item{...}{further arguments (currently unused)}
 }

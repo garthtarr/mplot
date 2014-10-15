@@ -23,6 +23,8 @@ UNIX-type machines, e.g. Mac OS X).}
 
 \item{force.in}{the names of variables that should be forced
 into all estimated models. (Not yet implemented.)}
+
+\item{...}{further arguments (currently unused)}
 }
 \description{
 Calculates and provides the plot methods for standard
@@ -47,14 +49,16 @@ y = 1 + x1 + x2 + e
 dat = data.frame(y,x1,x2,x3,x4,x5)
 lm1 = lm(y~.,data=dat)
 v1 = vis(lm1)
+\dontrun{
 plot(v1,highlight="x1")
 }
+}
 \references{
-Müller, S. and Welsh, A. H. (2010), On Model
+Mueller, S. and Welsh, A. H. (2010), On Model
   Selection Curves. International Statistical Review, 78:240-256.
   doi: 10.1111/j.1751-5823.2010.00108.x
 
-  Murray, K., Heritier, S. and Müller, S. (2013), Graphical
+  Murray, K., Heritier, S. and Mueller, S. (2013), Graphical
   tools for model selection in generalized linear models.
   Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
 }

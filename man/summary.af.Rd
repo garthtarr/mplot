@@ -3,10 +3,18 @@
 \alias{summary.af}
 \title{Summary method for an af object}
 \usage{
-\method{summary}{af}(x, best.only = TRUE, ...)
+\method{summary}{af}(object, best.only = TRUE, ...)
 }
 \arguments{
-\item{x}{\code{af} object, the result of \code{\link{af}}}
+\item{object}{\code{af} object, the result of \code{\link{af}}}
+
+\item{best.only}{logical determining whether the output used the
+standard fence approach of only considering the best models
+that pass the fence (\code{TRUE}) or if it should take into
+account all models that pass the fence at each boundary
+value (\code{FALSE}).}
+
+\item{...}{further arguments (currently unused)}
 }
 \description{
 Provides comprehensive  output of the bootstrap results of an
