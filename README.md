@@ -14,6 +14,7 @@ You can install the development version from [Github](https://github.com/garthta
 # install.packages("devtools")
 require(devtools)
 install_github("garthtarr/mplot",quick=TRUE)
+require(mplot)
 ```
 
 To get the most out of the mplot package, you will need a few extra packages too:
