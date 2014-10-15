@@ -56,6 +56,8 @@ install_github<span class="p">(</span><span class="s">"garthtarr/mplot"</span><s
 
 <div class="highlight highlight-s"><pre><span class="kn">require</span><span class="p">(</span>mplot<span class="p">)</span>
 <span class="o">?</span>mplot
+vignette<span class="p">(</span><span class="s">"mplot-guide"</span><span class="p">,</span>package<span class="o">=</span><span class="s">"mplot"</span><span class="p">)</span>
+vignette<span class="p">(</span><span class="s">"mplot-stepwise"</span><span class="p">,</span>package<span class="o">=</span><span class="s">"mplot"</span><span class="p">)</span>
 </pre></div>
 
 <h2>
@@ -75,7 +77,7 @@ remove.packages<span class="p">(</span><span class="s">"mplot"</span><span class
 <p>The <code>vis</code> function is not yet optimised to take advantage of leaps
 technology and so it can take a while to run on moderately large data sets.</p>
 
-<p>Please report any issues <a href="https://github.com/garthtarr/mplot/issues">here</a>.</p>
+<p>We have not done any testing on windows machines.  The multicore functionality is currently only implemented for unix-based machines (which include Macs).</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/garthtarr">garthtarr</a></p>
