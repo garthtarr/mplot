@@ -45,3 +45,5 @@ Then the next time you want to use it, you'll need to install the package again 
 
 The `vis` function is not yet optimised to take advantage of leaps
 technology and so it can take a while to run on moderately large data sets.
+
+We have not done any testing on windows machines.  The multicore functionality is currently only implemented for unix-based machines (which include Macs).
