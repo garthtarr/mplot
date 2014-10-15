@@ -17,10 +17,10 @@ install_github("garthtarr/mplot",quick=TRUE)
 require(mplot)
 ```
 
-To get the most out of the mplot package, you will need a few extra packages too:
+To get the most out of the mplot package on a unix machine, you will need a few extra packages too:
 
 ```s
-install.packages(c("leaps","googleVis","foreach","doMC"))
+install.packages(c("foreach","doMC"))
 ```
 
 ## Usage
