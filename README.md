@@ -23,6 +23,8 @@ To get the most out of the mplot package on a unix machine, you will need a few 
 install.packages(c("foreach","doMC"))
 ```
 
+Note that multicore functionality hasn't been implemented for windows machines yet.
+
 ## Usage
 
 ```s
