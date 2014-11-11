@@ -53,7 +53,7 @@ NULL
 
 
 
-#' Blood and other measurements in diabetics
+#' Artificial example
 #' 
 #' An artificial data set which causes stepwise regression
 #' procedures to select a non-parsimonious model.
@@ -84,7 +84,7 @@ NULL
 #' x5 = -0.5*x2+0.5*x3+0.5*x6-0.5*x9+rnorm(n,0,1.5)
 #' x8 = x1 + x2 -2*x3 - 0.3*x4 + x5 - 1.6*x6 - 1*x7 + x9 +rnorm(n,0,0.5)
 #' y = 0.6*x8 + rnorm(n,0,2)
-#' df = round(data.frame(x1,x2,x3,x4,x5,x6,x7,x8,x9,y),1)
+#' artificialeg = round(data.frame(x1,x2,x3,x4,x5,x6,x7,x8,x9,y),1)
 #' }
 NULL
 
