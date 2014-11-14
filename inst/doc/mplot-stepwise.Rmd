@@ -57,7 +57,7 @@ op = options(gvis.plot.tag = "chart")
 plot(af1)
 ```
 
-Also could look at the variable importance plots:
+Also could look at the variable inclusion plots:
 
 ```{r vip, results='asis', tidy=FALSE}
 vis1 = vis(mf)

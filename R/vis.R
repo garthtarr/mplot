@@ -1,4 +1,4 @@
-#' Model stability curves and variable importance plots
+#' Model stability curves and variable inclusion plots
 #' 
 #' Calculates and provides the plot methods for standard
 #' and bootstrap enhanced model stability curves (lvk and
@@ -227,7 +227,7 @@ vis=function(mf,nvmax,B=100,lambda.max,
     }
     ks = apply(res.names.full,1,lngth)+1
     ks[1] = 1
-    ### Variable Importance Plot Calculations
+    ### Variable inclusion Plot Calculations
     if(missing(lambda.max)) lambda.max = 2*log(n)
     lambdas = seq(0,lambda.max,0.01)
     min.pos = matrix(NA,ncol=B,nrow=length(lambdas))
@@ -272,7 +272,7 @@ vis=function(mf,nvmax,B=100,lambda.max,
 #' @param html.only logical. Use \code{html.only=TRUE} when including
 #'   interactive plots in markdown documents (this includes rpres files).
 #' @param which a vector specifying the plots to be output.  Variable 
-#'   importance plots \code{which="vip"}; description loss against model
+#'   inclusion plots \code{which="vip"}; description loss against model
 #'   size \code{which="lvk"}; bootstrapped description loss against 
 #'   model size \code{which="boot"}.
 #' @param width Width of the googleVis chart canvas area, in pixels. 
@@ -303,6 +303,9 @@ vis=function(mf,nvmax,B=100,lambda.max,
 #' @param shiny logical. Used internally to facilitate proper display
 #'   of plots within the mplot shiny user interface.  Use 
 #'   \code{shiny=TRUE} when displaying output within a shiny interface.
+#' @param backgroundColor The background colour for the main area 
+#'   of the chart. A simple HTML color string, 
+#'   for example: 'red' or '#00cc00'.  Default: 'transparent'
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{vis}}
 #' @references Mueller, S. and Welsh, A. H. (2010), On Model 
@@ -333,7 +336,8 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                     width=800,height=400,fontSize=12,
                     left=50,top=30,chartWidth="60%",chartHeight="80%",
                     axisTitlesPosition="out",dataOpacity=0.5,
-                    options=NULL,shiny=FALSE,...){
+                    options=NULL,shiny=FALSE,
+                    backgroundColor = 'transparent',...){
   find.var = function(x,highlight){
     is.element(highlight,x)
   }
@@ -427,6 +431,7 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                          chartArea=chartArea,
                          width=width, height=height,
                          dataOpacity=dataOpacity,
+                         backgroundColor=backgroundColor,
                          series= "{0:{color: 'gray', visibleInLegend: true}, 1:{color: 'blue', visibleInLegend: true}}",
                          explorer= "{axis: 'vertical',  keepInBounds: true, maxZoomOut: 1, maxZoomIn: 0.01, actions: ['dragToZoom', 'rightClickToReset']}")
       } else {use.options = options}
@@ -494,6 +499,7 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                        bubble = bubble,
                        chartArea=chartArea,
                        width=width, height=height,
+                       backgroundColor=backgroundColor,
                        explorer= "{axis: 'vertical',  
                                keepInBounds: true,
                                maxZoomOut: 1,
@@ -513,7 +519,7 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
       plot(fplot)
     } 
   }
-  if("vip"%in%which){ # variable importance plot
+  if("vip"%in%which){ # variable inclusion plot
     var.names = names(table(unlist(x$models)))
     var.names = var.names[var.names!="1"] # remove the intercept
     B = dim(x$min.pos)[2]
@@ -557,6 +563,7 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                        series = lineseries,
                        chartArea=chartArea,
                        width=width, height=height,
+                       backgroundColor=backgroundColor,
                        annotations = "{style:'line'}",
                        explorer= "{axis: 'vertical',  
                                keepInBounds: true,

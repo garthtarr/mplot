@@ -406,6 +406,9 @@ summary.af = function (object,best.only=TRUE,...) {
 #' @param top space at top of chart (pixels?).  Default: "30".
 #' @param options If you want to specify the full set of googleVis 
 #'   options.
+#' @param backgroundColor The background colour for the main area 
+#'   of the chart. A simple HTML color string, 
+#'   for example: 'red' or '#00cc00'.  Default: 'transparent'
 #' @param ... further arguments (currently unused)
 #' @export
 # S3 method for class 'af'
@@ -413,7 +416,9 @@ plot.af = function(x,pch,classic=FALSE,
                    html.only=FALSE,
                    best.only=TRUE,
                    width=800,height=400,fontSize=12,
-                   left=50,top=30,chartWidth="60%",chartHeight="80%",
+                   left=50,top=30,chartWidth="60%",
+                   chartHeight="80%",
+                   backgroundColor = 'transparent',
                    options=NULL,...){
   if(best.only){
     x = x$bestOnly
@@ -462,6 +467,7 @@ plot.af = function(x,pch,classic=FALSE,
                    hAxis="{title:'c'}",
                    axisTitlesPosition="out",
                    chartArea=chartArea,
+                   backgroundColor=backgroundColor,
                    width=width, height=height)
     }
     fplot = gvisScatterChart(data=plot.dat,options=options)

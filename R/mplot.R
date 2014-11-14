@@ -22,9 +22,9 @@
 #' y = 1 + x1 + x2 + e
 #' dat = round(data.frame(y,x1,x2,x3,x4,x5),2)
 #' lm1 = lm(y~.,data=dat)
+#' \dontrun{
 #' v1 = vis(lm1,n.cores=3)
 #' af1 = af(lm1,n.cores=3)
-#' \dontrun{
 #' mplot(lm1,vis=v1,af=af1)
 #' }
 
