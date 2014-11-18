@@ -88,7 +88,8 @@ lmfence = function(mf, cstar,
                             nbest = 5+kf,
                             nvmax = nvmax,
                             intercept=TRUE,
-                            force.in=force.in))
+                            force.in=force.in,
+                            really.big=TRUE))
     rs.which = data.frame(rs$which+0,row.names = NULL)
     rs.k = apply(rs.which,1,sum)
     rs.bic = split(rs$bic,f = rs.k)
