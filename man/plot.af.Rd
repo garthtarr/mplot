@@ -6,7 +6,7 @@
 \method{plot}{af}(x, pch, classic = FALSE, html.only = FALSE,
   best.only = TRUE, width = 800, height = 400, fontSize = 12,
   left = 50, top = 30, chartWidth = "60\%", chartHeight = "80\%",
-  options = NULL, ...)
+  backgroundColor = "transparent", options = NULL, ...)
 }
 \arguments{
 \item{x}{\code{af} object, the result of \code{\link{af}}}
@@ -49,6 +49,10 @@ Default: \code{"60\%"}}
 A simple number is a value in pixels;
 a string containing a number followed by \code{\%} is a percentage.
 Default: \code{"80\%"}}
+
+\item{backgroundColor}{The background colour for the main area
+of the chart. A simple HTML color string,
+for example: 'red' or '#00cc00'.  Default: 'transparent'}
 
 \item{options}{If you want to specify the full set of googleVis
 options.}

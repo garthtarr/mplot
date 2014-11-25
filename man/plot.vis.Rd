@@ -7,7 +7,7 @@
   which = c("vip", "lvk", "boot"), width = 800, height = 400,
   fontSize = 12, left = 50, top = 30, chartWidth = "60\%",
   chartHeight = "80\%", axisTitlesPosition = "out", dataOpacity = 0.5,
-  options = NULL, shiny = FALSE, ...)
+  options = NULL, shiny = FALSE, backgroundColor = "transparent", ...)
 }
 \arguments{
 \item{x}{\code{vis} object, the result of \code{\link{vis}}}
@@ -22,7 +22,7 @@ Default is \code{classic=FALSE}.}
 interactive plots in markdown documents (this includes rpres files).}
 
 \item{which}{a vector specifying the plots to be output.  Variable
-importance plots \code{which="vip"}; description loss against model
+inclusion plots \code{which="vip"}; description loss against model
 size \code{which="lvk"}; bootstrapped description loss against
 model size \code{which="boot"}.}
 
@@ -64,6 +64,10 @@ complete control over the output.  Specifying a value for
 \item{shiny}{logical. Used internally to facilitate proper display
 of plots within the mplot shiny user interface.  Use
 \code{shiny=TRUE} when displaying output within a shiny interface.}
+
+\item{backgroundColor}{The background colour for the main area
+of the chart. A simple HTML color string,
+for example: 'red' or '#00cc00'.  Default: 'transparent'}
 
 \item{...}{further arguments (currently unused)}
 }

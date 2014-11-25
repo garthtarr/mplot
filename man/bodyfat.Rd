@@ -3,7 +3,22 @@
 \name{bodyfat}
 \alias{bodyfat}
 \title{Body fat data set}
-\format{A data frame with 128 observations on 15 variables.}
+\format{A data frame with 128 observations on 15 variables.
+#' \describe{
+
+\item{list("age")}{Age}
+\item{list("sex")}{Gender}
+\item{list("bmi")}{Body mass index}
+\item{list("map")}{Mean arterial pressure (average blood pressure)}
+\item{list("tc")}{Total cholesterol (mg/dL)? Desirable range: <200 mg/dL}
+\item{list("ldl")}{Low-density lipoprotein ("bad" cholesterol)? Desirable range: <130 mg/dL }
+\item{list("hdl")}{High-density lipoprotein ("good" cholesterol)? Desirable range: >40 mg/dL}
+\item{list("tch")}{Blood serum measurement}
+\item{list("ltg")}{Blood serum measurement}
+\item{list("glu")}{Blood serum measurement (glucose?)}
+\item{list("y")}{A quantitative measure of disease progression one year after baseline}
+
+}}
 \usage{
 data(bodyfat)
 }
