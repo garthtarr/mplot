@@ -16,8 +16,7 @@ NULL
 #' 
 #' @name bodyfat
 #' @format A data frame with 128 observations on 15 variables.
-#' #' \describe{
-#' 
+#' \describe{
 #' \item{list("age")}{Age}
 #' \item{list("sex")}{Gender}
 #' \item{list("bmi")}{Body mass index}
@@ -29,7 +28,6 @@ NULL
 #' \item{list("ltg")}{Blood serum measurement}
 #' \item{list("glu")}{Blood serum measurement (glucose?)}
 #' \item{list("y")}{A quantitative measure of disease progression one year after baseline}
-#' 
 #' }
 #' @details Details about the bodyfat data set go here.
 #' @docType data

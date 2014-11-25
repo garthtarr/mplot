@@ -4,8 +4,7 @@
 \alias{bodyfat}
 \title{Body fat data set}
 \format{A data frame with 128 observations on 15 variables.
-#' \describe{
-
+\describe{
 \item{list("age")}{Age}
 \item{list("sex")}{Gender}
 \item{list("bmi")}{Body mass index}
@@ -17,7 +16,6 @@
 \item{list("ltg")}{Blood serum measurement}
 \item{list("glu")}{Blood serum measurement (glucose?)}
 \item{list("y")}{A quantitative measure of disease progression one year after baseline}
-
 }}
 \usage{
 data(bodyfat)
