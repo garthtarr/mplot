@@ -1,0 +1,8 @@
+require(devtools)
+install_github("garthtarr/mplot",quick=TRUE)
+mplot
+require(mplot)
+?diabetes
+install_github("garthtarr/mplot")
+require(mplot)
+?diabetes
