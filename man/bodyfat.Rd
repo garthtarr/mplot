@@ -3,7 +3,26 @@
 \name{bodyfat}
 \alias{bodyfat}
 \title{Body fat data set}
-\format{A data frame with 128 observations on 15 variables.}
+\format{A data frame with 128 observations on 15 variables.
+\describe{
+\item{Id}{Identifier}
+\item{Bodyfat}{Bodyfat percentage}
+\item{Age}{Age (years)}
+\item{Weight}{Weight (kg)}
+\item{Height}{Height (inches)}
+\item{Neck}{Neck circumference (cm)}
+\item{Chest}{Chest circumference (cm)}
+\item{Abdo}{Abdomen circumference (cm) "at the umbilicus
+           and level with the iliac crest"}
+\item{Hip}{Hip circumference (cm)}
+\item{Thigh}{Thigh circumference (cm)}
+\item{Knee}{Knee circumference (cm)}
+\item{Ankle}{Ankle circumference (cm)}
+\item{Bic}{Extended biceps circumference (cm)}
+\item{Fore}{Forearm circumference (cm)}
+\item{Wrist}{Wrist circumference (cm) "distal to the
+            styloid processes"}
+}}
 \usage{
 data(bodyfat)
 }
