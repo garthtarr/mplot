@@ -3,7 +3,20 @@
 \name{diabetes}
 \alias{diabetes}
 \title{Blood and other measurements in diabetics}
-\format{A data frame with 442 observations on 11 variables.}
+\format{A data frame with 442 observations on 11 variables.
+\describe{
+\item{age}{Age}
+\item{sex}{Gender}
+\item{bmi}{Body mass index}
+\item{map}{Mean arterial pressure (average blood pressure)}
+\item{tc}{Total cholesterol (mg/dL)? Desirable range: below 200 mg/dL}
+\item{ldl}{Low-density lipoprotein ("bad" cholesterol)? Desirable range: below 130 mg/dL }
+\item{hdl}{High-density lipoprotein ("good" cholesterol)? Desirable range: above 40 mg/dL}
+\item{tch}{Blood serum measurement}
+\item{ltg}{Blood serum measurement}
+\item{glu}{Blood serum measurement (glucose?)}
+\item{y}{A quantitative measure of disease progression one year after baseline}
+}}
 \usage{
 data(diabetes)
 }

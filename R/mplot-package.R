@@ -15,20 +15,7 @@ NULL
 #' A data frame with 128 observations on 15 variables.
 #' 
 #' @name bodyfat
-#' @format A data frame with 128 observations on 15 variables:
-#' \describe{
-#' \item{list("age")}{Age}
-#' \item{list("sex")}{Gender}
-#' \item{list("bmi")}{Body mass index}
-#' \item{list("map")}{Mean arterial pressure (average blood pressure)}
-#' \item{list("tc")}{Total cholesterol (mg/dL)? Desirable range: below 200 mg/dL}
-#' \item{list("ldl")}{Low-density lipoprotein ("bad" cholesterol)? Desirable range: below 130 mg/dL }
-#' \item{list("hdl")}{High-density lipoprotein ("good" cholesterol)? Desirable range: above 40 mg/dL}
-#' \item{list("tch")}{Blood serum measurement}
-#' \item{list("ltg")}{Blood serum measurement}
-#' \item{list("glu")}{Blood serum measurement (glucose?)}
-#' \item{list("y")}{A quantitative measure of disease progression one year after baseline}
-#' }
+#' @format A data frame with 128 observations on 15 variables.
 #' @details Details about the bodyfat data set go here.
 #' @docType data
 #' @keywords datasets
@@ -51,7 +38,19 @@ NULL
 #' 
 #' @name diabetes
 #' @format A data frame with 442 observations on 11 variables.
-#' 
+#' \describe{
+#' \item{age}{Age}
+#' \item{sex}{Gender}
+#' \item{bmi}{Body mass index}
+#' \item{map}{Mean arterial pressure (average blood pressure)}
+#' \item{tc}{Total cholesterol (mg/dL)? Desirable range: below 200 mg/dL}
+#' \item{ldl}{Low-density lipoprotein ("bad" cholesterol)? Desirable range: below 130 mg/dL }
+#' \item{hdl}{High-density lipoprotein ("good" cholesterol)? Desirable range: above 40 mg/dL}
+#' \item{tch}{Blood serum measurement}
+#' \item{ltg}{Blood serum measurement}
+#' \item{glu}{Blood serum measurement (glucose?)}
+#' \item{y}{A quantitative measure of disease progression one year after baseline}
+#' }
 #' @details Data sourced from http://web.stanford.edu/~hastie/Papers/LARS
 #' @docType data
 #' @keywords datasets
