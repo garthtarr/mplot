@@ -1,3 +1,11 @@
+mplot 0.4.9 [2014-12-05]
+------------------------
+
+Changed parallel backend for af() from doMC
+to doParallel which should work for both
+unix-like systems and windows.
+
+
 mplot 0.4.7 [2014-11-10]
 ------------------------
 

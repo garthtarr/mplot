@@ -3,9 +3,9 @@
 \alias{plot.af}
 \title{Plot diagnostics for an af object}
 \usage{
-\method{plot}{af}(x, pch, classic = FALSE, html.only = FALSE,
-  best.only = TRUE, width = 800, height = 400, fontSize = 12,
-  left = 50, top = 30, chartWidth = "60\%", chartHeight = "80\%",
+plot.af(x, pch, classic = FALSE, html.only = FALSE, best.only = TRUE,
+  width = 800, height = 400, fontSize = 12, left = 50, top = 30,
+  chartWidth = "60\%", chartHeight = "80\%",
   backgroundColor = "transparent", options = NULL, ...)
 }
 \arguments{

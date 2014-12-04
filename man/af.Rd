@@ -23,8 +23,7 @@ should be focussed. See details for implementation.}
 into all estimated models.}
 
 \item{n.cores}{number of cores to be used when parallel
-processing the bootstrap (currently only available on
-UNIX-type machines, e.g. Mac OS X).}
+processing the bootstrap.}
 
 \item{nvmax}{size of the largest model that can still be
 considered as a viable candidate.  Included for performance

@@ -39,8 +39,7 @@
 #' @param force.in the names of variables that should be forced
 #'   into all estimated models.
 #' @param n.cores number of cores to be used when parallel
-#'   processing the bootstrap (currently only available on
-#'   UNIX-type machines, e.g. Mac OS X).
+#'   processing the bootstrap.
 #' @param nvmax size of the largest model that can still be 
 #'   considered as a viable candidate.  Included for performance
 #'   reasons but if it is an active constraint it could lead to
@@ -168,86 +167,37 @@ af = function(mf,
     if(missing(nvmax)) nvmax = kf
   }
   
-  if(missing(n.cores)){
-    if(!require(doMC)&!require(foreach)){
-      warning("To use parallel programming you need to install \n
-              the packages doMC and foreach using \n 
-              install.packages(\"doMC\", \"foreach\").")
-      n.cores=1
-    } else n.cores = max(detectCores()-1,1)
+  require(doParallel)
+  if(missing(n.cores)) n.cores = max(detectCores()-1,1)
+  cl = makeCluster(n.cores)
+  registerDoParallel(cl)
+  require(foreach)
+  p.star.all = foreach(j = 1:n.c, .combine=rbind, .packages = c("mplot")) %dopar% {
+    fence.mod = list()
+    fence.rank = list()
+    ystar = simulate(object=mfstar,nsim=B)
+    if(model.type=="glm"){
+      for(i in 1:B){
+        Xstar[yname] = ystar[,i]
+        mfstarB = glm(full.mod,data=Xstar,family=family)
+        fms = glmfence(mfstarB, cstar=c.range[j], 
+                       trace=FALSE, nvmax=nvmax, adaptive=TRUE)
+        fence.mod = c(fence.mod,fms)
+        fence.rank = c(fence.rank,1:length(fms))
+      } 
+    } else {
+      for(i in 1:B){
+        Xstar[yname] = ystar[,i]
+        mfstarB = lm(full.mod,data=Xstar)
+        fms = lmfence(mfstarB, cstar=c.range[j], trace=FALSE,
+                      nvmax = nvmax, force.in=force.in, adaptive=TRUE)
+        fence.mod = c(fence.mod,fms)
+        fence.rank = c(fence.rank,1:length(fms))
+      } 
+    }
+    mplot:::process.fn(fence.mod,fence.rank)
   }
-  if(n.cores>1){
-    if(.Platform$OS.type!="unix"){
-      warning("The parallel programming implementation of the \n
-              bootstrap is currently only available on unix-type \n
-              systems.  Changing to n.cores=1.")
-      n.cores=1
-    }
-    if(.Platform$GUI=="AQUA"){
-      warning("It appears you are running R in a GUI (for example R.app).
-              The multicore functionality only works when R is run
-              from the command line (using RStudio also works). 
-              Setting n.cores=1 (this will be slower).")
-      n.cores=1
-    }
-  }
-  if(n.cores>1){
-    require(doMC)
-    require(foreach)
-    registerDoMC(cores=n.cores)
-    p.star.all = foreach(j = 1:n.c, .combine=rbind) %dopar% {
-      fence.mod = list()
-      fence.rank = list()
-      ystar = simulate(object=mfstar,nsim=B)
-      if(model.type=="glm"){
-        for(i in 1:B){
-          Xstar[yname] = ystar[,i]
-          mfstarB = glm(full.mod,data=Xstar,family=family)
-          fms = glmfence(mfstarB, cstar=c.range[j], 
-                         trace=FALSE, nvmax=nvmax, adaptive=TRUE)
-          fence.mod = c(fence.mod,fms)
-          fence.rank = c(fence.rank,1:length(fms))
-        } 
-      } else {
-        for(i in 1:B){
-          Xstar[yname] = ystar[,i]
-          mfstarB = lm(full.mod,data=Xstar)
-          fms = lmfence(mfstarB, cstar=c.range[j], trace=FALSE,
-                        nvmax = nvmax, force.in=force.in, adaptive=TRUE)
-          fence.mod = c(fence.mod,fms)
-          fence.rank = c(fence.rank,1:length(fms))
-        } 
-      }
-      process.fn(fence.mod,fence.rank)
-    }
-  } else if(n.cores==1) {
-    p.star.all = matrix(NA,nrow=n.c,ncol=4)
-    for(j in 1:n.c){
-      fence.mod = list()
-      fence.rank = list()
-      ystar = simulate(object=mfstar,nsim=B)
-      if(model.type=="glm"){
-        for(i in 1:B){
-          Xstar[yname] = ystar[,i]
-          mfstarB = glm(full.mod, data=Xstar, family=family)
-          fms = glmfence(mfstarB, cstar=c.range[j],
-                         trace=FALSE, nvmax=nvmax, adaptive=TRUE)
-          fence.mod = c(fence.mod,fms)
-          fence.rank = c(fence.rank,1:length(fms))
-        }
-      } else {
-        for(i in 1:B){
-          Xstar[yname] = ystar[,i]
-          mfstarB = lm(full.mod,data=Xstar)
-          fms = lmfence(mfstarB, cstar=c.range[j], trace=FALSE, 
-                        nvmax=nvmax, force.in=force.in, adaptive=TRUE)
-          fence.mod = c(fence.mod,fms)
-          fence.rank = c(fence.rank,1:length(fms))
-        }
-      }
-      p.star.all[j,] = process.fn(fence.mod,fence.rank)
-    }
-  }
+  stopCluster(cl)
   
   # Another function that processes results within af function
   # 
