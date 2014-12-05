@@ -5,6 +5,12 @@ Changed parallel backend for af() from doMC
 to doParallel which should work for both
 unix-like systems and windows.
 
+Added redundant variable to vis().
+
+Fixed issue with deparse(model.formula)
+when the model.formula was too long for
+deparse to cope with.
+
 
 mplot 0.4.7 [2014-11-10]
 ------------------------

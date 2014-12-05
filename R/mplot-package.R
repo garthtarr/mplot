@@ -136,6 +136,10 @@ mextract = function(model){
   yname = deparse(formula(model)[[2]])
   # Set up the data frames for use
   X = model.matrix(model)
+  n=nrow(X)
+  # full model plus redundant variable
+  REDUNDANT.VARIABLE = rnorm(n)
+  X = cbind(X,REDUNDANT.VARIABLE)
   if(colnames(X)[1]=="(Intercept)"){
     # overwrite intercept with y-variable
     X[,1] = model.frame(model)[,yname] 
@@ -151,7 +155,7 @@ mextract = function(model){
               fixed=fixed,
               X=Xy,
               k = length(model$coef),
-              n=nrow(Xy),
+              n=n,
               family = family(model)))
   
   # MIXED MODELS NOT IMPLEMENTED IN FIRST RELEASE   
@@ -211,16 +215,23 @@ txt.fn = function(score,UB,obj){
 #' @param fence.rank set of fence model ranks
 process.fn = function(fence.mod,fence.rank){
   # all that pass the fence
-  temp.all = sort(table(sapply(fence.mod,deparse,
-                               width.cutoff=500)),
-                  decreasing=TRUE)
+  
+  #temp.all = sort(table(sapply(fence.mod,deparse,
+  #                             width.cutoff=500)),
+  #                decreasing=TRUE)
+  del2 = function(x) x[-c(1:2)]
+  temp.all = sort(table(unlist(lapply(lapply(fence.mod,as.character),del2))),
+                decreasing=TRUE)
   pstarj.all = as.numeric(temp.all[1]/length(fence.mod))
   pstarnamej.all = names(temp.all)[1]
   # best only (true fence)
   fence.mod.bo = fence.mod[fence.rank==1]
-  temp.bo = sort(table(sapply(fence.mod.bo,deparse,
-                              width.cutoff=500)),
-                 decreasing=TRUE)
+#  temp.bo = sort(table(sapply(fence.mod.bo,deparse,
+#                              width.cutoff=500)),
+#                 decreasing=TRUE)
+  temp.bo = sort(table(unlist(lapply(lapply(fence.mod.bo,as.character),del2))),
+                  decreasing=TRUE)
+  
   pstarj.bo = as.numeric(temp.bo[1]/length(fence.mod.bo))
   pstarnamej.bo = names(temp.bo)[1]
   return(c(pstarj.bo,pstarnamej.bo,pstarj.all,pstarnamej.all))

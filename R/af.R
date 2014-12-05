@@ -79,7 +79,7 @@ af = function(mf,
               force.in=NULL, 
               n.cores, nvmax, c.max, ...){
   method="ML"
-  cl <- match.call()
+  af.call = match.call()
   if(!missing(c.max) & initial.stepwise==TRUE) {
     initial.stepwise=FALSE
     warning("When c.max is specified, initial.stepwise=FALSE")
@@ -105,20 +105,19 @@ af = function(mf,
   kf = m$k
   n = m$n
   null.ff = as.formula(paste(yname,"~1"))
-  
-  RED.VAR.DEL = rnorm(n)
+  #REDUNDANT.VARIABLE = rnorm(n)
   # full model plus redundant variable
-  Xstar = data.frame(Xy[!names(Xy)%in%yname],
-                     RED.VAR.DEL,
-                     Xy[names(Xy)%in%yname]) 
-  full.mod = as.formula(paste(paste(deparse(fixed),collapse=''),
-                              "+RED.VAR.DEL"))
+  #Xy = data.frame(Xy[!names(Xy)%in%yname],
+  #                   REDUNDANT.VARIABLE,
+  #                   Xy[names(Xy)%in%yname]) 
+  #fixed = as.formula(paste(paste(deparse(fixed),collapse=''),
+  #                            "+REDUNDANT.VARIABLE"))
   if(model.type=="glm"){
     m0 = glm(null.ff, data = Xy, family=family) 
-    mfstar = glm(full.mod, data = Xstar, family=family) 
+    mfstar = glm(fixed, data = Xy, family=family) 
   } else {
     m0 = lm(null.ff, data = Xy) 
-    mfstar = lm(full.mod, data = Xstar) 
+    mfstar = lm(fixed, data = Xy) 
   }
   Qm0 = Qm(m0, method=method)
   Qmfstar = Qm(mfstar, method=method)
@@ -129,29 +128,29 @@ af = function(mf,
   }
   if (initial.stepwise) {
     if(model.type=="glm"){
-      small.mod = glm(small.ff, data = Xstar, family=family)
+      small.mod = glm(small.ff, data = Xy, family=family)
     } else {
-      small.mod = lm(small.ff, data = Xstar)
+      small.mod = lm(small.ff, data = Xy)
     }
     # backwards and forwards model selection using
     # BIC (conservative) and AIC (less conservative)
     bwds.BIC = step(mfstar, 
-                    scope = list(lower=small.ff, upper=full.mod),
+                    scope = list(lower=small.ff, upper=fixed),
                     direction="backward", k=log(n), trace=0)
     fwds.BIC = step(small.mod, 
-                    scope = list(lower=small.ff, upper=full.mod),
+                    scope = list(lower=small.ff, upper=fixed),
                     direction="forward", k=log(n), trace=0)
     k.min = max(min(length(bwds.BIC$coef),length(fwds.BIC$coef))-2,1)
     bwds.AIC = step(mfstar, 
-                    scope = list(lower=small.ff, upper=full.mod),
+                    scope = list(lower=small.ff, upper=fixed),
                     direction="backward", k=2, trace=0)
     fwds.AIC = step(small.mod, 
-                    scope = list(lower=small.ff, upper=full.mod),
+                    scope = list(lower=small.ff, upper=fixed),
                     direction="forward", k=2, trace=0)
     k.max = min(max(length(bwds.AIC$coef),length(fwds.AIC$coef))+2,kf)  
     k.range = list(k.min=k.min,k.max=k.max)
-    Q.range = qrange(k.range=k.range, data=Xstar, 
-                     yname=yname, fixed=full.mod, 
+    Q.range = qrange(k.range=k.range, data=Xy, 
+                     yname=yname, fixed=fixed, 
                      method=method, force.in=force.in,
                      model.type = model.type,
                      family = family)
@@ -169,8 +168,8 @@ af = function(mf,
   
   require(doParallel)
   if(missing(n.cores)) n.cores = max(detectCores()-1,1)
-  cl = makeCluster(n.cores)
-  registerDoParallel(cl)
+  cl.af = makeCluster(n.cores)
+  registerDoParallel(cl.af)
   require(foreach)
   p.star.all = foreach(j = 1:n.c, .combine=rbind, .packages = c("mplot")) %dopar% {
     fence.mod = list()
@@ -178,8 +177,8 @@ af = function(mf,
     ystar = simulate(object=mfstar,nsim=B)
     if(model.type=="glm"){
       for(i in 1:B){
-        Xstar[yname] = ystar[,i]
-        mfstarB = glm(full.mod,data=Xstar,family=family)
+        Xy[yname] = ystar[,i]
+        mfstarB = glm(fixed,data=Xy,family=family)
         fms = glmfence(mfstarB, cstar=c.range[j], 
                        trace=FALSE, nvmax=nvmax, adaptive=TRUE)
         fence.mod = c(fence.mod,fms)
@@ -187,17 +186,17 @@ af = function(mf,
       } 
     } else {
       for(i in 1:B){
-        Xstar[yname] = ystar[,i]
-        mfstarB = lm(full.mod,data=Xstar)
+        Xy[yname] = ystar[,i]
+        mfstarB = lm(fixed,data=Xy)
         fms = lmfence(mfstarB, cstar=c.range[j], trace=FALSE,
                       nvmax = nvmax, force.in=force.in, adaptive=TRUE)
         fence.mod = c(fence.mod,fms)
         fence.rank = c(fence.rank,1:length(fms))
       } 
     }
-    mplot:::process.fn(fence.mod,fence.rank)
+    process.fn(fence.mod,fence.rank)
   }
-  stopCluster(cl)
+  stopCluster(cl.af)
   
   # Another function that processes results within af function
   # 
@@ -215,7 +214,7 @@ af = function(mf,
     p.star = data.frame(pstar = as.numeric(p.star[,1]),
                         model = as.character(p.star[,2]),
                         modelident = match(p.star[,2], names(pstarmods)))
-    redundent.vars = grepl("RED.VAR.DEL",as.character(p.star$model))
+    redundent.vars = grepl("REDUNDANT.VARIABLE",as.character(p.star$model))
     c.range = c.range[!redundent.vars]
     p.star = p.star[!redundent.vars,]
     p.star$model = droplevels(p.star$model)
@@ -255,7 +254,7 @@ af = function(mf,
   afout = list()
   afout$bestOnly = pstar.fn(p.star.all,type="bo")
   afout$all = pstar.fn(p.star.all,type="all")
-  afout$call = cl
+  afout$call = af.call
   if(initial.stepwise){
     afout$initial.stepwise = list(
       fwds.AIC = as.formula(fwds.AIC),

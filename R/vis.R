@@ -49,22 +49,6 @@
 vis=function(mf,nvmax,B=100,lambda.max,
              n.cores=2,force.in=NULL,...){
   
-  if(n.cores>1){
-    if(.Platform$OS.type!="unix"){
-      warning("The parallel programming implementation of the \n
-              bootstrap is currently only available on unix-type \n
-              systems.  Changing to n.cores=1.")
-      n.cores=1
-    }
-    if(.Platform$GUI=="AQUA"){
-      warning("It appears you are running R in a GUI (for example R.app).
-              The multicore functionality only works when R is run
-              from the command line (using RStudio also works). 
-              Setting n.cores=1 (this will be slower).")
-      n.cores=1
-    }
-  }
-  
   m = mextract(mf) 
   fixed = m$fixed
   yname = m$yname
@@ -77,7 +61,7 @@ vis=function(mf,nvmax,B=100,lambda.max,
   res.names= list()
   res.names[[1]] = "1"
   for(i in 2:nvmax){ # runs over the different model sizes
-    res.names[[i]] = combn(names(mf$coef)[-1],i-1)
+    res.names[[i]] = combn(unlist(strsplit(as.character(fixed)[3],split = " + ",fixed = TRUE)),i-1)
   }
   # create a look up table res.names.full which can be used
   # to see which variables are in the 'best' model
@@ -106,121 +90,70 @@ vis=function(mf,nvmax,B=100,lambda.max,
   }
   k=1
   res.2ll[[1]] = -2*as.numeric(logLik(em))
-  if(kf>10 & n.cores>1){ # multicore functionality for high dimensions
-    require(doMC)
-    require(foreach)
-    registerDoMC(cores=n.cores)
-    res.2ll.temp = foreach(i = 2:nvmax) %dopar% {
-      ll=NA # still need this as usual
-      ll.model=NA
-      # run over each model of a given size
-      for(j in 1:dim(res.names[[i]])[2]){ 
-        ff = paste(yname," ~ ",
-                   paste(res.names[[i]][,j],collapse="+"),sep="")
-        ll.model[j] = ff
-        ff = as.formula(ff)
-        if(any(class(mf)=="glm")==TRUE){
-          em = glm(formula=ff, data=X, family=family)
-        } else {
-          em = lm(formula=ff, data=X)
-        }
-        hatQm = -2*as.numeric(logLik(em))
-        ll[j] = hatQm 
+  
+  require(doParallel)
+  if(missing(n.cores)) n.cores = max(detectCores()-1,1)
+  cl.vis = makeCluster(n.cores)
+  registerDoParallel(cl.vis)
+  require(foreach)
+  res.2ll.temp = foreach(i = 2:nvmax) %dopar% {
+    ll=NA # still need this as usual
+    ll.model=NA
+    # run over each model of a given size
+    for(j in 1:dim(res.names[[i]])[2]){ 
+      ff = paste(yname," ~ ",
+                 paste(res.names[[i]][,j],collapse="+"),sep="")
+      ll.model[j] = ff
+      ff = as.formula(ff)
+      if(any(class(mf)=="glm")==TRUE){
+        em = glm(formula=ff, data=X, family=family)
+      } else {
+        em = lm(formula=ff, data=X)
       }
-      ll
+      hatQm = -2*as.numeric(logLik(em))
+      ll[j] = hatQm 
     }
-    res.2ll = c(res.2ll,res.2ll.temp)
-  } else { 
-    for(i in 2:nvmax){ # runs over the different model sizes
-      ll=NA # still need this as usual
-      ll.model=NA
-      # run over each model of a given size
-      for(j in 1:dim(res.names[[i]])[2]){ 
-        ff = paste(yname," ~ ",
-                   paste(res.names[[i]][,j],collapse="+"),sep="")
-        ll.model[j] = ff
-        ff = as.formula(ff)
-        if(any(class(mf)=="glm")==TRUE){
-          em = glm(formula=ff, data=X, family=family)
-        } else {
-          em = lm(formula=ff, data=X)
-        }
-        hatQm = -2*as.numeric(logLik(em))
-        ll[j] = hatQm 
-      }
-      res.2ll[[i]] = ll
-    }
+    ll
   }
+  res.2ll = c(res.2ll,res.2ll.temp)
+  stopCluster(cl.vis)
   #### BOOTSTRAPPING COMPONENT ####
   if(B>1){
-    if(n.cores>1){
-      require(doMC)
-      require(foreach)
-      registerDoMC(cores=n.cores)
-      res = foreach(b = 1:B, .combine = cbind) %dopar% {
-        res.temp = rep(NA,nrow(res.names.full))
-        wts = rexp(n=n,rate=1)
-        ## null model
-        ff = paste(yname," ~ 1")
-        ff = as.formula(ff)
-        if(any(class(mf)=="glm")==TRUE){
-          em = glm(formula=ff, data=X, family=family, weights=wts)
-        } else {
-          em = lm(formula=ff, data=X, weights=wts)
-        }
-        k=1
-        res.temp[k] = -2*as.numeric(logLik(em)) 
-        res.min.model.names[[1]] = "y ~ 1"
-        # run over the different model sizes:
-        for(i in 2:nvmax){ 
-          # run over each model of a given size:
-          for(j in 1:dim(res.names[[i]])[2]){ 
-            ff = paste(yname," ~ ",
-                       paste(res.names[[i]][,j],collapse="+"),sep="")
-            ff = as.formula(ff)
-            if(any(class(mf)=="glm")==TRUE){
-              em = glm(formula=ff, data=X, family=family,weights=wts)
-            } else {
-              em = lm(formula=ff, data=X,weights=wts)
-            }
-            k=k+1
-            res.temp[k] = -2*as.numeric(logLik(em))
-          }
-        }
-        res.temp
+    cl.visB = makeCluster(n.cores)
+    registerDoParallel(cl.visB)
+    res = foreach(b = 1:B, .combine = cbind) %dopar% {
+      res.temp = rep(NA,nrow(res.names.full))
+      wts = rexp(n=n,rate=1)
+      ## null model
+      ff = paste(yname," ~ 1")
+      ff = as.formula(ff)
+      if(any(class(mf)=="glm")==TRUE){
+        em = glm(formula=ff, data=X, family=family, weights=wts)
+      } else {
+        em = lm(formula=ff, data=X, weights=wts)
       }
-    } else {
-      for(b in 1:B){ # runs over the number of replications
-        wts = rexp(n=n,rate=1)
-        ## null model
-        ff = paste(yname," ~ 1")
-        ff = as.formula(ff)
-        if(any(class(mf)=="glm")==TRUE){
-          em = glm(formula=ff, data=X, family=family, weights=wts)
-        } else {
-          em = lm(formula=ff, data=X, weights=wts)
-        }
-        k=1
-        res[k,b] = -2*as.numeric(logLik(em)) 
-        res.min.model.names[[1]] = "y ~ 1"
-        # run over the different model sizes:
-        for(i in 2:nvmax){ 
-          # run over each model of a given size:
-          for(j in 1:dim(res.names[[i]])[2]){ 
-            ff = paste(yname," ~ ",
-                       paste(res.names[[i]][,j],collapse="+"),sep="")
-            ff = as.formula(ff)
-            if(any(class(mf)=="glm")==TRUE){
-              em = glm(formula=ff, data=X, family=family,weights=wts)
-            } else {
-              em = lm(formula=ff, data=X,weights=wts)
-            }
-            k=k+1
-            res[k,b] = -2*as.numeric(logLik(em))
+      k=1
+      res.temp[k] = -2*as.numeric(logLik(em)) 
+      res.min.model.names[[1]] = "y ~ 1"
+      # run over the different model sizes:
+      for(i in 2:nvmax){ 
+        # run over each model of a given size:
+        for(j in 1:dim(res.names[[i]])[2]){ 
+          ff = paste(yname," ~ ",
+                     paste(res.names[[i]][,j],collapse="+"),sep="")
+          ff = as.formula(ff)
+          if(any(class(mf)=="glm")==TRUE){
+            em = glm(formula=ff, data=X, family=family,weights=wts)
+          } else {
+            em = lm(formula=ff, data=X,weights=wts)
           }
+          k=k+1
+          res.temp[k] = -2*as.numeric(logLik(em))
         }
       }
+      res.temp
     }
+    stopCluster(cl.visB)
     lngth = function(x){
       length(na.omit(x))
     }

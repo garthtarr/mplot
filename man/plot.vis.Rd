@@ -3,13 +3,7 @@
 \alias{plot.vis}
 \title{Plot diagnostics for an vis object}
 \usage{
-plot.vis(x, highlight, classic = FALSE, html.only = FALSE,
-  which = c("vip", "lvk", "boot"), width = 800, height = 400,
-  fontSize = 12, left = 50, top = 30, chartWidth = "60\%",
-  chartHeight = "80\%", axisTitlesPosition = "out", dataOpacity = 0.5,
-  options = NULL, shiny = FALSE, backgroundColor = "transparent", ...)
-
-plot.vis(x, highlight, classic = FALSE, html.only = FALSE,
+\method{plot}{vis}(x, highlight, classic = FALSE, html.only = FALSE,
   which = c("vip", "lvk", "boot"), width = 800, height = 400,
   fontSize = 12, left = 50, top = 30, chartWidth = "60\%",
   chartHeight = "80\%", axisTitlesPosition = "out", dataOpacity = 0.5,
@@ -76,87 +70,11 @@ of the chart. A simple HTML color string,
 for example: 'red' or '#00cc00'.  Default: 'transparent'}
 
 \item{...}{further arguments (currently unused)}
-
-\item{x}{\code{vis} object, the result of \code{\link{vis}}}
-
-\item{highlight}{the name of a variable that will be highlighted.}
-
-\item{classic}{logical.  If \code{classic=TRUE} a
-base graphics plot is provided instead of a googleVis plot.
-Default is \code{classic=FALSE}.}
-
-\item{html.only}{logical. Use \code{html.only=TRUE} when including
-interactive plots in markdown documents (this includes rpres files).}
-
-\item{which}{a vector specifying the plots to be output.  Variable
-inclusion plots \code{which="vip"}; description loss against model
-size \code{which="lvk"}; bootstrapped description loss against
-model size \code{which="boot"}.}
-
-\item{width}{Width of the googleVis chart canvas area, in pixels.
-Default: 800.}
-
-\item{height}{Height of the googleVis chart canvas area, in pixels.
-Default: 400.}
-
-\item{chartWidth}{googleVis chart area width.
-A simple number is a value in pixels;
-a string containing a number followed by \code{\%} is a percentage.
-Default: \code{"60\%"}}
-
-\item{chartHeight}{googleVis chart area height.
-A simple number is a value in pixels;
-a string containing a number followed by \code{\%} is a percentage.
-Default: \code{"80\%"}}
-
-\item{fontSize}{font size used in googleVis chart.  Default: 12.}
-
-\item{left}{space at left of chart (pixels?).  Default: "50".}
-
-\item{top}{space at top of chart (pixels?).  Default: "30".}
-
-\item{axisTitlesPosition}{Where to place the googleVis axis titles,
-compared to the chart area. Supported values:
-"in" - Draw the axis titles inside the the chart area.
-"out" - Draw the axis titles outside the chart area.
-"none" - Omit the axis titles.}
-
-\item{dataOpacity}{The transparency of googleVis data points,
-with 1.0 being completely opaque and 0.0 fully transparent.}
-
-\item{options}{a list to be passed to the googleVis function giving
-complete control over the output.  Specifying a value for
-\code{options} overwrites all other plotting variables.}
-
-\item{shiny}{logical. Used internally to facilitate proper display
-of plots within the mplot shiny user interface.  Use
-\code{shiny=TRUE} when displaying output within a shiny interface.}
-
-\item{backgroundColor}{The background colour for the main area
-of the chart. A simple HTML color string,
-for example: 'red' or '#00cc00'.  Default: 'transparent'}
-
-\item{...}{further arguments (currently unused)}
 }
 \description{
 A plot method to visualise the results of a \code{vis} object.
-
-A plot method to visualise the results of a \code{vis} object.
 }
 \examples{
-n = 100
-set.seed(11)
-e = rnorm(n)
-x1 = rnorm(n)
-x2 = rnorm(n)
-x3 = x1^2
-x4 = x2^2
-x5 = x1*x2
-y = 1 + x1 + x2 + e
-dat = data.frame(y,x1,x2,x3,x4,x5)
-lm1 = lm(y~.,data=dat)
-v1 = vis(lm1)
-plot(v1,highlight="x1",which="lvk")
 n = 100
 set.seed(11)
 e = rnorm(n)
@@ -179,18 +97,8 @@ Mueller, S. and Welsh, A. H. (2010), On Model
   Murray, K., Heritier, S. and Mueller, S. (2013), Graphical
   tools for model selection in generalized linear models.
   Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
-
-Mueller, S. and Welsh, A. H. (2010), On Model
-  Selection Curves. International Statistical Review, 78:240-256.
-  doi: 10.1111/j.1751-5823.2010.00108.x
-
-  Murray, K., Heritier, S. and Mueller, S. (2013), Graphical
-  tools for model selection in generalized linear models.
-  Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
 }
 \seealso{
-\code{\link{vis}}
-
 \code{\link{vis}}
 }
 
