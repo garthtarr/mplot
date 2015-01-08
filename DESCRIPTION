@@ -21,7 +21,8 @@ Depends:
     doParallel,
     foreach,
     googleVis,
-    shiny
+    shiny,
+    mvoutlier
 URL: https://github.com/garthtarr/mplot
 Roxygen: list(wrap = FALSE)
 LazyData: TRUE

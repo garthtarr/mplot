@@ -43,7 +43,7 @@ lmfence = function(mf, cstar,
                    trace=TRUE,
                    force.in=NULL,...){
   method="ML"
-  if(class(mf)!="lm"){
+    if(class(mf)!="lm"){
     stop("The argument to mf needs to be a lm object.")
   }
   if(attr(mf$terms,"intercept")==0){

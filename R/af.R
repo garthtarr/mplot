@@ -77,7 +77,7 @@ af = function(mf,
               B=60, n.c=20,
               initial.stepwise=FALSE,
               force.in=NULL, 
-              n.cores, nvmax, c.max, ...){
+              n.cores, nvmax, c.max, screen=FALSE,  ...){
   method="ML"
   af.call = match.call()
   if(!missing(c.max) & initial.stepwise==TRUE) {
@@ -105,13 +105,6 @@ af = function(mf,
   kf = m$k
   n = m$n
   null.ff = as.formula(paste(yname,"~1"))
-  #REDUNDANT.VARIABLE = rnorm(n)
-  # full model plus redundant variable
-  #Xy = data.frame(Xy[!names(Xy)%in%yname],
-  #                   REDUNDANT.VARIABLE,
-  #                   Xy[names(Xy)%in%yname]) 
-  #fixed = as.formula(paste(paste(deparse(fixed),collapse=''),
-  #                            "+REDUNDANT.VARIABLE"))
   if(model.type=="glm"){
     m0 = glm(null.ff, data = Xy, family=family) 
     mfstar = glm(fixed, data = Xy, family=family) 
@@ -187,14 +180,14 @@ af = function(mf,
     } else {
       for(i in 1:B){
         Xy[yname] = ystar[,i]
-        mfstarB = lm(fixed,data=Xy)
+        mfstarB = lm(fixed,data=Xy) 
         fms = lmfence(mfstarB, cstar=c.range[j], trace=FALSE,
                       nvmax = nvmax, force.in=force.in, adaptive=TRUE)
         fence.mod = c(fence.mod,fms)
         fence.rank = c(fence.rank,1:length(fms))
       } 
     }
-    process.fn(fence.mod,fence.rank)
+    mplot:::process.fn(fence.mod,fence.rank)
   }
   stopCluster(cl.af)
   

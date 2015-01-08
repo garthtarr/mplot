@@ -47,9 +47,9 @@
 #' }
 
 vis=function(mf,nvmax,B=100,lambda.max,
-             n.cores=2,force.in=NULL,...){
+             n.cores=2,force.in=NULL,screen=FALSE,...){
   
-  m = mextract(mf) 
+  m = mextract(mf,screen=screen) 
   fixed = m$fixed
   yname = m$yname
   family = m$family

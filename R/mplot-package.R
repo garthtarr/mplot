@@ -131,7 +131,8 @@ NULL
 #' 
 #' @param model a fitted 'full' model, the result of a call
 #'   to lm or glm (and in the future lme or lmer).
-mextract = function(model){
+mextract = function(model,screen){
+  if(missing(screen)) screen=FALSE
   # what's the name of the dependent variable?
   yname = deparse(formula(model)[[2]])
   # Set up the data frames for use
@@ -151,10 +152,22 @@ mextract = function(model){
   fixed = as.formula(c(paste(yname,"~"),
                        paste(colnames(X)[-1],collapse="+")))
   Xy = X[c(2:ncol(X),1)]
+  
+  k = length(model$coef)
+  if(screen){
+    Xy = Xy[pcout(Xy)$wfinal01==1,]
+    n=dim(Xy)[1]
+    if(k>=n){
+      warning("Screening deleted too many observations.")
+      return()
+    }
+  }
+  
+  
   return(list(yname=yname,
               fixed=fixed,
               X=Xy,
-              k = length(model$coef),
+              k = k,
               n=n,
               family = family(model)))
   
