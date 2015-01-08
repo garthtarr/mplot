@@ -3,7 +3,7 @@
 \alias{mextract}
 \title{Extract model elements}
 \usage{
-mextract(model)
+mextract(model, screen)
 }
 \arguments{
 \item{model}{a fitted 'full' model, the result of a call

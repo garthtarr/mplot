@@ -4,7 +4,7 @@
 \title{The adaptive fence procedure}
 \usage{
 af(mf, B = 60, n.c = 20, initial.stepwise = FALSE, force.in = NULL,
-  n.cores, nvmax, c.max, ...)
+  n.cores, nvmax, c.max, screen = FALSE, ...)
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call

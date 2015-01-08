@@ -3,7 +3,8 @@
 \alias{vis}
 \title{Model stability curves and variable inclusion plots}
 \usage{
-vis(mf, nvmax, B = 100, lambda.max, n.cores = 2, force.in = NULL, ...)
+vis(mf, nvmax, B = 100, lambda.max, n.cores = 2, force.in = NULL,
+  screen = FALSE, ...)
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call
