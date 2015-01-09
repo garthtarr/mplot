@@ -12,8 +12,7 @@
 #' @param lambda.max maximum penalty value for the vip plot, 
 #'   defaults to 2*log(n)
 #' @param n.cores number of cores to be used when parallel
-#'   processing the bootstrap (currently only available on
-#'   UNIX-type machines, e.g. Mac OS X).
+#'   processing the bootstrap.
 #' @param force.in the names of variables that should be forced
 #'   into all estimated models. (Not yet implemented.)
 #' @param ... further arguments (currently unused)
@@ -192,7 +191,7 @@ vis=function(mf,nvmax,B=100,lambda.max,
 
 
 
-#' Plot diagnostics for an vis object
+#' Plot diagnostics for a vis object
 #' 
 #' A plot method to visualise the results of a \code{vis} object.
 #' 
@@ -261,7 +260,9 @@ vis=function(mf,nvmax,B=100,lambda.max,
 #' dat = data.frame(y,x1,x2,x3,x4,x5)
 #' lm1 = lm(y~.,data=dat)
 #' v1 = vis(lm1)
+#' \dontrun{
 #' plot(v1,highlight="x1",which="lvk")
+#' }
 
 plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                     which=c("vip","lvk","boot"),

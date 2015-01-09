@@ -1,4 +1,37 @@
-
+#' Boostrap model selection plots for glmnet
+#' 
+#' Experimental!!
+#' 
+#' @param mf a fitted 'full' model, the result of a call
+#'   to lm or glm (and in the future lme or lmer).
+#' @param nlambda how many penalty values to consider.
+#' @param B number of bootstrap replications
+#' @param n.cores number of cores to be used when parallel
+#'   processing the bootstrap (Not yet implemented.)
+#' @param force.in the names of variables that should be forced
+#'   into all estimated models. (Not yet implemented.)
+#' @param ... further arguments (currently unused)
+#' @details The result of this function is essentially just a
+#'   list. The supplied plot method provides a way to visualise the
+#'   results.  
+#' @seealso \code{\link{plot.bglmnet}}
+#' @export
+#' @examples
+#' n = 100
+#' set.seed(11)
+#' e = rnorm(n)
+#' x1 = rnorm(n)
+#' x2 = rnorm(n)
+#' x3 = x1^2
+#' x4 = x2^2
+#' x5 = x1*x2
+#' y = 1 + x1 + x2 + e
+#' dat = data.frame(y,x1,x2,x3,x4,x5)
+#' lm1 = lm(y~.,data=dat)
+#' bgn1 = mplot:::bglmnet(lm1)
+#' \dontrun{
+#' plot(bgn1,highlight="x1")
+#' }
 
 bglmnet = function (mf, nlambda = NULL, lambda=seq(0.05,0.95,0.05), B=100, 
                  probaseuil=1, penalty.factor, random, screen=FALSE) 
@@ -39,7 +72,7 @@ bglmnet = function (mf, nlambda = NULL, lambda=seq(0.05,0.95,0.05), B=100,
   rownames(betaboot) = names(mfstar$coef)
   for (j in 1:B) {
     for (i in 1:nlambda) {
-      temp = glmnet(X.sub, ystar[!is.nan(ystar[,j]),j], alpha = 1, 
+      temp = glmnet(X, ystar[,j], alpha = 1, 
                       lambda = lambda[i], 
                       #penalty.factor = penalty.factor,
                       family=fam)
@@ -74,17 +107,86 @@ bglmnet = function (mf, nlambda = NULL, lambda=seq(0.05,0.95,0.05), B=100,
                  mod.sum = mod.sum,
                  vars = names(mf$coef),
                  call = match.call())
-  class(blarout) = "blar"
+  class(blarout) = "bglmnet"
   return(blarout)
 }
 
-plot.blar = function(x,highlight,classic=FALSE,html.only=FALSE,
+
+#' Plot diagnostics for a bglmnet object
+#' 
+#' A plot method to visualise the results of a \code{bglmnet} object.
+#' 
+#' @param x \code{bglmnet} object, the result of \code{\link{bglmnet}}
+#' @param highlight the name of a variable that will be highlighted.
+#' @param classic logical.  If \code{classic=TRUE} a 
+#'   base graphics plot is provided instead of a googleVis plot.
+#'   Default is \code{classic=FALSE}.
+#' @param html.only logical. Use \code{html.only=TRUE} when including
+#'   interactive plots in markdown documents (this includes rpres files).
+#' @param which a vector specifying the plots to be output. Variable 
+#'   inclusion type plots \code{which="variables"} or model description loss against 
+#'   penalty parameter \code{which="models"}.
+#' @param width Width of the googleVis chart canvas area, in pixels. 
+#'   Default: 800.
+#' @param height Height of the googleVis chart canvas area, in pixels. 
+#'   Default: 400.
+#' @param chartWidth googleVis chart area width.  
+#'   A simple number is a value in pixels; 
+#'   a string containing a number followed by \code{\%} is a percentage. 
+#'   Default: \code{"60\%"}
+#' @param chartHeight googleVis chart area height. 
+#'   A simple number is a value in pixels; 
+#'   a string containing a number followed by \code{\%} is a percentage. 
+#'   Default: \code{"80\%"}
+#' @param fontSize font size used in googleVis chart.  Default: 12.
+#' @param left space at left of chart (pixels?).  Default: "50".
+#' @param top space at top of chart (pixels?).  Default: "30".
+#' @param axisTitlesPosition Where to place the googleVis axis titles, 
+#'   compared to the chart area. Supported values:
+#'   "in" - Draw the axis titles inside the the chart area.
+#'   "out" - Draw the axis titles outside the chart area.
+#'   "none" - Omit the axis titles.
+#' @param dataOpacity The transparency of googleVis data points, 
+#'   with 1.0 being completely opaque and 0.0 fully transparent. 
+#' @param options a list to be passed to the googleVis function giving
+#'   complete control over the output.  Specifying a value for 
+#'   \code{options} overwrites all other plotting variables.
+#' @param shiny logical. Used internally to facilitate proper display
+#'   of plots within the mplot shiny user interface.  Use 
+#'   \code{shiny=TRUE} when displaying output within a shiny interface.
+#' @param backgroundColor The background colour for the main area 
+#'   of the chart. A simple HTML color string, 
+#'   for example: 'red' or '#00cc00'.  Default: 'transparent'
+#' @param plb lower bound on the probability of a model being selected. If
+#'   a model has a selection probability lower than plb it will not be 
+#'   plotted.
+#' @param ... further arguments (currently unused)
+#' @seealso \code{\link{bglmnet}}
+#' @export
+#' @examples
+#' n = 100
+#' set.seed(11)
+#' e = rnorm(n)
+#' x1 = rnorm(n)
+#' x2 = rnorm(n)
+#' x3 = x1^2
+#' x4 = x2^2
+#' x5 = x1*x2
+#' y = 1 + x1 + x2 + e
+#' dat = data.frame(y,x1,x2,x3,x4,x5)
+#' lm1 = lm(y~.,data=dat)
+#' bgn1 = mplot:::bglmnet(lm1)
+#' \dontrun{
+#' plot(bgn1,highlight="x1")
+#' }
+
+plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
                      which=c("models","variables"),
                      width=800,height=400,fontSize=12,
                      left=50,top=30,chartWidth="60%",chartHeight="80%",
                      axisTitlesPosition="out",dataOpacity=0.5,
                      options=NULL,shiny=FALSE,
-                     backgroundColor = 'transparent',...){
+                     backgroundColor = 'transparent',plb=0.01,...){
   B = sum(x$mods[[1]])
   
   if("models"%in%which){
@@ -98,7 +200,7 @@ plot.blar = function(x,highlight,classic=FALSE,html.only=FALSE,
     # remove redundant variables
     df = df.temp[-grep("REDUNDANT.VARIABLE",df.temp$mod.names),]
     df.full = merge(df,x$mod.sum,all.x = TRUE)
-    df.sub = subset(df.full,df.full$mod.vec.prob>0.05)
+    df.sub = subset(df.full,df.full$mod.vec.prob>plb)
     df.sub$mod.names = as.character(df.sub$mod.names)
     if(classic){
       warning("Classic plot not implemented.")
@@ -107,8 +209,10 @@ plot.blar = function(x,highlight,classic=FALSE,html.only=FALSE,
     }
     if(missing(highlight)){ # highlight best bivariate variable
       no.highlight = TRUE
+      if(sum(df.sub$k==2)>0){
       dfk2 = unique(df.sub[df.sub$k==2,c(1,5)])
       highlight = dfk2$mod.names[which.min(dfk2$ll)]
+      } else highlight =  x$vars[2]
     }
     
     mod.parts = lapply(df.sub$mod.names,FUN = strsplit,"+",fixed=TRUE)
