@@ -262,9 +262,9 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
     if(shiny){
       return(fplot)
     } else if(html.only){
-      fplot
+      return(fplot)
     } else {
-      plot(fplot)
+      return(plot(fplot))
     }
   } 
   if("variables"%in%which){
