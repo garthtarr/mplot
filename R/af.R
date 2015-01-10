@@ -97,7 +97,7 @@ af = function(mf,
   } else if(class(mf)=="lm"){
     model.type="lm"
   }
-  m = mextract(mf) 
+  m = mextract(mf,screen=screen) 
   fixed = m$fixed
   yname = m$yname
   family = m$family

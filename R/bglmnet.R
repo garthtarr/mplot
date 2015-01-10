@@ -37,7 +37,7 @@ bglmnet = function (mf, nlambda = NULL, lambda=seq(0.05,0.95,0.05), B=100,
                  probaseuil=1, penalty.factor, random, screen=FALSE) 
 {
   require(glmnet)
-  m = mextract(mf)
+  m = mextract(mf,screen=screen) 
   fixed = m$fixed
   yname = m$yname
   family = m$family

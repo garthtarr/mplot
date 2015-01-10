@@ -155,7 +155,9 @@ mextract = function(model,screen){
   
   k = length(model$coef)
   if(screen){
-    Xy = Xy[pcout(Xy)$wfinal01==1,]
+    x.mad = apply(Xy, 2, mad)
+    Xy.sub = Xy[,which(x.mad != 0)]
+    Xy = Xy[pcout(Xy.sub)$wfinal01==1,]
     n=dim(Xy)[1]
     if(k>=n){
       warning("Screening deleted too many observations.")
