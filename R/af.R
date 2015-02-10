@@ -104,13 +104,14 @@ af = function(mf,
   Xy = m$X
   kf = m$k
   n = m$n
+  #Xy$.wts = m$wts
   null.ff = as.formula(paste(yname,"~1"))
   if(model.type=="glm"){
-    m0 = glm(null.ff, data = Xy, family=family) 
-    mfstar = glm(fixed, data = Xy, family=family) 
+    m0 = glm(null.ff, data = Xy, family=family, weights = .wts) 
+    mfstar = glm(fixed, data = Xy, family=family, weights = .wts) 
   } else {
-    m0 = lm(null.ff, data = Xy) 
-    mfstar = lm(fixed, data = Xy) 
+    m0 = lm(null.ff, data = Xy, weights = .wts) 
+    mfstar = lm(fixed, data = Xy, weights = .wts) 
   }
   Qm0 = Qm(m0, method=method)
   Qmfstar = Qm(mfstar, method=method)
@@ -121,9 +122,9 @@ af = function(mf,
   }
   if (initial.stepwise) {
     if(model.type=="glm"){
-      small.mod = glm(small.ff, data = Xy, family=family)
+      small.mod = glm(small.ff, data = Xy, family=family, weights = .wts)
     } else {
-      small.mod = lm(small.ff, data = Xy)
+      small.mod = lm(small.ff, data = Xy, weights = .wts)
     }
     # backwards and forwards model selection using
     # BIC (conservative) and AIC (less conservative)
@@ -168,10 +169,11 @@ af = function(mf,
     fence.mod = list()
     fence.rank = list()
     ystar = simulate(object=mfstar,nsim=B)
+    #.wts <<- .wts
     if(model.type=="glm"){
       for(i in 1:B){
         Xy[yname] = ystar[,i]
-        mfstarB = glm(fixed,data=Xy,family=family)
+        mfstarB = do.call("glm",list(fixed,data=Xy,family=family, weights = m$wts))
         fms = glmfence(mfstarB, cstar=c.range[j], 
                        trace=FALSE, nvmax=nvmax, adaptive=TRUE)
         fence.mod = c(fence.mod,fms)
@@ -180,14 +182,14 @@ af = function(mf,
     } else {
       for(i in 1:B){
         Xy[yname] = ystar[,i]
-        mfstarB = lm(fixed,data=Xy) 
+        mfstarB = do.call("lm",list(fixed, data=Xy, weights = m$wts))
         fms = lmfence(mfstarB, cstar=c.range[j], trace=FALSE,
                       nvmax = nvmax, force.in=force.in, adaptive=TRUE)
         fence.mod = c(fence.mod,fms)
         fence.rank = c(fence.rank,1:length(fms))
       } 
     }
-    mplot:::process.fn(fence.mod,fence.rank)
+   mplot:::process.fn(fence.mod,fence.rank)
   }
   stopCluster(cl.af)
   

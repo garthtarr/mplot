@@ -4,7 +4,8 @@
 #' 
 #' @param mf a fitted 'full' model, the result of a call
 #'   to lm or glm (and in the future lme or lmer).
-#' @param nlambda how many penalty values to consider.
+#' @param nlambda how many penalty values to consider.  Defauly=100.
+#' @param lambda manually specify the penalty values (optional).
 #' @param B number of bootstrap replications
 #' @param n.cores number of cores to be used when parallel
 #'   processing the bootstrap (Not yet implemented.)
@@ -33,8 +34,8 @@
 #' plot(bgn1,highlight="x1")
 #' }
 
-bglmnet = function (mf, nlambda = NULL, lambda=seq(0.05,0.95,0.05), B=100, 
-                 probaseuil=1, penalty.factor, random, screen=FALSE) 
+bglmnet = function (mf, nlambda = 100, lambda=NULL, B=100, 
+                    probaseuil=1, penalty.factor, random, screen=FALSE) 
 {
   require(glmnet)
   m = mextract(mf,screen=screen) 
@@ -57,14 +58,15 @@ bglmnet = function (mf, nlambda = NULL, lambda=seq(0.05,0.95,0.05), B=100,
     nlambda = length(lambda)
   }
   temp = glmnet(X, Y, alpha = 1, nlambda = nlambda, 
-                  lambda = lambda, 
-                  penalty.factor = penalty.factor)
+                lambda = lambda, 
+                penalty.factor = penalty.factor,
+                weights = m$wts)
   mat = NULL
   # redefine lambda explicitly
   lambda = temp$lambda
   nlambda = length(lambda)
   compteur = matrix(0, kf+1, nlambda)
-  mfstar = glm(fixed, data = Xy, family=family) 
+  mfstar = do.call("glm",list(fixed, data = Xy, family=family,weights=m$wts))
   ystar = simulate(object=mfstar, nsim=B)
   #ystar[is.na(ystar)] = Xy[is.na(ystar),yname] 
   fam = family$family
@@ -73,9 +75,10 @@ bglmnet = function (mf, nlambda = NULL, lambda=seq(0.05,0.95,0.05), B=100,
   for (j in 1:B) {
     for (i in 1:nlambda) {
       temp = glmnet(X, ystar[,j], alpha = 1, 
-                      lambda = lambda[i], 
-                      #penalty.factor = penalty.factor,
-                      family=fam)
+                    lambda = lambda[i], 
+                    #penalty.factor = penalty.factor,
+                    family=fam,
+                    weights=m$wts)
       betaboot[,i,j] = (temp$beta[, 1] != 0)
     }
   }
@@ -93,7 +96,7 @@ bglmnet = function (mf, nlambda = NULL, lambda=seq(0.05,0.95,0.05), B=100,
   for(k in 1:length(all.mods)){
     # don't need to do this for models that inclide REDUNDANT.VARIABLE
     all.ll[k] = -2*logLik(glm(as.formula(paste(yname,"~",all.mods[k])),
-                              data = Xy,family=family))
+                              data = Xy,family=family,weights=m$wts))
     # number of variables including intercept
     all.k[k] = length(unlist(strsplit(all.mods[[k]],
                                       split="+",fixed = TRUE)))+1 
@@ -181,12 +184,12 @@ bglmnet = function (mf, nlambda = NULL, lambda=seq(0.05,0.95,0.05), B=100,
 #' }
 
 plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
-                     which=c("models","variables"),
-                     width=800,height=400,fontSize=12,
-                     left=50,top=30,chartWidth="60%",chartHeight="80%",
-                     axisTitlesPosition="out",dataOpacity=0.5,
-                     options=NULL,shiny=FALSE,
-                     backgroundColor = 'transparent',plb=0.01,...){
+                        which=c("models","variables"),
+                        width=800,height=400,fontSize=12,
+                        left=50,top=30,chartWidth="60%",chartHeight="80%",
+                        axisTitlesPosition="out",dataOpacity=0.5,
+                        options=NULL,shiny=FALSE,
+                        backgroundColor = 'transparent',plb=0.01,...){
   B = sum(x$mods[[1]])
   
   if("models"%in%which){
@@ -210,8 +213,8 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
     if(missing(highlight)){ # highlight best bivariate variable
       no.highlight = TRUE
       if(sum(df.sub$k==2)>0){
-      dfk2 = unique(df.sub[df.sub$k==2,c(1,5)])
-      highlight = dfk2$mod.names[which.min(dfk2$ll)]
+        dfk2 = unique(df.sub[df.sub$k==2,c(1,5)])
+        highlight = dfk2$mod.names[which.min(dfk2$ll)]
       } else highlight =  x$vars[2]
     }
     

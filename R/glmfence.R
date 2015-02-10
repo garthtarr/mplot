@@ -42,9 +42,10 @@ glmfence = function(mf,
   yname = m$yname
   Xy = m$X
   n = m$n
+  wts = m$wts
   if(missing(nvmax)) nvmax=kf
   null.ff = as.formula(paste(yname,"~1")) # null formula
-  m0 = glm(null.ff, data = Xy, family=family) # null model
+  m0 = glm(null.ff, data = Xy, family=family, weights = wts) # null model
   Qmf = Qm(mf, method=method) # Qm for the full model
   Qm0 = Qm(m0, method=method) # Qm for the null model
   ret = met = list()
@@ -72,7 +73,7 @@ glmfence = function(mf,
     bg = bestglm(Xy=Xy, family=family,
                  IC = "BIC",
                  TopModels = 5*kf,
-                 nvmax = nvmax)
+                 nvmax = nvmax, weights=wts)
     lc = bg$Subsets[,1:kf]+0 # 'leaps' candidates
     for(i in 2:nvmax){
       if(trace) cat(paste("Model size:",i,""))
@@ -81,7 +82,7 @@ glmfence = function(mf,
       ff = as.formula(paste(yname," ~ ",
                             paste(mnames[-1],collapse="+"),
                             sep=""))
-      em = glm(formula=ff, data=Xy, family=family)
+      em = glm(formula=ff, data=Xy, family=family, weights=wts)
       hatQm = Qm(em,method=method)
       if(hatQm<=UB){
         if(trace){
@@ -107,7 +108,7 @@ glmfence = function(mf,
             ff = as.formula(paste(yname," ~ ",
                                   paste(mnames,collapse="+"),
                                   sep=""))
-            em = glm(ff, data=Xy, family=family)
+            em = glm(ff, data=Xy, family=family, weights=wts)
             hatQm = Qm(em,method=method)
             if(hatQm<=UB){
               if(trace) txt.fn(hatQm,UB,em)

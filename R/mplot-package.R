@@ -131,7 +131,7 @@ NULL
 #' 
 #' @param model a fitted 'full' model, the result of a call
 #'   to lm or glm (and in the future lme or lmer).
-mextract = function(model,screen){
+mextract = function(model,screen,redundant=TRUE){
   if(missing(screen)) screen=FALSE
   # what's the name of the dependent variable?
   yname = deparse(formula(model)[[2]])
@@ -139,8 +139,10 @@ mextract = function(model,screen){
   X = model.matrix(model)
   n=nrow(X)
   # full model plus redundant variable
-  REDUNDANT.VARIABLE = rnorm(n)
-  X = cbind(X,REDUNDANT.VARIABLE)
+  if(redundant){
+    REDUNDANT.VARIABLE = rnorm(n)
+    X = cbind(X,REDUNDANT.VARIABLE)
+  }
   if(colnames(X)[1]=="(Intercept)"){
     # overwrite intercept with y-variable
     X[,1] = model.frame(model)[,yname] 
@@ -168,6 +170,7 @@ mextract = function(model,screen){
   
   return(list(yname=yname,
               fixed=fixed,
+              wts = model$weights,
               X=Xy,
               k = k,
               n=n,
@@ -236,16 +239,16 @@ process.fn = function(fence.mod,fence.rank){
   #                decreasing=TRUE)
   del2 = function(x) x[-c(1:2)]
   temp.all = sort(table(unlist(lapply(lapply(fence.mod,as.character),del2))),
-                decreasing=TRUE)
+                  decreasing=TRUE)
   pstarj.all = as.numeric(temp.all[1]/length(fence.mod))
   pstarnamej.all = names(temp.all)[1]
   # best only (true fence)
   fence.mod.bo = fence.mod[fence.rank==1]
-#  temp.bo = sort(table(sapply(fence.mod.bo,deparse,
-#                              width.cutoff=500)),
-#                 decreasing=TRUE)
+  #  temp.bo = sort(table(sapply(fence.mod.bo,deparse,
+  #                              width.cutoff=500)),
+  #                 decreasing=TRUE)
   temp.bo = sort(table(unlist(lapply(lapply(fence.mod.bo,as.character),del2))),
-                  decreasing=TRUE)
+                 decreasing=TRUE)
   
   pstarj.bo = as.numeric(temp.bo[1]/length(fence.mod.bo))
   pstarnamej.bo = names(temp.bo)[1]

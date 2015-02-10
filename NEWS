@@ -1,3 +1,13 @@
+mplot 0.5.0 [2015-02-01]
+------------------------
+
+Limited glmnet functionality introduced.
+
+Limited robustness via screening.
+
+Weights now get passed through in the adaptive fence.
+
+
 mplot 0.4.9 [2014-12-05]
 ------------------------
 

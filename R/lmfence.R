@@ -55,9 +55,10 @@ lmfence = function(mf, cstar,
   yname = m$yname
   data = m$X
   n = m$n
+  #.wts = m$wts
   if(missing(nvmax)) nvmax=kf
   null.ff = as.formula(paste(yname,"~1"))
-  m0 = lm(null.ff, data = data) # null model
+  m0 = lm(null.ff, data = data, weights=m$wts) # null model
   Qmf = Qm(mf, method=method) # Qm for the full model
   Qm0 = Qm(m0, method=method) # Qm for the null model
   ret = met = list()
@@ -83,13 +84,15 @@ lmfence = function(mf, cstar,
   while(prev.nvmax<=kf){
     prev.nvmax = nvmax
     # finds the best candidate for each model size
-    rs = summary(regsubsets(x=fixed, 
-                            data=data,
-                            nbest = 5+kf,
-                            nvmax = nvmax,
-                            intercept=TRUE,
-                            force.in=force.in,
-                            really.big=TRUE))
+    rss = do.call("regsubsets",list(x=fixed, 
+                             data=data,
+                             nbest = 5+kf,
+                             nvmax = nvmax,
+                             intercept=TRUE,
+                             force.in=force.in,
+                             really.big=TRUE,
+                             weights = m$wts))
+    rs = summary(rss)
     rs.which = data.frame(rs$which+0,row.names = NULL)
     rs.k = apply(rs.which,1,sum)
     rs.bic = split(rs$bic,f = rs.k)
@@ -107,7 +110,7 @@ lmfence = function(mf, cstar,
       mnames = colnames(leaps.cands)[which(leaps.cands[lc.k==i,]==1)]
       ff = as.formula(paste(yname," ~ ",
                             paste(mnames[-1],collapse="+"),sep=""))
-      em = lm(formula=ff, data=data)
+      em = lm(formula=ff, data=data, weights=m$wts)
       hatQm = Qm(em,method=method)
       if(hatQm<=UB){
         if(trace){
@@ -126,7 +129,7 @@ lmfence = function(mf, cstar,
             ff = as.formula(paste(yname," ~ ",
                                   paste(mnames[-1],collapse="+"),
                                   sep=""))
-            em = lm(ff, data = data)
+            em = lm(ff, data = data, weights=m$wts)
             hatQm = Qm(em,method=method)
             if(hatQm<=UB){
               if(trace) txt.fn(hatQm,UB,em)
