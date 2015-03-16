@@ -50,7 +50,6 @@ glmfence = function(mf,
   Qm0 = Qm(m0, method=method) # Qm for the null model
   ret = met = list()
 
-  
   # Null model
   if(trace) cat(paste("Null model "))
   UB = Qmf + cstar*sigMM(k.mod=1, method, k.full=kf,adaptive=adaptive)
@@ -79,9 +78,9 @@ glmfence = function(mf,
       if(trace) cat(paste("Model size:",i,""))
       UB = Qmf + cstar*sigMM(k.mod=i, method, k.full=kf, adaptive=adaptive)
       mnames = colnames(lc)[which(lc[i,]==1)]
-      ff = as.formula(paste(yname," ~ ",
+      ff = as.formula(safeDeparse(paste(yname," ~ ",
                             paste(mnames[-1],collapse="+"),
-                            sep=""))
+                            sep="")))
       em = glm(formula=ff, data=Xy, family=family, weights=wts)
       hatQm = Qm(em,method=method)
       if(hatQm<=UB){

@@ -104,14 +104,14 @@ af = function(mf,
   Xy = m$X
   kf = m$k
   n = m$n
-  #Xy$.wts = m$wts
+  Xy$initial.weights = m$wts
   null.ff = as.formula(paste(yname,"~1"))
   if(model.type=="glm"){
-    m0 = glm(null.ff, data = Xy, family=family, weights = .wts) 
-    mfstar = glm(fixed, data = Xy, family=family, weights = .wts) 
+    m0 = glm(null.ff, data = Xy, family=family, weights = initial.weights) 
+    mfstar = glm(fixed, data = Xy, family=family, weights = initial.weights) 
   } else {
-    m0 = lm(null.ff, data = Xy, weights = .wts) 
-    mfstar = lm(fixed, data = Xy, weights = .wts) 
+    m0 = lm(null.ff, data = Xy, weights = initial.weights) 
+    mfstar = lm(fixed, data = Xy, weights = initial.weights) 
   }
   Qm0 = Qm(m0, method=method)
   Qmfstar = Qm(mfstar, method=method)
@@ -122,9 +122,9 @@ af = function(mf,
   }
   if (initial.stepwise) {
     if(model.type=="glm"){
-      small.mod = glm(small.ff, data = Xy, family=family, weights = .wts)
+      small.mod = glm(small.ff, data = Xy, family=family, weights = initial.weights)
     } else {
-      small.mod = lm(small.ff, data = Xy, weights = .wts)
+      small.mod = lm(small.ff, data = Xy, weights = initial.weights)
     }
     # backwards and forwards model selection using
     # BIC (conservative) and AIC (less conservative)
@@ -169,11 +169,11 @@ af = function(mf,
     fence.mod = list()
     fence.rank = list()
     ystar = simulate(object=mfstar,nsim=B)
-    #.wts <<- .wts
+    initial.weights <<- m$wts
     if(model.type=="glm"){
       for(i in 1:B){
         Xy[yname] = ystar[,i]
-        mfstarB = do.call("glm",list(fixed,data=Xy,family=family, weights = m$wts))
+        mfstarB = do.call("glm",list(fixed,data=Xy,family=family, weights = initial.weights))
         fms = glmfence(mfstarB, cstar=c.range[j], 
                        trace=FALSE, nvmax=nvmax, adaptive=TRUE)
         fence.mod = c(fence.mod,fms)
@@ -182,7 +182,7 @@ af = function(mf,
     } else {
       for(i in 1:B){
         Xy[yname] = ystar[,i]
-        mfstarB = do.call("lm",list(fixed, data=Xy, weights = m$wts))
+        mfstarB = do.call("lm",list(fixed, data=Xy, weights = initial.weights))
         fms = lmfence(mfstarB, cstar=c.range[j], trace=FALSE,
                       nvmax = nvmax, force.in=force.in, adaptive=TRUE)
         fence.mod = c(fence.mod,fms)

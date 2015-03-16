@@ -136,12 +136,14 @@ mextract = function(model,screen,redundant=TRUE){
   # what's the name of the dependent variable?
   yname = deparse(formula(model)[[2]])
   # Set up the data frames for use
+  data = model.frame(model)
   X = model.matrix(model)
   n=nrow(X)
   # full model plus redundant variable
   if(redundant){
     REDUNDANT.VARIABLE = rnorm(n)
     X = cbind(X,REDUNDANT.VARIABLE)
+    data = cbind(data,REDUNDANT.VARIABLE)
   }
   if(colnames(X)[1]=="(Intercept)"){
     # overwrite intercept with y-variable
@@ -166,14 +168,19 @@ mextract = function(model,screen,redundant=TRUE){
       return()
     }
   }
-  
+  wts = model$weights
+  if(is.element("glm",class(model))){
+    wts = model$prior.weights
+    Xy[,yname] = model$y
+  } 
   
   return(list(yname=yname,
               fixed=fixed,
-              wts = model$weights,
+              wts = wts,
               X=Xy,
               k = k,
               n=n,
+              data = data,
               family = family(model)))
   
   # MIXED MODELS NOT IMPLEMENTED IN FIRST RELEASE   
@@ -206,6 +213,16 @@ mextract = function(model,screen,redundant=TRUE){
   #                           paste(names(coef(model))[-1],collapse="+"))
   #     model = lm(fixed.formula, data = X)
   #   }
+}
+
+#' Safe deparse
+#' 
+#' Supports long formula construction
+#' 
+safeDeparse <- function(expr){
+  ret <- paste(deparse(expr), collapse="")
+  #rm whitespace
+  gsub("[[:space:]][[:space:]]+", " ", ret)
 }
 
 #' Print text for fence methods

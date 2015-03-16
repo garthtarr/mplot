@@ -55,6 +55,7 @@ vis=function(mf,nvmax,B=100,lambda.max,
   X = m$X
   kf = m$k
   n = m$n
+  initial.weights = m$wts
   if(missing(nvmax)) nvmax = kf
   ## iterate over all possible models
   res.names= list()
