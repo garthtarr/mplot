@@ -105,6 +105,7 @@ af = function(mf,
   kf = m$k
   n = m$n
   Xy$initial.weights = m$wts
+  initial.weights = m$wts
   null.ff = as.formula(paste(yname,"~1"))
   if(model.type=="glm"){
     m0 = glm(null.ff, data = Xy, family=family, weights = initial.weights) 
@@ -250,6 +251,7 @@ af = function(mf,
   afout$bestOnly = pstar.fn(p.star.all,type="bo")
   afout$all = pstar.fn(p.star.all,type="all")
   afout$call = af.call
+  afout$screen = screen
   if(initial.stepwise){
     afout$initial.stepwise = list(
       fwds.AIC = as.formula(fwds.AIC),

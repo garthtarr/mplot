@@ -1,3 +1,19 @@
+mplot 0.5.5 []
+------------------------
+
+* mplot interface now uses shinydashboard
+* the scatterplot matrix from the mplot shiny
+  interface has now been spun off into its 
+  own package: parisD3
+* issue with zooming on transparent reported to 
+  GoogleCharts - the workaround is to not use
+  backgroundColor = 'transparent' until it is fixed
+  at the source
+* Reimplemented variable importance plots to 
+  avoid massive memory use for moderate model
+  sizes.
+  
+
 mplot 0.5.0 [2015-02-01]
 ------------------------
 

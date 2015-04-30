@@ -48,7 +48,7 @@
 vis=function(mf,nvmax,B=100,lambda.max,
              n.cores=2,force.in=NULL,screen=FALSE,redundant=TRUE,...){
   
-  m = mextract(mf,screen=screen,redundant=redundant) 
+  m = mplot:::mextract(mf,screen=screen,redundant=redundant) 
   fixed = m$fixed
   yname = m$yname
   family = m$family
@@ -57,134 +57,142 @@ vis=function(mf,nvmax,B=100,lambda.max,
   n = m$n
   initial.weights = m$wts
   if(missing(nvmax)) nvmax = kf
-  ## iterate over all possible models
-  res.names= list()
-  res.names[[1]] = "1"
-  for(i in 2:nvmax){ # runs over the different model sizes
-    res.names[[i]] = combn(unlist(strsplit(as.character(fixed)[3],split = " + ",fixed = TRUE)),i-1)
-  }
-  # create a look up table res.names.full which can be used
-  # to see which variables are in the 'best' model
-  res.names.t = lapply(res.names,t)
-  nrows <- unlist(lapply(res.names.t, nrow))
-  ncols = unlist(lapply(res.names.t, ncol))
-  res.names.full = matrix(NA,ncol=max(ncols),nrow=sum(nrows))
-  res.names.full[1,1] = "1"
-  k=2
-  for(i in 2:length(nrows)){
-    for(j in 1:nrows[i]){
-      res.names.full[k,1:ncols[i]] = res.names.t[[i]][j,]
-      k=k+1
-    }
-  }
-  res = matrix(NA,nrow = nrow(res.names.full),ncol=B)
-  res.2ll = list()
-  res.min.model.names = list()
-  #### SINGLE PASS OVER ALL MODELS ####
-  ff = paste(yname," ~ 1")
-  ff = as.formula(ff)
-  if(any(class(mf)=="glm")==TRUE){
-    em = glm(formula=ff, data=X, family=family)
-  } else {
-    em = lm(formula=ff, data=X)
-  }
-  k=1
-  res.2ll[[1]] = -2*as.numeric(logLik(em))
   
-  require(doParallel)
-  if(missing(n.cores)) n.cores = max(detectCores()-1,1)
-  cl.vis = makeCluster(n.cores)
-  registerDoParallel(cl.vis)
-  require(foreach)
-  res.2ll.temp = foreach(i = 2:nvmax) %dopar% {
-    ll=NA # still need this as usual
-    ll.model=NA
-    # run over each model of a given size
-    for(j in 1:dim(res.names[[i]])[2]){ 
-      ff = paste(yname," ~ ",
-                 paste(res.names[[i]][,j],collapse="+"),sep="")
-      ll.model[j] = ff
-      ff = as.formula(ff)
-      if(any(class(mf)=="glm")==TRUE){
-        em = glm(formula=ff, data=X, family=family)
-      } else {
-        em = lm(formula=ff, data=X)
-      }
-      hatQm = -2*as.numeric(logLik(em))
-      ll[j] = hatQm 
+  ### when complete enumeration is possible,
+  ### do it otherwise use leaps/bestglm to 
+  ### only store the optimal models
+  if(kf < 10){
+    ## iterate over all possible models
+    res.names= list()
+    res.names[[1]] = "1"
+    for(i in 2:nvmax){ # runs over the different model sizes
+      res.names[[i]] = combn(unlist(strsplit(as.character(fixed)[3],split = " + ",fixed = TRUE)),i-1)
     }
-    ll
-  }
-  res.2ll = c(res.2ll,res.2ll.temp)
-  stopCluster(cl.vis)
-  #### BOOTSTRAPPING COMPONENT ####
-  if(B>1){
-    cl.visB = makeCluster(n.cores)
-    registerDoParallel(cl.visB)
-    res = foreach(b = 1:B, .combine = cbind) %dopar% {
-      res.temp = rep(NA,nrow(res.names.full))
-      wts = rexp(n=n,rate=1)
-      ## null model
-      ff = paste(yname," ~ 1")
-      ff = as.formula(ff)
-      if(any(class(mf)=="glm")==TRUE){
-        em = glm(formula=ff, data=X, family=family, weights=wts)
-      } else {
-        em = lm(formula=ff, data=X, weights=wts)
+    # create a look up table res.names.full which can be used
+    # to see which variables are in the 'best' model
+    res.names.t = lapply(res.names,t)
+    nrows <- unlist(lapply(res.names.t, nrow))
+    ncols = unlist(lapply(res.names.t, ncol))
+    res.names.full = matrix(NA,ncol=max(ncols),nrow=sum(nrows))
+    res.names.full[1,1] = "1"
+    k=2
+    for(i in 2:length(nrows)){
+      for(j in 1:nrows[i]){
+        res.names.full[k,1:ncols[i]] = res.names.t[[i]][j,]
+        k=k+1
       }
-      k=1
-      res.temp[k] = -2*as.numeric(logLik(em)) 
-      res.min.model.names[[1]] = "y ~ 1"
-      # run over the different model sizes:
-      for(i in 2:nvmax){ 
-        # run over each model of a given size:
-        for(j in 1:dim(res.names[[i]])[2]){ 
-          ff = paste(yname," ~ ",
-                     paste(res.names[[i]][,j],collapse="+"),sep="")
-          ff = as.formula(ff)
-          if(any(class(mf)=="glm")==TRUE){
-            em = glm(formula=ff, data=X, family=family,weights=wts)
-          } else {
-            em = lm(formula=ff, data=X,weights=wts)
-          }
-          k=k+1
-          res.temp[k] = -2*as.numeric(logLik(em))
+    }
+    res = matrix(NA,nrow = nrow(res.names.full),ncol=B)
+    res.2ll = list()
+    res.min.model.names = list()
+    #### SINGLE PASS OVER ALL MODELS ####
+    ff = paste(yname," ~ 1")
+    ff = as.formula(ff)
+    if(any(class(mf)=="glm")==TRUE){
+      em = glm(formula=ff, data=X, family=family)
+    } else {
+      em = lm(formula=ff, data=X)
+    }
+    k=1
+    res.2ll[[1]] = -2*as.numeric(logLik(em))
+    
+    require(doParallel)
+    if(missing(n.cores)) n.cores = max(detectCores()-1,1)
+    cl.vis = makeCluster(n.cores)
+    registerDoParallel(cl.vis)
+    require(foreach)
+    res.2ll.temp = foreach(i = 2:nvmax) %dopar% {
+      ll=NA # still need this as usual
+      ll.model=NA
+      # run over each model of a given size
+      for(j in 1:dim(res.names[[i]])[2]){ 
+        ff = paste(yname," ~ ",
+                   paste(res.names[[i]][,j],collapse="+"),sep="")
+        ll.model[j] = ff
+        ff = as.formula(ff)
+        if(any(class(mf)=="glm")==TRUE){
+          em = glm(formula=ff, data=X, family=family)
+        } else {
+          em = lm(formula=ff, data=X)
         }
+        hatQm = -2*as.numeric(logLik(em))
+        ll[j] = hatQm 
       }
-      res.temp
+      ll
     }
-    stopCluster(cl.visB)
-    lngth = function(x){
-      length(na.omit(x))
+    res.2ll = c(res.2ll,res.2ll.temp)
+    stopCluster(cl.vis)
+    #### BOOTSTRAPPING COMPONENT ####
+    if(B>1){
+      cl.visB = makeCluster(n.cores)
+      registerDoParallel(cl.visB)
+      res = foreach(b = 1:B, .combine = cbind) %dopar% {
+        res.temp = rep(NA,nrow(res.names.full))
+        wts = rexp(n=n,rate=1)
+        ## null model
+        ff = paste(yname," ~ 1")
+        ff = as.formula(ff)
+        if(any(class(mf)=="glm")==TRUE){
+          em = glm(formula=ff, data=X, family=family, weights=wts)
+        } else {
+          em = lm(formula=ff, data=X, weights=wts)
+        }
+        k=1
+        res.temp[k] = -2*as.numeric(logLik(em)) 
+        res.min.model.names[[1]] = "y ~ 1"
+        # run over the different model sizes:
+        for(i in 2:nvmax){ 
+          # run over each model of a given size:
+          for(j in 1:dim(res.names[[i]])[2]){ 
+            ff = paste(yname," ~ ",
+                       paste(res.names[[i]][,j],collapse="+"),sep="")
+            ff = as.formula(ff)
+            if(any(class(mf)=="glm")==TRUE){
+              em = glm(formula=ff, data=X, family=family,weights=wts)
+            } else {
+              em = lm(formula=ff, data=X,weights=wts)
+            }
+            k=k+1
+            res.temp[k] = -2*as.numeric(logLik(em))
+          }
+        }
+        res.temp
+      }
+      stopCluster(cl.visB)
+      lngth = function(x){
+        length(na.omit(x))
+      }
+      ks = apply(res.names.full,1,lngth)+1
+      ks[1] = 1
+      ### Variable inclusion Plot Calculations
+      if(missing(lambda.max)) lambda.max = 2*log(n)
+      lambdas = seq(0,lambda.max,0.01)
+      min.pos = matrix(NA,ncol=B,nrow=length(lambdas))
+      for(i in 1:length(lambdas)){
+        resl = res+lambdas[i]*ks
+        min.pos[i,] = apply(resl,2,which.min)
+      }
+      #### lvk where bubbles reflect frequencey of choice
+      t1 = split(res,f=ks)
+      t2 = lapply(t1,matrix,ncol=ncol(res))
+      which.fn = function(x) which(x==min(x))
+      which.fn1 = function(x) apply(x,2,which.fn)
+      min.model = lapply(t2,which.fn1)
+      t4 = split(res.names.full,f=ks)
+      t5 = lapply(t4,matrix,ncol=ncol(res.names.full))
+      for(i in 1:length(t5)){
+        res.min.model.names[[i]] = t5[[i]][min.model[[i]],]
+      }
     }
-    ks = apply(res.names.full,1,lngth)+1
-    ks[1] = 1
-    ### Variable inclusion Plot Calculations
-    if(missing(lambda.max)) lambda.max = 2*log(n)
-    lambdas = seq(0,lambda.max,0.01)
-    min.pos = matrix(NA,ncol=B,nrow=length(lambdas))
-    for(i in 1:length(lambdas)){
-      resl = res+lambdas[i]*ks
-      min.pos[i,] = apply(resl,2,which.min)
-    }
-    #### lvk where bubbles reflect frequencey of choice
-    t1 = split(res,f=ks)
-    t2 = lapply(t1,matrix,ncol=ncol(res))
-    which.fn = function(x) which(x==min(x))
-    which.fn1 = function(x) apply(x,2,which.fn)
-    min.model = lapply(t2,which.fn1)
-    t4 = split(res.names.full,f=ks)
-    t5 = lapply(t4,matrix,ncol=ncol(res.names.full))
-    for(i in 1:length(t5)){
-      res.min.model.names[[i]] = t5[[i]][min.model[[i]],]
-    }
+    seq.lng = lapply(res.2ll,length)
+    res.final = list(lk=data.frame(LL= unlist(res.2ll),
+                                   k=rep(1:length(res.2ll),seq.lng)),
+                     models = res.names.full, 
+                     best.models=res.min.model.names,screen=screen,
+                     min.pos = min.pos, lambdas=lambdas, n=n)
+  } else {
+    
   }
-  seq.lng = lapply(res.2ll,length)
-  res.final = list(lk=data.frame(LL= unlist(res.2ll),
-                                 k=rep(1:length(res.2ll),seq.lng)),
-                   models = res.names.full, 
-                   best.models=res.min.model.names,
-                   min.pos = min.pos, lambdas=lambdas, n=n)
   class(res.final) = "vis"
   return(res.final)
 }
@@ -237,7 +245,10 @@ vis=function(mf,nvmax,B=100,lambda.max,
 #'   \code{shiny=TRUE} when displaying output within a shiny interface.
 #' @param backgroundColor The background colour for the main area 
 #'   of the chart. A simple HTML color string, 
-#'   for example: 'red' or '#00cc00'.  Default: 'transparent'
+#'   for example: 'red' or '#00cc00'.  Default: 'null' (there's an 
+#'   issue with GoogleCharts when setting 'transparent' related to the 
+#'   zoom window sticking - once that's sorted out, the default
+#'   will change back to 'transparent')
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{vis}}
 #' @references Mueller, S. and Welsh, A. H. (2010), On Model 
@@ -272,6 +283,12 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                     axisTitlesPosition="out",dataOpacity=0.5,
                     options=NULL,shiny=FALSE,
                     backgroundColor = 'transparent',...){
+  if(backgroundColor=="transparent"){
+    backgroundColor = "{stroke:null, fill:'null', strokeSize: 0}"
+  } else {
+    backgroundColor = paste("{stroke:null, fill:'",backgroundColor,
+                            "', strokeSize: 0}",sep="")
+  }
   find.var = function(x,highlight){
     is.element(highlight,x)
   }

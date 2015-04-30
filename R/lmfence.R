@@ -55,7 +55,7 @@ lmfence = function(mf, cstar,
   yname = m$yname
   data = m$X
   n = m$n
-  #.wts = m$wts
+  wts = m$wts
   if(missing(nvmax)) nvmax=kf
   null.ff = as.formula(paste(yname,"~1"))
   m0 = lm(null.ff, data = data, weights=m$wts) # null model

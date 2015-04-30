@@ -108,6 +108,7 @@ bglmnet = function (mf, nlambda = 100, lambda=NULL, B=100,
                  lambda = lambda,
                  mods = mods,
                  mod.sum = mod.sum,
+                 screen = screen,
                  vars = names(mf$coef),
                  call = match.call())
   class(blarout) = "bglmnet"

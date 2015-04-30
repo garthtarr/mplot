@@ -78,9 +78,7 @@ glmfence = function(mf,
       if(trace) cat(paste("Model size:",i,""))
       UB = Qmf + cstar*sigMM(k.mod=i, method, k.full=kf, adaptive=adaptive)
       mnames = colnames(lc)[which(lc[i,]==1)]
-      ff = as.formula(safeDeparse(paste(yname," ~ ",
-                            paste(mnames[-1],collapse="+"),
-                            sep="")))
+      ff = as.formula(paste(yname," ~ ",paste(mnames[-1],collapse="+"),sep=""))
       em = glm(formula=ff, data=Xy, family=family, weights=wts)
       hatQm = Qm(em,method=method)
       if(hatQm<=UB){

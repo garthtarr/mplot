@@ -173,6 +173,9 @@ mextract = function(model,screen,redundant=TRUE){
     wts = model$prior.weights
     Xy[,yname] = model$y
   } 
+  if(is.null(wts)){
+    wts = rep(1,n)
+  }
   
   return(list(yname=yname,
               fixed=fixed,

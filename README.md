@@ -8,7 +8,13 @@ The speed of implementation comes from the leaps package and multicore support f
 
 ## Installation
 
-You can install the development version from [Github](https://github.com/garthtarr/mplot):
+Step 1: check that you're running the most recent versions of your currently installed R packages:
+
+```s
+update.packages()
+```
+
+Step 2: use the `devtools` package to install the development version of `mplot` from [Github](https://github.com/garthtarr/mplot):
 
 ```s
 # install.packages("devtools")
@@ -16,14 +22,6 @@ require(devtools)
 install_github("garthtarr/mplot",quick=TRUE)
 require(mplot)
 ```
-
-To get the most out of the mplot package on a unix machine, you will need a few extra packages too:
-
-```s
-install.packages(c("foreach","doMC"))
-```
-
-Note that multicore functionality hasn't been implemented for windows machines yet.
 
 ## Usage
 
@@ -43,11 +41,9 @@ detach("package:mplot", unload=TRUE)
 remove.packages("mplot")
 ```
 
-Then the next time you want to use it, you'll need to install the package again from github.
+If you do this, then the next time you want to use it, you'll need to install the package again from github.
 
 ## Known issues
 
 The `vis` function is not yet optimised to take advantage of leaps
 technology and so it can take a while to run on moderately large data sets.
-
-We have not done any testing on windows machines.  The multicore functionality is currently only implemented for unix-based machines (which include Macs).
