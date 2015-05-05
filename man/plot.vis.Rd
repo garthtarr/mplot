@@ -68,10 +68,7 @@ of plots within the mplot shiny user interface.  Use
 
 \item{backgroundColor}{The background colour for the main area
 of the chart. A simple HTML color string,
-for example: 'red' or '#00cc00'.  Default: 'null' (there's an
-issue with GoogleCharts when setting 'transparent' related to the
-zoom window sticking - once that's sorted out, the default
-will change back to 'transparent')}
+for example: 'red' or '#00cc00'.  Default: 'transparent'}
 
 \item{...}{further arguments (currently unused)}
 }

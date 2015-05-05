@@ -245,10 +245,7 @@ vis=function(mf,nvmax,B=100,lambda.max,
 #'   \code{shiny=TRUE} when displaying output within a shiny interface.
 #' @param backgroundColor The background colour for the main area 
 #'   of the chart. A simple HTML color string, 
-#'   for example: 'red' or '#00cc00'.  Default: 'null' (there's an 
-#'   issue with GoogleCharts when setting 'transparent' related to the 
-#'   zoom window sticking - once that's sorted out, the default
-#'   will change back to 'transparent')
+#'   for example: 'red' or '#00cc00'.  Default: 'transparent'
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{vis}}
 #' @references Mueller, S. and Welsh, A. H. (2010), On Model 
@@ -283,12 +280,6 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                     axisTitlesPosition="out",dataOpacity=0.5,
                     options=NULL,shiny=FALSE,
                     backgroundColor = 'transparent',...){
-  if(backgroundColor=="transparent"){
-    backgroundColor = "{stroke:null, fill:'null', strokeSize: 0}"
-  } else {
-    backgroundColor = paste("{stroke:null, fill:'",backgroundColor,
-                            "', strokeSize: 0}",sep="")
-  }
   find.var = function(x,highlight){
     is.element(highlight,x)
   }
@@ -445,18 +436,18 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                        vAxis="{title:'-2*Log-likelihood'}",
                        hAxis=gvis.hAxis,
                        sizeAxis = "{minValue: 0, minSize: 1,  
-                                maxSize: 20, maxValue:1}",
+                       maxSize: 20, maxValue:1}",
                        axisTitlesPosition=axisTitlesPosition,
                        bubble = bubble,
                        chartArea=chartArea,
                        width=width, height=height,
                        backgroundColor=backgroundColor,
                        explorer= "{axis: 'vertical',  
-                               keepInBounds: true,
-                               maxZoomOut: 1,
-                               maxZoomIn: 0.01,
-                               actions: ['dragToZoom', 
-                                         'rightClickToReset']}")
+                       keepInBounds: true,
+                       maxZoomOut: 1,
+                       maxZoomIn: 0.01,
+                       actions: ['dragToZoom', 
+                       'rightClickToReset']}")
     } else {use.options = options}
     fplot = gvisBubbleChart(data=dat,idvar = "mods",xvar = "k",
                             yvar = "LL", colorvar = "var.ident", 
@@ -496,9 +487,9 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
     vip.df[, tid] = sapply(vip.df[, tid], as.numeric)
     gvis.title = "Variable inclusion plot"
     lineseries="[{lineDashStyle: [2,2], lineWidth: 2, color:'gray',
-                      visibleInLegend: false},
-                    {lineDashStyle: [2,2], lineWidth: 2, color:'gray',
-                      visibleInLegend: false}]"
+    visibleInLegend: false},
+    {lineDashStyle: [2,2], lineWidth: 2, color:'gray',
+    visibleInLegend: false}]"
     chartArea = paste("{left:",left,
                       ",top:",top,
                       ",width:'",chartWidth,
@@ -509,7 +500,7 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                        vAxis="{title:'Bootstrapped probability'}",
                        hAxis="{title:'Penalty'}",
                        sizeAxis = "{minValue: 0, minSize: 1,  
-                                maxSize: 20, maxValue:1}",
+                       maxSize: 20, maxValue:1}",
                        axisTitlesPosition=axisTitlesPosition,
                        series = lineseries,
                        chartArea=chartArea,
@@ -517,10 +508,10 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                        backgroundColor=backgroundColor,
                        annotations = "{style:'line'}",
                        explorer= "{axis: 'vertical',  
-                               keepInBounds: true,
-                               maxZoomOut: 1,
-                               maxZoomIn: 0.01,
-                               actions: ['dragToZoom', 'rightClickToReset']}")
+                       keepInBounds: true,
+                       maxZoomOut: 1,
+                       maxZoomIn: 0.01,
+                       actions: ['dragToZoom', 'rightClickToReset']}")
     } else {use.options = options}
     fplot = gvisLineChart(data=vip.df,
                           xvar="lambda",
