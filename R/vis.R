@@ -61,7 +61,7 @@ vis=function(mf,nvmax,B=100,lambda.max,
   ### when complete enumeration is possible,
   ### do it otherwise use leaps/bestglm to 
   ### only store the optimal models
-  if(kf < 10){
+  #if(kf < 10){
     ## iterate over all possible models
     res.names= list()
     res.names[[1]] = "1"
@@ -190,9 +190,9 @@ vis=function(mf,nvmax,B=100,lambda.max,
                      models = res.names.full, 
                      best.models=res.min.model.names,screen=screen,
                      min.pos = min.pos, lambdas=lambdas, n=n)
-  } else {
+  #} else {
     
-  }
+  #}
   class(res.final) = "vis"
   return(res.final)
 }
