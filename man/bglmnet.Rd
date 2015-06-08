@@ -4,8 +4,8 @@
 \alias{bglmnet}
 \title{Boostrap model selection plots for glmnet}
 \usage{
-bglmnet(mf, nlambda = 100, lambda = NULL, B = 100, probaseuil = 1,
-  penalty.factor, random, screen = FALSE)
+bglmnet(mf, nlambda = 100, lambda = NULL, B = 100, penalty.factor,
+  screen = FALSE, n.cores = NULL, force.in = NULL)
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call
@@ -17,6 +17,18 @@ to lm or glm (and in the future lme or lmer).}
 
 \item{B}{number of bootstrap replications}
 
+\item{penalty.factor}{Separate penalty factors can be applied to each
+coefficient. This is a number that multiplies lambda to allow
+differential shrinkage. Can be 0 for some variables, which implies
+no shrinkage, and that variable is always included in the model.
+Default is 1 for all variables (and implicitly infinity for variables
+listed in exclude). Note: the penalty factors are internally rescaled
+to sum to nvars, and the lambda sequence will reflect this change.}
+
+\item{screen}{logical, whether or not to perform an initial
+screen for outliers.  Highly experimental, use at own risk.
+Default = FALSE.}
+
 \item{n.cores}{number of cores to be used when parallel
 processing the bootstrap (Not yet implemented.)}
 
@@ -26,29 +38,12 @@ into all estimated models. (Not yet implemented.)}
 \item{...}{further arguments (currently unused)}
 }
 \description{
-Experimental!!
+Experimental!! (Which is why it is not exported yet.)
 }
 \details{
 The result of this function is essentially just a
   list. The supplied plot method provides a way to visualise the
   results.
-}
-\examples{
-n = 100
-set.seed(11)
-e = rnorm(n)
-x1 = rnorm(n)
-x2 = rnorm(n)
-x3 = x1^2
-x4 = x2^2
-x5 = x1*x2
-y = 1 + x1 + x2 + e
-dat = data.frame(y,x1,x2,x3,x4,x5)
-lm1 = lm(y~.,data=dat)
-bgn1 = mplot:::bglmnet(lm1)
-\dontrun{
-plot(bgn1,highlight="x1")
-}
 }
 \seealso{
 \code{\link{plot.bglmnet}}

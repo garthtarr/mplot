@@ -69,7 +69,7 @@ glmfence = function(mf,
   # look around for the best model at each model size
   while(prev.nvmax<=kf){
     prev.nvmax = nvmax
-    bg = bestglm(Xy=Xy, family=family,
+    bg = bestglm::bestglm(Xy=Xy, family=family,
                  IC = "BIC",
                  TopModels = 5*kf,
                  nvmax = nvmax, weights=wts)

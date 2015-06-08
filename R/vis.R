@@ -11,10 +11,17 @@
 #' @param B number of bootstrap replications
 #' @param lambda.max maximum penalty value for the vip plot, 
 #'   defaults to 2*log(n)
+#' @param nbest maximum number of models at each model size 
+#'   that will be considered for the lvk plot.
 #' @param n.cores number of cores to be used when parallel
 #'   processing the bootstrap.
 #' @param force.in the names of variables that should be forced
 #'   into all estimated models. (Not yet implemented.)
+#' @param screen logical, whether or not to perform an initial
+#'   screen for outliers.  Highly experimental, use at own risk.
+#'   Default = FALSE.
+#' @param redundant logical, whether or not to add a redundant
+#'   variable.  Default = TRUE.
 #' @param ... further arguments (currently unused)
 #' @details The result of this function is essentially just a
 #'   list. The supplied plot method provides a way to visualise the
@@ -28,6 +35,8 @@
 #'   tools for model selection in generalized linear models. 
 #'   Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
 #' @export
+#' @import foreach
+#' @import parallel
 #' @examples
 #' n = 100
 #' set.seed(11)
@@ -45,10 +54,11 @@
 #' plot(v1,highlight="x1")
 #' }
 
-vis=function(mf,nvmax,B=100,lambda.max,
-             n.cores=2,force.in=NULL,screen=FALSE,redundant=TRUE,...){
+vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
+             n.cores, force.in=NULL, screen=FALSE,
+             redundant=TRUE,...){
   
-  m = mplot:::mextract(mf,screen=screen,redundant=redundant) 
+  m = mextract(mf,screen=screen,redundant=redundant) 
   fixed = m$fixed
   yname = m$yname
   family = m$family
@@ -58,143 +68,189 @@ vis=function(mf,nvmax,B=100,lambda.max,
   initial.weights = m$wts
   if(missing(nvmax)) nvmax = kf
   
-  ### when complete enumeration is possible,
-  ### do it otherwise use leaps/bestglm to 
-  ### only store the optimal models
-  #if(kf < 10){
-  ## iterate over all possible models
-  res.names= list()
-  res.names[[1]] = "1"
-  for(i in 2:nvmax){ # runs over the different model sizes
-    res.names[[i]] = combn(unlist(strsplit(as.character(fixed)[3],split = " + ",fixed = TRUE)),i-1)
+  add.intercept.row = function(em,rs.which,rs.stats){
+    # add an intercept row 
+    rs.which = rbind(c(1,rep(0,dim(rs.which)[2]-1)),rs.which)
+    # used for testing
+    # f0 = as.formula(paste(yname," ~ 1"))
+    # lm0 = lm(formula=f0,data=X)
+    i=1 # special case for the null model
+    intercept = TRUE
+    n1 = em$nn-intercept
+    sigma2 = em$sserr/(n1+intercept-em$last)
+    nullrss = em$nullrss
+    ress = em$nullrss 
+    # ress = sum(resid(lm0)^2) # used for testing
+    vr = ress/nullrss
+    rsq = 1-vr
+    adjr2 = 1-vr*n1/(n1+intercept-i)
+    cp = ress/sigma2-(n1+intercept-2*i)
+    # the way leaps calculates the bic:
+    bic = (n1+intercept)*log(vr)+i*log(n1+intercept)
+    logLikelihood = -(em$nn + em$nn*log(2*pi) + em$nn*log(em$nullrss/em$nn))/2
+    rs.stats = rbind(c(logLikelihood,ress,bic,cp,rsq,adjr2,i),rs.stats)
+    return(cbind(rs.which,rs.stats))
   }
-  # create a look up table res.names.full which can be used
-  # to see which variables are in the 'best' model
-  res.names.t = lapply(res.names,t)
-  nrows <- unlist(lapply(res.names.t, nrow))
-  ncols = unlist(lapply(res.names.t, ncol))
-  res.names.full = matrix(NA,ncol=max(ncols),nrow=sum(nrows))
-  res.names.full[1,1] = "1"
-  k=2
-  for(i in 2:length(nrows)){
-    for(j in 1:nrows[i]){
-      res.names.full[k,1:ncols[i]] = res.names.t[[i]][j,]
-      k=k+1
-    }
-  }
-  res = matrix(NA,nrow = nrow(res.names.full),ncol=B)
-  res.2ll = list()
-  res.min.model.names = list()
-  #### SINGLE PASS OVER ALL MODELS ####
-  ff = paste(yname," ~ 1")
-  ff = as.formula(ff)
+  
+  ## Initial single pass 
+  ## (gives the minimum envelopping set of models)
+  
   if(any(class(mf)=="glm")==TRUE){
-    em = glm(formula=ff, data=X, family=family)
+    em = bestglm::bestglm(Xy=X, 
+                          family=family,
+                          IC="BIC",
+                          TopModels=1,
+                          nvmax=nvmax)
+    # starts with intercept row
+    rs.which = em$Subsets[,1:kf]+0
+    rs.stats = em$Subsets[,-c(1:kf)]
+    k = rowSums(rs.which)
+    rs.all = cbind(rs.which,rs.stats,k)
+    # in bestglm rs.all$logLikelihood comes from
+    # logLik(model) unless Gaussian in which case
+    # -(n/2) * log(sum(resid(ans)^2)/n) is used
+    # note the bic in bestglm is calculated as:
+    # -2*rs.all$logLikelihood + log(n)*(rs.all$k-1)
   } else {
-    em = lm(formula=ff, data=X)
+    em = leaps::regsubsets(x=fixed, 
+                           data=X,
+                           nbest=nbest,
+                           nvmax=nvmax,
+                           intercept=TRUE,
+                           force.in=force.in,
+                           really.big=TRUE)
+    rs = summary(em)
+    # does not start with intercept row
+    rs.which = data.frame(rs$which+0,row.names = NULL)
+    k = rowSums(rs.which)
+    # assuming Gaussian errors:
+    logLikelihood = -(n + n*log(2*pi) + n*log(rs$rss/n))/2
+    rs.stats = cbind(logLikelihood,rs$rss,rs$bic,
+                     rs$cp,rs$rsq,rs$adjr2,k)
+    colnames(rs.stats) = c("logLikelihood","rss","bic",
+                           "cp","rsq","adjr2","k")
+    rs.all = add.intercept.row(em,rs.which,rs.stats)
+    # note that the BIC in leaps (and add.intercept.row funtion)
+    # differs from the bestglm BIC buy a constant
   }
-  k=1
-  res.2ll[[1]] = -2*as.numeric(logLik(em))
   
-  require(doParallel)
+  nms = colnames(rs.all)[2:kf]
+  nm = apply(rs.all[,2:kf],1,function(x) Reduce(paste,paste(nms[x==1],sep="",collapse="+")))
+  nm[nm==""]="1"
+  nm = paste(yname,"~",nm,sep="")
+  nm = gsub(pattern=" ",replacement = "",x=nm)
+  nm = gsub(pattern="REDUNDANT.VARIABLE","RV",x=nm)
+  rs.all$name = nm
+  res.single.pass = rs.all
+  
+  ## Bootstrap version:
   if(missing(n.cores)) n.cores = max(detectCores()-1,1)
-  cl.vis = makeCluster(n.cores)
-  registerDoParallel(cl.vis)
-  require(foreach)
-  res.2ll.temp = foreach(i = 2:nvmax) %dopar% {
-    ll=NA # still need this as usual
-    ll.model=NA
-    # run over each model of a given size
-    for(j in 1:dim(res.names[[i]])[2]){ 
-      ff = paste(yname," ~ ",
-                 paste(res.names[[i]][,j],collapse="+"),sep="")
-      ll.model[j] = ff
-      ff = as.formula(ff)
-      if(any(class(mf)=="glm")==TRUE){
-        em = glm(formula=ff, data=X, family=family)
-      } else {
-        em = lm(formula=ff, data=X)
-      }
-      hatQm = -2*as.numeric(logLik(em))
-      ll[j] = hatQm 
-    }
-    ll
-  }
-  res.2ll = c(res.2ll,res.2ll.temp)
-  stopCluster(cl.vis)
-  #### BOOTSTRAPPING COMPONENT ####
-  if(B>1){
-    cl.visB = makeCluster(n.cores)
-    registerDoParallel(cl.visB)
-    res = foreach(b = 1:B, .combine = cbind) %dopar% {
-      res.temp = rep(NA,nrow(res.names.full))
-      wts = rexp(n=n,rate=1)
-      ## null model
-      ff = paste(yname," ~ 1")
-      ff = as.formula(ff)
-      if(any(class(mf)=="glm")==TRUE){
-        em = glm(formula=ff, data=X, family=family, weights=wts)
-      } else {
-        em = lm(formula=ff, data=X, weights=wts)
-      }
-      k=1
-      res.temp[k] = -2*as.numeric(logLik(em)) 
-      res.min.model.names[[1]] = "y ~ 1"
-      # run over the different model sizes:
-      for(i in 2:nvmax){ 
-        # run over each model of a given size:
-        for(j in 1:dim(res.names[[i]])[2]){ 
-          ff = paste(yname," ~ ",
-                     paste(res.names[[i]][,j],collapse="+"),sep="")
-          ff = as.formula(ff)
-          if(any(class(mf)=="glm")==TRUE){
-            em = glm(formula=ff, data=X, family=family,weights=wts)
-          } else {
-            em = lm(formula=ff, data=X,weights=wts)
-          }
-          k=k+1
-          res.temp[k] = -2*as.numeric(logLik(em))
-        }
-      }
-      res.temp
-    }
-    stopCluster(cl.visB)
-    lngth = function(x){
-      length(na.omit(x))
-    }
-    ks = apply(res.names.full,1,lngth)+1
-    ks[1] = 1
-    ### Variable inclusion Plot Calculations
-    if(missing(lambda.max)) lambda.max = 2*log(n)
-    lambdas = seq(0,lambda.max,0.01)
-    min.pos = matrix(NA,ncol=B,nrow=length(lambdas))
-    for(i in 1:length(lambdas)){
-      resl = res+lambdas[i]*ks
-      min.pos[i,] = apply(resl,2,which.min)
-    }
-    #### lvk where bubbles reflect frequencey of choice
-    t1 = split(res,f=ks)
-    t2 = lapply(t1,matrix,ncol=ncol(res))
-    which.fn = function(x) which(x==min(x))
-    which.fn1 = function(x) apply(x,2,which.fn)
-    min.model = lapply(t2,which.fn1)
-    t4 = split(res.names.full,f=ks)
-    t5 = lapply(t4,matrix,ncol=ncol(res.names.full))
-    for(i in 1:length(t5)){
-      res.min.model.names[[i]] = t5[[i]][min.model[[i]],]
+  cl.visB = makeCluster(n.cores)
+  doParallel::registerDoParallel(cl.visB)
+  res = foreach(b = 1:B,.packages = c("bestglm")) %dopar% {
+    wts = rexp(n=n,rate=1)
+    if(any(class(mf)=="glm")==TRUE){
+      em = bestglm::bestglm(Xy=X, 
+                            family=family,
+                            IC="BIC",
+                            TopModels=1,
+                            weights = wts,
+                            nvmax=nvmax)
+      # starts with intercept row
+      rs.which = em$Subsets[,1:kf]+0
+      rs.stats = em$Subsets[,-c(1:kf)]
+      k = rowSums(rs.which)
+      rs.all = cbind(rs.which,rs.stats,k)
+      # in bestglm rs.all$logLikelihood comes from
+      # logLik(model) unless Gaussian in which case
+      # -(n/2) * log(sum(resid(ans)^2)/n) is used
+      # note the bic in bestglm is calculated as:
+      # -2*rs.all$logLikelihood + log(n)*(rs.all$k-1)
+    } else {
+      em = leaps::regsubsets(x=fixed, 
+                             data=X,
+                             nbest=nbest,
+                             nvmax=nvmax,
+                             intercept=TRUE,
+                             force.in=force.in,
+                             weights=wts,
+                             really.big=TRUE)
+      rs = summary(em)
+      # does not start with intercept row
+      rs.which = data.frame(rs$which+0,row.names = NULL)
+      k = rowSums(rs.which)
+      # assuming Gaussian errors:
+      logLikelihood = -(n + n*log(2*pi) + n*log(rs$rss/n))/2
+      rs.stats = cbind(logLikelihood,rs$rss,rs$bic,
+                       rs$cp,rs$rsq,rs$adjr2,k)
+      colnames(rs.stats) = c("logLikelihood","rss","bic",
+                             "cp","rsq","adjr2","k")
+      rs.all = add.intercept.row(em,rs.which,rs.stats)
+      # note that the BIC in leaps (and add.intercept.row funtion)
+      # differs from the bestglm BIC buy a constant
     }
   }
-  seq.lng = lapply(res.2ll,length)
-  res.final = list(lk=data.frame(LL= unlist(res.2ll),
-                                 k=rep(1:length(res.2ll),seq.lng)),
-                   models = res.names.full, 
-                   best.models=res.min.model.names,screen=screen,
-                   min.pos = min.pos, lambdas=lambdas, n=n)
-  #} else {
   
-  #}
-  class(res.final) = "vis"
-  return(res.final)
+  ### Variable inclusion Plot Calculations
+  if(missing(lambda.max)) lambda.max = 2*log(n)
+  lambdas = seq(0,lambda.max,0.01)
+  var.in = matrix(NA,ncol=kf,nrow=length(lambdas))
+  colnames(var.in) = colnames(res[[1]][1:kf])
+  rownames(var.in) = lambdas
+  for(i in 1:length(lambdas)){
+    resl = lapply(res, function(x) -2*x$logLikelihood+lambdas[i]*x$k)
+    min.pos = unlist(lapply(resl,which.min))
+    temp.best = mapply(function(x,row) {x[row,1:kf]}, res, min.pos, SIMPLIFY=TRUE)
+    temp.best = matrix(as.numeric(temp.best),nrow=dim(temp.best)[1],dimnames=dimnames(temp.best))
+    var.in[i,] = rowSums(temp.best)
+  }
+  
+  #### lvk where bubbles reflect frequencey of choice
+  best.within.size = function(x){
+    rankings.within.size = unlist(aggregate(-2*x$logLikelihood,rank,by=list(x$k))$x)
+    return(x[rankings.within.size==1,])
+  }
+  res.best = lapply(res,best.within.size)
+  
+  res.df = do.call(rbind.data.frame,res.best)
+  res.df = plyr::count(df = res.df,vars = 1:kf)
+  res.df$logLikelihood = NA
+  res.df$name = NA
+  res.df$k = rowSums(res.df[,1:kf])
+  
+  # iterate over all required models on the original date
+  # to obtain logLiks (in future could extract other stats)
+  for(i in 1:dim(res.df)[1]){
+    ff = paste(yname," ~ ",
+               paste(colnames(res.df[2:kf])[res.df[i,2:kf]==1],collapse="+"),sep="")
+    if(ff == paste(yname," ~ ",sep="")){
+      ff = as.formula(paste(yname,"~1"))
+    } else {
+      ff = as.formula(ff)
+    }
+    if(any(class(mf)=="glm")==TRUE){
+      em = glm(formula=ff, data=X, family=family,weights=initial.weights)
+    } else {
+      em = lm(formula=ff, data=X,weights=initial.weights)
+    }
+    res.df$logLikelihood[i] = as.numeric(logLik(em))
+    nm = gsub(pattern=" ",replacement = "",x=Reduce(paste,deparse(ff)))
+    nm = gsub(pattern="REDUNDANT.VARIABLE","RV",x=nm)
+    res.df$name[i] = nm
+  }
+  
+  res.df = res.df[with(res.df,order(k,-freq)),]
+  
+  output = list(res.df = res.df,
+                res.single.pass = res.single.pass,
+                var.in = var.in,
+                screen = screen,
+                mextract = m,
+                lambdas = lambdas,
+                B=B)
+  
+  class(output) = "vis"
+  return(output)
 }
 
 
@@ -240,15 +296,22 @@ vis=function(mf,nvmax,B=100,lambda.max,
 #' @param options a list to be passed to the googleVis function giving
 #'   complete control over the output.  Specifying a value for 
 #'   \code{options} overwrites all other plotting variables.
-#' @param shiny logical. Used internally to facilitate proper display
-#'   of plots within the mplot shiny user interface.  Use 
-#'   \code{shiny=TRUE} when displaying output within a shiny interface.
 #' @param backgroundColor The background colour for the main area 
 #'   of the chart. A simple HTML color string, 
 #'   for example: 'red' or '#00cc00'.  Default: 'null' (there's an 
 #'   issue with GoogleCharts when setting 'transparent' related to the 
 #'   zoom window sticking - once that's sorted out, the default
 #'   will change back to 'transparent')
+#' @param text logical, whether or not to add text labels to classic
+#'   boot plot. Default = FALSE.
+#' @param min.prob when text=TRUE, a lower bound on the probability of 
+#'   selection before a text label is shown.
+#' @param srt when text=TRUE, the angle of rotation for the text labels.
+#'   Default = -30.
+#' @param print.full.model logical, when text=TRUE this determines if the full
+#'   model gets a label or not.  Default=FALSE.
+#' @param max.circle  circles are scaled to make largest dimension this size in inches.
+#'   Default = 0.35.
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{vis}}
 #' @references Mueller, S. and Welsh, A. H. (2010), On Model 
@@ -281,8 +344,10 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                     width=800,height=400,fontSize=12,
                     left=50,top=30,chartWidth="60%",chartHeight="80%",
                     axisTitlesPosition="out",dataOpacity=0.5,
-                    options=NULL,shiny=FALSE,
-                    backgroundColor = 'transparent',...){
+                    options=NULL,
+                    backgroundColor = 'transparent',
+                    text=FALSE,min.prob=0.4,srt=-30,max.circle=0.35,
+                    print.full.model=FALSE,...){
   if(backgroundColor=="transparent"){
     backgroundColor = "{stroke:null, fill:'null', strokeSize: 0}"
   } else {
@@ -292,81 +357,59 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
   find.var = function(x,highlight){
     is.element(highlight,x)
   }
-  no.highlight = FALSE  
-  if(missing(highlight)){ # highlight best bivariate variable
-    no.highlight = TRUE
-    k2which = x$lk$k==2
-    k2LL = x$lk[k2which,1]
-    k2mods = x$models[k2which,1]
-    highlight = k2mods[which.min(k2LL)]
+  
+  if(missing(highlight)){
+    # highlight first variable in the coefficient list
+    highlight = x$m$exp.vars[1]
+    vars = x$m$exp.vars
+  } else {
+    vars = highlight
   }
   if("lvk"%in%which){
+    var.ident = n.var.ident = NA
+    m2ll = -2*x$res.single.pass$logLikelihood
+    spk = x$res.single.pass$k
     if(classic){
-      if(no.highlight){
-        # step through the explanatory variables
-        vars = unique(na.omit(as.vector(x$model)))
-        var.ident = NA
-        for(i in 2:length(vars)){
-          if(i %% 2 == 0){
-            colbg=rgb(1,0,0,0.5)
-            colfg=rgb(1,0,0)
-          } else{
-            colbg=rgb(0,0,1,0.5)
-            colfg=rgb(0,0,1)
-          }
-          var.ident = apply(x$model, 1, find.var, highlight=vars[i])
-          par(ask=TRUE)
-          plot(x$lk$LL[!var.ident]~x$lk$k[!var.ident],
-               pch=1, cex=1.3,
-               xlab = "Number of parameters",
-               ylab = "-2*Log-likelihood",
-               ylim = c(min(x$lk$LL),max(x$lk$LL)),
-               xlim = c(min(x$lk$k),max(x$lk$k)))
-          points(x$lk$LL[var.ident]~x$lk$k[var.ident], 
-                 pch=24, bg=colbg,
-                 col = colfg, cex=1.2)
-          legend("topright",legend=vars[i], col = colfg,
-                 pt.bg=colbg, pch = 24)
+      for(i in 1:length(vars)){
+        if(i %% 2 == 0){
+          colbg=rgb(1,0,0,0.5)
+          colfg=rgb(1,0,0)
+        } else{
+          colbg=rgb(0,0,1,0.5)
+          colfg=rgb(0,0,1)
         }
-      } else {
-        var.ident = matrix(NA,ncol=length(highlight),
-                           nrow=nrow(x$models))
-        iter = 1:length(highlight)
-        for(i in iter){
-          var.ident[,i] = apply(x$model, 1, find.var, 
-                                highlight=highlight[i])
-        }
-        not.ident = rowSums(var.ident)==0
-        pch = c(19,18,2,3,4,6:25)
-        plot(x$lk$LL~x$lk$k,col=not.ident,pch=1,
+        var.ident = which(x$res.single.pass[,vars[i]]==1)
+        n.var.ident = which(x$res.single.pass[,vars[i]]==0)
+        par(mar=c(3.4,3.4,0.1,0.1),mgp=c(2.0, 0.75, 0))
+        plot(m2ll[n.var.ident]~spk[n.var.ident],
+             pch=1, cex=1.3,
              xlab = "Number of parameters",
-             ylab = "-2*Log-likelihood")
-        for(i in iter){
-          points(x$lk$LL[var.ident[,i]]~x$lk$k[var.ident[,i]],
-                 col=i+1, pch=pch[i], cex = 1.5-0.1*i)
+             ylab = "-2*Log-likelihood",
+             ylim = c(min(m2ll),max(m2ll)),
+             xlim = c(min(spk),max(spk)))
+        points(m2ll[var.ident]~spk[var.ident], 
+               pch=24, bg=colbg,
+               col = colfg, cex=1.2)
+        legend("topright",legend=vars[i], col = colfg,
+               pt.bg=colbg, pch = 24)
+        if(length(vars)>1){
+          par(ask=TRUE)
         }
-        legend("bottomleft",legend=highlight,col = iter+1,
-               pch = pch[iter])
       }
-    } else {
-      var.ident = apply(x$model, 1, find.var, highlight=highlight)
-      var.ident.na = var.ident
-      var.ident.na[var.ident.na==FALSE]=NA
-      with.var = x$lk$LL*var.ident.na
-      var.noident.na = 1-var.ident
-      var.noident.na[var.noident.na==FALSE]=NA
-      without.var = x$lk$LL*var.noident.na
-      mods = split(x$models, 1:NROW(x$models))
-      mods = lapply(mods,na.omit)
-      mods = lapply(mods,paste,collapse="+")
-      mods = unlist(as.matrix(mods))
-      dat = data.frame(k = x$lk$k, 
+    } else { # googleVis version
+      var.ident = which(x$res.single.pass[,highlight[1]]==1)
+      n.var.ident = which(x$res.single.pass[,highlight[1]]==0)
+      with.var = without.var = rep(NA,dim(x$res.single.pass)[1])
+      with.var[var.ident] = m2ll[var.ident]
+      without.var[n.var.ident] = m2ll[n.var.ident]
+      mods = x$res.single.pass$name
+      dat = data.frame(k = spk, 
                        without.var, without.var.html.tooltip=mods,
                        with.var, with.var.html.tooltip=mods)
       colnames(dat)[4] = paste("With",highlight)
       colnames(dat)[2] = paste("Without",highlight)
       gvis.title = paste("Description loss against k",sep="")
-      x.ticks=paste(1:max(x$lk$k),collapse=",") 
+      x.ticks=paste(1:max(spk),collapse=",") 
       gvis.hAxis = paste("{title:'Number of parameters', ticks: [",
                          x.ticks,"]}")
       chartArea = paste("{left:",left,
@@ -386,154 +429,186 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                          series= "{0:{color: 'gray', visibleInLegend: true}, 1:{color: 'blue', visibleInLegend: true}}",
                          explorer= "{axis: 'vertical',  keepInBounds: true, maxZoomOut: 1, maxZoomIn: 0.01, actions: ['dragToZoom', 'rightClickToReset']}")
       } else {use.options = options}
-      fplot = gvisScatterChart(data=dat,options=use.options)
-      if(shiny){
+      fplot = googleVis::gvisScatterChart(data=dat,options=use.options)
+      if(html.only){
         return(fplot)
-      } else if(html.only){
-        fplot
+      } 
+      if(length(which)>1){ 
+        fplot 
       } else {
         plot(fplot)
       }
     }
-  } 
+  }
   if("boot"%in%which){
-    if(is.null(x$best.models))
-      stop("You need to run vis() with B>1")
-    var.ident = apply(x$model, 1, find.var, highlight=highlight)
-    var.ident[var.ident==TRUE] = paste("With",highlight)
-    var.ident[var.ident==FALSE] = paste("Without",highlight)
-    mods = split(x$models, 1:NROW(x$models))
-    mods = lapply(mods,na.omit)
-    mods = lapply(mods,paste,collapse="+")
-    mods = unlist(as.matrix(mods))
-    pastena = function(x) paste(na.omit(x),collapse="+")
-    collapse1 = function(x) apply(x,1,pastena)
-    bms = lapply(x$best.models,collapse1)
-    mod.ns = lapply(bms,FUN=length)
-    mod.prob = lapply(bms,FUN=table)
-    for(i in 1:length(mod.prob)){
-      mod.prob[[i]] = mod.prob[[i]]/mod.ns[[i]]
-    }
-    mod.prob=unlist(mod.prob)
-    mod.names = names(mod.prob)
-    mod.prob = data.frame(mod.prob,mod.names)
-    mods.df = data.frame(mod.names = mods)
-    mods.df$id = 1:nrow(mods.df)
-    mod.df = merge(x=mods.df,y=mod.prob,all=TRUE)
-    mod.df = mod.df[order(mod.df$id), ]
-    dat = data.frame(mods = mods,
-                     k = x$lk$k, 
-                     LL = x$lk$LL,
-                     prob = mod.df$mod.prob,
-                     var.ident = var.ident
-    )
-    gvis.title = paste("Description loss against k",sep="")
-    x.ticks=paste(1:max(x$lk$k),collapse=",") 
-    gvis.hAxis = paste("{title:'Number of parameters',
-                       maxValue:",max(x$lk$k)+0.5," ,
-                       minValue:",0.5," , 
-                       ticks: [",x.ticks,"]}")
-    chartArea = paste("{left:",left,
-                      ",top:",top,
-                      ",width:'",chartWidth,
-                      "',height:'",chartHeight,"'}",sep="")
-    bubble = paste("{opacity:",dataOpacity,
-                   ", textStyle: {color: 'none'}}",sep="")
-    if(is.null(options)){
-      use.options=list(title=gvis.title,
-                       fontSize = fontSize,
-                       vAxis="{title:'-2*Log-likelihood'}",
-                       hAxis=gvis.hAxis,
-                       sizeAxis = "{minValue: 0, minSize: 1,  
-                       maxSize: 20, maxValue:1}",
-                       axisTitlesPosition=axisTitlesPosition,
-                       bubble = bubble,
-                       chartArea=chartArea,
-                       width=width, height=height,
-                       backgroundColor=backgroundColor,
-                       explorer= "{axis: 'vertical',  
-                       keepInBounds: true,
-                       maxZoomOut: 1,
-                       maxZoomIn: 0.01,
-                       actions: ['dragToZoom', 
-                       'rightClickToReset']}")
-      } else {use.options = options}
-    fplot = gvisBubbleChart(data=dat,idvar = "mods",xvar = "k",
-                            yvar = "LL", colorvar = "var.ident", 
-                            sizevar = "prob",
-                            options=use.options)
-    if(shiny){
-      return(fplot)
-    } else if(html.only){
-      fplot
+    var.ident = x$res.df[,highlight[1]]==1
+    vi = var.ident
+    var.ident[var.ident==TRUE] = paste("With",highlight[1])
+    var.ident[var.ident==FALSE] = paste("Without",highlight[1])
+    dat = data.frame(mods = x$res.df$name,
+                     k =  x$res.df$k, 
+                     LL = -2*x$res.df$logLikelihood,
+                     prob = x$res.df$freq/x$B,
+                     var.ident = var.ident)
+    if(classic){
+      par(mar=c(3.4,3.4,0.1,0.1),mgp=c(2.0, 0.75, 0))
+      symbols(dat$k,dat$LL,sqrt(dat$prob),inches=max.circle,
+              bg=ifelse(vi,rgb(1, 0, 0, alpha=0.5),rgb(0, 0, 1, alpha=0.5)),
+              fg="white",
+              xlab = "Number of parameters",
+              ylab = "-2*Log-likelihood")
+      legend("topright",legend = c(paste("With",highlight[1]),paste("Without",highlight[1])),
+             col = c(rgb(1, 0, 0, alpha=0.5),rgb(0, 0, 1, alpha=0.5)),pch=15)
+      if(text){
+        bdat = dat[dat$prob>min.prob,]
+        if(!print.full.model){
+          bdat = bdat[-dim(bdat)[1],]
+        }
+        text(bdat$k,bdat$LL,bdat$mods,cex=0.9,pos=2,offset=0.5,srt=srt)
+      }
     } else {
-      plot(fplot)
-    } 
-    }
+      gvis.title = paste("Description loss against k",sep="")
+      x.ticks=paste(1:max(dat$k),collapse=",") 
+      gvis.hAxis = paste("{title:'Number of parameters',
+                         maxValue:",max(dat$k)+0.5," ,
+                         minValue:",0.5," , 
+                         ticks: [",x.ticks,"]}")
+      chartArea = paste("{left:",left,
+                        ",top:",top,
+                        ",width:'",chartWidth,
+                        "',height:'",chartHeight,"'}",sep="")
+      bubble = paste("{opacity:",dataOpacity,
+                     ", textStyle: {color: 'none'}}",sep="")
+      if(is.null(options)){
+        use.options=list(title=gvis.title,
+                         fontSize = fontSize,
+                         vAxis="{title:'-2*Log-likelihood'}",
+                         hAxis=gvis.hAxis,
+                         sizeAxis = "{minValue: 0, minSize: 1,  
+                         maxSize: 20, maxValue:1}",
+                         axisTitlesPosition=axisTitlesPosition,
+                         bubble = bubble,
+                         chartArea=chartArea,
+                         width=width, height=height,
+                         backgroundColor=backgroundColor,
+                         explorer= "{axis: 'vertical',  
+                         keepInBounds: true,
+                         maxZoomOut: 1,
+                         maxZoomIn: 0.01,
+                         actions: ['dragToZoom', 
+                         'rightClickToReset']}")
+} else {use.options = options}
+      fplot = googleVis::gvisBubbleChart(data=dat,idvar = "mods",xvar = "k",
+                                         yvar = "LL", colorvar = "var.ident", 
+                                         sizevar = "prob",
+                                         options=use.options)
+      if(html.only){
+        return(fplot)
+      } 
+      if(length(which)>1){ # used to be just if(html.only)
+        fplot 
+      } else {
+        plot(fplot)
+      }
+      }
+  }
   if("vip"%in%which){ # variable inclusion plot
-    var.names = names(table(unlist(x$models)))
-    var.names = var.names[var.names!="1"] # remove the intercept
-    B = dim(x$min.pos)[2]
-    p.var = matrix(NA,nrow=length(x$lambdas),ncol = length(var.names))
-    colnames(p.var) = var.names
-    for(i in 1:length(x$lambdas)){
-      l1 = x$min.pos[i,] 
-      selected.mods = x$models[l1,]
-      selected.mods = factor(selected.mods,levels=var.names)
-      p.var[i,] = table(selected.mods)/B
-    }
+    var.names = x$m$exp.vars
+    B = x$B
+    p.var = x$var.in[,is.element(colnames(x$var.in),var.names)]
+    colnames(p.var) = gsub("REDUNDANT.VARIABLE","RV",colnames(p.var))
     sortnames = names(sort(apply(p.var,2,mean),decreasing=TRUE))
     vip.df = p.var[,sortnames]
     vip.df = data.frame(lambda=x$lambdas,AIC=NA,AIC.annotation=NA,
-                        BIC=NA,BIC.annotation=NA,vip.df)
+                        BIC=NA,BIC.annotation=NA,vip.df/B)
     aicline = rbind(c(2,0,NA,NA,NA,rep(NA,length(var.names))),
                     c(2,1,"AIC",NA,NA,rep(NA,length(var.names))),
-                    c(log(x$n),NA,NA, 0,NA,rep(NA,length(var.names))),
-                    c(log(x$n),NA,NA,1,"BIC",rep(NA,length(var.names))))
+                    c(log(x$mextract$n),NA,NA, 0,NA,rep(NA,length(var.names))),
+                    c(log(x$mextract$n),NA,NA,1,"BIC",rep(NA,length(var.names))))
     colnames(aicline) = colnames(vip.df)
     vip.df = rbind(vip.df,aicline)
     tid = c(1,2,4,6:dim(vip.df)[2])
     vip.df[, tid] = sapply(vip.df[, tid], as.numeric)
-    gvis.title = "Variable inclusion plot"
-    lineseries="[{lineDashStyle: [2,2], lineWidth: 2, color:'gray',
-    visibleInLegend: false},
-    {lineDashStyle: [2,2], lineWidth: 2, color:'gray',
-    visibleInLegend: false}]"
-    chartArea = paste("{left:",left,
-                      ",top:",top,
-                      ",width:'",chartWidth,
-                      "',height:'",chartHeight,"'}",sep="")
-    if(is.null(options)){
-      use.options=list(title=gvis.title,
-                       fontSize = fontSize,
-                       vAxis="{title:'Bootstrapped probability'}",
-                       hAxis="{title:'Penalty'}",
-                       sizeAxis = "{minValue: 0, minSize: 1,  
-                       maxSize: 20, maxValue:1}",
-                       axisTitlesPosition=axisTitlesPosition,
-                       series = lineseries,
-                       chartArea=chartArea,
-                       width=width, height=height,
-                       backgroundColor=backgroundColor,
-                       annotations = "{style:'line'}",
-                       explorer= "{axis: 'vertical',  
-                       keepInBounds: true,
-                       maxZoomOut: 1,
-                       maxZoomIn: 0.01,
-                       actions: ['dragToZoom', 'rightClickToReset']}")
-      } else {use.options = options}
-    fplot = gvisLineChart(data=vip.df,
-                          xvar="lambda",
-                          yvar=c("AIC","AIC.annotation",
-                                 "BIC","BIC.annotation",
-                                 sortnames),
-                          options=use.options)
-    if(shiny){
-      return(fplot)
-    } else if(html.only){
-      return(fplot)
+    if(classic){
+      classic.lambda = vip.df$lambda
+      classic.vip.df = subset(vip.df,select = -c(get("AIC"),get("AIC.annotation"),
+                                                 get("BIC"),get("BIC.annotation"),
+                                                 get("lambda")))
+      lwds = log((1:length(var.names))+1)
+      lwds = rev(2*lwds/max(lwds))
+      par(mar=c(3.4,3.4,0.1,0.1),mgp=c(2.0, 0.75, 0))
+      matplot(x = classic.lambda,jitter(as.matrix(classic.vip.df/B)),type = "l",
+              ylab="Bootstrapped probability",xlab = "Penalty",lwd=lwds)
+      leg.nm = names(classic.vip.df)
+      legend("topright",leg.nm,bg="transparent",bty="n",inset=c(0.015),
+             # these are the defaults for matplot:
+             lty=1:5,col=1:6,lwd=lwds)
     } else {
-      return(plot(fplot))
-    }
+      gvis.title = "Variable inclusion plot"
+      #lineDashStyle = paste("[",paste(1:2,collapse=","),"]",sep="")
+      lineseries="[{lineDashStyle: [2,2], lineWidth: 2, color:'gray',
+      visibleInLegend: false},
+      {lineDashStyle: [2,2], lineWidth: 2, color:'gray',
+      visibleInLegend: false}]"
+      chartArea = paste("{left:",left,
+                        ",top:",top,
+                        ",width:'",chartWidth,
+                        "',height:'",chartHeight,"'}",sep="")
+      if(is.null(options)){
+        use.options=list(title=gvis.title,
+                         fontSize = fontSize,
+                         vAxis="{title:'Bootstrapped probability'}",
+                         hAxis="{title:'Penalty'}",
+                         sizeAxis = "{minValue: 0, minSize: 1,  
+                         maxSize: 20, maxValue:1}",
+                         axisTitlesPosition=axisTitlesPosition,
+                         series = lineseries,
+                         #lineDashStyle = lineDashStyle,
+                         chartArea=chartArea,
+                         width=width, height=height,
+                         backgroundColor=backgroundColor,
+                         annotations = "{style:'line'}",
+                         explorer= "{axis: 'vertical',  
+                         keepInBounds: true,
+                         maxZoomOut: 1,
+                         maxZoomIn: 0.01,
+                         actions: ['dragToZoom', 'rightClickToReset']}")
+} else {use.options = options}
+      fplot = googleVis::gvisLineChart(data=vip.df,
+                                       xvar="lambda",
+                                       yvar=c("AIC","AIC.annotation",
+                                              "BIC","BIC.annotation",
+                                              sortnames),
+                                       options=use.options)
+      if(html.only){
+        return(fplot)
+      } else {
+        return(plot(fplot))
+      }
+      }
     } else return(invisible())
-  }
+}
+
+
+#' Print method for a vis object
+#' 
+#' Prints basic output of the bootstrap results of an 
+#' vis object.
+#' 
+#' @param x a \code{vis} object, the result of \code{\link{vis}}
+#' @param min.prob a lower bound on the probability of 
+#'   selection before the result is printed
+#' @param print.full.model logical, determines if the full
+#'   model gets printed or not.  Default=FALSE.
+#' @param ... further arguments (currently unused)
+#' @export
+# S3 print method for class 'vis'
+print.vis = function (x, min.prob=0.3, print.full.model=FALSE, ...) {
+  dat = x$res.df
+  dat$prob = dat$freq/x$B
+  print.obj = dat[dat$prob>min.prob,c("name","prob","logLikelihood")]
+  if(!print.full.model) print.obj = print.obj[-dim(print.obj)[1],]
+  print.obj[,2:3] = round(print.obj[,2:3],2)
+  print(print.obj)
+  invisible(x)
+}

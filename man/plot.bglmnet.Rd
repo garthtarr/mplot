@@ -8,8 +8,7 @@
   which = c("models", "variables"), width = 800, height = 400,
   fontSize = 12, left = 50, top = 30, chartWidth = "60\%",
   chartHeight = "80\%", axisTitlesPosition = "out", dataOpacity = 0.5,
-  options = NULL, shiny = FALSE, backgroundColor = "transparent",
-  plb = 0.01, ...)
+  options = NULL, backgroundColor = "transparent", plb = 0.01, ...)
 }
 \arguments{
 \item{x}{\code{bglmnet} object, the result of \code{\link{bglmnet}}}
@@ -62,10 +61,6 @@ with 1.0 being completely opaque and 0.0 fully transparent.}
 complete control over the output.  Specifying a value for
 \code{options} overwrites all other plotting variables.}
 
-\item{shiny}{logical. Used internally to facilitate proper display
-of plots within the mplot shiny user interface.  Use
-\code{shiny=TRUE} when displaying output within a shiny interface.}
-
 \item{backgroundColor}{The background colour for the main area
 of the chart. A simple HTML color string,
 for example: 'red' or '#00cc00'.  Default: 'transparent'}
@@ -78,23 +73,6 @@ plotted.}
 }
 \description{
 A plot method to visualise the results of a \code{bglmnet} object.
-}
-\examples{
-n = 100
-set.seed(11)
-e = rnorm(n)
-x1 = rnorm(n)
-x2 = rnorm(n)
-x3 = x1^2
-x4 = x2^2
-x5 = x1*x2
-y = 1 + x1 + x2 + e
-dat = data.frame(y,x1,x2,x3,x4,x5)
-lm1 = lm(y~.,data=dat)
-bgn1 = mplot:::bglmnet(lm1)
-\dontrun{
-plot(bgn1,highlight="x1")
-}
 }
 \seealso{
 \code{\link{bglmnet}}

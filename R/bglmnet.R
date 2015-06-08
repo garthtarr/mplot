@@ -1,6 +1,6 @@
 #' Boostrap model selection plots for glmnet
 #' 
-#' Experimental!!
+#' Experimental!! (Which is why it is not exported yet.)
 #' 
 #' @param mf a fitted 'full' model, the result of a call
 #'   to lm or glm (and in the future lme or lmer).
@@ -11,33 +11,31 @@
 #'   processing the bootstrap (Not yet implemented.)
 #' @param force.in the names of variables that should be forced
 #'   into all estimated models. (Not yet implemented.)
+#' @param penalty.factor Separate penalty factors can be applied to each 
+#'   coefficient. This is a number that multiplies lambda to allow 
+#'   differential shrinkage. Can be 0 for some variables, which implies 
+#'   no shrinkage, and that variable is always included in the model. 
+#'   Default is 1 for all variables (and implicitly infinity for variables 
+#'   listed in exclude). Note: the penalty factors are internally rescaled 
+#'   to sum to nvars, and the lambda sequence will reflect this change.
+#' @param screen logical, whether or not to perform an initial
+#'   screen for outliers.  Highly experimental, use at own risk.
+#'   Default = FALSE.
 #' @param ... further arguments (currently unused)
 #' @details The result of this function is essentially just a
 #'   list. The supplied plot method provides a way to visualise the
 #'   results.  
 #' @seealso \code{\link{plot.bglmnet}}
-#' @export
-#' @examples
-#' n = 100
-#' set.seed(11)
-#' e = rnorm(n)
-#' x1 = rnorm(n)
-#' x2 = rnorm(n)
-#' x3 = x1^2
-#' x4 = x2^2
-#' x5 = x1*x2
-#' y = 1 + x1 + x2 + e
-#' dat = data.frame(y,x1,x2,x3,x4,x5)
-#' lm1 = lm(y~.,data=dat)
-#' bgn1 = mplot:::bglmnet(lm1)
-#' \dontrun{
-#' plot(bgn1,highlight="x1")
-#' }
+
 
 bglmnet = function (mf, nlambda = 100, lambda=NULL, B=100, 
-                    probaseuil=1, penalty.factor, random, screen=FALSE) 
+                    penalty.factor, screen=FALSE,n.cores=NULL,
+                    force.in=NULL) 
 {
-  require(glmnet)
+  if (!requireNamespace("glmnet", quietly = TRUE)) {
+    stop("glmnet package needed for bglmnet functionality. Please install it.",
+         call. = FALSE)
+  }
   m = mextract(mf,screen=screen) 
   fixed = m$fixed
   yname = m$yname
@@ -57,7 +55,7 @@ bglmnet = function (mf, nlambda = 100, lambda=NULL, B=100,
   if(!is.null(lambda)){
     nlambda = length(lambda)
   }
-  temp = glmnet(X, Y, alpha = 1, nlambda = nlambda, 
+  temp = glmnet::glmnet(X, Y, alpha = 1, nlambda = nlambda, 
                 lambda = lambda, 
                 penalty.factor = penalty.factor,
                 weights = m$wts)
@@ -74,7 +72,7 @@ bglmnet = function (mf, nlambda = 100, lambda=NULL, B=100,
   rownames(betaboot) = names(mfstar$coef)
   for (j in 1:B) {
     for (i in 1:nlambda) {
-      temp = glmnet(X, ystar[,j], alpha = 1, 
+      temp = glmnet::glmnet(X, ystar[,j], alpha = 1, 
                     lambda = lambda[i], 
                     #penalty.factor = penalty.factor,
                     family=fam,
@@ -155,9 +153,6 @@ bglmnet = function (mf, nlambda = 100, lambda=NULL, B=100,
 #' @param options a list to be passed to the googleVis function giving
 #'   complete control over the output.  Specifying a value for 
 #'   \code{options} overwrites all other plotting variables.
-#' @param shiny logical. Used internally to facilitate proper display
-#'   of plots within the mplot shiny user interface.  Use 
-#'   \code{shiny=TRUE} when displaying output within a shiny interface.
 #' @param backgroundColor The background colour for the main area 
 #'   of the chart. A simple HTML color string, 
 #'   for example: 'red' or '#00cc00'.  Default: 'transparent'
@@ -166,30 +161,14 @@ bglmnet = function (mf, nlambda = 100, lambda=NULL, B=100,
 #'   plotted.
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{bglmnet}}
-#' @export
-#' @examples
-#' n = 100
-#' set.seed(11)
-#' e = rnorm(n)
-#' x1 = rnorm(n)
-#' x2 = rnorm(n)
-#' x3 = x1^2
-#' x4 = x2^2
-#' x5 = x1*x2
-#' y = 1 + x1 + x2 + e
-#' dat = data.frame(y,x1,x2,x3,x4,x5)
-#' lm1 = lm(y~.,data=dat)
-#' bgn1 = mplot:::bglmnet(lm1)
-#' \dontrun{
-#' plot(bgn1,highlight="x1")
-#' }
+
 
 plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
                         which=c("models","variables"),
                         width=800,height=400,fontSize=12,
                         left=50,top=30,chartWidth="60%",chartHeight="80%",
                         axisTitlesPosition="out",dataOpacity=0.5,
-                        options=NULL,shiny=FALSE,
+                        options=NULL,
                         backgroundColor = 'transparent',plb=0.01,...){
   B = sum(x$mods[[1]])
   
@@ -259,13 +238,11 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
                                          'rightClickToReset']}")
     } else {use.options = options}
     
-    fplot = gvisBubbleChart(data=df.sub,idvar = "mod.names",xvar = "l.vec",
+    fplot = googleVis::gvisBubbleChart(data=df.sub,idvar = "mod.names",xvar = "l.vec",
                             yvar = "ll", colorvar = "var.ident",
                             sizevar = "mod.vec.prob",
                             options=use.options)
-    if(shiny){
-      return(fplot)
-    } else if(html.only){
+    if(html.only){
       return(fplot)
     } else {
       return(plot(fplot))
@@ -303,13 +280,11 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
                                maxZoomIn: 0.01,
                                actions: ['dragToZoom', 'rightClickToReset']}")
     } else {use.options = options}
-    fplot = gvisLineChart(data=vip.df,
+    fplot = googleVis::gvisLineChart(data=vip.df,
                           xvar="lambda",
                           yvar=sortnames,
                           options=use.options)
-    if(shiny){
-      return(fplot)
-    } else if(html.only){
+    if(html.only){
       return(fplot)
     } else {
       return(plot(fplot))

@@ -19,7 +19,7 @@ Inspired by the pathoeg data set in the MPV pacakge.
 }
 \examples{
 data(artificialeg)
-full.mod = lm(y~.,data=df)
+full.mod = lm(y~.,data=artificialeg)
 step(full.mod)
 \dontrun{
 # generating model

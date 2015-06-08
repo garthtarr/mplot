@@ -100,7 +100,7 @@ NULL
 #' @usage data(artificialeg)
 #' @examples
 #' data(artificialeg)
-#' full.mod = lm(y~.,data=df)
+#' full.mod = lm(y~.,data=artificialeg)
 #' step(full.mod)
 #' \dontrun{
 #' # generating model
@@ -131,8 +131,12 @@ NULL
 #' 
 #' @param model a fitted 'full' model, the result of a call
 #'   to lm or glm (and in the future lme or lmer).
-mextract = function(model,screen,redundant=TRUE){
-  if(missing(screen)) screen=FALSE
+#' @param screen logical, whether or not to perform an initial
+#'   screen for outliers.  Highly experimental, use at own risk.
+#'   Default = FALSE.
+#' @param redundant logical, whether or not to add a redundant
+#'   variable.  Default = TRUE.
+mextract = function(model,screen=FALSE,redundant=TRUE){
   # what's the name of the dependent variable?
   yname = deparse(formula(model)[[2]])
   # Set up the data frames for use
@@ -140,10 +144,13 @@ mextract = function(model,screen,redundant=TRUE){
   X = model.matrix(model)
   n=nrow(X)
   # full model plus redundant variable
+  exp.vars=names(model$coefficients)[names(model$coefficients)!="(Intercept)"]
+  
   if(redundant){
     REDUNDANT.VARIABLE = rnorm(n)
     X = cbind(X,REDUNDANT.VARIABLE)
     data = cbind(data,REDUNDANT.VARIABLE)
+    exp.vars = c(exp.vars,"REDUNDANT.VARIABLE")
   }
   if(colnames(X)[1]=="(Intercept)"){
     # overwrite intercept with y-variable
@@ -157,11 +164,15 @@ mextract = function(model,screen,redundant=TRUE){
                        paste(colnames(X)[-1],collapse="+")))
   Xy = X[c(2:ncol(X),1)]
   
-  k = length(model$coef)
+  k = length(exp.vars) + 1 # +1 for intercept 
   if(screen){
+    if (!requireNamespace("mvoutlier", quietly = TRUE)) {
+      stop("mvoutlier package needed when screen=TRUE. Please install it.",
+           call. = FALSE)
+    }
     x.mad = apply(Xy, 2, mad)
     Xy.sub = Xy[,which(x.mad != 0)]
-    Xy = Xy[pcout(Xy.sub)$wfinal01==1,]
+    Xy = Xy[mvoutlier::pcout(Xy.sub)$wfinal01==1,]
     n=dim(Xy)[1]
     if(k>=n){
       warning("Screening deleted too many observations.")
@@ -183,6 +194,7 @@ mextract = function(model,screen,redundant=TRUE){
               X=Xy,
               k = k,
               n=n,
+              exp.vars=exp.vars,
               data = data,
               family = family(model)))
   
@@ -221,6 +233,8 @@ mextract = function(model,screen,redundant=TRUE){
 #' Safe deparse
 #' 
 #' Supports long formula construction
+#' 
+#' @param expr expression to be safely deparsed
 #' 
 safeDeparse <- function(expr){
   ret <- paste(deparse(expr), collapse="")

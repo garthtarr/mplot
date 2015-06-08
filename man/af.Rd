@@ -34,6 +34,10 @@ missleading results.}
 \item{c.max}{manually specify the upper boundary limit.
 Only applies when \code{initial.stepwise=FALSE}.}
 
+\item{screen}{logical, whether or not to perform an initial
+screen for outliers.  Highly experimental, use at own risk.
+Default = FALSE.}
+
 \item{...}{further arguments (currently unused)}
 }
 \description{

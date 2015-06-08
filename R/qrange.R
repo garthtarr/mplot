@@ -20,13 +20,13 @@ qrange = function(k.range,yname,fixed,
                   model.type,family){
   kf = k.range$k.max
   if(model.type=="lm"){
-    cand.models = summary(regsubsets(x = fixed, 
+    cand.models = summary(leaps::regsubsets(x = fixed, 
                                      data = data, 
                                      nbest = 1,
                                      nvmax = kf,
                                      force.in=force.in))$which+0
   } else if(model.type=="glm"){
-    cand.models = bestglm(Xy=data, 
+    cand.models = bestglm::bestglm(Xy=data, 
                           family=family,
                           IC = "BIC",
                           TopModels = 1,

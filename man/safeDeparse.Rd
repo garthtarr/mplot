@@ -6,6 +6,9 @@
 \usage{
 safeDeparse(expr)
 }
+\arguments{
+\item{expr}{expression to be safely deparsed}
+}
 \description{
 Supports long formula construction
 }

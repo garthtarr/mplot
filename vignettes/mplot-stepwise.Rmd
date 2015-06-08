@@ -50,7 +50,7 @@ summary(mf.step)
 
 It is clear that using the basic stepwise variable selection yields a highly non-parsimonious model.  In fact it has removed `x8` which was the only variable that `y` was directly constructed from in the data generating process.
 
-```{r, results='asis', tidy=FALSE}
+```{r, results='asis', tidy=FALSE, warning=FALSE, message=FALSE}
 require(mplot)
 af1 = af(mf)
 op = options(gvis.plot.tag = "chart")
@@ -60,22 +60,22 @@ plot(af1)
 Also could look at the variable inclusion plots:
 
 ```{r vip, results='asis', tidy=FALSE}
-vis1 = vis(mf)
+vis1 = vis(mf,redundant = FALSE,nbest = 252)
 plot(vis1,which="vip")
 ```
 
 And the model selection curves:
 
 ```{r lvk, results='asis', tidy=FALSE}
-plot(vis1,which="lvk")
+plot(vis1,which="lvk",highlight="x8")
 ```
 
 ```{r boot, results='asis', tidy=FALSE}
-plot(vis1,which="boot")
+plot(vis1,which="boot",highlight="x8")
 ```
 
 To interact with the plots in the graphical user interface, use:
 
 ```{r, eval=FALSE}
-mplot(mf, vis=vis1, af=af1)
+mplot(mf, vis1, af1)
 ```

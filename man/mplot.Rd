@@ -9,11 +9,7 @@ mplot(mf, ...)
 \arguments{
 \item{mf}{a fitted model.}
 
-\item{vis}{(optional) an object of type vis created using the
-vis() function.}
-
-\item{af}{(optional) an object of type af created using the af()
-function.}
+\item{...}{objects of type vis or af.}
 }
 \description{
 Opens a shiny GUI to investigate a range of model selection
@@ -34,7 +30,7 @@ lm1 = lm(y~.,data=dat)
 \dontrun{
 v1 = vis(lm1,n.cores=3)
 af1 = af(lm1,n.cores=3)
-mplot(lm1,vis=v1,af=af1)
+mplot(lm1,v1,af1)
 }
 }
 

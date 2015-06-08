@@ -4,7 +4,7 @@
 \alias{summary.af}
 \title{Summary method for an af object}
 \usage{
-summary.af(object, best.only = TRUE, ...)
+\method{summary}{af}(object, best.only = TRUE, ...)
 }
 \arguments{
 \item{object}{\code{af} object, the result of \code{\link{af}}}

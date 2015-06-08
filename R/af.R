@@ -46,6 +46,9 @@
 #'   missleading results.
 #' @param c.max manually specify the upper boundary limit. 
 #'   Only applies when \code{initial.stepwise=FALSE}.
+#' @param screen logical, whether or not to perform an initial
+#'   screen for outliers.  Highly experimental, use at own risk.
+#'   Default = FALSE.
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{lmfence}}, \code{\link{glmfence}}
 #' @references Jiming Jiang, Thuan Nguyen, J. Sunil Rao, 
@@ -53,6 +56,8 @@
 #'   Probability Letters, Volume 79, Issue 5, 1 March 2009, 
 #'   Pages 625-629, http://dx.doi.org/10.1016/j.spl.2008.10.014.
 #' @export
+#' @import foreach
+#' @import parallel
 #' @family fence
 #' @examples
 #' n = 100
@@ -161,11 +166,10 @@ af = function(mf,
     if(missing(nvmax)) nvmax = kf
   }
   
-  require(doParallel)
   if(missing(n.cores)) n.cores = max(detectCores()-1,1)
   cl.af = makeCluster(n.cores)
-  registerDoParallel(cl.af)
-  require(foreach)
+  doParallel::registerDoParallel(cl.af)
+  j=NULL # avoid global variable NOTE in R CMD check
   p.star.all = foreach(j = 1:n.c, .combine=rbind, .packages = c("mplot")) %dopar% {
     fence.mod = list()
     fence.rank = list()
@@ -190,7 +194,7 @@ af = function(mf,
         fence.rank = c(fence.rank,1:length(fms))
       } 
     }
-   mplot:::process.fn(fence.mod,fence.rank)
+   process.fn(fence.mod,fence.rank)
   }
   stopCluster(cl.af)
   
@@ -373,11 +377,12 @@ plot.af = function(x,pch,classic=FALSE,
   }
   if(classic){
     if(missing(pch)) pch=19
+    par(mar=c(3.4,3.4,2.1,0.1),mgp=c(2.0, 0.75, 0))
     plot(x$p.star[,1]~x$c.range,
          ylim=c(0,1), pch=pch,
          col=x$p.star[,3],
          ylab = "p*", xlab = "c")
-    legend("bottomleft",legend=unique(x$p.star[,2]),
+    legend("topleft",legend=unique(x$p.star[,2]),
            pch=pch,col=unique(x$p.star[,3]),bty="n")
     axis(side=3, at=x$c.star, 
          labels=paste("c*=", round(x$c.star,1),sep=""))
@@ -416,7 +421,7 @@ plot.af = function(x,pch,classic=FALSE,
                    backgroundColor=backgroundColor,
                    width=width, height=height)
     }
-    fplot = gvisScatterChart(data=plot.dat,options=options)
+    fplot = googleVis::gvisScatterChart(data=plot.dat,options=options)
     if(html.only){
       return(fplot)
     } else {

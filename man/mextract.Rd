@@ -4,11 +4,18 @@
 \alias{mextract}
 \title{Extract model elements}
 \usage{
-mextract(model, screen, redundant = TRUE)
+mextract(model, screen = FALSE, redundant = TRUE)
 }
 \arguments{
 \item{model}{a fitted 'full' model, the result of a call
 to lm or glm (and in the future lme or lmer).}
+
+\item{screen}{logical, whether or not to perform an initial
+screen for outliers.  Highly experimental, use at own risk.
+Default = FALSE.}
+
+\item{redundant}{logical, whether or not to add a redundant
+variable.  Default = TRUE.}
 }
 \description{
 This function extracts things like the formula,

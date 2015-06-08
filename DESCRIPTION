@@ -1,30 +1,25 @@
 Package: mplot
 Type: Package
 Title: Graphical model stability and model selection procedures
-Version: 0.5.0
-Date: 2014-07-21
-Authors@R: c(person("Garth", "Tarr", role = c("aut", "cre"),
-    email = "garth.tarr@gmail.com"),
-    person("Samuel", "Müller", role = "aut",
-    email = "samuel.mueller@sydney.edu.au"),
-    person("Alan", "Welsh", role = "aut",
-    email = "alan.welsh@anu.edu.au"))
-Description: The mplot package implements model stability curves
-    (Müller and Welsh, 2010, ISR) and
-    the fence procedure (Jiang et. al., 2008, Ann. Stat.).
+Version: 0.5.6
+Date: 2015-06-08
+Authors@R: c(person("Garth", "Tarr", role = c("aut", "cre"), email = "garth.tarr@gmail.com"), person("Samuel", "Mueller", role = "aut", email = "samuel.mueller@sydney.edu.au"), person("Alan", "Welsh", role = "aut", email = "alan.welsh@anu.edu.au"))
+Description: The mplot package implements model stability curves (Müller and Welsh, 2010, ISR) and the fence procedure (Jiang et. al., 2008, Ann. Stat.).
 License: GPL (>= 2)
 Suggests:
-    knitr
-Depends:
-    leaps,
-    bestglm,
-    doParallel,
-    foreach,
-    googleVis,
-    shiny,
-    shinydashboard,
+    knitr,
     mvoutlier,
     glmnet
+Imports:
+    leaps,
+    foreach,
+    parallel,
+    bestglm,
+    doParallel,
+    plyr,
+    shinydashboard,
+    shiny,
+    googleVis
 URL: https://github.com/garthtarr/mplot
 Roxygen: list(wrap = FALSE)
 LazyData: TRUE

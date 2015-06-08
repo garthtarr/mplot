@@ -4,7 +4,7 @@
 \alias{print.af}
 \title{Print method for an af object}
 \usage{
-print.af(x, best.only = TRUE, ...)
+\method{print}{af}(x, best.only = TRUE, ...)
 }
 \arguments{
 \item{x}{an \code{af} object, the result of \code{\link{af}}}

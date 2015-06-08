@@ -64,7 +64,7 @@ lmfence = function(mf, cstar,
   ret = met = list()
   # Null model
   if(trace) cat(paste("Null model "))
-  UB = Qmf + cstar*mplot:::sigMM(k.mod = 1, method = method, 
+  UB = Qmf + cstar*sigMM(k.mod = 1, method = method, 
                          k.full = kf, adaptive = adaptive)
   if(Qm0<=UB){
     if(trace) txt.fn(Qm0,UB,m0)
@@ -84,7 +84,7 @@ lmfence = function(mf, cstar,
   while(prev.nvmax<=kf){
     prev.nvmax = nvmax
     # finds the best candidate for each model size
-    rss = do.call("regsubsets",list(x=fixed, 
+    rss = do.call(leaps::regsubsets,list(x=fixed, 
                              data=data,
                              nbest = 5+kf,
                              nvmax = nvmax,
@@ -105,7 +105,7 @@ lmfence = function(mf, cstar,
     start = lc.k[1] #2+length(force.in)
     for(i in start:nvmax){
       if(trace) cat(paste("Model size:",i,""))
-      UB = Qmf + cstar*mplot:::sigMM(k.mod = i, method = method, 
+      UB = Qmf + cstar*sigMM(k.mod = i, method = method, 
                              k.full = kf, adaptive = adaptive)
       mnames = colnames(leaps.cands)[which(leaps.cands[lc.k==i,]==1)]
       ff = as.formula(paste(yname," ~ ",
