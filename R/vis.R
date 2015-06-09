@@ -536,7 +536,7 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
       lwds = log((1:length(var.names))+1)
       lwds = rev(2*lwds/max(lwds))
       par(mar=c(3.4,3.4,0.1,0.1),mgp=c(2.0, 0.75, 0))
-      matplot(x = classic.lambda,jitter(as.matrix(classic.vip.df/B)),type = "l",
+      matplot(x = classic.lambda,jitter(as.matrix(classic.vip.df)),type = "l",
               ylab="Bootstrapped probability",xlab = "Penalty",lwd=lwds)
       leg.nm = names(classic.vip.df)
       legend("topright",leg.nm,bg="transparent",bty="n",inset=c(0.015),
