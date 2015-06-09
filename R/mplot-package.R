@@ -34,7 +34,8 @@ NULL
 #' }
 #' @details A subset of the 252 observations available in the \code{mfp} package.
 #'   The selected observations avoid known high leverage points and
-#'   outliers.
+#'   outliers.  The unused points from the data set could be used to validate 
+#'   selected models.
 #' @docType data
 #' @keywords datasets
 #' @usage data(bodyfat)

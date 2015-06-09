@@ -33,7 +33,8 @@ A data frame with 128 observations on 15 variables.
 \details{
 A subset of the 252 observations available in the \code{mfp} package.
   The selected observations avoid known high leverage points and
-  outliers.
+  outliers.  The unused points from the data set could be used to validate
+  selected models.
 }
 \examples{
 data(bodyfat)

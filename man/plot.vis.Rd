@@ -10,7 +10,7 @@
   chartHeight = "80\%", axisTitlesPosition = "out", dataOpacity = 0.5,
   options = NULL, backgroundColor = "transparent", text = FALSE,
   min.prob = 0.4, srt = -30, max.circle = 0.35,
-  print.full.model = FALSE, ...)
+  print.full.model = FALSE, jitterk = 0.1, ...)
 }
 \arguments{
 \item{x}{\code{vis} object, the result of \code{\link{vis}}}
@@ -85,6 +85,9 @@ Default = 0.35.}
 
 \item{print.full.model}{logical, when \code{text=TRUE} this determines if the full
 model gets a label or not.  Default=\code{FALSE}.}
+
+\item{jitterk}{amount of jittering of the model size in the lvk and boot plots.
+Default = 0.1.}
 
 \item{...}{further arguments (currently unused)}
 }

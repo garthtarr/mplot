@@ -83,12 +83,13 @@ the best model gets a weight of 1/3, and so on. After \code{B} bootstrap
 replications, we aggregate the weights by summing over the various models.
 The p* value is the maximum aggregated weight divided by the number of bootstrap
 replications.
-This correction penalises the probability associated with best model if
+This correction penalises the probability associated with the best model if
 there were other models of the same size that also passed the fence hurdle.
-The rationale being that if a model is
-'correct' then it will be the only model at that size that passes the fence.
-The result is typically more pronounced peaks which can help to determine
-where the correct peak is to select c*.
+The rationale being that if a model has no redundant variables
+then it will be the only model at that size that passes the fence over a
+range of values of c.
+The result is more pronounced peaks which can help to determine
+the location of the correct peak and identify the optimal c*.
 }
 \examples{
 n = 100
@@ -110,9 +111,12 @@ plot(af1)
 }
 }
 \references{
-Jiming Jiang, Thuan Nguyen, J. Sunil Rao,
+Jiang J., Nguyen T., Sunil Rao J. (2009),
   A simplified adaptive fence procedure, Statistics &
-  Probability Letters, Volume 79, Issue 5, 1 March 2009,
-  Pages 625-629, http://dx.doi.org/10.1016/j.spl.2008.10.014.
+  Probability Letters, 79(5):625-629.  doi: 10.1016/j.spl.2008.10.014
+
+  Jiang J., Sunil Rao J., Gu Z, Nguyen T. (2008),
+  Fence methods for mixed model selection, Annals of Statistics,
+  36(4):1669-1692. doi: 10.1214/07-AOS517
 }
 

@@ -312,6 +312,8 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
 #'   model gets a label or not.  Default=\code{FALSE}.
 #' @param max.circle  circles are scaled to make largest dimension this size in inches.
 #'   Default = 0.35.
+#' @param jitterk amount of jittering of the model size in the lvk and boot plots. 
+#'   Default = 0.1.
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{vis}}
 #' @references Mueller, S. and Welsh, A. H. (2010), On model 
@@ -347,7 +349,7 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                     options=NULL,
                     backgroundColor = 'transparent',
                     text=FALSE,min.prob=0.4,srt=-30,max.circle=0.35,
-                    print.full.model=FALSE,...){
+                    print.full.model=FALSE,jitterk=0.1,...){
   if(backgroundColor=="transparent"){
     backgroundColor = "{stroke:null, fill:'null', strokeSize: 0}"
   } else {
@@ -369,6 +371,8 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
     var.ident = n.var.ident = NA
     m2ll = -2*x$res.single.pass$logLikelihood
     spk = x$res.single.pass$k
+    jitter = runif(length(spk),0-jitterk,0+jitterk)
+    spk = spk+jitter
     if(classic){
       for(i in 1:length(vars)){
         if(i %% 2 == 0){
@@ -432,12 +436,9 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
       fplot = googleVis::gvisScatterChart(data=dat,options=use.options)
       if(html.only){
         return(fplot)
-      }
-      if(length(which)>1){ 
-        fplot
-      } else {
+      } else{
         plot(fplot)
-      }
+      } 
     }
   }
   if("boot"%in%which){
@@ -445,8 +446,9 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
     vi = var.ident
     var.ident[var.ident==TRUE] = paste("With",highlight[1])
     var.ident[var.ident==FALSE] = paste("Without",highlight[1])
+    jitter = runif(length(vi),0-jitterk,0+jitterk)
     dat = data.frame(mods = x$res.df$name,
-                     k =  x$res.df$k, 
+                     k =  x$res.df$k + jitter, 
                      LL = -2*x$res.df$logLikelihood,
                      prob = x$res.df$freq/x$B,
                      var.ident = var.ident)
@@ -507,11 +509,6 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
       } else{
         plot(fplot)
       } 
-      #if(length(which)>1){ # used to be just if(html.only)
-      #  fplot 
-      #} else {
-      #  plot(fplot)
-      #}
     }
   }
   if("vip"%in%which){ # variable inclusion plot
