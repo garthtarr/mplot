@@ -9,10 +9,10 @@ vis(mf, nvmax, B = 100, lambda.max, nbest = 5, n.cores, force.in = NULL,
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call
-to lm or glm (and in the future lme or lmer).}
+to lm or glm (and in the future lme or lmer)}
 
 \item{nvmax}{size of the largest model that can still be
-considered as a viable candidate.}
+considered as a viable candidate}
 
 \item{B}{number of bootstrap replications}
 
@@ -20,20 +20,20 @@ considered as a viable candidate.}
 defaults to 2*log(n)}
 
 \item{nbest}{maximum number of models at each model size
-that will be considered for the lvk plot.}
+that will be considered for the lvk plot}
 
 \item{n.cores}{number of cores to be used when parallel
-processing the bootstrap.}
+processing the bootstrap}
 
 \item{force.in}{the names of variables that should be forced
 into all estimated models. (Not yet implemented.)}
 
 \item{screen}{logical, whether or not to perform an initial
 screen for outliers.  Highly experimental, use at own risk.
-Default = FALSE.}
+Default = \code{FALSE}.}
 
 \item{redundant}{logical, whether or not to add a redundant
-variable.  Default = TRUE.}
+variable.  Default = \code{TRUE}.}
 
 \item{...}{further arguments (currently unused)}
 }
@@ -59,14 +59,14 @@ x5 = x1*x2
 y = 1 + x1 + x2 + e
 dat = data.frame(y,x1,x2,x3,x4,x5)
 lm1 = lm(y~.,data=dat)
-v1 = vis(lm1)
 \dontrun{
+v1 = vis(lm1)
 plot(v1,highlight="x1")
 }
 }
 \references{
-Mueller, S. and Welsh, A. H. (2010), On Model
-  Selection Curves. International Statistical Review, 78:240-256.
+Mueller, S. and Welsh, A. H. (2010), On model
+  selection curves. International Statistical Review, 78:240-256.
   doi: 10.1111/j.1751-5823.2010.00108.x
 
   Murray, K., Heritier, S. and Mueller, S. (2013), Graphical

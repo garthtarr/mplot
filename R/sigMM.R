@@ -16,6 +16,7 @@
 #' @param adaptive logical. If \code{TRUE} the boundary of the fence is 
 #'   given by cstar.  Otherwise, it the original (non-adaptive) fence
 #'   is performed where the boundary is cstar*hat(sigma)_{M,tildeM}.
+#' @noRd
 sigMM = function(k.mod,method,k.full,adaptive){
   if(method=="ML" & adaptive==FALSE){
     return(sqrt((k.full-k.mod)/2))

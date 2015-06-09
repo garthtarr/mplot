@@ -13,7 +13,7 @@
 selection before the result is printed}
 
 \item{print.full.model}{logical, determines if the full
-model gets printed or not.  Default=FALSE.}
+model gets printed or not.  Default=\code{FALSE}.}
 
 \item{...}{further arguments (currently unused)}
 }

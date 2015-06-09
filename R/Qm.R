@@ -9,7 +9,7 @@
 #' @param method method the model selection method to be used. Currently
 #'   only \code{method = "ML"} is supported (perhaps in the future
 #'   \code{method = "MVC"} will be implemented).
-
+#' @noRd
 Qm = function(object,method){
   if(method=="ML"){
     return(-as.numeric(logLik(object)))

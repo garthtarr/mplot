@@ -7,14 +7,5 @@
 \description{
 Graphical model stability and model selection procedures
 }
-\details{
-...
-}
-\author{
-Garth Tarr
-}
-\seealso{
-\code{\link{...}}
-}
 \keyword{package}
 

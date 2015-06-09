@@ -25,6 +25,7 @@
 #' @details The result of this function is essentially just a
 #'   list. The supplied plot method provides a way to visualise the
 #'   results.  
+#' @noRd
 #' @seealso \code{\link{plot.bglmnet}}
 
 
@@ -159,6 +160,7 @@ bglmnet = function (mf, nlambda = 100, lambda=NULL, B=100,
 #' @param plb lower bound on the probability of a model being selected. If
 #'   a model has a selection probability lower than plb it will not be 
 #'   plotted.
+#' @noRd
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{bglmnet}}
 

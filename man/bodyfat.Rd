@@ -31,7 +31,9 @@ data(bodyfat)
 A data frame with 128 observations on 15 variables.
 }
 \details{
-Details about the bodyfat data set go here.
+A subset of the 252 observations available in the \code{mfp} package.
+  The selected observations avoid known high leverage points and
+  outliers.
 }
 \examples{
 data(bodyfat)

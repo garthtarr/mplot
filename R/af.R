@@ -11,7 +11,7 @@
 #' conservative BIC will tend to select a smaller model than that
 #' of the forward selection AIC approach.  The size of these two
 #' models is found, and we go two dimensions smaller and larger
-#' to estiamte a sensible range of \code{c} values over which to
+#' to estimate a sensible range of \code{c} values over which to
 #' perform a parametric bootstrap.
 #' 
 #' This procedure can take some time.  It is recommended that you start
@@ -27,6 +27,26 @@
 #' that the \code{initial.stepwise=TRUE} has landed you in a reasonable 
 #' region.
 #' 
+#' The \code{best.only=FALSE} option when plotting the results of the
+#' adaptive fence is a modification to the adaptive fence procedure 
+#' which considers all models at a particular size that pass the fence 
+#' hurdle when calculating the p* values.  In particular,
+#' for each value of c and at each bootstrap replication, 
+#' if a candidate model is found that passes the fence, then we look to see
+#' if there are any other models of the same size that also pass the fence.  
+#' If no other models of the same size pass the fence, then that model is
+#' allocated a weight of 1.  If there are two models that pass the fence, then
+#' the best model is allocated a weight of 1/2.  If three models pass the fence,
+#' the best model gets a weight of 1/3, and so on. After \code{B} bootstrap
+#' replications, we aggregate the weights by summing over the various models.
+#' The p* value is the maximum aggregated weight divided by the number of bootstrap 
+#' replications.
+#' This correction penalises the probability associated with best model if 
+#' there were other models of the same size that also passed the fence hurdle.
+#' The rationale being that if a model is
+#' 'correct' then it will be the only model at that size that passes the fence.  
+#' The result is typically more pronounced peaks which can help to determine 
+#' where the correct peak is to select c*.
 #' 
 #' @param mf a fitted 'full' model, the result of a call
 #'   to lm or glm (and in the future lme or lmer).
@@ -37,9 +57,9 @@
 #'   procedure to look for the range of model sizes where attention
 #'   should be focussed. See details for implementation.
 #' @param force.in the names of variables that should be forced
-#'   into all estimated models.
+#'   into all estimated models
 #' @param n.cores number of cores to be used when parallel
-#'   processing the bootstrap.
+#'   processing the bootstrap
 #' @param nvmax size of the largest model that can still be 
 #'   considered as a viable candidate.  Included for performance
 #'   reasons but if it is an active constraint it could lead to
@@ -50,7 +70,6 @@
 #'   screen for outliers.  Highly experimental, use at own risk.
 #'   Default = FALSE.
 #' @param ... further arguments (currently unused)
-#' @seealso \code{\link{lmfence}}, \code{\link{glmfence}}
 #' @references Jiming Jiang, Thuan Nguyen, J. Sunil Rao, 
 #'   A simplified adaptive fence procedure, Statistics & 
 #'   Probability Letters, Volume 79, Issue 5, 1 March 2009, 
@@ -72,9 +91,9 @@
 #' y = 1 + x1 + x2 + e
 #' dat = data.frame(y,x1,x2,x3,x4,x5,x6)
 #' lm1 = lm(y~.,data=dat)
+#' \dontrun{
 #' af1 = af(lm1, n.cores=4, initial.stepwise=TRUE)
 #' summary(af1)
-#' \dontrun{
 #' plot(af1)
 #' }
 
@@ -329,15 +348,13 @@ summary.af = function (object,best.only=TRUE,...) {
 #' @param classic logical.  If \code{classic=TRUE} a 
 #'   base graphics plot is provided instead of a googleVis plot.
 #'   Default is \code{classic=FALSE}.
-#' @param best.only logical.  A modification to the adaptive
-#'   procedure which considers all models at a particular
-#'   size that pass the fence hurdle when calculating the
-#'   p* values.  The rationale being that if a model is
-#'   'correct' then it will be the only model at that size
-#'   that passes the fence.  This can help to determine where
-#'   the correct peak is to select c*.
-#' @param pch plotting character, i.e., symbol to use.
-#' @param html.only logical was be used with rmarkdown, though perhaps
+#' @param best.only logical determining whether the output used the
+#'   standard fence approach of only considering the best models
+#'   that pass the fence (\code{TRUE}) or if it should take into 
+#'   account all models that pass the fence at each boundary 
+#'   value (\code{FALSE}).
+#' @param pch plotting character, i.e., symbol to use
+#' @param html.only logical for use with shiny. With rmarkdown
 #'   using \code{op = options(gvis.plot.tag = "chart")} is better.
 #' @param width Width of the googleVis chart canvas area, in pixels. 
 #'   Default: 800.
@@ -437,13 +454,11 @@ plot.af = function(x,pch,classic=FALSE,
 #' af object.
 #' 
 #' @param x an \code{af} object, the result of \code{\link{af}}
-#' @param best.only logical.  A modification to the adaptive
-#'   procedure which considers all models at a particular
-#'   size that pass the fence hurdle when calculating the
-#'   p* values.  The rationale being that if a model is
-#'   'correct' then it will be the only model at that size
-#'   that passes the fence.  This can help to determine where
-#'   the correct peak is to select c*.
+#' @param best.only logical determining whether the output used the
+#'   standard fence approach of only considering the best models
+#'   that pass the fence (\code{TRUE}) or if it should take into 
+#'   account all models that pass the fence at each boundary 
+#'   value (\code{FALSE}).
 #' @param ... further arguments (currently unused)
 #' @export
 # S3 print method for class 'af'

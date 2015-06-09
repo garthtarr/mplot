@@ -1,12 +1,9 @@
 #' Graphical model stability and model selection procedures
 #' 
-#' ...
 #' @name mplot-package
 #' @docType package
 #' @title Graphical model stability and model selection procedures
-#' @author Garth Tarr
 #' @keywords package
-#' @seealso \code{\link{...}}
 NULL
 
 
@@ -35,7 +32,9 @@ NULL
 #' \item{Wrist}{Wrist circumference (cm) "distal to the
 #'             styloid processes"}
 #' }
-#' @details Details about the bodyfat data set go here.
+#' @details A subset of the 252 observations available in the \code{mfp} package.
+#'   The selected observations avoid known high leverage points and
+#'   outliers.
 #' @docType data
 #' @keywords datasets
 #' @usage data(bodyfat)
@@ -136,6 +135,7 @@ NULL
 #'   Default = FALSE.
 #' @param redundant logical, whether or not to add a redundant
 #'   variable.  Default = TRUE.
+#' @noRd
 mextract = function(model,screen=FALSE,redundant=TRUE){
   # what's the name of the dependent variable?
   yname = deparse(formula(model)[[2]])
@@ -236,6 +236,7 @@ mextract = function(model,screen=FALSE,redundant=TRUE){
 #' 
 #' @param expr expression to be safely deparsed
 #' 
+#' @noRd
 safeDeparse <- function(expr){
   ret <- paste(deparse(expr), collapse="")
   #rm whitespace
@@ -250,6 +251,7 @@ safeDeparse <- function(expr){
 #' @param score realised value
 #' @param UB upper bound
 #' @param obj fitted model object
+#' @keywords internal
 txt.fn = function(score,UB,obj){
   cat("\n")
   cat(paste("hatQm:", round(score,2),"; Upper bound:", round(UB,2)),"\n")
@@ -265,27 +267,38 @@ txt.fn = function(score,UB,obj){
 #' 
 #' @param fence.mod set of fence models
 #' @param fence.rank set of fence model ranks
+#' @noRd
 process.fn = function(fence.mod,fence.rank){
-  # all that pass the fence
-  
-  #temp.all = sort(table(sapply(fence.mod,deparse,
-  #                             width.cutoff=500)),
-  #                decreasing=TRUE)
   del2 = function(x) x[-c(1:2)]
-  temp.all = sort(table(unlist(lapply(lapply(fence.mod,as.character),del2))),
-                  decreasing=TRUE)
-  pstarj.all = as.numeric(temp.all[1]/length(fence.mod))
-  pstarnamej.all = names(temp.all)[1]
+  splitAt <- function(x, pos) unname(split(x, cumsum(seq_along(x) %in% pos)))
+  
   # best only (true fence)
   fence.mod.bo = fence.mod[fence.rank==1]
   #  temp.bo = sort(table(sapply(fence.mod.bo,deparse,
-  #                              width.cutoff=500)),
-  #                 decreasing=TRUE)
+  #                              width.cutoff=500)), decreasing=TRUE)
   temp.bo = sort(table(unlist(lapply(lapply(fence.mod.bo,as.character),del2))),
                  decreasing=TRUE)
-  
   pstarj.bo = as.numeric(temp.bo[1]/length(fence.mod.bo))
   pstarnamej.bo = names(temp.bo)[1]
+  
+  # all that pass the fence
+  #temp.all = sort(table(sapply(fence.mod,deparse,
+  #                             width.cutoff=500)),decreasing=TRUE)
+  temp.all = sort(table(unlist(lapply(lapply(fence.mod,as.character),del2))),
+                  decreasing=TRUE)
+  #old version
+  #pstarj.all = as.numeric(temp.all[1]/length(fence.mod))
+  #pstarnamej.all = names(temp.all)[1]
+  # new version
+  unlist.fence.rank = unlist(fence.rank)
+  fence.rank.split = splitAt(unlist.fence.rank,which(unlist.fence.rank==1))
+  custom.p = 1/unlist(lapply(fence.rank.split,length))
+  custom.names = unlist(lapply(lapply(fence.mod.bo,as.character),del2))
+  agg = aggregate(custom.p,by=list(custom.names),sum)
+  agg = agg[order(agg$x,decreasing = TRUE),]
+  pstarj.all = agg[1,2]/sum(unlist.fence.rank==1)
+  pstarnamej.all = agg[1,1]
+  
   return(c(pstarj.bo,pstarnamej.bo,pstarj.all,pstarnamej.all))
 }
 

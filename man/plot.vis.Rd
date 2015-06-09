@@ -15,7 +15,7 @@
 \arguments{
 \item{x}{\code{vis} object, the result of \code{\link{vis}}}
 
-\item{highlight}{the name of a variable that will be highlighted.}
+\item{highlight}{the name of a variable that will be highlighted}
 
 \item{classic}{logical.  If \code{classic=TRUE} a
 base graphics plot is provided instead of a googleVis plot.
@@ -66,25 +66,25 @@ complete control over the output.  Specifying a value for
 
 \item{backgroundColor}{The background colour for the main area
 of the chart. A simple HTML color string,
-for example: 'red' or '#00cc00'.  Default: 'null' (there's an
+for example: 'red' or '#00cc00'.  Default: 'null' (there is an
 issue with GoogleCharts when setting 'transparent' related to the
 zoom window sticking - once that's sorted out, the default
 will change back to 'transparent')}
 
 \item{text}{logical, whether or not to add text labels to classic
-boot plot. Default = FALSE.}
+boot plot. Default = \code{FALSE}.}
 
-\item{min.prob}{when text=TRUE, a lower bound on the probability of
+\item{min.prob}{when \code{text=TRUE}, a lower bound on the probability of
 selection before a text label is shown.}
 
-\item{srt}{when text=TRUE, the angle of rotation for the text labels.
+\item{srt}{when \code{text=TRUE}, the angle of rotation for the text labels.
 Default = -30.}
 
 \item{max.circle}{circles are scaled to make largest dimension this size in inches.
 Default = 0.35.}
 
-\item{print.full.model}{logical, when text=TRUE this determines if the full
-model gets a label or not.  Default=FALSE.}
+\item{print.full.model}{logical, when \code{text=TRUE} this determines if the full
+model gets a label or not.  Default=\code{FALSE}.}
 
 \item{...}{further arguments (currently unused)}
 }
@@ -103,14 +103,14 @@ x5 = x1*x2
 y = 1 + x1 + x2 + e
 dat = data.frame(y,x1,x2,x3,x4,x5)
 lm1 = lm(y~.,data=dat)
-v1 = vis(lm1)
 \dontrun{
+v1 = vis(lm1)
 plot(v1,highlight="x1",which="lvk")
 }
 }
 \references{
-Mueller, S. and Welsh, A. H. (2010), On Model
-  Selection Curves. International Statistical Review, 78:240-256.
+Mueller, S. and Welsh, A. H. (2010), On model
+  selection curves. International Statistical Review, 78:240-256.
   doi: 10.1111/j.1751-5823.2010.00108.x
 
   Murray, K., Heritier, S. and Mueller, S. (2013), Graphical

@@ -15,6 +15,7 @@
 #' @param force.in which variables to force into the model
 #' @param model.type currently only lm or glm
 #' @param family for glms.
+#' @noRd
 qrange = function(k.range,yname,fixed,
                   data,method,force.in,
                   model.type,family){

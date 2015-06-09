@@ -5,30 +5,30 @@
 #' boot) as well as variable inclusion plots (vip).
 #' 
 #' @param mf a fitted 'full' model, the result of a call
-#'   to lm or glm (and in the future lme or lmer).
+#'   to lm or glm (and in the future lme or lmer)
 #' @param nvmax size of the largest model that can still be 
-#'   considered as a viable candidate.
+#'   considered as a viable candidate
 #' @param B number of bootstrap replications
 #' @param lambda.max maximum penalty value for the vip plot, 
 #'   defaults to 2*log(n)
 #' @param nbest maximum number of models at each model size 
-#'   that will be considered for the lvk plot.
+#'   that will be considered for the lvk plot
 #' @param n.cores number of cores to be used when parallel
-#'   processing the bootstrap.
+#'   processing the bootstrap
 #' @param force.in the names of variables that should be forced
 #'   into all estimated models. (Not yet implemented.)
 #' @param screen logical, whether or not to perform an initial
 #'   screen for outliers.  Highly experimental, use at own risk.
-#'   Default = FALSE.
+#'   Default = \code{FALSE}.
 #' @param redundant logical, whether or not to add a redundant
-#'   variable.  Default = TRUE.
+#'   variable.  Default = \code{TRUE}.
 #' @param ... further arguments (currently unused)
 #' @details The result of this function is essentially just a
 #'   list. The supplied plot method provides a way to visualise the
 #'   results.  
 #' @seealso \code{\link{plot.vis}}
-#' @references Mueller, S. and Welsh, A. H. (2010), On Model 
-#'   Selection Curves. International Statistical Review, 78:240-256. 
+#' @references Mueller, S. and Welsh, A. H. (2010), On model 
+#'   selection curves. International Statistical Review, 78:240-256. 
 #'   doi: 10.1111/j.1751-5823.2010.00108.x
 #'   
 #'   Murray, K., Heritier, S. and Mueller, S. (2013), Graphical 
@@ -49,8 +49,8 @@
 #' y = 1 + x1 + x2 + e
 #' dat = data.frame(y,x1,x2,x3,x4,x5)
 #' lm1 = lm(y~.,data=dat)
-#' v1 = vis(lm1)
 #' \dontrun{
+#' v1 = vis(lm1)
 #' plot(v1,highlight="x1")
 #' }
 
@@ -261,7 +261,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
 #' A plot method to visualise the results of a \code{vis} object.
 #' 
 #' @param x \code{vis} object, the result of \code{\link{vis}}
-#' @param highlight the name of a variable that will be highlighted.
+#' @param highlight the name of a variable that will be highlighted
 #' @param classic logical.  If \code{classic=TRUE} a 
 #'   base graphics plot is provided instead of a googleVis plot.
 #'   Default is \code{classic=FALSE}.
@@ -298,24 +298,24 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
 #'   \code{options} overwrites all other plotting variables.
 #' @param backgroundColor The background colour for the main area 
 #'   of the chart. A simple HTML color string, 
-#'   for example: 'red' or '#00cc00'.  Default: 'null' (there's an 
+#'   for example: 'red' or '#00cc00'.  Default: 'null' (there is an 
 #'   issue with GoogleCharts when setting 'transparent' related to the 
 #'   zoom window sticking - once that's sorted out, the default
 #'   will change back to 'transparent')
 #' @param text logical, whether or not to add text labels to classic
-#'   boot plot. Default = FALSE.
-#' @param min.prob when text=TRUE, a lower bound on the probability of 
+#'   boot plot. Default = \code{FALSE}.
+#' @param min.prob when \code{text=TRUE}, a lower bound on the probability of 
 #'   selection before a text label is shown.
-#' @param srt when text=TRUE, the angle of rotation for the text labels.
+#' @param srt when \code{text=TRUE}, the angle of rotation for the text labels.
 #'   Default = -30.
-#' @param print.full.model logical, when text=TRUE this determines if the full
-#'   model gets a label or not.  Default=FALSE.
+#' @param print.full.model logical, when \code{text=TRUE} this determines if the full
+#'   model gets a label or not.  Default=\code{FALSE}.
 #' @param max.circle  circles are scaled to make largest dimension this size in inches.
 #'   Default = 0.35.
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{vis}}
-#' @references Mueller, S. and Welsh, A. H. (2010), On Model 
-#'   Selection Curves. International Statistical Review, 78:240-256. 
+#' @references Mueller, S. and Welsh, A. H. (2010), On model 
+#'   selection curves. International Statistical Review, 78:240-256. 
 #'   doi: 10.1111/j.1751-5823.2010.00108.x
 #'   
 #'   Murray, K., Heritier, S. and Mueller, S. (2013), Graphical 
@@ -334,8 +334,8 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
 #' y = 1 + x1 + x2 + e
 #' dat = data.frame(y,x1,x2,x3,x4,x5)
 #' lm1 = lm(y~.,data=dat)
-#' v1 = vis(lm1)
 #' \dontrun{
+#' v1 = vis(lm1)
 #' plot(v1,highlight="x1",which="lvk")
 #' }
 
@@ -432,9 +432,9 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
       fplot = googleVis::gvisScatterChart(data=dat,options=use.options)
       if(html.only){
         return(fplot)
-      } 
+      }
       if(length(which)>1){ 
-        fplot 
+        fplot
       } else {
         plot(fplot)
       }
@@ -497,20 +497,22 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                          maxZoomIn: 0.01,
                          actions: ['dragToZoom', 
                          'rightClickToReset']}")
-} else {use.options = options}
+      } else {use.options = options}
       fplot = googleVis::gvisBubbleChart(data=dat,idvar = "mods",xvar = "k",
                                          yvar = "LL", colorvar = "var.ident", 
                                          sizevar = "prob",
                                          options=use.options)
       if(html.only){
         return(fplot)
-      } 
-      if(length(which)>1){ # used to be just if(html.only)
-        fplot 
-      } else {
+      } else{
         plot(fplot)
-      }
-      }
+      } 
+      #if(length(which)>1){ # used to be just if(html.only)
+      #  fplot 
+      #} else {
+      #  plot(fplot)
+      #}
+    }
   }
   if("vip"%in%which){ # variable inclusion plot
     var.names = x$m$exp.vars
@@ -573,7 +575,7 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                          maxZoomOut: 1,
                          maxZoomIn: 0.01,
                          actions: ['dragToZoom', 'rightClickToReset']}")
-} else {use.options = options}
+      } else {use.options = options}
       fplot = googleVis::gvisLineChart(data=vip.df,
                                        xvar="lambda",
                                        yvar=c("AIC","AIC.annotation",
@@ -585,8 +587,8 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
       } else {
         return(plot(fplot))
       }
-      }
-    } else return(invisible())
+    }
+  } else return(invisible())
 }
 
 
@@ -599,7 +601,7 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
 #' @param min.prob a lower bound on the probability of 
 #'   selection before the result is printed
 #' @param print.full.model logical, determines if the full
-#'   model gets printed or not.  Default=FALSE.
+#'   model gets printed or not.  Default=\code{FALSE}.
 #' @param ... further arguments (currently unused)
 #' @export
 # S3 print method for class 'vis'

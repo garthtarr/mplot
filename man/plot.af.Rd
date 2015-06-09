@@ -12,22 +12,20 @@
 \arguments{
 \item{x}{\code{af} object, the result of \code{\link{af}}}
 
-\item{pch}{plotting character, i.e., symbol to use.}
+\item{pch}{plotting character, i.e., symbol to use}
 
 \item{classic}{logical.  If \code{classic=TRUE} a
 base graphics plot is provided instead of a googleVis plot.
 Default is \code{classic=FALSE}.}
 
-\item{html.only}{logical was be used with rmarkdown, though perhaps
+\item{html.only}{logical for use with shiny. With rmarkdown
 using \code{op = options(gvis.plot.tag = "chart")} is better.}
 
-\item{best.only}{logical.  A modification to the adaptive
-procedure which considers all models at a particular
-size that pass the fence hurdle when calculating the
-p* values.  The rationale being that if a model is
-'correct' then it will be the only model at that size
-that passes the fence.  This can help to determine where
-the correct peak is to select c*.}
+\item{best.only}{logical determining whether the output used the
+standard fence approach of only considering the best models
+that pass the fence (\code{TRUE}) or if it should take into
+account all models that pass the fence at each boundary
+value (\code{FALSE}).}
 
 \item{width}{Width of the googleVis chart canvas area, in pixels.
 Default: 800.}

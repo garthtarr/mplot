@@ -20,7 +20,7 @@
 #'   A simplified adaptive fence procedure, Statistics & 
 #'   Probability Letters, Volume 79, Issue 5, 1 March 2009, 
 #'   Pages 625-629, http://dx.doi.org/10.1016/j.spl.2008.10.014.
-#' @export
+#' @noRd
 #' @family fence
 
 glmfence = function(mf,
