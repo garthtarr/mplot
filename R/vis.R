@@ -190,6 +190,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
       # differs from the bestglm BIC buy a constant
     }
   }
+  stopCluster(cl.visB)
   
   ### Variable inclusion Plot Calculations
   if(missing(lambda.max)) lambda.max = 2*log(n)
@@ -565,13 +566,8 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
                          #lineDashStyle = lineDashStyle,
                          chartArea=chartArea,
                          width=width, height=height,
-                         backgroundColor=backgroundColor,
-                         annotations = "{style:'line'}",
-                         explorer= "{axis: 'vertical',  
-                         keepInBounds: true,
-                         maxZoomOut: 1,
-                         maxZoomIn: 0.01,
-                         actions: ['dragToZoom', 'rightClickToReset']}")
+                         backgroundColor='transparent',
+                         annotations = "{style:'line'}")
       } else {use.options = options}
       fplot = googleVis::gvisLineChart(data=vip.df,
                                        xvar="lambda",
@@ -608,6 +604,7 @@ print.vis = function (x, min.prob=0.3, print.full.model=FALSE, ...) {
   print.obj = dat[dat$prob>min.prob,c("name","prob","logLikelihood")]
   if(!print.full.model) print.obj = print.obj[-dim(print.obj)[1],]
   print.obj[,2:3] = round(print.obj[,2:3],2)
-  print(print.obj)
+  rownames(print.obj) = NULL
+  print(print.obj,row.names=FALSE)
   invisible(x)
 }
