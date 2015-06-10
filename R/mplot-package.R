@@ -53,7 +53,7 @@ NULL
 #' Blood and other measurements in diabetics
 #' 
 #' The diabetes data frame has 442 rows and 11 columns. 
-#' These are the data used in Efron et al. (2003).
+#' These are the data used in Efron et al. (2004).
 #' 
 #' @name diabetes
 #' @format A data frame with 442 observations on 11 variables.

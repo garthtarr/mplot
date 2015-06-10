@@ -23,7 +23,7 @@ data(diabetes)
 }
 \description{
 The diabetes data frame has 442 rows and 11 columns.
-These are the data used in Efron et al. (2003).
+These are the data used in Efron et al. (2004).
 }
 \details{
 Data sourced from http://web.stanford.edu/~hastie/Papers/LARS

@@ -27,9 +27,9 @@ require(mplot)
 
 ```s
 require(mplot)
+?af
+?vis
 ?mplot
-vignette("mplot-guide",package="mplot")
-vignette("mplot-stepwise",package="mplot")
 ```
 
 ## Uninstall
@@ -42,8 +42,3 @@ remove.packages("mplot")
 ```
 
 If you do this, then the next time you want to use it, you'll need to install the package again from github.
-
-## Known issues
-
-The `vis` function is not yet optimised to take advantage of leaps
-technology and so it can take a while to run on moderately large data sets.
