@@ -1,10 +1,10 @@
 Package: mplot
 Type: Package
-Title: Graphical Model Stability and Model Selection Procedures
-Version: 0.6.0
+Title: Graphical Model Stability and Variable Selection Procedures
+Version: 0.6.1
 Date: 2015-06-10
 Authors@R: c(person("Garth", "Tarr", role = c("aut", "cre"), email = "garth.tarr@gmail.com"), person("Samuel", "Mueller", role = "aut", email = "samuel.mueller@sydney.edu.au"), person("Alan", "Welsh", role = "aut", email = "alan.welsh@anu.edu.au"))
-Description: The mplot package implements model stability curves of Mueller and Welsh (2010, ISR) and Murray, Heritier and Mueller (2013, Stat. Med.) as well as the fence procedure (Jiang et al., 2008, Ann. Stat. and Jiang et al., 2009, SPL) for linear and generalised linear models.
+Description: Model stability and variable importance plots (Mueller and Welsh, 2010, ISR and Murray, Heritier and Mueller, 2013, Stat. Med.) as well as the adaptive fence (Jiang et al., 2008, Ann. Stat. and Jiang et al., 2009, SPL) for linear and generalised linear models.
 License: GPL (>= 2)
 Suggests:
     knitr,
@@ -23,4 +23,3 @@ Imports:
 URL: https://github.com/garthtarr/mplot
 Roxygen: list(wrap = FALSE)
 LazyData: TRUE
-VignetteBuilder: knitr
