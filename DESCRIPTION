@@ -4,7 +4,7 @@ Title: Graphical Model Stability and Variable Selection Procedures
 Version: 0.6.2
 Date: 2015-06-10
 Authors@R: c(person("Garth", "Tarr", role = c("aut", "cre"), email = "garth.tarr@gmail.com"), person("Samuel", "Mueller", role = "aut", email = "samuel.mueller@sydney.edu.au"), person("Alan", "Welsh", role = "aut", email = "alan.welsh@anu.edu.au"))
-Description: Model stability and variable importance plots [Mueller and Welsh (2010, <doi:10.1111/j.1751-5823.2010.00108.x>); Murray, Heritier and Mueller (2013, <doi:10.1002/sim.5855>)] as well as the adaptive fence [Jiang et al. (2008, doi:10.1214/07-AOS517>); Jiang et al. (2009, <doi:10.1016/j.spl.2008.10.014>)] for linear and generalised linear models.
+Description: Model stability and variable importance plots [Mueller and Welsh (2010, <doi:10.1111/j.1751-5823.2010.00108.x>); Murray, Heritier and Mueller (2013, <doi:10.1002/sim.5855>)] as well as the adaptive fence [Jiang et al. (2008, <doi:10.1214/07-AOS517>); Jiang et al. (2009, <doi:10.1016/j.spl.2008.10.014>)] for linear and generalised linear models.
 License: GPL (>= 2)
 Suggests:
     knitr,

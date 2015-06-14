@@ -1,7 +1,18 @@
-bibentry("Manual",
-   title = "mplot: Graphical model stability and model selection procedures",
-   author = person("Garth Tarr", "Samuel Mueller", "Alan Welsh"),
-   year   = 2014,
+bibentry("Article",
+   title = "{{mplot}: graphical model stability and variable selection procedures}",
+   author = c(person("Garth","Tarr"), person("Samuel","Mueller"),person("Alan","Welsh")),
+   year = 2015,
+   archivePrefix = "arXiv",
+   eprint = "0000.0000",
+   primaryClass = "stat.CO",
    url    = "https://github.com/garthtarr/mplot",
    mheader = "To cite mplot in publications use:"
 )
+
+bibentry("Manual",
+   title = "{{mplot}: graphical model stability and variable selection procedures}",
+   author = c(person("Garth","Tarr"), person("Samuel","Mueller"),person("Alan","Welsh")),
+    year = {2015},
+    note = "R package version 0.6.3",
+    url = {https://github.com/garthtarr/mplot},
+  }

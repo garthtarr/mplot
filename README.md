@@ -32,6 +32,13 @@ require(mplot)
 ?mplot
 ```
 
+The `mplot()` function requires the development version of `shinydashboard`.  This is expected to be on CRAN in a couple of weeks time, but for now you can install it using:
+
+```s
+install.packages("devtools")
+devtools::install_github("rstudio/shinydashboard")
+```
+
 ## Uninstall
 
 After you've used the development version you may like to remove it to avoid any potential conflicts in the future with:
