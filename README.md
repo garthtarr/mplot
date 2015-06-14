@@ -6,6 +6,8 @@ We implement the adaptive fence routine with sensible defaults, new graphics to 
 
 The speed of implementation comes from the leaps package and multicore support for bootstrapping.
 
+You can see an example of the output [here](http://128.199.224.73/mplot-diabetes/).
+
 ## Installation
 
 Step 1: check that you're running the most recent versions of your currently installed R packages:
