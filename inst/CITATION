@@ -1,18 +1,21 @@
-bibentry("Article",
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry("Misc",
    title = "{{mplot}: graphical model stability and variable selection procedures}",
    author = c(person("Garth","Tarr"), person("Samuel","Mueller"),person("Alan","Welsh")),
    year = 2015,
-   archivePrefix = "arXiv",
-   eprint = "0000.0000",
-   primaryClass = "stat.CO",
-   url    = "https://github.com/garthtarr/mplot",
+   eprint = "arXiv:0000.0000 [stat.CO]",
+   url    = "http://arxiv.org/abs/0000.0000",
    mheader = "To cite mplot in publications use:"
 )
 
 bibentry("Manual",
-   title = "{{mplot}: graphical model stability and variable selection procedures}",
-   author = c(person("Garth","Tarr"), person("Samuel","Mueller"),person("Alan","Welsh")),
-    year = {2015},
-    note = "R package version 0.6.3",
-    url = {https://github.com/garthtarr/mplot},
-  }
+   title = "{mplot}: graphical model stability and variable selection procedures",
+   author = c(person("Garth","Tarr"), 
+              person("Samuel","Mueller"),
+              person("Alan","Welsh")),
+    year = year,
+    note = note,
+    url = "https://github.com/garthtarr/mplot"
+  )

@@ -1,10 +1,10 @@
-# mplot
+# mplot: graphical model stability and variable selection procedures
 
-The mplot package provides a collection of functions designed for exploratory model selection.
+The `mplot` package provides a collection of functions designed for exploratory model selection.
 
-We implement the adaptive fence routine with sensible defaults, new graphics to highlight model selection stability.  It currently only supports linear and generalised linear models, however work is progressing to incorporate survival models and mixed models.
+We implement model stability and variable importance plots ([Mueller and Welsh (2010)](http://doi.org/10.1111/j.1751-5823.2010.00108.x); [Murray, Heritier and Mueller (2013)](http://doi.org/10.1002/sim.5855)) as well as the adaptive fence ([Jiang et al. (2008)](http://doi.org/10.1214/07-AOS517); [Jiang et al. (2009)](http://doi.org/10.1016/j.spl.2008.10.014)] for linear and generalised linear models.   We address many practical implementation issues with sensible defaults and interactive graphics to highlight model selection stability.  The speed of implementation comes from the leaps package and multicore support for bootstrapping.
 
-The speed of implementation comes from the leaps package and multicore support for bootstrapping.
+The `mplot` currently only supports linear and generalised linear models, however work is progressing to incorporate survival models and mixed models.
 
 You can see an example of the output [here](http://128.199.224.73/mplot-diabetes/).
 
@@ -49,6 +49,14 @@ require(mplot)
 ?af
 ?vis
 ?mplot
+```
+
+## Citation
+
+If you use this package to inform your model selection choices, please use the following citation:
+
+```s
+citation("mplot")
 ```
 
 
