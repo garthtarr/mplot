@@ -16,13 +16,6 @@ Check that you're running the most recent versions of your currently installed R
 update.packages()
 ```
 
-The `mplot()` function requires the development version of `shinydashboard` (v0.4.0.9000 or greater).  This is expected to be on CRAN in a couple of weeks time, but for now you can install it using:
-
-```s
-install.packages("devtools")
-devtools::install_github("rstudio/shinydashboard")
-```
-
 ### Stable release on CRAN
 
 The mplot package is now on CRAN:

@@ -77,7 +77,7 @@ mplot = function(mf,...){
         conditionalPanel(condition = "input.lvp=='lvp'",
                          radioButtons("highlight",label="Highlight models with which variable?",
                                       choices=names(coef(full.model))[!names(coef(full.model))=="(Intercept)"],
-                                      inline=TRUE),
+                                      inline=FALSE), #TRUE), change back when wrapping is fixed
                          radioButtons("boot_lvp","Bootstrap?",
                                       choices=c("Yes","No"),
                                       selected = "Yes",
