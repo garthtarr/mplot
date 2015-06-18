@@ -75,9 +75,9 @@ mplot = function(mf,...){
                                       inline=TRUE)),
         menuItem(text="Model stability",icon=icon("bar-chart"),tabName="lvp"),
         conditionalPanel(condition = "input.lvp=='lvp'",
-                         radioButtons("highlight",label="Highlight models with which variable?",
-                                      choices=names(coef(full.model))[!names(coef(full.model))=="(Intercept)"],
-                                      inline=FALSE), #TRUE), change back when wrapping is fixed
+                         selectInput("highlight",label="Highlight models with:",
+                                      choices=names(coef(full.model))[!names(coef(full.model))=="(Intercept)"]),
+                                     #inline=FALSE), #TRUE), change back when wrapping is fixed
                          radioButtons("boot_lvp","Bootstrap?",
                                       choices=c("Yes","No"),
                                       selected = "Yes",
