@@ -376,27 +376,32 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
     spk = spk+jitter
     if(classic){
       for(i in 1:length(vars)){
-        if(i %% 2 == 0){
-          colbg=rgb(1,0,0,0.5)
-          colfg=rgb(1,0,0)
-        } else{
-          colbg=rgb(0,0,1,0.5)
-          colfg=rgb(0,0,1)
-        }
+#         if(i %% 2 == 0){
+#           colbg=rgb(0,0,1,0.5)
+#           colfg=rgb(0,0,1)
+#         } else{  
+#           colbg=rgb(1,0,0,0.5)
+#           colfg=rgb(1,0,0)
+#         }
+        col_high = rgb(1, 0, 0, alpha=0)
+        col_nohigh = rgb(0, 0, 1, alpha=0.5)
+        colbg = rgb(1, 0, 0, alpha=0.5)
         var.ident = which(x$res.single.pass[,vars[i]]==1)
         n.var.ident = which(x$res.single.pass[,vars[i]]==0)
         par(mar=c(3.4,3.4,0.1,0.1),mgp=c(2.0, 0.75, 0))
         plot(m2ll[n.var.ident]~spk[n.var.ident],
-             pch=1, cex=1.3,
+             pch=19, cex=1.3, col = col_nohigh,
+             bg = colbg,
              xlab = "Number of parameters",
              ylab = "-2*Log-likelihood",
              ylim = c(min(m2ll),max(m2ll)),
              xlim = c(min(spk),max(spk)))
         points(m2ll[var.ident]~spk[var.ident], 
                pch=24, bg=colbg,
-               col = colfg, cex=1.2)
-        legend("topright",legend=vars[i], col = colfg,
-               pt.bg=colbg, pch = 24)
+               col = col_high, cex=1.2)
+        legend("topright",legend=c(paste("With",vars[i]),paste("Without",vars[i])), 
+               col = c(col_high,col_nohigh),
+               pt.bg=colbg, pch = c(24,19))
         if(length(vars)>1){
           par(ask=TRUE)
         }
@@ -461,7 +466,7 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
               xlab = "Number of parameters",
               ylab = "-2*Log-likelihood")
       legend("topright",legend = c(paste("With",highlight[1]),paste("Without",highlight[1])),
-             col = c(rgb(1, 0, 0, alpha=0.5),rgb(0, 0, 1, alpha=0.5)),pch=15)
+             col = c(rgb(1, 0, 0, alpha=0.5),rgb(0, 0, 1, alpha=0.5)),pch=19)
       if(text){
         bdat = dat[dat$prob>min.prob,]
         if(!print.full.model){
