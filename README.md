@@ -1,6 +1,6 @@
 # mplot: graphical model stability and variable selection procedures
 
-[![Travis-CI Build Status](https://travis-ci.org/garthtarr/mplot.svg?branch=master)](https://travis-ci.org/garthtarr/mplot)
+[![Travis-CI Build Status](https://travis-ci.org/garthtarr/mplot.svg?branch=master)](https://travis-ci.org/garthtarr/mplot)[![](http://cranlogs.r-pkg.org/badges/mplot)](http://cran.rstudio.com/web/packages/mplot/index.html)
 
 The `mplot` package provides a collection of functions designed for exploratory model selection.
 
