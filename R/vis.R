@@ -519,6 +519,7 @@ plot.vis = function(x,highlight,classic=FALSE,html.only=FALSE,
   }
   if("vip"%in%which){ # variable inclusion plot
     var.names = x$m$exp.vars
+    var.names = gsub(pattern = ":",replacement = ".",x = var.names)
     B = x$B
     p.var = x$var.in[,is.element(colnames(x$var.in),var.names)]
     colnames(p.var) = gsub("REDUNDANT.VARIABLE","RV",colnames(p.var))
