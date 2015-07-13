@@ -7,7 +7,8 @@
 \method{plot}{af}(x, pch, classic = FALSE, html.only = FALSE,
   best.only = TRUE, width = 800, height = 400, fontSize = 12,
   left = 50, top = 30, chartWidth = "60\%", chartHeight = "80\%",
-  backgroundColor = "transparent", options = NULL, ...)
+  backgroundColor = "transparent", legend.position = "topleft",
+  options = NULL, ...)
 }
 \arguments{
 \item{x}{\code{af} object, the result of \code{\link{af}}}
@@ -52,6 +53,9 @@ Default: \code{"80\%"}}
 \item{backgroundColor}{The background colour for the main area
 of the chart. A simple HTML color string,
 for example: 'red' or '#00cc00'.  Default: 'transparent'}
+
+\item{legend.position}{legend position, e.g. \code{"topleft"}
+or  \code{"bottomright"}}
 
 \item{options}{If you want to specify the full set of googleVis
 options.}

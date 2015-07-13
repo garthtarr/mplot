@@ -1,6 +1,6 @@
 # mplot: graphical model stability and variable selection procedures
 
-[![Travis-CI Build Status](https://travis-ci.org/garthtarr/mplot.svg?branch=master)](https://travis-ci.org/garthtarr/mplot)[![](http://cranlogs.r-pkg.org/badges/mplot)](http://cran.rstudio.com/web/packages/mplot/index.html)
+[![Travis-CI Build Status](https://travis-ci.org/garthtarr/mplot.svg?branch=master)](https://travis-ci.org/garthtarr/mplot) [![](http://cranlogs.r-pkg.org/badges/mplot)](http://cran.rstudio.com/web/packages/mplot/index.html)
 
 The `mplot` package provides a collection of functions designed for exploratory model selection.
 
@@ -8,7 +8,7 @@ We implement model stability and variable importance plots ([Mueller and Welsh (
 
 The `mplot` currently only supports linear and generalised linear models, however work is progressing to incorporate survival models and mixed models.
 
-You can see an example of the output [here](http://128.199.224.73/mplot-diabetes/).
+You can see an example of the output [here](http://garthtarr.com/apps/mplot/).
 
 ## Installation
 

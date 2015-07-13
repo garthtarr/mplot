@@ -380,6 +380,8 @@ summary.af = function (object,best.only=TRUE,...) {
 #' @param backgroundColor The background colour for the main area 
 #'   of the chart. A simple HTML color string, 
 #'   for example: 'red' or '#00cc00'.  Default: 'transparent'
+#' @param legend.position legend position, e.g. \code{"topleft"} 
+#'   or  \code{"bottomright"}
 #' @param ... further arguments (currently unused)
 #' @export
 # S3 method for class 'af'
@@ -390,6 +392,7 @@ plot.af = function(x,pch,classic=FALSE,
                    left=50,top=30,chartWidth="60%",
                    chartHeight="80%",
                    backgroundColor = 'transparent',
+                   legend.position = "topleft",
                    options=NULL,...){
   if(best.only){
     x = x$bestOnly
@@ -403,7 +406,7 @@ plot.af = function(x,pch,classic=FALSE,
          ylim=c(0,1), pch=pch,
          col=x$p.star[,3],
          ylab = "p*", xlab = "c")
-    legend("topleft",legend=unique(x$p.star[,2]),
+    legend(legend.position, legend=unique(x$p.star[,2]),
            pch=pch,col=unique(x$p.star[,3]),bty="n")
     axis(side=3, at=x$c.star, 
          labels=paste("c*=", round(x$c.star,1),sep=""))

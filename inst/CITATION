@@ -6,7 +6,7 @@ bibentry("Misc",
    author = c(person("Garth","Tarr"), person("Samuel","Mueller"),person("Alan","Welsh")),
    year = 2015,
    eprint = "arXiv:0000.0000 [stat.CO]",
-   url    = "http://arxiv.org/abs/0000.0000",
+   #url    = "http://arxiv.org/abs/0000.0000",
    mheader = "To cite mplot in publications use:"
 )
 

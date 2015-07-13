@@ -1,3 +1,10 @@
+mplot 0.6.5 [2015-xx-xx]
+
+* Numerous refinements including consistency of 
+  style between the classic plots
+* ylim argument for classic boot and lvk plots
+* legend.position argument for classic af plots
+
 mplot 0.6.0 [2015-06-10]
 ------------------------
 

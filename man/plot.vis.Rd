@@ -8,7 +8,7 @@
   which = c("vip", "lvk", "boot"), width = 800, height = 400,
   fontSize = 12, left = 50, top = 30, chartWidth = "60\%",
   chartHeight = "80\%", axisTitlesPosition = "out", dataOpacity = 0.5,
-  options = NULL, backgroundColor = "transparent", text = FALSE,
+  options = NULL, ylim, backgroundColor = "transparent", text = FALSE,
   min.prob = 0.4, srt = -30, max.circle = 0.35,
   print.full.model = FALSE, jitterk = 0.1, ...)
 }
@@ -63,6 +63,8 @@ with 1.0 being completely opaque and 0.0 fully transparent.}
 \item{options}{a list to be passed to the googleVis function giving
 complete control over the output.  Specifying a value for
 \code{options} overwrites all other plotting variables.}
+
+\item{ylim}{the y limits of the lvk and boot plots.}
 
 \item{backgroundColor}{The background colour for the main area
 of the chart. A simple HTML color string,
