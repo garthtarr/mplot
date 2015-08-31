@@ -137,23 +137,23 @@ NULL
 #' @param redundant logical, whether or not to add a redundant
 #'   variable.  Default = TRUE.
 #' @noRd
-mextract = function(model,screen=FALSE,redundant=TRUE){
+mextract = function(model, screen = FALSE, redundant = TRUE){
   # what's the name of the dependent variable?
   yname = deparse(formula(model)[[2]])
   # Set up the data frames for use
   data = model.frame(model)
   X = model.matrix(model)
-  n=nrow(X)
+  n = nrow(X)
   # full model plus redundant variable
-  exp.vars=names(model$coefficients)[names(model$coefficients)!="(Intercept)"]
+  exp.vars = names(model$coefficients)[names(model$coefficients) != "(Intercept)"]
   
-  if(redundant){
-    REDUNDANT.VARIABLE = rnorm(n)
+  if (redundant) {
+    REDUNDANT.VARIABLE = runif(n, min = 0, max = 1)
     X = cbind(X,REDUNDANT.VARIABLE)
     data = cbind(data,REDUNDANT.VARIABLE)
     exp.vars = c(exp.vars,"REDUNDANT.VARIABLE")
   }
-  if(colnames(X)[1]=="(Intercept)"){
+  if (colnames(X)[1] == "(Intercept)") {
     # overwrite intercept with y-variable
     X[,1] = model.frame(model)[,yname] 
   } else {
@@ -161,43 +161,38 @@ mextract = function(model,screen=FALSE,redundant=TRUE){
   }
   colnames(X)[1] = yname
   X = data.frame(X)
-  fixed = as.formula(c(paste(yname,"~"),
-                       paste(colnames(X)[-1],collapse="+")))
+  fixed = as.formula(c(paste(yname, "~"),
+                       paste(colnames(X)[-1], collapse = "+")))
   Xy = X[c(2:ncol(X),1)]
   
   k = length(exp.vars) + 1 # +1 for intercept 
-  if(screen){
+  if (screen) {
     if (!requireNamespace("mvoutlier", quietly = TRUE)) {
       stop("mvoutlier package needed when screen=TRUE. Please install it.",
            call. = FALSE)
     }
     x.mad = apply(Xy, 2, mad)
     Xy.sub = Xy[,which(x.mad != 0)]
-    Xy = Xy[mvoutlier::pcout(Xy.sub)$wfinal01==1,]
-    n=dim(Xy)[1]
-    if(k>=n){
+    Xy = Xy[mvoutlier::pcout(Xy.sub)$wfinal01 == 1,]
+    n = dim(Xy)[1]
+    if (k >= n) {
       warning("Screening deleted too many observations.")
       return()
     }
   }
   wts = model$weights
-  if(is.element("glm",class(model))){
+  if (is.element("glm",class(model))) {
     wts = model$prior.weights
     Xy[,yname] = model$y
   } 
-  if(is.null(wts)){
+  if (is.null(wts)) {
     wts = rep(1,n)
   }
   
-  return(list(yname=yname,
-              fixed=fixed,
-              wts = wts,
-              X=Xy,
-              k = k,
-              n=n,
-              exp.vars=exp.vars,
-              data = data,
-              family = family(model)))
+  return(list(yname = yname, fixed = fixed,
+              wts = wts, X = Xy, k = k,
+              n = n, exp.vars = exp.vars,
+              data = data, family = family(model)))
   
   # MIXED MODELS NOT IMPLEMENTED IN FIRST RELEASE   
   #   if(class(model)=="lmerMod"){ # lme4 package
@@ -239,7 +234,7 @@ mextract = function(model,screen=FALSE,redundant=TRUE){
 #' 
 #' @noRd
 safeDeparse <- function(expr){
-  ret <- paste(deparse(expr), collapse="")
+  ret <- paste(deparse(expr), collapse = "")
   #rm whitespace
   gsub("[[:space:]][[:space:]]+", " ", ret)
 }

@@ -163,14 +163,16 @@ af = function(mf,
     fwds.BIC = step(small.mod, 
                     scope = list(lower=small.ff, upper=fixed),
                     direction="forward", k=log(n), trace=0)
-    k.min = max(min(length(bwds.BIC$coef),length(fwds.BIC$coef))-2,1)
     bwds.AIC = step(mfstar, 
                     scope = list(lower=small.ff, upper=fixed),
                     direction="backward", k=2, trace=0)
     fwds.AIC = step(small.mod, 
-                    scope = list(lower=small.ff, upper=fixed),
-                    direction="forward", k=2, trace=0)
-    k.max = min(max(length(bwds.AIC$coef),length(fwds.AIC$coef))+2,kf)  
+                    scope = list(lower = small.ff, upper = fixed),
+                    direction = "forward", k = 2, trace = 0)
+    k.vals = c(length(bwds.BIC$coef),length(fwds.BIC$coef),
+               length(bwds.AIC$coef),length(fwds.AIC$coef))
+    k.min = max(min(k.vals) - 2, 1)
+    k.max = min(max(k.vals) + 2, kf)  
     k.range = list(k.min=k.min,k.max=k.max)
     Q.range = qrange(k.range=k.range, data=Xy, 
                      yname=yname, fixed=fixed, 

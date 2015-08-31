@@ -20,7 +20,8 @@ considered as a viable candidate}
 defaults to 2*log(n)}
 
 \item{nbest}{maximum number of models at each model size
-that will be considered for the lvk plot}
+that will be considered for the lvk plot. Can also take
+a value of \code{"all"} which displays all models.}
 
 \item{n.cores}{number of cores to be used when parallel
 processing the bootstrap}

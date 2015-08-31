@@ -12,7 +12,8 @@
 #' @param lambda.max maximum penalty value for the vip plot, 
 #'   defaults to 2*log(n)
 #' @param nbest maximum number of models at each model size 
-#'   that will be considered for the lvk plot
+#'   that will be considered for the lvk plot. Can also take
+#'   a value of \code{"all"} which displays all models.
 #' @param n.cores number of cores to be used when parallel
 #'   processing the bootstrap
 #' @param force.in the names of variables that should be forced
@@ -67,6 +68,12 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
   n = m$n
   initial.weights = m$wts
   if(missing(nvmax)) nvmax = kf
+  if(nbest=="all") {
+    nbest = max(choose((kf-1),0:(kf-1)))
+  }
+  if(!is.numeric(nbest)){
+    stop("nbest should be numeric or 'all'")
+  }
   
   add.intercept.row = function(em,rs.which,rs.stats){
     # add an intercept row 
@@ -403,8 +410,8 @@ plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
         }
       }
     } else {# googleVis version
-      var.ident = which(x$res.single.pass[,highlight[1]] == 1)
-      n.var.ident = which(x$res.single.pass[,highlight[1]] == 0)
+      var.ident = which(x$res.single.pass[,vars[1]] == 1)
+      n.var.ident = which(x$res.single.pass[,vars[1]] == 0)
       with.var = without.var = rep(NA,dim(x$res.single.pass)[1])
       with.var[var.ident] = m2ll[var.ident]
       without.var[n.var.ident] = m2ll[n.var.ident]
@@ -444,10 +451,10 @@ plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
     }
   }
   if ("boot" %in% which) {
-    var.ident = x$res.df[,highlight[1]] == 1
+    var.ident = x$res.df[,vars[1]] == 1
     vi = var.ident
-    var.ident[var.ident==TRUE] = paste("With",highlight[1])
-    var.ident[var.ident==FALSE] = paste("Without",highlight[1])
+    var.ident[var.ident==TRUE] = paste("With",vars[1])
+    var.ident[var.ident==FALSE] = paste("Without",vars[1])
     jitter = runif(length(vi),0-jitterk,0+jitterk)
     dat = data.frame(mods = x$res.df$name,
                      k =  x$res.df$k + jitter, 
@@ -463,7 +470,7 @@ plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
               ylim = ylim,
               xlab = "Number of parameters",
               ylab = "-2*Log-likelihood")
-      legend("topright",legend = c(paste("With",highlight[1]),paste("Without",highlight[1])),
+      legend("topright",legend = c(paste("With",vars[1]),paste("Without",vars[1])),
              col = c(rgb(1, 0, 0, alpha=0.5),rgb(0, 0, 1, alpha=0.5)),pch=19)
       if(text){
         bdat = dat[dat$prob>min.prob,]
