@@ -1,3 +1,8 @@
+mplot 0.7.1 [2015-09-09]
+------------------------
+
+* Fix for undefined globals (CRAN submission)
+
 mplot 0.7.0 [2015-09-08]
 ------------------------
 

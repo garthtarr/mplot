@@ -42,7 +42,7 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
                "but it needs to be one of gaussian, binomial, poisson, multinomial, cox, mgaussian"),
          call. = FALSE)
   }
-  
+
   Xy = m$X
   kf = m$k
   X = Xy[,1:(kf - 1)]
@@ -68,9 +68,9 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
   nlambda = length(lambda)
   compteur = matrix(0, kf, nlambda)
   mfstar = do.call("glm",list(fixed, data = Xy, family = family,weights = m$wts))
-  ystar = simulate(object = mfstar, nsim = B)
+  ystar = stats::simulate(object = mfstar, nsim = B)
   #ystar[is.na(ystar)] = Xy[is.na(ystar),yname]
-  
+
   betaboot = array(0,dim = c(kf,nlambda,B))
   rownames(betaboot) = names(mfstar$coef)
   for (j in 1:B) {
@@ -96,7 +96,7 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
   all.k = rep(0,length(all.mods))
   for (k in 1:length(all.mods)) {
     # don't need to do this for models that include REDUNDANT.VARIABLE
-    all.ll[k] = -2*logLik(glm(as.formula(paste(yname,"~",all.mods[k])),
+    all.ll[k] = -2*stats::logLik(stats::glm(stats::as.formula(paste(yname,"~",all.mods[k])),
                               data = Xy,
                               family = family,
                               weights = m$wts))
@@ -195,7 +195,7 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
                     baseline:",0," ,
                      maxValue:",max(x$lambda)*1.1," ,
                      minValue:",min(x$lambda),"}",sep="")
-  
+
   if("boot"%in%which){
     l.vec = rep(x$lambda,times = lapply(x$mods,length))
     mod.vec = unlist(x$mods)
@@ -211,7 +211,7 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
     df.sub$mod.names = as.character(df.sub$mod.names)
     if (classic) {
       warning("Classic plot not implemented.")
-      #plot(df.sub$ll~df.sub$l.vec,cex=df.sub$mod.vec.counts/5,
+      #graphics::plot(df.sub$ll~df.sub$l.vec,cex=df.sub$mod.vec.counts/5,
       #     xlim=c(min(x$lambda),max(x$lambda)))
     }
     if (missing(highlight)) { # highlight best bivariate variable
@@ -221,7 +221,7 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
         highlight = dfk2$mod.names[which.min(dfk2$ll)]
       } else highlight =  x$vars[2]
     }
-    
+
     mod.parts = lapply(df.sub$mod.names,FUN = strsplit,"+",fixed=TRUE)
     find.var = function(x,highlight){
       is.element(highlight,unlist(x))
@@ -238,7 +238,7 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
                       "',height:'",chartHeight,"'}",sep="")
     bubble = paste("{opacity:",dataOpacity,
                    ", textStyle: {color: 'none'}}",sep="")
-    
+
     if(is.null(options)){
       use.options=list(title=gvis.title,
                        fontSize = fontSize,
@@ -258,7 +258,7 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
                                actions: ['dragToZoom',
                                          'rightClickToReset']}")
     } else {use.options = options}
-    
+
     fplot = googleVis::gvisBubbleChart(data=df.sub,idvar = "mod.names",xvar = "l.vec",
                                        yvar = "ll", colorvar = "var.ident",
                                        sizevar = "mod.vec.prob",
@@ -266,7 +266,7 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
     if(html.only){
       return(fplot)
     } else {
-      plot(fplot)
+      graphics::plot(fplot)
     }
   }
   if("vip"%in%which){
@@ -303,8 +303,7 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
     if(html.only){
       return(fplot)
     } else{
-      return(plot(fplot))
+      return(graphics::plot(fplot))
     }
   } else return(invisible())
 }
-

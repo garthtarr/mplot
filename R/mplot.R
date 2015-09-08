@@ -1,9 +1,9 @@
 #' Model selection and stability curves
-#' 
-#' Opens a shiny GUI to investigate a range of model selection 
+#'
+#' Opens a shiny GUI to investigate a range of model selection
 #' and stability issues
-#' 
-#' 
+#'
+#'
 #' @param mf a fitted model.
 #' @param ... objects of type vis or af.
 #' @export
@@ -26,7 +26,7 @@
 #' af1 = af(lm1,n.cores=3)
 #' mplot(lm1,v1,af1)
 #' }
-#' 
+#'
 
 
 mplot = function(mf,...){
@@ -61,7 +61,7 @@ mplot = function(mf,...){
     #       }
     #     }
   }
-  
+
   ui = dashboardPage(
     dashboardHeader(title="mplot",disable = FALSE),
     dashboardSidebar(
@@ -76,7 +76,7 @@ mplot = function(mf,...){
         menuItem(text="Model stability",icon=icon("bar-chart"),tabName="lvp"),
         conditionalPanel(condition = "input.lvp=='lvp'",
                          selectInput("highlight",label="Highlight models with:",
-                                      choices=names(coef(full.model))[!names(coef(full.model))=="(Intercept)"]),
+                                      choices=names(stats::coef(full.model))[!names(stats::coef(full.model))=="(Intercept)"]),
                                      #inline=FALSE), #TRUE), change back when wrapping is fixed
                          radioButtons("boot_lvp","Bootstrap?",
                                       choices=c("Yes","No"),
@@ -109,7 +109,7 @@ mplot = function(mf,...){
         #    condition = "input.glmplot == 'models'",
         #    sliderInput("plb",label="Minimum probability to be plotted",min=0,max=0.5,value=0.05),
         #    radioButtons("highlight.glmnet",label="Highlight models with which variable?",
-        #                 choices=names(coef(full.model))[!names(coef(full.model))=="(Intercept)"])
+        #                 choices=names(stats::coef(full.model))[!names(stats::coef(full.model))=="(Intercept)"])
         #   )
         #                   )
       ),
@@ -126,7 +126,7 @@ mplot = function(mf,...){
     ),
     dashboardBody(
       tabItems(
-        tabItem(tabName="lvp", 
+        tabItem(tabName="lvp",
                 box(title = "Model stability plot",status="primary",
                     solidHeader = TRUE,width = 12,
                     conditionalPanel(condition = "input.classic=='FALSE'",
@@ -138,7 +138,7 @@ mplot = function(mf,...){
                     solidHeader = TRUE, collapsible = TRUE,
                     width=12, collapsed = FALSE,
                     verbatimTextOutput("boot.verb"))),
-        tabItem(tabName="vip", 
+        tabItem(tabName="vip",
                 box(title = "Variable inclusion plot",
                     status="info",
                     solidHeader = TRUE, width=12,
@@ -158,107 +158,107 @@ mplot = function(mf,...){
                     solidHeader = TRUE, collapsible = TRUE,
                     width=12, collapsed = FALSE,
                     verbatimTextOutput("af.verb")))#,
-        #tabItem(tabName="glmnet", 
+        #tabItem(tabName="glmnet",
         #        box(title = "Bootstrapping glmnet",
         #        status = "success",solidHeader = TRUE,
-        #        width=12, 
+        #        width=12,
         #        htmlOutput("glmnet.gvis")))
       )
     )
   )
-  
+
   server = function(input, output) {
-    
+
     #### Model seleciton plot
     output$lvp.gvis <- googleVis::renderGvis({
-      if(input$screen){ 
-        lvp.data = lvp.res.screened 
+      if(input$screen){
+        lvp.data = lvp.res.screened
       } else {
-        lvp.data = lvp.res  
+        lvp.data = lvp.res
       }
       if(input$boot_lvp=="No"){
-        plot(lvp.data,html.only=TRUE,
+        graphics::plot(lvp.data,html.only=TRUE,
              highlight=input$highlight,which="lvk")
       } else if(input$boot_lvp=="Yes") {
-        plot(lvp.data,html.only=TRUE,
+        graphics::plot(lvp.data,html.only=TRUE,
              highlight=input$highlight,which="boot")
       }
     })
     output$lvp.classic <- renderPlot({
-      if(input$screen){ 
-        lvp.data = lvp.res.screened 
+      if(input$screen){
+        lvp.data = lvp.res.screened
       } else {
-        lvp.data = lvp.res 
+        lvp.data = lvp.res
       }
       if(input$boot_lvp=="No"){
-        plot(lvp.data, highlight=input$highlight,
+        graphics::plot(lvp.data, highlight=input$highlight,
              which="lvk", classic=TRUE)
       } else if(input$boot_lvp=="Yes") {
-        plot(lvp.data, highlight=input$highlight,
+        graphics::plot(lvp.data, highlight=input$highlight,
              which="boot", classic=TRUE, max.circle=input$max.circle,
              text=input$text, min.prob=input$min.prob, srt = input$srt)
       }
     })
-    
-    
+
+
     #### Variable inclusion plots
     output$vip.gvis <- googleVis::renderGvis({
-      if(input$screen){ 
-        lvp.data = lvp.res.screened 
+      if(input$screen){
+        lvp.data = lvp.res.screened
       } else {
-        lvp.data = lvp.res 
+        lvp.data = lvp.res
       }
-      plot(lvp.data,html.only=TRUE,which="vip")
+      graphics::plot(lvp.data,html.only=TRUE,which="vip")
     })
     output$vip.classic <- renderPlot({
-      if(input$screen){ 
-        lvp.data = lvp.res.screened 
+      if(input$screen){
+        lvp.data = lvp.res.screened
       } else {
-        lvp.data = lvp.res 
+        lvp.data = lvp.res
       }
-      plot(lvp.data,classic=TRUE,which="vip")
+      graphics::plot(lvp.data,classic=TRUE,which="vip")
     })
-    
+
     #### Adaptive fence plots
     output$af.gvis <- googleVis::renderGvis({
-      if(input$screen){ 
-        af.data = af.res.screened 
+      if(input$screen){
+        af.data = af.res.screened
       } else {
-        af.data = af.res 
+        af.data = af.res
       }
       if(!is.null(af.data)){
-        plot(af.data,html.only=TRUE,best.only=input$bo)
+        graphics::plot(af.data,html.only=TRUE,best.only=input$bo)
       } else return(NULL)
     })
     output$af.classic <- renderPlot({
-      if(input$screen){ 
-        af.data = af.res.screened 
+      if(input$screen){
+        af.data = af.res.screened
       } else {
-        af.data = af.res 
+        af.data = af.res
       }
       if(!is.null(af.data)){
-        plot(af.data,classic=TRUE,best.only=input$bo)
+        graphics::plot(af.data,classic=TRUE,best.only=input$bo)
       } else return(NULL)
     })
-    
+
     output$af.verb = renderPrint({
-      if(input$screen){ 
-        af.data = af.res.screened 
+      if(input$screen){
+        af.data = af.res.screened
       } else {
-        af.data = af.res 
+        af.data = af.res
       }
       summary(af.data)
     })
-    
+
     output$boot.verb = renderPrint({
-      if(input$screen){ 
-        lvp.data = lvp.res.screened 
+      if(input$screen){
+        lvp.data = lvp.res.screened
       } else {
-        lvp.data = lvp.res 
+        lvp.data = lvp.res
       }
       print(lvp.data,min.prob=input$min.prob)
     })
-    
+
     #     ### Bootstrapping glmnet ###
     #     output$glmnet.gvis <- googleVis::renderGvis({
     #       if(input$screen){
@@ -267,13 +267,12 @@ mplot = function(mf,...){
     #         glmnet.data = glmnet.res
     #       }
     #       if(!is.null(glmnet.data)){
-    #         plot(glmnet.data, html.only=TRUE, which=input$glmplot,
+    #         graphics::plot(glmnet.data, html.only=TRUE, which=input$glmplot,
     #              plb=input$plb, highlight=input$highlight.glmnet)
     #       } else return(NULL)
     #     })
-    
+
   }
-  
+
   shinyApp(ui, server)
 }
-

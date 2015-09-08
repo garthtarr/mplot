@@ -79,8 +79,8 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
     # add an intercept row
     rs.which = rbind(c(1,rep(0,dim(rs.which)[2]-1)),rs.which)
     # used for testing
-    # f0 = as.formula(paste(yname," ~ 1"))
-    # lm0 = lm(formula=f0,data=X)
+    # f0 = stats::as.formula(paste(yname," ~ 1"))
+    # lm0 = stats::lm(formula=f0,data=X)
     i=1 # special case for the null model
     intercept = TRUE
     n1 = em$nn-intercept
@@ -113,7 +113,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
     k = rowSums(rs.which)
     rs.all = cbind(rs.which, rs.stats, k)
     # in bestglm rs.all$logLikelihood comes from
-    # logLik(model) unless Gaussian in which case
+    # stats::logLik(model) unless Gaussian in which case
     # -(n/2) * log(sum(resid(ans)^2)/n) is used
     # note the bic in bestglm is calculated as:
     # -2*rs.all$logLikelihood + log(n)*(rs.all$k-1)
@@ -156,7 +156,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
   cl.visB = makeCluster(n.cores)
   doParallel::registerDoParallel(cl.visB)
   res = foreach(b = 1:B, .packages = c("bestglm")) %dopar% {
-    wts = rexp(n = n, rate = 1)
+    wts = stats::rexp(n = n, rate = 1)
     if (any(class(mf) == "glm") == TRUE) {
       em = bestglm::bestglm(Xy = X,
                             family = family,
@@ -170,7 +170,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
       k = rowSums(rs.which)
       rs.all = cbind(rs.which, rs.stats, k)
       # in bestglm rs.all$logLikelihood comes from
-      # logLik(model) unless Gaussian in which case
+      # stats::logLik(model) unless Gaussian in which case
       # -(n/2) * log(sum(resid(ans)^2)/n) is used
       # note the bic in bestglm is calculated as:
       # -2*rs.all$logLikelihood + log(n)*(rs.all$k-1)
@@ -216,7 +216,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
 
   #### lvk where bubbles reflect frequencey of choice
   best.within.size = function(x){
-    rankings.within.size = unlist(aggregate(-2*x$logLikelihood,rank,by=list(x$k))$x)
+    rankings.within.size = unlist(stats::aggregate(-2*x$logLikelihood,rank,by=list(x$k))$x)
     return(x[rankings.within.size==1,])
   }
   res.best = lapply(res,best.within.size)
@@ -233,16 +233,16 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
     ff = paste(yname," ~ ",
                paste(colnames(res.df[2:kf])[res.df[i,2:kf]==1],collapse="+"),sep="")
     if(ff == paste(yname," ~ ",sep="")){
-      ff = as.formula(paste(yname,"~1"))
+      ff = stats::as.formula(paste(yname,"~1"))
     } else {
-      ff = as.formula(ff)
+      ff = stats::as.formula(ff)
     }
     if(any(class(mf)=="glm")==TRUE){
-      em = glm(formula=ff, data=X, family=family,weights=initial.weights)
+      em = stats::glm(formula=ff, data=X, family=family,weights=initial.weights)
     } else {
-      em = lm(formula=ff, data=X,weights=initial.weights)
+      em = stats::lm(formula=ff, data=X,weights=initial.weights)
     }
-    res.df$logLikelihood[i] = as.numeric(logLik(em))
+    res.df$logLikelihood[i] = as.numeric(stats::logLik(em))
     nm = gsub(pattern=" ",replacement = "",x=Reduce(paste,deparse(ff)))
     nm = gsub(pattern="REDUNDANT.VARIABLE","RV",x=nm)
     res.df$name[i] = nm
@@ -381,32 +381,32 @@ plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
     var.ident = n.var.ident = NA
     m2ll = -2*x$res.single.pass$logLikelihood
     spk = x$res.single.pass$k
-    jitter = runif(length(spk),0 - jitterk,0 + jitterk)
+    jitter = stats::runif(length(spk),0 - jitterk,0 + jitterk)
     spk = spk + jitter
     if (classic) {
       for (i in 1:length(vars)) {
-        col_high = rgb(1, 0, 0, alpha = 0)
-        col_nohigh = rgb(0, 0, 1, alpha = 0.5)
-        colbg = rgb(1, 0, 0, alpha = 0.5)
+        col_high = grDevices::rgb(1, 0, 0, alpha = 0)
+        col_nohigh = grDevices::rgb(0, 0, 1, alpha = 0.5)
+        colbg = grDevices::rgb(1, 0, 0, alpha = 0.5)
         var.ident = which(x$res.single.pass[,vars[i]] == 1)
         n.var.ident = which(x$res.single.pass[,vars[i]] == 0)
-        par(mar = c(3.4,3.4,0.1,0.1),mgp = c(2.0, 0.75, 0))
+        graphics::par(mar = c(3.4,3.4,0.1,0.1),mgp = c(2.0, 0.75, 0))
         if (missing(ylim)) ylim = c(min(m2ll),max(m2ll))
-        plot(m2ll[n.var.ident] ~ spk[n.var.ident],
+        graphics::plot(m2ll[n.var.ident] ~ spk[n.var.ident],
              pch = 19, cex = 1.3, col = col_nohigh,
              bg = colbg,
              xlab = "Number of parameters",
              ylab = "-2*Log-likelihood",
              ylim = ylim,
              xlim = c(min(spk),max(spk)))
-        points(m2ll[var.ident] ~ spk[var.ident],
+        graphics::points(m2ll[var.ident] ~ spk[var.ident],
                pch = 24, bg = colbg,
                col = col_high, cex = 1.2)
-        legend("topright",legend = c(paste("With",vars[i]),paste("Without",vars[i])),
+        graphics::legend("topright",legend = c(paste("With",vars[i]),paste("Without",vars[i])),
                col = c(col_high,col_nohigh),
                pt.bg = colbg, pch = c(24,19))
         if (length(vars) > 1) {
-          par(ask = TRUE)
+          graphics::par(ask = TRUE)
         }
       }
     } else {# googleVis version
@@ -446,7 +446,7 @@ plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
       if (html.only) {
         return(fplot)
       } else {
-        plot(fplot)
+        graphics::plot(fplot)
       }
     }
   }
@@ -455,23 +455,23 @@ plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
     vi = var.ident
     var.ident[var.ident==TRUE] = paste("With",vars[1])
     var.ident[var.ident==FALSE] = paste("Without",vars[1])
-    jitter = runif(length(vi),0-jitterk,0+jitterk)
+    jitter = stats::runif(length(vi),0-jitterk,0+jitterk)
     dat = data.frame(mods = x$res.df$name,
                      k =  x$res.df$k + jitter,
                      LL = -2*x$res.df$logLikelihood,
                      prob = x$res.df$freq/x$B,
                      var.ident = var.ident)
     if(classic){
-      par(mar = c(3.4,3.4,0.1,0.1),mgp = c(2.0, 0.75, 0))
+      graphics::par(mar = c(3.4,3.4,0.1,0.1),mgp = c(2.0, 0.75, 0))
       if(missing(ylim)) ylim = NULL
-      symbols(dat$k,dat$LL,sqrt(dat$prob),inches=max.circle,
-              bg = ifelse(vi,rgb(1, 0, 0, alpha=0.5),rgb(0, 0, 1, alpha=0.5)),
+      graphics::symbols(dat$k,dat$LL,sqrt(dat$prob),inches=max.circle,
+              bg = ifelse(vi,grDevices::rgb(1, 0, 0, alpha=0.5),grDevices::rgb(0, 0, 1, alpha=0.5)),
               fg = "white",
               ylim = ylim,
               xlab = "Number of parameters",
               ylab = "-2*Log-likelihood")
-      legend("topright",legend = c(paste("With",vars[1]),paste("Without",vars[1])),
-             col = c(rgb(1, 0, 0, alpha=0.5),rgb(0, 0, 1, alpha=0.5)),pch=19)
+      graphics::legend("topright",legend = c(paste("With",vars[1]),paste("Without",vars[1])),
+             col = c(grDevices::rgb(1, 0, 0, alpha=0.5),grDevices::rgb(0, 0, 1, alpha=0.5)),pch=19)
       if(text){
         bdat = dat[dat$prob>min.prob,]
         if(!print.full.model){
@@ -518,7 +518,7 @@ plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
       if(html.only){
         return(fplot)
       } else {
-        plot(fplot)
+        graphics::plot(fplot)
       }
     }
   }
@@ -547,11 +547,11 @@ plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
                                                  get("lambda")))
       lwds = log((1:length(var.names))+1)
       lwds = rev(2*lwds/max(lwds))
-      par(mar=c(3.4,3.4,0.1,0.1),mgp=c(2.0, 0.75, 0))
-      matplot(x = classic.lambda,jitter(as.matrix(classic.vip.df)),type = "l",
+      graphics::par(mar=c(3.4,3.4,0.1,0.1),mgp=c(2.0, 0.75, 0))
+      graphics::matplot(x = classic.lambda,jitter(as.matrix(classic.vip.df)),type = "l",
               ylab="Bootstrapped probability",xlab = "Penalty",lwd=lwds)
       leg.nm = names(classic.vip.df)
-      legend("topright",leg.nm,bg="transparent",bty="n",inset=c(0.015),
+      graphics::legend("topright",leg.nm,bg="transparent",bty="n",inset=c(0.015),
              # these are the defaults for matplot:
              lty=1:5,col=1:6,lwd=lwds)
     } else {
@@ -589,7 +589,7 @@ plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
       if(html.only){
         return(fplot)
       } else{
-        return(plot(fplot))
+        return(graphics::plot(fplot))
       }
     }
   } else return(invisible())

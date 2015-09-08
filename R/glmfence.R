@@ -1,31 +1,31 @@
 #' The fence procedure for generalised linear models
-#' 
+#'
 #' This function implements the fence procedure to
 #' find the best generalised linear model.
-#' 
+#'
 #' @param mf an object of class \code{\link[stats]{glm}}
 #'   specifying the full model.
 #' @param cstar the boundary of the fence, typically found
 #'   through bootstrapping.
 #' @param nvmax the maximum number of variables that will be
 #'   be considered in the model.
-#' @param adaptive logical. If \code{TRUE} the boundary of the fence is 
+#' @param adaptive logical. If \code{TRUE} the boundary of the fence is
 #'   given by cstar.  Otherwise, it the original (non-adaptive) fence
 #'   is performed where the boundary is cstar*hat(sigma)_{M,tildeM}.
-#' @param trace logical. If \code{TRUE} the function prints out its 
+#' @param trace logical. If \code{TRUE} the function prints out its
 #'   progress as it iterates up through the dimensions.
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{af}}, \code{\link{lmfence}}
-#' @references Jiming Jiang, Thuan Nguyen, J. Sunil Rao, 
-#'   A simplified adaptive fence procedure, Statistics & 
-#'   Probability Letters, Volume 79, Issue 5, 1 March 2009, 
+#' @references Jiming Jiang, Thuan Nguyen, J. Sunil Rao,
+#'   A simplified adaptive fence procedure, Statistics &
+#'   Probability Letters, Volume 79, Issue 5, 1 March 2009,
 #'   Pages 625-629, http://dx.doi.org/10.1016/j.spl.2008.10.014.
 #' @noRd
 #' @family fence
 
 glmfence = function(mf,
                     cstar,
-                    nvmax, 
+                    nvmax,
                     adaptive=TRUE,
                     trace=TRUE,...){
   method="ML"
@@ -44,8 +44,8 @@ glmfence = function(mf,
   n = m$n
   wts = m$wts
   if(missing(nvmax)) nvmax=kf
-  null.ff = as.formula(paste(yname,"~1")) # null formula
-  m0 = glm(null.ff, data = Xy, family=family, weights = wts) # null model
+  null.ff = stats::as.formula(paste(yname,"~1")) # null formula
+  m0 = stats::glm(null.ff, data = Xy, family=family, weights = wts) # null model
   Qmf = Qm(mf, method=method) # Qm for the full model
   Qm0 = Qm(m0, method=method) # Qm for the null model
   ret = met = list()
@@ -58,7 +58,7 @@ glmfence = function(mf,
     ret[[1]] = null.ff
     return(ret)
   } else if(trace) cat("(Not a candidate model) \n")
-  
+
   if(cstar<5){ # avoids having to add variables to get the full model
     nvmax = kf
     prev.nvmax = nvmax
@@ -78,8 +78,8 @@ glmfence = function(mf,
       if(trace) cat(paste("Model size:",i,""))
       UB = Qmf + cstar*sigMM(k.mod=i, method, k.full=kf, adaptive=adaptive)
       mnames = colnames(lc)[which(lc[i,]==1)]
-      ff = as.formula(paste(yname," ~ ",paste(mnames[-1],collapse="+"),sep=""))
-      em = glm(formula=ff, data=Xy, family=family, weights=wts)
+      ff = stats::as.formula(paste(yname," ~ ",paste(mnames[-1],collapse="+"),sep=""))
+      em = stats::glm(formula=ff, data=Xy, family=family, weights=wts)
       hatQm = Qm(em,method=method)
       if(hatQm<=UB){
         if(trace){
@@ -102,10 +102,10 @@ glmfence = function(mf,
         if(dim(lfm)[1]>0){
           for(j in 1:dim(lfm)[1]){
             mnames = colnames(lfm)[which(lfm[j,]==1)]
-            ff = as.formula(paste(yname," ~ ",
+            ff = stats::as.formula(paste(yname," ~ ",
                                   paste(mnames,collapse="+"),
                                   sep=""))
-            em = glm(ff, data=Xy, family=family, weights=wts)
+            em = stats::glm(ff, data=Xy, family=family, weights=wts)
             hatQm = Qm(em,method=method)
             if(hatQm<=UB){
               if(trace) txt.fn(hatQm,UB,em)

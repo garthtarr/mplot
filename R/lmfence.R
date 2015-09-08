@@ -1,26 +1,26 @@
 #' The fence procedure for linear models
-#' 
+#'
 #' This function implements the fence procedure to
 #' find the best linear model.
-#' 
+#'
 #' @param mf an object of class \code{\link[stats]{lm}}
 #'   specifying the full model.
 #' @param cstar the boundary of the fence, typically found
 #'   through bootstrapping.
 #' @param nvmax the maximum number of variables that will be
 #'   be considered in the model.
-#' @param adaptive logical. If \code{TRUE} the boundary of the fence is 
+#' @param adaptive logical. If \code{TRUE} the boundary of the fence is
 #'   given by cstar.  Otherwise, it the original (non-adaptive) fence
 #'   is performed where the boundary is cstar*hat(sigma)_{M,tildeM}.
-#' @param trace logical. If \code{TRUE} the function prints out its 
+#' @param trace logical. If \code{TRUE} the function prints out its
 #'   progress as it iterates up through the dimensions.
 #' @param force.in the names of variables that should be forced
 #'   into all estimated models.
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{af}}, \code{\link{glmfence}}
-#' @references Jiming Jiang, Thuan Nguyen, J. Sunil Rao, 
-#'   A simplified adaptive fence procedure, Statistics & 
-#'   Probability Letters, Volume 79, Issue 5, 1 March 2009, 
+#' @references Jiming Jiang, Thuan Nguyen, J. Sunil Rao,
+#'   A simplified adaptive fence procedure, Statistics &
+#'   Probability Letters, Volume 79, Issue 5, 1 March 2009,
 #'   Pages 625-629, http://dx.doi.org/10.1016/j.spl.2008.10.014.
 #' @noRd
 #' @family fence
@@ -57,21 +57,21 @@ lmfence = function(mf, cstar,
   n = m$n
   wts = m$wts
   if(missing(nvmax)) nvmax=kf
-  null.ff = as.formula(paste(yname,"~1"))
-  m0 = lm(null.ff, data = data, weights=m$wts) # null model
+  null.ff = stats::as.formula(paste(yname,"~1"))
+  m0 = stats::lm(null.ff, data = data, weights=m$wts) # null model
   Qmf = Qm(mf, method=method) # Qm for the full model
   Qm0 = Qm(m0, method=method) # Qm for the null model
   ret = met = list()
   # Null model
   if(trace) cat(paste("Null model "))
-  UB = Qmf + cstar*sigMM(k.mod = 1, method = method, 
+  UB = Qmf + cstar*sigMM(k.mod = 1, method = method,
                          k.full = kf, adaptive = adaptive)
   if(Qm0<=UB){
     if(trace) txt.fn(Qm0,UB,m0)
     ret[[1]] = null.ff # record the result
     return(ret)
   } else if(trace) cat("(Not a candidate model) \n")
-  
+
   if(cstar<5){ # avoids having to add variables to get the full model
     nvmax = kf
     prev.nvmax = nvmax
@@ -84,7 +84,7 @@ lmfence = function(mf, cstar,
   while(prev.nvmax<=kf){
     prev.nvmax = nvmax
     # finds the best candidate for each model size
-    rss = do.call(leaps::regsubsets,list(x=fixed, 
+    rss = do.call(leaps::regsubsets,list(x=fixed,
                              data=data,
                              nbest = 5+kf,
                              nvmax = nvmax,
@@ -105,12 +105,12 @@ lmfence = function(mf, cstar,
     start = lc.k[1] #2+length(force.in)
     for(i in start:nvmax){
       if(trace) cat(paste("Model size:",i,""))
-      UB = Qmf + cstar*sigMM(k.mod = i, method = method, 
+      UB = Qmf + cstar*sigMM(k.mod = i, method = method,
                              k.full = kf, adaptive = adaptive)
       mnames = colnames(leaps.cands)[which(leaps.cands[lc.k==i,]==1)]
-      ff = as.formula(paste(yname," ~ ",
+      ff = stats::as.formula(paste(yname," ~ ",
                             paste(mnames[-1],collapse="+"),sep=""))
-      em = lm(formula=ff, data=data, weights=m$wts)
+      em = stats::lm(formula=ff, data=data, weights=m$wts)
       hatQm = Qm(em,method=method)
       if(hatQm<=UB){
         if(trace){
@@ -126,10 +126,10 @@ lmfence = function(mf, cstar,
         if(dim(lmf)[1]>0){
           for(j in 1:dim(lmf)[1]){
             mnames = colnames(lmf)[which(lmf[j,]==1)]
-            ff = as.formula(paste(yname," ~ ",
+            ff = stats::as.formula(paste(yname," ~ ",
                                   paste(mnames[-1],collapse="+"),
                                   sep=""))
-            em = lm(ff, data = data, weights=m$wts)
+            em = stats::lm(ff, data = data, weights=m$wts)
             hatQm = Qm(em,method=method)
             if(hatQm<=UB){
               if(trace) txt.fn(hatQm,UB,em)

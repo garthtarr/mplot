@@ -1,5 +1,5 @@
 #' Graphical model stability and model selection procedures
-#' 
+#'
 #' @name mplot-package
 #' @docType package
 #' @title Graphical model stability and model selection procedures
@@ -8,9 +8,9 @@ NULL
 
 
 #' Body fat data set
-#' 
+#'
 #' A data frame with 128 observations on 15 variables.
-#' 
+#'
 #' @name bodyfat
 #' @format A data frame with 128 observations on 15 variables.
 #' \describe{
@@ -21,7 +21,7 @@ NULL
 #' \item{Height}{Height (inches)}
 #' \item{Neck}{Neck circumference (cm)}
 #' \item{Chest}{Chest circumference (cm)}
-#' \item{Abdo}{Abdomen circumference (cm) "at the umbilicus 
+#' \item{Abdo}{Abdomen circumference (cm) "at the umbilicus
 #'            and level with the iliac crest"}
 #' \item{Hip}{Hip circumference (cm)}
 #' \item{Thigh}{Thigh circumference (cm)}
@@ -34,14 +34,14 @@ NULL
 #' }
 #' @details A subset of the 252 observations available in the \code{mfp} package.
 #'   The selected observations avoid known high leverage points and
-#'   outliers.  The unused points from the data set could be used to validate 
+#'   outliers.  The unused points from the data set could be used to validate
 #'   selected models.
 #' @docType data
 #' @keywords datasets
 #' @usage data(bodyfat)
-#' @references Johnson W (1996, Vol 4). Fitting percentage of 
-#'   body fat to simple body measurements. Journal of Statistics 
-#'   Education. Bodyfat data retrieved from 
+#' @references Johnson W (1996, Vol 4). Fitting percentage of
+#'   body fat to simple body measurements. Journal of Statistics
+#'   Education. Bodyfat data retrieved from
 #'   http://www.amstat.org/publications/jse/v4n1/datasets.johnson.html
 #'   An expanded version is included in the \code{mfp} R package.
 #' @examples
@@ -51,10 +51,10 @@ NULL
 
 
 #' Blood and other measurements in diabetics
-#' 
-#' The diabetes data frame has 442 rows and 11 columns. 
+#'
+#' The diabetes data frame has 442 rows and 11 columns.
 #' These are the data used in Efron et al. (2004).
-#' 
+#'
 #' @name diabetes
 #' @format A data frame with 442 observations on 11 variables.
 #' \describe{
@@ -86,12 +86,12 @@ NULL
 
 
 #' Artificial example
-#' 
+#'
 #' An artificial data set which causes stepwise regression
 #' procedures to select a non-parsimonious model.
 #' The true model is a simple linear regression of
 #' y against x8.
-#' 
+#'
 #' @name artificialeg
 #' @format A data frame with 50 observations on 10 variables.
 #' @details Inspired by the pathoeg data set in the MPV pacakge.
@@ -125,10 +125,10 @@ NULL
 
 
 #' Extract model elements
-#' 
+#'
 #' This function extracts things like the formula,
 #' data matrix, etc. from a lm or glm object
-#' 
+#'
 #' @param model a fitted 'full' model, the result of a call
 #'   to lm or glm (and in the future lme or lmer).
 #' @param screen logical, whether or not to perform an initial
@@ -139,39 +139,39 @@ NULL
 #' @noRd
 mextract = function(model, screen = FALSE, redundant = TRUE){
   # what's the name of the dependent variable?
-  yname = deparse(formula(model)[[2]])
+  yname = deparse(stats::formula(model)[[2]])
   # Set up the data frames for use
-  data = model.frame(model)
-  X = model.matrix(model)
+  data = stats::model.frame(model)
+  X = stats::model.matrix(model)
   n = nrow(X)
   # full model plus redundant variable
   exp.vars = names(model$coefficients)[names(model$coefficients) != "(Intercept)"]
-  
+
   if (redundant) {
-    REDUNDANT.VARIABLE = runif(n, min = 0, max = 1)
+    REDUNDANT.VARIABLE = stats::runif(n, min = 0, max = 1)
     X = cbind(X,REDUNDANT.VARIABLE)
     data = cbind(data,REDUNDANT.VARIABLE)
     exp.vars = c(exp.vars,"REDUNDANT.VARIABLE")
   }
   if (colnames(X)[1] == "(Intercept)") {
     # overwrite intercept with y-variable
-    X[,1] = model.frame(model)[,yname] 
+    X[,1] = stats::model.frame(model)[,yname]
   } else {
-    X = cbind(model.frame(model)[,yname],X)
+    X = cbind(stats::model.frame(model)[,yname],X)
   }
   colnames(X)[1] = yname
   X = data.frame(X)
-  fixed = as.formula(c(paste(yname, "~"),
+  fixed = stats::as.formula(c(paste(yname, "~"),
                        paste(colnames(X)[-1], collapse = "+")))
   Xy = X[c(2:ncol(X),1)]
-  
-  k = length(exp.vars) + 1 # +1 for intercept 
+
+  k = length(exp.vars) + 1 # +1 for intercept
   if (screen) {
     if (!requireNamespace("mvoutlier", quietly = TRUE)) {
       stop("mvoutlier package needed when screen=TRUE. Please install it.",
            call. = FALSE)
     }
-    x.mad = apply(Xy, 2, mad)
+    x.mad = apply(Xy, 2, stats::mad)
     Xy.sub = Xy[,which(x.mad != 0)]
     Xy = Xy[mvoutlier::pcout(Xy.sub)$wfinal01 == 1,]
     n = dim(Xy)[1]
@@ -184,30 +184,30 @@ mextract = function(model, screen = FALSE, redundant = TRUE){
   if (is.element("glm",class(model))) {
     wts = model$prior.weights
     Xy[,yname] = model$y
-  } 
+  }
   if (is.null(wts)) {
     wts = rep(1,n)
   }
-  
+
   return(list(yname = yname, fixed = fixed,
               wts = wts, X = Xy, k = k,
               n = n, exp.vars = exp.vars,
-              data = data, family = family(model)))
-  
-  # MIXED MODELS NOT IMPLEMENTED IN FIRST RELEASE   
+              data = data, family = stats::family(model)))
+
+  # MIXED MODELS NOT IMPLEMENTED IN FIRST RELEASE
   #   if(class(model)=="lmerMod"){ # lme4 package
-  #     X = model.matrix(model)
-  #     data = data.frame(model.frame(model)) # or slot(model, "frame")
+  #     X = stats::model.matrix(model)
+  #     data = data.frame(stats::model.frame(model)) # or slot(model, "frame")
   #     if(isGLMM(model)){
-  #       family = family(model) # 
-  #       # pass to glm ?? 
+  #       family = stats::family(model) #
+  #       # pass to glm ??
   #       # i.e. wild bootstrap appropriate for glmm's too?
   #       # though should really call glmer for the full model
   #       # so it may be the case that class(model) won't be lmerMod
-  #       # if the family argument was passed to it as lmer() 
+  #       # if the family argument was passed to it as lmer()
   #       # calls glmer() if there is a family argument present
   #     }
-  #     yname = deparse(formula(model)[[2]])
+  #     yname = deparse(stats::formula(model)[[2]])
   #     X = data.frame(data[,yname],X)
   #     colnames(X)[1] = yname
   #     fixed.formula = paste(yname,"~",
@@ -215,23 +215,23 @@ mextract = function(model, screen = FALSE, redundant = TRUE){
   #     model = lm(fixed.formula,data = X)
   #   } else if(class(model)=="lme"){ # nlme package
   #     data = model$data
-  #     X = model.matrix(model,data = data)
-  #     # nlme package assumes gaussian errors 
-  #     yname = deparse(formula(model)[[2]])
+  #     X = stats::model.matrix(model,data = data)
+  #     # nlme package assumes gaussian errors
+  #     yname = deparse(stats::formula(model)[[2]])
   #     X = data.frame(data[,yname],X)
   #     colnames(X)[1] = yname
   #     fixed.formula = paste(yname,"~",
-  #                           paste(names(coef(model))[-1],collapse="+"))
+  #                           paste(names(stats::coef(model))[-1],collapse="+"))
   #     model = lm(fixed.formula, data = X)
   #   }
 }
 
 #' Safe deparse
-#' 
+#'
 #' Supports long formula construction
-#' 
+#'
 #' @param expr expression to be safely deparsed
-#' 
+#'
 #' @noRd
 safeDeparse <- function(expr){
   ret <- paste(deparse(expr), collapse = "")
@@ -240,10 +240,10 @@ safeDeparse <- function(expr){
 }
 
 #' Print text for fence methods
-#' 
+#'
 #' This function provides the text for the case when trace=TRUE
 #' when using lmfence and glmfence functions.
-#' 
+#'
 #' @param score realised value
 #' @param UB upper bound
 #' @param obj fitted model object
@@ -252,22 +252,22 @@ txt.fn = function(score,UB,obj){
   cat("\n")
   cat(paste("hatQm:", round(score,2),"; Upper bound:", round(UB,2)),"\n")
   cat(paste("hatQm <= UB:",score<=UB,"\n"))
-  cat(deparse(formula(obj)))
+  cat(deparse(stats::formula(obj)))
   cat("\n")
 }
 
 #' Process results within af function
-#' 
+#'
 #' This function is used by the af function to process
 #' the results when iterating over different boundary values
-#' 
+#'
 #' @param fence.mod set of fence models
 #' @param fence.rank set of fence model ranks
 #' @noRd
 process.fn = function(fence.mod,fence.rank){
   del2 = function(x) x[-c(1:2)]
   splitAt <- function(x, pos) unname(split(x, cumsum(seq_along(x) %in% pos)))
-  
+
   # best only (true fence)
   fence.mod.bo = fence.mod[fence.rank==1]
   #  temp.bo = sort(table(sapply(fence.mod.bo,deparse,
@@ -276,7 +276,7 @@ process.fn = function(fence.mod,fence.rank){
                  decreasing=TRUE)
   pstarj.bo = as.numeric(temp.bo[1]/length(fence.mod.bo))
   pstarnamej.bo = names(temp.bo)[1]
-  
+
   # all that pass the fence
   #temp.all = sort(table(sapply(fence.mod,deparse,
   #                             width.cutoff=500)),decreasing=TRUE)
@@ -290,12 +290,10 @@ process.fn = function(fence.mod,fence.rank){
   fence.rank.split = splitAt(unlist.fence.rank,which(unlist.fence.rank==1))
   custom.p = 1/unlist(lapply(fence.rank.split,length))
   custom.names = unlist(lapply(lapply(fence.mod.bo,as.character),del2))
-  agg = aggregate(custom.p,by=list(custom.names),sum)
+  agg = stats::aggregate(custom.p,by=list(custom.names),sum)
   agg = agg[order(agg$x,decreasing = TRUE),]
   pstarj.all = agg[1,2]/sum(unlist.fence.rank==1)
   pstarnamej.all = agg[1,1]
-  
+
   return(c(pstarj.bo,pstarnamej.bo,pstarj.all,pstarnamej.all))
 }
-
-
