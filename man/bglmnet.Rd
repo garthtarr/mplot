@@ -2,7 +2,7 @@
 % Please edit documentation in R/bglmnet.R
 \name{bglmnet}
 \alias{bglmnet}
-\title{Boostrap model selection plots for glmnet}
+\title{Model stability and variable importance plots for glmnet}
 \usage{
 bglmnet(mf, nlambda = 100, lambda = NULL, B = 100, penalty.factor,
   screen = FALSE, n.cores = NULL, force.in = NULL)
@@ -11,7 +11,7 @@ bglmnet(mf, nlambda = 100, lambda = NULL, B = 100, penalty.factor,
 \item{mf}{a fitted 'full' model, the result of a call
 to lm or glm.}
 
-\item{nlambda}{how many penalty values to consider.  Defauly=100.}
+\item{nlambda}{how many penalty values to consider.  Default = 100.}
 
 \item{lambda}{manually specify the penalty values (optional).}
 
@@ -38,7 +38,7 @@ into all estimated models. (Not yet implemented.)}
 \item{...}{further arguments (currently unused)}
 }
 \description{
-Boostrap model selection plots for glmnet
+Model stability and variable importance plots for glmnet
 }
 \details{
 The result of this function is essentially just a

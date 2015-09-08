@@ -1,21 +1,21 @@
-#' Boostrap model selection plots for glmnet
-#' 
-#' 
+#' Model stability and variable importance plots for glmnet
+#'
+#'
 #' @param mf a fitted 'full' model, the result of a call
 #'   to lm or glm.
-#' @param nlambda how many penalty values to consider.  Defauly=100.
+#' @param nlambda how many penalty values to consider.  Default = 100.
 #' @param lambda manually specify the penalty values (optional).
 #' @param B number of bootstrap replications
 #' @param n.cores number of cores to be used when parallel
 #'   processing the bootstrap (Not yet implemented.)
 #' @param force.in the names of variables that should be forced
 #'   into all estimated models. (Not yet implemented.)
-#' @param penalty.factor Separate penalty factors can be applied to each 
-#'   coefficient. This is a number that multiplies lambda to allow 
-#'   differential shrinkage. Can be 0 for some variables, which implies 
-#'   no shrinkage, and that variable is always included in the model. 
-#'   Default is 1 for all variables (and implicitly infinity for variables 
-#'   listed in exclude). Note: the penalty factors are internally rescaled 
+#' @param penalty.factor Separate penalty factors can be applied to each
+#'   coefficient. This is a number that multiplies lambda to allow
+#'   differential shrinkage. Can be 0 for some variables, which implies
+#'   no shrinkage, and that variable is always included in the model.
+#'   Default is 1 for all variables (and implicitly infinity for variables
+#'   listed in exclude). Note: the penalty factors are internally rescaled
 #'   to sum to nvars, and the lambda sequence will reflect this change.
 #' @param screen logical, whether or not to perform an initial
 #'   screen for outliers.  Highly experimental, use at own risk.
@@ -23,16 +23,16 @@
 #' @param ... further arguments (currently unused)
 #' @details The result of this function is essentially just a
 #'   list. The supplied plot method provides a way to visualise the
-#'   results.  
+#'   results.
 #' @export
 #' @seealso \code{\link{plot.bglmnet}}
 
 
-bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100, 
-                   penalty.factor, screen = FALSE, 
+bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
+                   penalty.factor, screen = FALSE,
                    n.cores = NULL,
                    force.in = NULL) {
-  m = mextract(mf, screen = screen) 
+  m = mextract(mf, screen = screen)
   fixed = m$fixed
   yname = m$yname
   family = m$family
@@ -58,8 +58,8 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
   if (!is.null(lambda)) {
     nlambda = length(lambda)
   }
-  temp = glmnet::glmnet(X, Y, alpha = 1, nlambda = nlambda, 
-                        lambda = lambda, 
+  temp = glmnet::glmnet(X, Y, alpha = 1, nlambda = nlambda,
+                        lambda = lambda,
                         penalty.factor = penalty.factor,
                         weights = m$wts)
   mat = NULL
@@ -69,14 +69,14 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
   compteur = matrix(0, kf, nlambda)
   mfstar = do.call("glm",list(fixed, data = Xy, family = family,weights = m$wts))
   ystar = simulate(object = mfstar, nsim = B)
-  #ystar[is.na(ystar)] = Xy[is.na(ystar),yname] 
-
+  #ystar[is.na(ystar)] = Xy[is.na(ystar),yname]
+  
   betaboot = array(0,dim = c(kf,nlambda,B))
   rownames(betaboot) = names(mfstar$coef)
   for (j in 1:B) {
     for (i in 1:nlambda) {
-      temp = glmnet::glmnet(X, ystar[,j], alpha = 1, 
-                            lambda = lambda[i], 
+      temp = glmnet::glmnet(X, ystar[,j], alpha = 1,
+                            lambda = lambda[i],
                             #penalty.factor = penalty.factor,
                             family = fam,
                             weights = m$wts)
@@ -102,12 +102,12 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
                               weights = m$wts))
     # number of variables including intercept
     all.k[k] = length(unlist(strsplit(all.mods[[k]],
-                                      split = "+",fixed = TRUE))) + 1 
+                                      split = "+",fixed = TRUE))) + 1
   }
   all.k[all.mods=="1"] = 1
   colnames(probavariable) = round(lambda,3)
   mod.sum = data.frame(mod.names = all.mods,ll=all.ll,k=all.k)
-  blarout = list(frequency = probavariable, 
+  blarout = list(frequency = probavariable,
                  lambda = lambda,
                  mods = mods,
                  mod.sum = mod.sum,
@@ -120,51 +120,51 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
 
 
 #' Plot diagnostics for a bglmnet object
-#' 
+#'
 #' A plot method to visualise the results of a \code{bglmnet} object.
-#' 
+#'
 #' @param x \code{bglmnet} object, the result of \code{\link{bglmnet}}
 #' @param highlight the name of a variable that will be highlighted.
-#' @param classic logical.  If \code{classic=TRUE} a 
+#' @param classic logical.  If \code{classic=TRUE} a
 #'   base graphics plot is provided instead of a googleVis plot.
 #'   Default is \code{classic=FALSE}.
 #' @param html.only logical. Use \code{html.only=TRUE} when including
 #'   interactive plots in markdown documents (this includes rpres files).
-#' @param which a vector specifying the plots to be output. Variable 
-#'   inclusion type plots \code{which="vip"} or model description loss against 
+#' @param which a vector specifying the plots to be output. Variable
+#'   inclusion type plots \code{which="vip"} or model description loss against
 #'   penalty parameter \code{which="boot"}.
-#' @param width Width of the googleVis chart canvas area, in pixels. 
+#' @param width Width of the googleVis chart canvas area, in pixels.
 #'   Default: 800.
-#' @param height Height of the googleVis chart canvas area, in pixels. 
+#' @param height Height of the googleVis chart canvas area, in pixels.
 #'   Default: 400.
-#' @param chartWidth googleVis chart area width.  
-#'   A simple number is a value in pixels; 
-#'   a string containing a number followed by \code{\%} is a percentage. 
+#' @param chartWidth googleVis chart area width.
+#'   A simple number is a value in pixels;
+#'   a string containing a number followed by \code{\%} is a percentage.
 #'   Default: \code{"60\%"}
-#' @param chartHeight googleVis chart area height. 
-#'   A simple number is a value in pixels; 
-#'   a string containing a number followed by \code{\%} is a percentage. 
+#' @param chartHeight googleVis chart area height.
+#'   A simple number is a value in pixels;
+#'   a string containing a number followed by \code{\%} is a percentage.
 #'   Default: \code{"80\%"}
 #' @param fontSize font size used in googleVis chart.  Default: 12.
 #' @param left space at left of chart (pixels?).  Default: "50".
 #' @param top space at top of chart (pixels?).  Default: "30".
-#' @param axisTitlesPosition Where to place the googleVis axis titles, 
+#' @param axisTitlesPosition Where to place the googleVis axis titles,
 #'   compared to the chart area. Supported values:
 #'   "in" - Draw the axis titles inside the the chart area.
 #'   "out" - Draw the axis titles outside the chart area.
 #'   "none" - Omit the axis titles.
-#' @param dataOpacity The transparency of googleVis data points, 
-#'   with 1.0 being completely opaque and 0.0 fully transparent. 
+#' @param dataOpacity The transparency of googleVis data points,
+#'   with 1.0 being completely opaque and 0.0 fully transparent.
 #' @param options a list to be passed to the googleVis function giving
-#'   complete control over the output.  Specifying a value for 
+#'   complete control over the output.  Specifying a value for
 #'   \code{options} overwrites all other plotting variables.
-#' @param backgroundColor The background colour for the main area 
-#'   of the chart. A simple HTML color string, 
+#' @param backgroundColor The background colour for the main area
+#'   of the chart. A simple HTML color string,
 #'   for example: 'red' or '#00cc00'.  Default: 'transparent'
 #' @param plb lower bound on the probability of a model being selected. If
-#'   a model has a selection probability lower than plb it will not be 
+#'   a model has a selection probability lower than plb it will not be
 #'   plotted.
-#' @param hAxis.logScale logical, whether or not to use a log scale on 
+#' @param hAxis.logScale logical, whether or not to use a log scale on
 #'   the horizontal axis. Default = TRUE.
 #' @param ... further arguments (currently unused)
 #' @export
@@ -230,8 +230,8 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
     var.ident[var.ident==TRUE] =  paste("With",highlight)
     var.ident[var.ident==FALSE] =  paste("Without",highlight)
     df.sub$var.ident = var.ident
-    gvis.title = paste("Description loss against penalty parameter",sep="")
-    #x.ticks=paste(1:max(x$lk$k),collapse=",") 
+    gvis.title = paste("Model stability plot for glmnet",sep="")
+    #x.ticks=paste(1:max(x$lk$k),collapse=",")
     chartArea = paste("{left:",left,
                       ",top:",top,
                       ",width:'",chartWidth,
@@ -244,18 +244,18 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
                        fontSize = fontSize,
                        vAxis="{title:'-2*Log-likelihood'}",
                        hAxis=gvis.hAxis,
-                       sizeAxis = "{minValue: 0, minSize: 1,  
+                       sizeAxis = "{minValue: 0, minSize: 1,
                                 maxSize: 20, maxValue:1}",
                        axisTitlesPosition=axisTitlesPosition,
                        bubble = bubble,
                        chartArea=chartArea,
                        width=width, height=height,
                        backgroundColor=backgroundColor,
-                       explorer= "{axis: 'vertical',  
+                       explorer= "{axis: 'vertical',
                                keepInBounds: true,
                                maxZoomOut: 1,
                                maxZoomIn: 0.01,
-                               actions: ['dragToZoom', 
+                               actions: ['dragToZoom',
                                          'rightClickToReset']}")
     } else {use.options = options}
     
@@ -266,9 +266,9 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
     if(html.only){
       return(fplot)
     } else {
-      return(plot(fplot))
+      plot(fplot)
     }
-  } 
+  }
   if("vip"%in%which){
     var.names = x$vars[x$vars!="(Intercept)"]
     p.var = t(x$freq)
@@ -288,7 +288,7 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
                        fontSize = fontSize,
                        vAxis="{title:'Bootstrapped probability'}",
                        hAxis=gvis.hAxis,
-                       sizeAxis = "{minValue: 0, minSize: 1,  
+                       sizeAxis = "{minValue: 0, minSize: 1,
                        maxSize: 20, maxValue:1}",
                        axisTitlesPosition=axisTitlesPosition,
                        chartArea=chartArea,
@@ -302,9 +302,9 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
                                      options=use.options)
     if(html.only){
       return(fplot)
-    } else {
+    } else{
       return(plot(fplot))
     }
-  }
+  } else return(invisible())
 }
 

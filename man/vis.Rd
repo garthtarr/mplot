@@ -2,7 +2,7 @@
 % Please edit documentation in R/vis.R
 \name{vis}
 \alias{vis}
-\title{Model stability curves and variable inclusion plots}
+\title{Model stability and variable inclusion plots}
 \usage{
 vis(mf, nvmax, B = 100, lambda.max, nbest = 5, n.cores, force.in = NULL,
   screen = FALSE, redundant = TRUE, ...)
@@ -40,8 +40,8 @@ variable.  Default = \code{TRUE}.}
 }
 \description{
 Calculates and provides the plot methods for standard
-and bootstrap enhanced model stability curves (lvk and
-boot) as well as variable inclusion plots (vip).
+and bootstrap enhanced model stability plots (\code{lvk} and
+\code{boot}) as well as variable inclusion plots (\code{vip}).
 }
 \details{
 The result of this function is essentially just a

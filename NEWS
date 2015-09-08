@@ -1,4 +1,14 @@
-mplot 0.6.5 [2015-xx-xx]
+mplot 0.7.0 [2015-09-08]
+------------------------
+
+* Release to coincide with JSS article
+* Implements "all" for vis function
+* Improved blmnet plots
+* Consistency with interactive plotting methods
+* Improved documentation
+
+mplot 0.6.5 [2015-07-11]
+------------------------
 
 * Numerous refinements including consistency of 
   style between the classic plots

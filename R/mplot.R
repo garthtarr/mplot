@@ -67,7 +67,7 @@ mplot = function(mf,...){
     dashboardSidebar(
       sidebarMenu(
         id="lvp",
-        menuItem(text="Variable importance",icon=icon("sliders"),tabName = "vip"),
+        menuItem(text="Variable inclusion",icon=icon("sliders"),tabName = "vip"),
         menuItem(text="Adaptive fence",icon=icon("area-chart"),tabName="af"),
         conditionalPanel(condition = "input.lvp=='af'",
                          radioButtons("bo",label="Best Only",
@@ -139,7 +139,7 @@ mplot = function(mf,...){
                     width=12, collapsed = FALSE,
                     verbatimTextOutput("boot.verb"))),
         tabItem(tabName="vip", 
-                box(title = "Variable importance plot",
+                box(title = "Variable inclusion plot",
                     status="info",
                     solidHeader = TRUE, width=12,
                     conditionalPanel(condition = "input.classic=='FALSE'",
@@ -201,7 +201,7 @@ mplot = function(mf,...){
     })
     
     
-    #### Variable importance plots
+    #### Variable inclusion plots
     output$vip.gvis <- googleVis::renderGvis({
       if(input$screen){ 
         lvp.data = lvp.res.screened 
