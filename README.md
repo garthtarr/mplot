@@ -51,8 +51,8 @@ require(mplot)
 If you use this package to inform your model selection choices, please use the following citation:
 
 * Tarr G, Mueller S and Welsh A (2015). “mplot: An R package for graphical model
-stability and variable selection.” arXiv:1509.07583 [stat.ME], \<URL:
-http://arxiv.org/abs/1509.07583\>.
+stability and variable selection.” arXiv:1509.07583 [stat.ME], < URL:
+http://arxiv.org/abs/1509.07583 >.
 
 From R you can use:
 
@@ -60,7 +60,6 @@ From R you can use:
 citation("mplot")
 toBibtex(citation("mplot"))
 ```
-
 
 ## Uninstall
 

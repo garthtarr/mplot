@@ -49,6 +49,56 @@ NULL
 #' full.mod = lm(Bodyfat~.,data=subset(bodyfat,select=-Id))
 NULL
 
+#' Rock-wallabies data set
+#'
+#' On Chalkers Top in the Warrumbungles (NSW, Australia) 200 evenly distributed
+#' one metre squared plots were surveyed. Plots were placed at a density
+#' of 7–13 per hectare. The presence or absence of fresh
+#' (<1 month old) scats of rock-wallabies was recorded for each plot
+#' along with location and a selection of predictor variables.
+#'
+#' @name wallabies
+#' @format A data frame with 200 observations on 9 variables.
+#' \describe{
+#' \item{rw}{Presence of rock-wallaby scat}
+#' \item{edible}{Percentage cover of edible vegetation}
+#' \item{inedible}{Percentage cover of inedible vegetation}
+#' \item{canopy}{Percentage canopy cover}
+#' \item{distance}{Distance from diurnal refuge}
+#' \item{shelter}{Whether or not a plot occurred within a shelter point (large
+#'                rock or boulder pile)}
+#' \item{lat}{Latitude of the plot location}
+#' \item{long}{Longitude of the plot location}
+#' }
+#' @details Macropods defaecate randomly as they forage and scat 
+#'   (faecal pellet) surveys are a reliable method for detecting the
+#'   presence of rock-wallabies and other macropods. 
+#'   Scats are used as an indication of spatial foraging patterns 
+#'   of rock-wallabies and sympatric macropods. Scats deposited while
+#'   foraging were not confused with scats deposited while
+#'   resting because the daytime refuge areas of rock-wallabies
+#'   were known in detail for each colony and no samples were
+#'   taken from those areas. Each of the 200 sites were 
+#'   examined separately to
+#'   account for the different levels of predation risk and the
+#'   abundance of rock-wallabies.
+#' @docType data
+#' @keywords datasets
+#' @usage data(wallabies)
+#' @references 
+#'    Tuft KD, Crowther MS, Connell K, Müller S and McArthur C (2011), 
+#'    Predation risk and competitive interactions affect foraging of 
+#'    an endangered refuge-dependent herbivore. Animal Conservation, 
+#'    14: 447–457. doi: 10.1111/j.1469-1795.2011.00446.x
+#' @examples
+#' data(wallabies)
+#' wdat = data.frame(subset(wallabies,select=-c(lat,long)), 
+#'   EaD = wallabies$edible*wallabies$distance,
+#'   EaS = wallabies$edible*wallabies$shelter,
+#'   DaS = wallabies$distance*wallabies$shelter)
+#' M1 = glm(rw~., family = binomial(link = "logit"), data = wdat)
+NULL
+
 
 #' Blood and other measurements in diabetics
 #'
@@ -63,12 +113,15 @@ NULL
 #' \item{bmi}{Body mass index}
 #' \item{map}{Mean arterial pressure (average blood pressure)}
 #' \item{tc}{Total cholesterol (mg/dL)? Desirable range: below 200 mg/dL}
-#' \item{ldl}{Low-density lipoprotein ("bad" cholesterol)? Desirable range: below 130 mg/dL }
-#' \item{hdl}{High-density lipoprotein ("good" cholesterol)? Desirable range: above 40 mg/dL}
+#' \item{ldl}{Low-density lipoprotein ("bad" cholesterol)? 
+#'            Desirable range: below 130 mg/dL }
+#' \item{hdl}{High-density lipoprotein ("good" cholesterol)? 
+#'            Desirable range: above 40 mg/dL}
 #' \item{tch}{Blood serum measurement}
 #' \item{ltg}{Blood serum measurement}
 #' \item{glu}{Blood serum measurement (glucose?)}
-#' \item{y}{A quantitative measure of disease progression one year after baseline}
+#' \item{y}{A quantitative measure of disease progression 
+#'          one year after baseline}
 #' }
 #' @details Data sourced from http://web.stanford.edu/~hastie/Papers/LARS
 #' @docType data
@@ -120,6 +173,50 @@ NULL
 #' }
 NULL
 
+
+
+
+#' Forced Expiratory Volume
+#'
+#' This data set consists of 654 observations on youths aged 3 to 19 from 
+#' East Boston recorded duing the middle to late 1970's. 
+#' Forced expiratory volume (FEV), a measure of lung capacity, is the 
+#' variable of interest. Age and height are two continuous predictors. 
+#' Sex and smoke are two categorical predictors.
+#'
+#' @name fev
+#' @format A data frame with 654 observations on 5 variables.
+#' \describe{
+#' \item{age}{Age (years)}
+#' \item{fev}{Forced expiratory volume (liters).  Roughly the amount 
+#'            of air an individual can exhale in the first second of 
+#'            a forceful breath.}
+#' \item{height}{Height (inches).}
+#' \item{sex}{Female is 0. Male is 1.}
+#' \item{smoke}{A binary variable indicating whether or not the 
+#'              youth smokes. Nonsmoker is 0. Smoker is 1.}
+#' }
+#' @details Copies of this data set can also be found in the 
+#'  \code{coneproj} and \code{tmle} packages.
+#' @references 
+#'  Tager, I. B., Weiss, S. T., Rosner, B., and Speizer, F. E. (1979). 
+#'  Effect of parental cigarette smoking on pulmonary function in children. 
+#'  \emph{American Journal of Epidemiology}, \bold{110}, 15-26.
+#'  
+#'  Rosner, B. (1999).
+#'  \emph{Fundamentals of Biostatistics}, 5th Ed., Pacific Grove, CA: Duxbury.
+#'   
+#'   Kahn, M.J. (2005). An Exhalent Problem for Teaching Statistics.
+#'   \emph{Journal of Statistics Education},  \bold{13}(2). 
+#'    http://www.amstat.org/publications/jse/v13n2/datasets.kahn.html
+#' @docType data
+#' @keywords datasets
+#' @usage data(fev)
+#' @examples
+#' data(fev)
+#' full.mod = lm(fev~.,data=fev)
+#' step(full.mod)
+NULL
 
 
 

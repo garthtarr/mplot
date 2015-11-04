@@ -4,7 +4,7 @@
 \alias{plot.vis}
 \title{Plot diagnostics for a vis object}
 \usage{
-\method{plot}{vis}(x, highlight, classic = FALSE, html.only = FALSE,
+\method{plot}{vis}(x, highlight, classic = FALSE, tag = NULL,
   which = c("vip", "lvk", "boot"), width = 800, height = 400,
   fontSize = 12, left = 50, top = 30, chartWidth = "60\%",
   chartHeight = "80\%", axisTitlesPosition = "out", dataOpacity = 0.5,
@@ -21,8 +21,13 @@
 base graphics plot is provided instead of a googleVis plot.
 Default is \code{classic=FALSE}.}
 
-\item{html.only}{logical. Use \code{html.only=TRUE} when including
-interactive plots in markdown documents (this includes rpres files).}
+\item{tag}{Default NULL. Name tag of the objects to be extracted
+from a gvis (googleVis) object.
+
+The default tag for is NULL, which will
+result in R opening a browser window.  Setting \code{tag='chart'}
+or setting \code{options(gvis.plot.tag='chart')} is useful when
+googleVis is used in scripts, like knitr or rmarkdown.}
 
 \item{which}{a vector specifying the plots to be output.  Variable
 inclusion plots \code{which="vip"}; description loss against model

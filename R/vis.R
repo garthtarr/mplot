@@ -58,7 +58,7 @@
 vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
              n.cores, force.in=NULL, screen=FALSE,
              redundant=TRUE,...){
-
+  
   m = mextract(mf,screen=screen,redundant=redundant)
   fixed = m$fixed
   yname = m$yname
@@ -74,7 +74,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
   if(!is.numeric(nbest)){
     stop("nbest should be numeric or 'all'")
   }
-
+  
   add.intercept.row = function(em,rs.which,rs.stats){
     # add an intercept row
     rs.which = rbind(c(1,rep(0,dim(rs.which)[2]-1)),rs.which)
@@ -98,7 +98,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
     rs.stats = rbind(c(logLikelihood,ress,bic,cp,rsq,adjr2,i),rs.stats)
     return(cbind(rs.which,rs.stats))
   }
-
+  
   ## Initial single pass
   ## (gives the minimum envelopping set of models)
   if (any(class(mf) == "glm") == TRUE) {
@@ -139,18 +139,18 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
     # note that the BIC in leaps (and add.intercept.row funtion)
     # differs from the bestglm BIC buy a constant
   }
-
+  
   nms = colnames(rs.all)[2:kf]
   nm = apply(rs.all[,2:kf],1,function(x) {
     Reduce(paste,paste(nms[x == 1],sep = "",collapse = "+"))
-    })
+  })
   nm[nm == ""] = "1"
   nm = paste(yname,"~",nm,sep = "")
   nm = gsub(pattern = " ",replacement = "",x = nm)
   nm = gsub(pattern = "REDUNDANT.VARIABLE","RV",x = nm)
   rs.all$name = nm
   res.single.pass = rs.all
-
+  
   ## Bootstrap version:
   if (missing(n.cores)) n.cores = max(detectCores() - 1, 1)
   cl.visB = makeCluster(n.cores)
@@ -199,7 +199,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
     }
   }
   stopCluster(cl.visB)
-
+  
   ### Variable inclusion Plot Calculations
   if (missing(lambda.max)) lambda.max = 2*log(n)
   lambdas = seq(0,lambda.max,0.01)
@@ -213,20 +213,20 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
     temp.best = matrix(as.numeric(temp.best),nrow=dim(temp.best)[1],dimnames=dimnames(temp.best))
     var.in[i,] = rowSums(temp.best)
   }
-
+  
   #### lvk where bubbles reflect frequencey of choice
   best.within.size = function(x){
     rankings.within.size = unlist(stats::aggregate(-2*x$logLikelihood,rank,by=list(x$k))$x)
     return(x[rankings.within.size==1,])
   }
   res.best = lapply(res,best.within.size)
-
+  
   res.df = do.call(rbind.data.frame,res.best)
   res.df = plyr::count(df = res.df,vars = 1:kf)
   res.df$logLikelihood = NA
   res.df$name = NA
   res.df$k = rowSums(res.df[,1:kf])
-
+  
   # iterate over all required models on the original date
   # to obtain logLiks (in future could extract other stats)
   for(i in 1:dim(res.df)[1]){
@@ -247,9 +247,9 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
     nm = gsub(pattern="REDUNDANT.VARIABLE","RV",x=nm)
     res.df$name[i] = nm
   }
-
+  
   res.df = res.df[with(res.df,order(k,-freq)),]
-
+  
   output = list(res.df = res.df,
                 res.single.pass = res.single.pass,
                 var.in = var.in,
@@ -257,7 +257,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
                 mextract = m,
                 lambdas = lambdas,
                 B=B)
-
+  
   class(output) = "vis"
   return(output)
 }
@@ -274,8 +274,14 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
 #' @param classic logical.  If \code{classic=TRUE} a
 #'   base graphics plot is provided instead of a googleVis plot.
 #'   Default is \code{classic=FALSE}.
-#' @param html.only logical. Use \code{html.only=TRUE} when including
-#'   interactive plots in markdown documents (this includes rpres files).
+#' @param tag Default NULL. Name tag of the objects to be extracted 
+#' from a gvis (googleVis) object. 
+#' 
+#' The default tag for is NULL, which will 
+#' result in R opening a browser window.  Setting \code{tag='chart'} 
+#' or setting \code{options(gvis.plot.tag='chart')} is useful when 
+#' googleVis is used in scripts, like knitr or rmarkdown. 
+#' 
 #' @param which a vector specifying the plots to be output.  Variable
 #'   inclusion plots \code{which="vip"}; description loss against model
 #'   size \code{which="lvk"}; bootstrapped description loss against
@@ -351,26 +357,26 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
 #' plot(v1,highlight="x1",which="lvk")
 #' }
 
-plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
+plot.vis = function(x, highlight, classic = FALSE, tag = NULL,
                     which = c("vip","lvk","boot"),
-                    width = 800,height=400,fontSize = 12,
-                    left = 50,top = 30,chartWidth="60%",chartHeight="80%",
-                    axisTitlesPosition = "out",dataOpacity=0.5,
+                    width = 800, height = 400, fontSize = 12,
+                    left = 50, top = 30, chartWidth = "60%", chartHeight = "80%",
+                    axisTitlesPosition = "out", dataOpacity = 0.5,
                     options=NULL, ylim,
                     backgroundColor = 'transparent',
-                    text=FALSE,min.prob=0.4,srt=-30,max.circle=0.35,
-                    print.full.model=FALSE,jitterk=0.1,...){
-  if(backgroundColor=="transparent"){
+                    text=FALSE, min.prob = 0.4, srt = -30, max.circle = 0.35,
+                    print.full.model = FALSE, jitterk=0.1, ...){
+  if (backgroundColor == "transparent") {
     backgroundColor = "{stroke:null, fill:'null', strokeSize: 0}"
   } else {
     backgroundColor = paste("{stroke:null, fill:'",backgroundColor,
-                            "', strokeSize: 0}",sep="")
+                            "', strokeSize: 0}",sep = "")
   }
-  find.var = function(x,highlight){
-    is.element(highlight,x)
-  }
-
-  if(missing(highlight)){
+#   find.var = function(x,highlight){
+#     is.element(highlight,x)
+#   }
+  
+  if (missing(highlight)) {
     # highlight first variable in the coefficient list
     highlight = x$m$exp.vars[1]
     vars = make.names(x$m$exp.vars)
@@ -393,18 +399,18 @@ plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
         graphics::par(mar = c(3.4,3.4,0.1,0.1),mgp = c(2.0, 0.75, 0))
         if (missing(ylim)) ylim = c(min(m2ll),max(m2ll))
         graphics::plot(m2ll[n.var.ident] ~ spk[n.var.ident],
-             pch = 19, cex = 1.3, col = col_nohigh,
-             bg = colbg,
-             xlab = "Number of parameters",
-             ylab = "-2*Log-likelihood",
-             ylim = ylim,
-             xlim = c(min(spk),max(spk)))
+                       pch = 19, cex = 1.3, col = col_nohigh,
+                       bg = colbg,
+                       xlab = "Number of parameters",
+                       ylab = "-2*Log-likelihood",
+                       ylim = ylim,
+                       xlim = c(min(spk),max(spk)))
         graphics::points(m2ll[var.ident] ~ spk[var.ident],
-               pch = 24, bg = colbg,
-               col = col_high, cex = 1.2)
+                         pch = 24, bg = colbg,
+                         col = col_high, cex = 1.2)
         graphics::legend("topright",legend = c(paste("With",vars[i]),paste("Without",vars[i])),
-               col = c(col_high,col_nohigh),
-               pt.bg = colbg, pch = c(24,19))
+                         col = c(col_high,col_nohigh),
+                         pt.bg = colbg, pch = c(24,19))
         if (length(vars) > 1) {
           graphics::par(ask = TRUE)
         }
@@ -442,12 +448,8 @@ plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
                            series = "{0:{color: 'gray', visibleInLegend: true}, 1:{color: 'blue', visibleInLegend: true}}",
                            explorer = "{axis: 'vertical',  keepInBounds: true, maxZoomOut: 1, maxZoomIn: 0.01, actions: ['dragToZoom', 'rightClickToReset']}")
       } else {use.options = options}
-      fplot = googleVis::gvisScatterChart(data = dat,options = use.options)
-      if (html.only) {
-        return(fplot)
-      } else {
-        graphics::plot(fplot)
-      }
+      fplot = googleVis::gvisScatterChart(data = dat, options = use.options)
+      graphics::plot(fplot, tag = tag)
     }
   }
   if ("boot" %in% which) {
@@ -465,13 +467,13 @@ plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
       graphics::par(mar = c(3.4,3.4,0.1,0.1),mgp = c(2.0, 0.75, 0))
       if(missing(ylim)) ylim = NULL
       graphics::symbols(dat$k,dat$LL,sqrt(dat$prob),inches=max.circle,
-              bg = ifelse(vi,grDevices::rgb(1, 0, 0, alpha=0.5),grDevices::rgb(0, 0, 1, alpha=0.5)),
-              fg = "white",
-              ylim = ylim,
-              xlab = "Number of parameters",
-              ylab = "-2*Log-likelihood")
+                        bg = ifelse(vi,grDevices::rgb(1, 0, 0, alpha=0.5),grDevices::rgb(0, 0, 1, alpha=0.5)),
+                        fg = "white",
+                        ylim = ylim,
+                        xlab = "Number of parameters",
+                        ylab = "-2*Log-likelihood")
       graphics::legend("topright",legend = c(paste("With",vars[1]),paste("Without",vars[1])),
-             col = c(grDevices::rgb(1, 0, 0, alpha=0.5),grDevices::rgb(0, 0, 1, alpha=0.5)),pch=19)
+                       col = c(grDevices::rgb(1, 0, 0, alpha=0.5),grDevices::rgb(0, 0, 1, alpha=0.5)),pch=19)
       if(text){
         bdat = dat[dat$prob>min.prob,]
         if(!print.full.model){
@@ -489,49 +491,45 @@ plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
       chartArea = paste("{left:",left,
                         ",top:",top,
                         ",width:'",chartWidth,
-                        "',height:'",chartHeight,"'}",sep="")
+                        "',height:'",chartHeight,"'}", sep = "")
       bubble = paste("{opacity:",dataOpacity,
-                     ", textStyle: {color: 'none'}}",sep="")
-      if(is.null(options)){
-        use.options=list(title=gvis.title,
-                         fontSize = fontSize,
-                         vAxis="{title:'-2*Log-likelihood'}",
-                         hAxis=gvis.hAxis,
-                         sizeAxis = "{minValue: 0, minSize: 1,
+                     ", textStyle: {color: 'none'}}", sep = "")
+      if (is.null(options)) {
+        use.options = list(title = gvis.title,
+                           fontSize = fontSize,
+                           vAxis = "{title:'-2*Log-likelihood'}",
+                           hAxis = gvis.hAxis,
+                           sizeAxis = "{minValue: 0, minSize: 1,
                          maxSize: 20, maxValue:1}",
-                         axisTitlesPosition=axisTitlesPosition,
-                         bubble = bubble,
-                         chartArea=chartArea,
-                         width=width, height=height,
-                         backgroundColor=backgroundColor,
-                         explorer= "{axis: 'vertical',
+                           axisTitlesPosition = axisTitlesPosition,
+                           bubble = bubble,
+                           chartArea = chartArea,
+                           width = width, height = height,
+                           backgroundColor = backgroundColor,
+                           explorer = "{axis: 'vertical',
                          keepInBounds: true,
                          maxZoomOut: 1,
                          maxZoomIn: 0.01,
                          actions: ['dragToZoom',
                          'rightClickToReset']}")
       } else {use.options = options}
-      fplot = googleVis::gvisBubbleChart(data=dat,idvar = "mods",xvar = "k",
+      fplot = googleVis::gvisBubbleChart(data = dat, idvar = "mods", xvar = "k",
                                          yvar = "LL", colorvar = "var.ident",
                                          sizevar = "prob",
-                                         options=use.options)
-      if(html.only){
-        return(fplot)
-      } else {
-        graphics::plot(fplot)
-      }
+                                         options = use.options)
+      graphics::plot(fplot, tag = tag)
     }
   }
-  if("vip"%in%which){ # variable inclusion plot
+  if ("vip" %in% which) { # variable inclusion plot
     var.names = make.names(x$m$exp.vars)
     var.names = gsub(pattern = ":",replacement = ".",x = var.names)
     B = x$B
     p.var = x$var.in[,is.element(colnames(x$var.in),var.names)]
     colnames(p.var) = gsub("REDUNDANT.VARIABLE","RV",colnames(p.var))
-    sortnames = names(sort(apply(p.var,2,mean),decreasing=TRUE))
+    sortnames = names(sort(apply(p.var,2,mean),decreasing = TRUE))
     vip.df = p.var[,sortnames]
-    vip.df = data.frame(lambda=x$lambdas,AIC=NA,AIC.annotation=NA,
-                        BIC=NA,BIC.annotation=NA,vip.df/B)
+    vip.df = data.frame(lambda = x$lambdas, AIC = NA, AIC.annotation = NA,
+                        BIC = NA, BIC.annotation = NA, vip.df/B)
     aicline = rbind(c(2,0,NA,NA,NA,rep(NA,length(var.names))),
                     c(2,1,"AIC",NA,NA,rep(NA,length(var.names))),
                     c(log(x$mextract$n),NA,NA, 0,NA,rep(NA,length(var.names))),
@@ -540,57 +538,53 @@ plot.vis = function(x,highlight,classic = FALSE,html.only = FALSE,
     vip.df = rbind(vip.df,aicline)
     tid = c(1,2,4,6:dim(vip.df)[2])
     vip.df[, tid] = sapply(vip.df[, tid], as.numeric)
-    if(classic){
+    if (classic) {
       classic.lambda = vip.df$lambda
       classic.vip.df = subset(vip.df,select = -c(get("AIC"),get("AIC.annotation"),
                                                  get("BIC"),get("BIC.annotation"),
                                                  get("lambda")))
-      lwds = log((1:length(var.names))+1)
+      lwds = log((1:length(var.names)) + 1)
       lwds = rev(2*lwds/max(lwds))
-      graphics::par(mar=c(3.4,3.4,0.1,0.1),mgp=c(2.0, 0.75, 0))
+      graphics::par(mar = c(3.4,3.4,0.1,0.1), mgp = c(2.0, 0.75, 0))
       graphics::matplot(x = classic.lambda,jitter(as.matrix(classic.vip.df)),type = "l",
-              ylab="Bootstrapped probability",xlab = "Penalty",lwd=lwds)
+                        ylab = "Bootstrapped probability", xlab = "Penalty", lwd = lwds)
       leg.nm = names(classic.vip.df)
-      graphics::legend("topright",leg.nm,bg="transparent",bty="n",inset=c(0.015),
-             # these are the defaults for matplot:
-             lty=1:5,col=1:6,lwd=lwds)
+      graphics::legend("topright", leg.nm, bg = "transparent", bty = "n", inset = c(0.015),
+                       # these are the defaults for matplot:
+                       lty = 1:5, col = 1:6, lwd = lwds)
     } else {
       gvis.title = "Variable inclusion plot"
       #lineDashStyle = paste("[",paste(1:2,collapse=","),"]",sep="")
-      lineseries="[{lineDashStyle: [2,2], lineWidth: 2, color:'gray',
+      lineseries = "[{lineDashStyle: [2,2], lineWidth: 2, color:'gray',
       visibleInLegend: false},
       {lineDashStyle: [2,2], lineWidth: 2, color:'gray',
       visibleInLegend: false}]"
       chartArea = paste("{left:",left,
                         ",top:",top,
                         ",width:'",chartWidth,
-                        "',height:'",chartHeight,"'}",sep="")
-      if(is.null(options)){
-        use.options=list(title=gvis.title,
-                         fontSize = fontSize,
-                         vAxis="{title:'Bootstrapped probability'}",
-                         hAxis="{title:'Penalty'}",
-                         sizeAxis = "{minValue: 0, minSize: 1,
-                         maxSize: 20, maxValue:1}",
-                         axisTitlesPosition=axisTitlesPosition,
-                         series = lineseries,
-                         #lineDashStyle = lineDashStyle,
-                         chartArea=chartArea,
-                         width=width, height=height,
-                         backgroundColor='transparent',
-                         annotations = "{style:'line'}")
+                        "',height:'",chartHeight,"'}", sep = "")
+      if (is.null(options)) {
+        use.options = list(title = gvis.title,
+                           fontSize = fontSize,
+                           vAxis = "{title:'Bootstrapped probability'}",
+                           hAxis = "{title:'Penalty'}",
+                           sizeAxis = "{minValue: 0, minSize: 1,
+                           maxSize: 20, maxValue:1}",
+                           axisTitlesPosition = axisTitlesPosition,
+                           series = lineseries,
+                           #lineDashStyle = lineDashStyle,
+                           chartArea = chartArea,
+                           width = width, height = height,
+                           backgroundColor = 'transparent',
+                           annotations = "{style:'line'}")
       } else {use.options = options}
-      fplot = googleVis::gvisLineChart(data=vip.df,
-                                       xvar="lambda",
-                                       yvar=c("AIC","AIC.annotation",
-                                              "BIC","BIC.annotation",
-                                              sortnames),
-                                       options=use.options)
-      if(html.only){
-        return(fplot)
-      } else{
-        return(graphics::plot(fplot))
-      }
+      fplot = googleVis::gvisLineChart(data = vip.df,
+                                       xvar = "lambda",
+                                       yvar = c("AIC","AIC.annotation",
+                                                "BIC","BIC.annotation",
+                                                sortnames),
+                                       options = use.options)
+      return(graphics::plot(fplot, tag = tag))
     }
   } else return(invisible())
 }

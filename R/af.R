@@ -158,17 +158,17 @@ af = function(mf,
     # backwards and forwards model selection using
     # BIC (conservative) and AIC (less conservative)
     bwds.BIC = stats::step(mfstar,
-                    scope = list(lower=small.ff, upper=fixed),
-                    direction="backward", k=log(n), trace=0)
+                           scope = list(lower=small.ff, upper=fixed),
+                           direction="backward", k=log(n), trace=0)
     fwds.BIC = stats::step(small.mod,
-                    scope = list(lower=small.ff, upper=fixed),
-                    direction="forward", k=log(n), trace=0)
+                           scope = list(lower=small.ff, upper=fixed),
+                           direction="forward", k=log(n), trace=0)
     bwds.AIC = stats::step(mfstar,
-                    scope = list(lower=small.ff, upper=fixed),
-                    direction="backward", k=2, trace=0)
+                           scope = list(lower=small.ff, upper=fixed),
+                           direction="backward", k=2, trace=0)
     fwds.AIC = stats::step(small.mod,
-                    scope = list(lower = small.ff, upper = fixed),
-                    direction = "forward", k = 2, trace = 0)
+                           scope = list(lower = small.ff, upper = fixed),
+                           direction = "forward", k = 2, trace = 0)
     k.vals = c(length(bwds.BIC$coef),length(fwds.BIC$coef),
                length(bwds.AIC$coef),length(fwds.AIC$coef))
     k.min = max(min(k.vals) - 2, 1)
@@ -190,7 +190,7 @@ af = function(mf,
     c.range = seq(c.min,c.max,length.out=n.c)
     if(missing(nvmax)) nvmax = kf
   }
-
+  
   if(missing(n.cores)) n.cores = max(detectCores()-1,1)
   cl.af = makeCluster(n.cores)
   doParallel::registerDoParallel(cl.af)
@@ -219,15 +219,15 @@ af = function(mf,
         fence.rank = c(fence.rank,1:length(fms))
       }
     }
-   process.fn(fence.mod,fence.rank)
+    process.fn(fence.mod,fence.rank)
   }
   stopCluster(cl.af)
-
+  
   # Another function that processes results within af function
   #
   # This function is used by the af function to process
   # the results when iterating over different boundary values
-
+  
   pstar.fn = function(input,type){
     if(type=="bo"){
       p.star = input[,1:2]
@@ -360,8 +360,14 @@ summary.af = function (object,best.only=TRUE,...) {
 #'   account all models that pass the fence at each boundary
 #'   value (\code{FALSE}).
 #' @param pch plotting character, i.e., symbol to use
-#' @param html.only logical for use with shiny. With rmarkdown
-#'   using \code{op = options(gvis.plot.tag = "chart")} is better.
+#' @param tag Default NULL. Name tag of the objects to be extracted 
+#' from a gvis (googleVis) object. 
+#' 
+#' The default tag for is NULL, which will 
+#' result in R opening a browser window.  Setting \code{tag='chart'} 
+#' or setting \code{options(gvis.plot.tag='chart')} is useful when 
+#' googleVis is used in scripts, like knitr or rmarkdown. 
+#' 
 #' @param width Width of the googleVis chart canvas area, in pixels.
 #'   Default: 800.
 #' @param height Height of the googleVis chart canvas area, in pixels.
@@ -387,16 +393,16 @@ summary.af = function (object,best.only=TRUE,...) {
 #' @param ... further arguments (currently unused)
 #' @export
 # S3 method for class 'af'
-plot.af = function(x,pch,classic=FALSE,
-                   html.only=FALSE,
-                   best.only=TRUE,
-                   width=800,height=400,fontSize=12,
-                   left=50,top=30,chartWidth="60%",
-                   chartHeight="80%",
+plot.af = function(x, pch, classic = FALSE,
+                   tag = NULL,
+                   best.only = TRUE,
+                   width = 800, height = 400, fontSize = 12,
+                   left = 50, top = 30, chartWidth = "60%",
+                   chartHeight = "80%",
                    backgroundColor = 'transparent',
                    legend.position = "topleft",
-                   options=NULL,...){
-  if(best.only){
+                   options=NULL, ...){
+  if (best.only) {
     x = x$bestOnly
   } else {
     x = x$all
@@ -405,13 +411,13 @@ plot.af = function(x,pch,classic=FALSE,
     if(missing(pch)) pch=19
     graphics::par(mar=c(3.4,3.4,2.1,0.1),mgp=c(2.0, 0.75, 0))
     graphics::plot(x$p.star[,1]~x$c.range,
-         ylim=c(0,1), pch=pch,
-         col=x$p.star[,3],
-         ylab = "p*", xlab = "c")
+                   ylim=c(0,1), pch=pch,
+                   col=x$p.star[,3],
+                   ylab = "p*", xlab = "c")
     graphics::legend(legend.position, legend=unique(x$p.star[,2]),
-           pch=pch,col=unique(x$p.star[,3]),bty="n")
+                     pch=pch,col=unique(x$p.star[,3]),bty="n")
     graphics::axis(side=3, at=x$c.star,
-         labels=paste("c*=", round(x$c.star,1),sep=""))
+                   labels=paste("c*=", round(x$c.star,1),sep=""))
   } else {
     dat <- matrix(NA, nrow = nrow(x$p.star),
                   ncol = nlevels(x$p.star$model) + 1)
@@ -448,11 +454,7 @@ plot.af = function(x,pch,classic=FALSE,
                    width=width, height=height)
     }
     fplot = googleVis::gvisScatterChart(data=plot.dat,options=options)
-    if(html.only){
-      return(fplot)
-    } else {
-      return(graphics::plot(fplot))
-    }
+    return(graphics::plot(fplot, tag = tag))
   }
 }
 

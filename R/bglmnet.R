@@ -42,7 +42,7 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
                "but it needs to be one of gaussian, binomial, poisson, multinomial, cox, mgaussian"),
          call. = FALSE)
   }
-
+  
   Xy = m$X
   kf = m$k
   X = Xy[,1:(kf - 1)]
@@ -70,7 +70,7 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
   mfstar = do.call("glm",list(fixed, data = Xy, family = family,weights = m$wts))
   ystar = stats::simulate(object = mfstar, nsim = B)
   #ystar[is.na(ystar)] = Xy[is.na(ystar),yname]
-
+  
   betaboot = array(0,dim = c(kf,nlambda,B))
   rownames(betaboot) = names(mfstar$coef)
   for (j in 1:B) {
@@ -97,9 +97,9 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
   for (k in 1:length(all.mods)) {
     # don't need to do this for models that include REDUNDANT.VARIABLE
     all.ll[k] = -2*stats::logLik(stats::glm(stats::as.formula(paste(yname,"~",all.mods[k])),
-                              data = Xy,
-                              family = family,
-                              weights = m$wts))
+                                            data = Xy,
+                                            family = family,
+                                            weights = m$wts))
     # number of variables including intercept
     all.k[k] = length(unlist(strsplit(all.mods[[k]],
                                       split = "+",fixed = TRUE))) + 1
@@ -128,8 +128,14 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
 #' @param classic logical.  If \code{classic=TRUE} a
 #'   base graphics plot is provided instead of a googleVis plot.
 #'   Default is \code{classic=FALSE}.
-#' @param html.only logical. Use \code{html.only=TRUE} when including
-#'   interactive plots in markdown documents (this includes rpres files).
+#' @param tag Default NULL. Name tag of the objects to be extracted 
+#' from a gvis (googleVis) object. 
+#' 
+#' The default tag for is NULL, which will 
+#' result in R opening a browser window.  Setting \code{tag='chart'} 
+#' or setting \code{options(gvis.plot.tag='chart')} is useful when 
+#' googleVis is used in scripts, like knitr or rmarkdown. 
+#' 
 #' @param which a vector specifying the plots to be output. Variable
 #'   inclusion type plots \code{which="vip"} or model description loss against
 #'   penalty parameter \code{which="boot"}.
@@ -171,10 +177,10 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
 #' @seealso \code{\link{bglmnet}}
 
 
-plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
+plot.bglmnet = function(x, highlight, classic = FALSE, tag = NULL,
                         which=c("boot","vip"),
-                        width=800,height=400,fontSize=12,
-                        left=50,top=30,
+                        width=800, height=400, fontSize=12,
+                        left=50, top=30,
                         chartWidth="60%",
                         chartHeight="80%",
                         axisTitlesPosition="out",
@@ -183,11 +189,11 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
                         hAxis.logScale = TRUE,
                         backgroundColor = 'transparent',
                         plb = 0.01, ...) {
-  if(backgroundColor=="transparent"){
+  if (backgroundColor == "transparent") {
     backgroundColor = "{stroke:null, fill:'null', strokeSize: 0}"
   } else {
     backgroundColor = paste("{stroke:null, fill:'",backgroundColor,
-                            "', strokeSize: 0}",sep="")
+                            "', strokeSize: 0}", sep = "")
   }
   B = sum(x$mods[[1]])
   gvis.hAxis = paste("{title:'Penalty parameter',
@@ -195,7 +201,7 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
                     baseline:",0," ,
                      maxValue:",max(x$lambda)*1.1," ,
                      minValue:",min(x$lambda),"}",sep="")
-
+  
   if("boot"%in%which){
     l.vec = rep(x$lambda,times = lapply(x$mods,length))
     mod.vec = unlist(x$mods)
@@ -221,7 +227,7 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
         highlight = dfk2$mod.names[which.min(dfk2$ll)]
       } else highlight =  x$vars[2]
     }
-
+    
     mod.parts = lapply(df.sub$mod.names,FUN = strsplit,"+",fixed=TRUE)
     find.var = function(x,highlight){
       is.element(highlight,unlist(x))
@@ -238,7 +244,7 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
                       "',height:'",chartHeight,"'}",sep="")
     bubble = paste("{opacity:",dataOpacity,
                    ", textStyle: {color: 'none'}}",sep="")
-
+    
     if(is.null(options)){
       use.options=list(title=gvis.title,
                        fontSize = fontSize,
@@ -258,52 +264,44 @@ plot.bglmnet = function(x,highlight,classic=FALSE,html.only=FALSE,
                                actions: ['dragToZoom',
                                          'rightClickToReset']}")
     } else {use.options = options}
-
-    fplot = googleVis::gvisBubbleChart(data=df.sub,idvar = "mod.names",xvar = "l.vec",
+    
+    fplot = googleVis::gvisBubbleChart(data = df.sub,idvar = "mod.names",xvar = "l.vec",
                                        yvar = "ll", colorvar = "var.ident",
                                        sizevar = "mod.vec.prob",
-                                       options=use.options)
-    if(html.only){
-      return(fplot)
-    } else {
-      graphics::plot(fplot)
-    }
+                                       options = use.options)
+    graphics::plot(fplot, tag = tag)
   }
-  if("vip"%in%which){
-    var.names = x$vars[x$vars!="(Intercept)"]
+  if ("vip" %in% which) {
+    var.names = x$vars[x$vars != "(Intercept)"]
     p.var = t(x$freq)
-    p.var = p.var[,colnames(p.var)%in%var.names]
-    sortnames = names(sort(apply(p.var,2,mean),decreasing=TRUE))
+    p.var = p.var[,colnames(p.var) %in% var.names]
+    sortnames = names(sort(apply(p.var, 2, mean), decreasing = TRUE))
     vip.df = p.var[,sortnames]
-    vip.df = data.frame(lambda=x$lambda,vip.df)
+    vip.df = data.frame(lambda = x$lambda, vip.df)
     #tid = c(1,2,4,6:dim(vip.df)[2])
     #vip.df[, tid] = sapply(vip.df[, tid], as.numeric)
     gvis.title = "Variable inclusion plot"
     chartArea = paste("{left:",left,
                       ",top:",top,
                       ",width:'",chartWidth,
-                      "',height:'",chartHeight,"'}",sep="")
-    if(is.null(options)){
-      use.options=list(title=gvis.title,
+                      "',height:'",chartHeight,"'}", sep = "")
+    if (is.null(options)) {
+      use.options = list(title = gvis.title,
                        fontSize = fontSize,
-                       vAxis="{title:'Bootstrapped probability'}",
-                       hAxis=gvis.hAxis,
+                       vAxis = "{title:'Bootstrapped probability'}",
+                       hAxis = gvis.hAxis,
                        sizeAxis = "{minValue: 0, minSize: 1,
                        maxSize: 20, maxValue:1}",
-                       axisTitlesPosition=axisTitlesPosition,
-                       chartArea=chartArea,
-                       width=width, height=height,
-                       backgroundColor=backgroundColor,
+                       axisTitlesPosition = axisTitlesPosition,
+                       chartArea = chartArea,
+                       width = width, height = height,
+                       backgroundColor = backgroundColor,
                        annotations = "{style:'line'}")
     } else {use.options = options}
-    fplot = googleVis::gvisLineChart(data=vip.df,
-                                     xvar="lambda",
-                                     yvar=sortnames,
-                                     options=use.options)
-    if(html.only){
-      return(fplot)
-    } else{
-      return(graphics::plot(fplot))
-    }
+    fplot = googleVis::gvisLineChart(data = vip.df,
+                                     xvar = "lambda",
+                                     yvar = sortnames,
+                                     options = use.options)
+    return(graphics::plot(fplot, tag = tag))
   } else return(invisible())
 }

@@ -1,3 +1,18 @@
+mplot 0.7.5 [2015-11-05]
+------------------------
+
+* added fev and wallabies dataset
+
+
+mplot 0.7.4 [2015-10-10]
+------------------------
+
+* added tag option to googleVis plots to facilitate easier
+  plotting in rmarkdown documents.
+* citation updated to reference arXiv article
+* bootstrapping glmnet (bglmnet) function refined and
+  added to the mplot() shiny interface
+
 mplot 0.7.1 [2015-09-09]
 ------------------------
 

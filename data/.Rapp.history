@@ -3,3 +3,5 @@ ls()
 ~/Dropbox/Packages/mplot/data/bodyfat.rda
 load("/Users/garthtarr/Dropbox/Packages/mplot/data/bodyfat.rda")
 ls()
+load("/Users/gt415/Dropbox/Packages/mplot/data/fev.rda")
+str(fev)
