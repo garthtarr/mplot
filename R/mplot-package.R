@@ -53,7 +53,7 @@ NULL
 #'
 #' On Chalkers Top in the Warrumbungles (NSW, Australia) 200 evenly distributed
 #' one metre squared plots were surveyed. Plots were placed at a density
-#' of 7–13 per hectare. The presence or absence of fresh
+#' of 7-13 per hectare. The presence or absence of fresh
 #' (<1 month old) scats of rock-wallabies was recorded for each plot
 #' along with location and a selection of predictor variables.
 #'
@@ -89,7 +89,7 @@ NULL
 #'    Tuft KD, Crowther MS, Connell K, Mueller S and McArthur C (2011), 
 #'    Predation risk and competitive interactions affect foraging of 
 #'    an endangered refuge-dependent herbivore. Animal Conservation, 
-#'    14: 447–457. doi: 10.1111/j.1469-1795.2011.00446.x
+#'    14: 447-457. doi: 10.1111/j.1469-1795.2011.00446.x
 #' @examples
 #' data(wallabies)
 #' wdat = data.frame(subset(wallabies,select=-c(lat,long)), 
