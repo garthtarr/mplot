@@ -86,7 +86,7 @@ NULL
 #' @keywords datasets
 #' @usage data(wallabies)
 #' @references 
-#'    Tuft KD, Crowther MS, Connell K, Müller S and McArthur C (2011), 
+#'    Tuft KD, Crowther MS, Connell K, Mueller S and McArthur C (2011), 
 #'    Predation risk and competitive interactions affect foraging of 
 #'    an endangered refuge-dependent herbivore. Animal Conservation, 
 #'    14: 447–457. doi: 10.1111/j.1469-1795.2011.00446.x
