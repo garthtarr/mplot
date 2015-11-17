@@ -52,14 +52,14 @@ mplot = function(mf,...){
         lvp.res = input_list[[j]]
       }
     }
-    #     if(class(input_list[[j]])=="bglmnet"){
-    #       if(input_list[[j]]$screen){
-    #         glmnet.res.screened = input_list[[j]]
-    #         anyScreen=TRUE
-    #       } else {
-    #         glmnet.res = input_list[[j]]
-    #       }
-    #     }
+    if(class(input_list[[j]])=="bglmnet"){
+      if(input_list[[j]]$screen){
+        glmnet.res.screened = input_list[[j]]
+        anyScreen=TRUE
+      } else {
+        glmnet.res = input_list[[j]]
+      }
+    }
   }
 
   ui = dashboardPage(
@@ -74,19 +74,17 @@ mplot = function(mf,...){
                                       choices=c("TRUE"=TRUE, "FALSE" = FALSE),
                                       inline=TRUE)),
         menuItem(text="Model stability",icon=icon("bar-chart"),tabName="lvp"),
-        conditionalPanel(condition = "input.lvp=='lvp'",
+        menuItem(text="Bootstrap glmnet",icon=icon("line-chart"),tabName="bglmnet"),
+        conditionalPanel(condition = "input.lvp=='lvp' | input.lvp=='bglmnet'",
                          selectInput("highlight",label="Highlight models with:",
-                                      choices=names(stats::coef(full.model))[!names(stats::coef(full.model))=="(Intercept)"]),
-                                     #inline=FALSE), #TRUE), change back when wrapping is fixed
-                         radioButtons("boot_lvp","Bootstrap?",
-                                      choices=c("Yes","No"),
-                                      selected = "Yes",
-                                      inline=TRUE),
+                                     choices=names(coef(full.model))[!names(coef(full.model))=="(Intercept)"]),
+                         conditionalPanel(condition = "input.lvp=='lvp'",
+                                          radioButtons("boot_lvp","Bootstrap?",
+                                                       choices=c("Yes","No"),
+                                                       selected = "Yes",
+                                                       inline=TRUE)),
                          sliderInput(inputId = "min.prob", label="Min probability with label",
                                      min = 0, max=1, value = 0.3)),
-        radioButtons("classic",label="Classic plots",
-                     choices=c("Yes"=TRUE,"No" = FALSE),
-                     selected=FALSE,inline=TRUE),
         conditionalPanel(condition = "input.classic=='TRUE' & input.lvp=='lvp'",
                          sliderInput(inputId = "max.circle", label="Max circle size",
                                      min = 0,max=0.5,value = 0.35),
@@ -97,21 +95,14 @@ mplot = function(mf,...){
         conditionalPanel(condition = "input.classic=='TRUE' & input.lvp=='lvp' & input.text=='TRUE'",
                          sliderInput(inputId = "srt", label="Label rotation",
                                      min = -45, max=45, value = -30)),
-        radioButtons("screen",label="Screen",
-                     choices = c("Yes"=TRUE,"No" = FALSE),
-                     selected = FALSE,
-                     inline = TRUE)
-        #menuItem(text="Bootstrapping glmnet",tabName="glmnet",icon=icon("tasks"),
-        #menuSubItem("Show plot",tabName = "glmnet", selected=FALSE),
-        #radioButtons("glmplot",label="Plot type",choices=c("Variables"="variables",
-        #                                                     "Models" = "models")),
-        #conditionalPanel(
-        #    condition = "input.glmplot == 'models'",
-        #    sliderInput("plb",label="Minimum probability to be plotted",min=0,max=0.5,value=0.05),
-        #    radioButtons("highlight.glmnet",label="Highlight models with which variable?",
-        #                 choices=names(stats::coef(full.model))[!names(stats::coef(full.model))=="(Intercept)"])
-        #   )
-        #                   )
+        conditionalPanel(condition = "input.lvp=='lvp' | input.lvp=='af' | input.lvp=='vip' | input.lvp=='bglmnet'",
+                         radioButtons("classic",label="Classic plots",
+                                      choices=c("Yes"=TRUE,"No" = FALSE),
+                                      selected=FALSE,inline=TRUE),
+                         radioButtons("screen",label="Screen",
+                                      choices = c("Yes"=TRUE,"No" = FALSE),
+                                      selected = FALSE,
+                                      inline = TRUE))
       ),
       br(),
       box(
@@ -157,12 +148,16 @@ mplot = function(mf,...){
                 box(title = "R output", status = "warning",
                     solidHeader = TRUE, collapsible = TRUE,
                     width=12, collapsed = FALSE,
-                    verbatimTextOutput("af.verb")))#,
-        #tabItem(tabName="glmnet",
-        #        box(title = "Bootstrapping glmnet",
-        #        status = "success",solidHeader = TRUE,
-        #        width=12,
-        #        htmlOutput("glmnet.gvis")))
+                    verbatimTextOutput("af.verb"))),
+        tabItem(tabName = "bglmnet",
+                box(title="Bootstrapped glmnet variable importance plot",
+                    status = "success", solidHeader = TRUE, width=12,
+                    collapsible = TRUE, collapsed = FALSE,
+                    htmlOutput("bglmnet.gvis")),
+                box(title="Bootstrapped glmnet model stability plot",
+                    status = "success", solidHeader = TRUE, width=12,
+                    collapsible = TRUE, collapsed = FALSE,
+                    htmlOutput("bglmnet.gvis2")))
       )
     )
   )
@@ -177,10 +172,10 @@ mplot = function(mf,...){
         lvp.data = lvp.res
       }
       if(input$boot_lvp=="No"){
-        graphics::plot(lvp.data,html.only=TRUE,
+      graphics::plot(lvp.data,shiny=TRUE,
              highlight=input$highlight,which="lvk")
       } else if(input$boot_lvp=="Yes") {
-        graphics::plot(lvp.data,html.only=TRUE,
+        graphics::plot(lvp.data,shiny=TRUE,
              highlight=input$highlight,which="boot")
       }
     })
@@ -208,7 +203,7 @@ mplot = function(mf,...){
       } else {
         lvp.data = lvp.res
       }
-      graphics::plot(lvp.data,html.only=TRUE,which="vip")
+      graphics::plot(lvp.data,shiny=TRUE,which="vip")
     })
     output$vip.classic <- renderPlot({
       if(input$screen){
@@ -227,9 +222,10 @@ mplot = function(mf,...){
         af.data = af.res
       }
       if(!is.null(af.data)){
-        graphics::plot(af.data,html.only=TRUE,best.only=input$bo)
+      graphics::plot(af.data,shiny=TRUE,best.only=input$bo)
       } else return(NULL)
     })
+    
     output$af.classic <- renderPlot({
       if(input$screen){
         af.data = af.res.screened
@@ -260,17 +256,25 @@ mplot = function(mf,...){
     })
 
     #     ### Bootstrapping glmnet ###
-    #     output$glmnet.gvis <- googleVis::renderGvis({
-    #       if(input$screen){
-    #         glmnet.data = glmnet.res.screened
-    #       } else {
-    #         glmnet.data = glmnet.res
-    #       }
-    #       if(!is.null(glmnet.data)){
-    #         graphics::plot(glmnet.data, html.only=TRUE, which=input$glmplot,
-    #              plb=input$plb, highlight=input$highlight.glmnet)
-    #       } else return(NULL)
-    #     })
+    output$bglmnet.gvis <- googleVis::renderGvis({
+      if(input$screen){ 
+        bglmnet.data = glmnet.res.screened 
+      } else {
+        bglmnet.data = glmnet.res  
+      }
+      graphics::plot(bglmnet.data,shiny=TRUE,which="vip")
+    })
+    
+    output$bglmnet.gvis2 <- googleVis::renderGvis({
+      if(input$screen){ 
+        bglmnet.data = glmnet.res.screened 
+      } else {
+        bglmnet.data = glmnet.res  
+      }
+      graphics::plot(bglmnet.data,shiny=TRUE,
+           highlight = input$highlight,
+           which="boot",plb = input$min.prob)
+    })
 
   }
 

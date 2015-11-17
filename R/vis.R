@@ -282,6 +282,8 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
 #' or setting \code{options(gvis.plot.tag='chart')} is useful when 
 #' googleVis is used in scripts, like knitr or rmarkdown. 
 #' 
+#' @param shiny Default FALSE. Set to TRUE when using in a shiny interface.
+#' 
 #' @param which a vector specifying the plots to be output.  Variable
 #'   inclusion plots \code{which="vip"}; description loss against model
 #'   size \code{which="lvk"}; bootstrapped description loss against
@@ -357,7 +359,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
 #' plot(v1,highlight="x1",which="lvk")
 #' }
 
-plot.vis = function(x, highlight, classic = FALSE, tag = NULL,
+plot.vis = function(x, highlight, classic = FALSE, tag = NULL, shiny = FALSE,
                     which = c("vip","lvk","boot"),
                     width = 800, height = 400, fontSize = 12,
                     left = 50, top = 30, chartWidth = "60%", chartHeight = "80%",
@@ -372,9 +374,6 @@ plot.vis = function(x, highlight, classic = FALSE, tag = NULL,
     backgroundColor = paste("{stroke:null, fill:'",backgroundColor,
                             "', strokeSize: 0}",sep = "")
   }
-#   find.var = function(x,highlight){
-#     is.element(highlight,x)
-#   }
   
   if (missing(highlight)) {
     # highlight first variable in the coefficient list
@@ -449,7 +448,11 @@ plot.vis = function(x, highlight, classic = FALSE, tag = NULL,
                            explorer = "{axis: 'vertical',  keepInBounds: true, maxZoomOut: 1, maxZoomIn: 0.01, actions: ['dragToZoom', 'rightClickToReset']}")
       } else {use.options = options}
       fplot = googleVis::gvisScatterChart(data = dat, options = use.options)
-      graphics::plot(fplot, tag = tag)
+      if(shiny) {
+        return(fplot)
+      } else {
+        graphics::plot(fplot, tag = tag)
+      }
     }
   }
   if ("boot" %in% which) {
@@ -517,7 +520,11 @@ plot.vis = function(x, highlight, classic = FALSE, tag = NULL,
                                          yvar = "LL", colorvar = "var.ident",
                                          sizevar = "prob",
                                          options = use.options)
-      graphics::plot(fplot, tag = tag)
+      if(shiny){
+        return(fplot)
+      } else {
+        graphics::plot(fplot, tag = tag)
+      }
     }
   }
   if ("vip" %in% which) { # variable inclusion plot
@@ -584,9 +591,22 @@ plot.vis = function(x, highlight, classic = FALSE, tag = NULL,
                                                 "BIC","BIC.annotation",
                                                 sortnames),
                                        options = use.options)
+      if(shiny){
+        return(fplot)
+      } else {
       return(graphics::plot(fplot, tag = tag))
+      }
     }
   } else return(invisible())
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }
 
 

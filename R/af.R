@@ -368,6 +368,8 @@ summary.af = function (object,best.only=TRUE,...) {
 #' or setting \code{options(gvis.plot.tag='chart')} is useful when 
 #' googleVis is used in scripts, like knitr or rmarkdown. 
 #' 
+#' @param shiny Default FALSE. Set to TRUE when using in a shiny interface.
+#' 
 #' @param width Width of the googleVis chart canvas area, in pixels.
 #'   Default: 800.
 #' @param height Height of the googleVis chart canvas area, in pixels.
@@ -394,7 +396,7 @@ summary.af = function (object,best.only=TRUE,...) {
 #' @export
 # S3 method for class 'af'
 plot.af = function(x, pch, classic = FALSE,
-                   tag = NULL,
+                   tag = NULL, shiny = FALSE,
                    best.only = TRUE,
                    width = 800, height = 400, fontSize = 12,
                    left = 50, top = 30, chartWidth = "60%",
@@ -454,7 +456,11 @@ plot.af = function(x, pch, classic = FALSE,
                    width=width, height=height)
     }
     fplot = googleVis::gvisScatterChart(data=plot.dat,options=options)
-    return(graphics::plot(fplot, tag = tag))
+    if(shiny){
+      return(fplot)
+    } else {
+      return(graphics::plot(fplot, tag = tag))
+    }
   }
 }
 

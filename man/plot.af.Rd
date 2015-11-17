@@ -4,9 +4,9 @@
 \alias{plot.af}
 \title{Plot diagnostics for an af object}
 \usage{
-\method{plot}{af}(x, pch, classic = FALSE, tag = NULL, best.only = TRUE,
-  width = 800, height = 400, fontSize = 12, left = 50, top = 30,
-  chartWidth = "60\%", chartHeight = "80\%",
+\method{plot}{af}(x, pch, classic = FALSE, tag = NULL, shiny = FALSE,
+  best.only = TRUE, width = 800, height = 400, fontSize = 12,
+  left = 50, top = 30, chartWidth = "60\%", chartHeight = "80\%",
   backgroundColor = "transparent", legend.position = "topleft",
   options = NULL, ...)
 }
@@ -26,6 +26,8 @@ The default tag for is NULL, which will
 result in R opening a browser window.  Setting \code{tag='chart'} 
 or setting \code{options(gvis.plot.tag='chart')} is useful when 
 googleVis is used in scripts, like knitr or rmarkdown.}
+
+\item{shiny}{Default FALSE. Set to TRUE when using in a shiny interface.}
 
 \item{best.only}{logical determining whether the output used the
 standard fence approach of only considering the best models

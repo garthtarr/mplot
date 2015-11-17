@@ -5,12 +5,13 @@
 \title{Plot diagnostics for a vis object}
 \usage{
 \method{plot}{vis}(x, highlight, classic = FALSE, tag = NULL,
-  which = c("vip", "lvk", "boot"), width = 800, height = 400,
-  fontSize = 12, left = 50, top = 30, chartWidth = "60\%",
-  chartHeight = "80\%", axisTitlesPosition = "out", dataOpacity = 0.5,
-  options = NULL, ylim, backgroundColor = "transparent", text = FALSE,
-  min.prob = 0.4, srt = -30, max.circle = 0.35,
-  print.full.model = FALSE, jitterk = 0.1, ...)
+  shiny = FALSE, which = c("vip", "lvk", "boot"), width = 800,
+  height = 400, fontSize = 12, left = 50, top = 30,
+  chartWidth = "60\%", chartHeight = "80\%", axisTitlesPosition = "out",
+  dataOpacity = 0.5, options = NULL, ylim,
+  backgroundColor = "transparent", text = FALSE, min.prob = 0.4,
+  srt = -30, max.circle = 0.35, print.full.model = FALSE, jitterk = 0.1,
+  ...)
 }
 \arguments{
 \item{x}{\code{vis} object, the result of \code{\link{vis}}}
@@ -28,6 +29,8 @@ The default tag for is NULL, which will
 result in R opening a browser window.  Setting \code{tag='chart'} 
 or setting \code{options(gvis.plot.tag='chart')} is useful when 
 googleVis is used in scripts, like knitr or rmarkdown.}
+
+\item{shiny}{Default FALSE. Set to TRUE when using in a shiny interface.}
 
 \item{which}{a vector specifying the plots to be output.  Variable
 inclusion plots \code{which="vip"}; description loss against model

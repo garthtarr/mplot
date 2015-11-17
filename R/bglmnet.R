@@ -136,6 +136,8 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
 #' or setting \code{options(gvis.plot.tag='chart')} is useful when 
 #' googleVis is used in scripts, like knitr or rmarkdown. 
 #' 
+#' @param shiny Default FALSE. Set to TRUE when using in a shiny interface.
+#' 
 #' @param which a vector specifying the plots to be output. Variable
 #'   inclusion type plots \code{which="vip"} or model description loss against
 #'   penalty parameter \code{which="boot"}.
@@ -177,7 +179,7 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
 #' @seealso \code{\link{bglmnet}}
 
 
-plot.bglmnet = function(x, highlight, classic = FALSE, tag = NULL,
+plot.bglmnet = function(x, highlight, classic = FALSE, tag = NULL, shiny = FALSE,
                         which=c("boot","vip"),
                         width=800, height=400, fontSize=12,
                         left=50, top=30,
@@ -269,7 +271,11 @@ plot.bglmnet = function(x, highlight, classic = FALSE, tag = NULL,
                                        yvar = "ll", colorvar = "var.ident",
                                        sizevar = "mod.vec.prob",
                                        options = use.options)
-    graphics::plot(fplot, tag = tag)
+    if(shiny){
+      return(fplot)
+    } else {
+      graphics::plot(fplot, tag = tag)
+    }
   }
   if ("vip" %in% which) {
     var.names = x$vars[x$vars != "(Intercept)"]
@@ -302,6 +308,10 @@ plot.bglmnet = function(x, highlight, classic = FALSE, tag = NULL,
                                      xvar = "lambda",
                                      yvar = sortnames,
                                      options = use.options)
-    return(graphics::plot(fplot, tag = tag))
+    if(shiny){
+      return(fplot)
+    } else {
+      return(graphics::plot(fplot, tag = tag))
+    }
   } else return(invisible())
 }
