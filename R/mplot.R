@@ -5,7 +5,7 @@
 #'
 #'
 #' @param mf a fitted model.
-#' @param ... objects of type vis or af.
+#' @param ... objects of type vis or af or bglmnet.
 #' @export
 #' @import shiny
 #' @import shinydashboard
@@ -77,7 +77,7 @@ mplot = function(mf,...){
         menuItem(text="Bootstrap glmnet",icon=icon("line-chart"),tabName="bglmnet"),
         conditionalPanel(condition = "input.lvp=='lvp' | input.lvp=='bglmnet'",
                          selectInput("highlight",label="Highlight models with:",
-                                     choices=names(coef(full.model))[!names(coef(full.model))=="(Intercept)"]),
+                                     choices=names(stats::coef(full.model))[!names(stats::coef(full.model))=="(Intercept)"]),
                          conditionalPanel(condition = "input.lvp=='lvp'",
                                           radioButtons("boot_lvp","Bootstrap?",
                                                        choices=c("Yes","No"),
