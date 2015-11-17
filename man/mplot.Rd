@@ -9,7 +9,7 @@ mplot(mf, ...)
 \arguments{
 \item{mf}{a fitted model.}
 
-\item{...}{objects of type vis or af.}
+\item{...}{objects of type vis or af or bglmnet.}
 }
 \description{
 Opens a shiny GUI to investigate a range of model selection
