@@ -1,3 +1,18 @@
+mplot 0.7.7 [2016-08-17]
+------------------------
+
+* reimplemented classic plots in ggplot2
+* classic plots are now default (reviewer feedback)
+* improved documentation
+    - more detail about procedures
+    - more detail about plotting methods
+* fixed the passing of weights for weighted models
+* can now obtain full loss v dimension which="lvk"
+  plots for glms
+* vis() default is now nbest="all" note this may
+  cause memory issues for large models (e.g. k>20)
+  and plotting issues
+
 mplot 0.7.6 [2016-05-20]
 ------------------------
 
