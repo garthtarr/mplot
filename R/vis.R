@@ -27,6 +27,10 @@
 #' @details The result of this function is essentially just a
 #'   list. The supplied plot method provides a way to visualise the
 #'   results.
+#'   
+#'   See \code{?plot.vis} or \code{help("plot.vis")} for details of the
+#'   plot method associated with the result.
+#'   
 #' @seealso \code{\link{plot.vis}}
 #' @references Mueller, S. and Welsh, A. H. (2010), On model
 #'   selection curves. International Statistical Review, 78:240-256.
@@ -55,7 +59,7 @@
 #' plot(v1,highlight="x1")
 #' }
 
-vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
+vis=function(mf, nvmax, B=100, lambda.max, nbest="all",
              n.cores, force.in=NULL, screen=FALSE,
              redundant=TRUE,...){
   
@@ -69,7 +73,17 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
   initial.weights = m$wts
   if(missing(nvmax)) nvmax = kf
   if(nbest=="all") {
-    nbest = max(choose((kf-1),0:(kf-1)))
+    nbest = 2^(kf-1) 
+    # nbest needs to be whole model space because
+    # bestglm takes option TopModels which is the 
+    # top models to show overall
+    # Using leaps, you can specify the number of 
+    # best models of each model size, so the max
+    # would be:
+    # max(choose((kf-1),0:(kf-1)))
+    # this behaviour (keeping so many nbest models)
+    # could cause issues for large parameter spaces
+    # consider maxing out at a million?
   }
   if(!is.numeric(nbest)){
     stop("nbest should be numeric or 'all'")
@@ -102,16 +116,23 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
   ## Initial single pass
   ## (gives the minimum envelopping set of models)
   if (any(class(mf) == "glm") == TRUE) {
+    # no redundant variable
+    # Xy = X
+    # Xy$REDUNDANT.VARIABLE = NULL # do want to keep it in
     em = bestglm::bestglm(Xy = X,
                           family = family,
-                          IC = "BIC",
-                          TopModels = 1,
+                          IC = "AIC",
+                          TopModels = nbest,
                           nvmax = nvmax)
-    # starts with intercept row
-    rs.which = em$Subsets[,1:kf] + 0
-    rs.stats = em$Subsets[, -c(1:kf)]
-    k = rowSums(rs.which)
-    rs.all = cbind(rs.which, rs.stats, k)
+    # has an intercept row
+    rs.which = em$BestModels[,1:(kf-1)] + 0
+    k = rowSums(rs.which)+1
+    rs.ll = -(em$BestModels$Criterion - 2*(k-1))/2
+    rs.bic = -2*rs.ll + k*log(n)
+    rs.aic = -2*rs.ll + 2*k
+    rs.stats = cbind(rs.ll, rs.bic, rs.aic, k)
+    colnames(rs.stats) = c("logLikelihood","bic","aic","k")
+    rs.all = cbind(1,rs.which,rs.stats)
     # in bestglm rs.all$logLikelihood comes from
     # stats::logLik(model) unless Gaussian in which case
     # -(n/2) * log(sum(resid(ans)^2)/n) is used
@@ -156,7 +177,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
   cl.visB = makeCluster(n.cores)
   doParallel::registerDoParallel(cl.visB)
   res = foreach(b = 1:B, .packages = c("bestglm")) %dopar% {
-    wts = stats::rexp(n = n, rate = 1)
+    wts = stats::rexp(n = n, rate = 1)*initial.weights
     if (any(class(mf) == "glm") == TRUE) {
       em = bestglm::bestglm(Xy = X,
                             family = family,
@@ -268,6 +289,19 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
 #' Plot diagnostics for a vis object
 #'
 #' A plot method to visualise the results of a \code{vis} object.
+#' 
+#' Specifying \code{which = "lvk"} generates a scatter plot where 
+#' the points correspond to description loss is plot against model size
+#' for each model considered.  The \code{highlight} argument is 
+#' used to differentiate models that contain a particular variable 
+#' from those that do not.
+#' 
+#' Specifying \code{which = "boot"} generates a scatter plot where 
+#' each circle represents a model with a non-zero bootstrap probability, 
+#' that is, each model that was selected as the best model of a 
+#' particular dimension in at least one bootstrap replication.  
+#' The area of each circle is proportional to the 
+#' corresponding model's bootstrapped selection probability.
 #'
 #' @param x \code{vis} object, the result of \code{\link{vis}}
 #' @param highlight the name of a variable that will be highlighted
@@ -327,8 +361,8 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest=5,
 #'   Default = -30.
 #' @param print.full.model logical, when \code{text=TRUE} this determines if the full
 #'   model gets a label or not.  Default=\code{FALSE}.
-#' @param max.circle  circles are scaled to make largest dimension this size in inches.
-#'   Default = 0.35.
+#' @param max.circle  determines the maximum circle size.
+#'   Default = 15.
 #' @param jitterk amount of jittering of the model size in the lvk and boot plots.
 #'   Default = 0.1.
 #' @param ylim the y limits of the lvk and boot plots.
@@ -366,7 +400,7 @@ plot.vis = function(x, highlight, classic = FALSE, tag = NULL, shiny = FALSE,
                     axisTitlesPosition = "out", dataOpacity = 0.5,
                     options=NULL, ylim,
                     backgroundColor = 'transparent',
-                    text=FALSE, min.prob = 0.4, srt = -30, max.circle = 0.35,
+                    text=FALSE, min.prob = 0.4, srt = -30, max.circle = 15,
                     print.full.model = FALSE, jitterk=0.1, ...){
   if (backgroundColor == "transparent") {
     backgroundColor = "{stroke:null, fill:'null', strokeSize: 0}"
@@ -467,23 +501,44 @@ plot.vis = function(x, highlight, classic = FALSE, tag = NULL, shiny = FALSE,
                      prob = x$res.df$freq/x$B,
                      var.ident = var.ident)
     if(classic){
-      graphics::par(mar = c(3.4,3.4,0.1,0.1),mgp = c(2.0, 0.75, 0))
-      if(missing(ylim)) ylim = NULL
-      graphics::symbols(dat$k,dat$LL,sqrt(dat$prob),inches=max.circle,
-                        bg = ifelse(vi,grDevices::rgb(1, 0, 0, alpha=0.5),grDevices::rgb(0, 0, 1, alpha=0.5)),
-                        fg = "white",
-                        ylim = ylim,
-                        xlab = "Number of parameters",
-                        ylab = "-2*Log-likelihood")
-      graphics::legend("topright",legend = c(paste("With",vars[1]),paste("Without",vars[1])),
-                       col = c(grDevices::rgb(1, 0, 0, alpha=0.5),grDevices::rgb(0, 0, 1, alpha=0.5)),pch=19)
+      # graphics::par(mar = c(3.4,3.4,0.1,0.1),mgp = c(2.0, 0.75, 0))
+      # if(missing(ylim)) ylim = NULL
+      # graphics::symbols(dat$k,dat$LL,sqrt(dat$prob),inches=max.circle,
+      #                   bg = ifelse(vi,grDevices::rgb(1, 0, 0, alpha=0.5),grDevices::rgb(0, 0, 1, alpha=0.5)),
+      #                   fg = "white",
+      #                   ylim = ylim,
+      #                   xlab = "Number of parameters",
+      #                   ylab = "-2*Log-likelihood")
+      # graphics::legend("topright",legend = c(paste("With",vars[1]),paste("Without",vars[1])),
+      #                  col = c(grDevices::rgb(1, 0, 0, alpha=0.5),grDevices::rgb(0, 0, 1, alpha=0.5)),pch=19)
+      # if(text){
+      #   bdat = dat[dat$prob>min.prob,]
+      #   if(!print.full.model){
+      #     bdat = bdat[-dim(bdat)[1],]
+      #   }
+      #   text(bdat$k,bdat$LL,bdat$mods,cex=0.9,pos=2,offset=0.5,srt=srt)
+      # }
+      dat$mod.lab = as.character(dat$mods)
+      dat$mod.lab[dat$prob<min.prob] = ""
+      dat$mod.lab[length(dat$mod.lab)] = ""
+      p = ggplot(dat,aes(x=round(k,0),y=LL,group=var.ident,label = mod.lab)) + 
+        geom_jitter(aes(size=prob,fill=var.ident),
+                    shape = 21,
+                    width = jitterk) + 
+        scale_size(range = c(0, max.circle)) + 
+        theme_bw(base_size = 14) + 
+        ylab("-2*Log-likelihood") + 
+        xlab("Number of parameters") +
+        theme(legend.title = element_blank(),
+              legend.key = element_blank()) +
+        scale_fill_manual(values = alpha(c("blue", "red"), .4)) + 
+        guides(fill = guide_legend(override.aes = list(shape = 22,size=5,fill = alpha(c("blue", "red"), .4))))
+      if(!missing(ylim)) 
+        p = p + ylim(ylim[1],ylim[2])
       if(text){
-        bdat = dat[dat$prob>min.prob,]
-        if(!print.full.model){
-          bdat = bdat[-dim(bdat)[1],]
-        }
-        text(bdat$k,bdat$LL,bdat$mods,cex=0.9,pos=2,offset=0.5,srt=srt)
+        p = p + geom_text(hjust = 0,angle = 45)
       }
+      return(p)
     } else {
       gvis.title = paste("Model stability plot",sep="")
       x.ticks=paste(1:max(dat$k),collapse=",")
