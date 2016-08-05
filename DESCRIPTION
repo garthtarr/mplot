@@ -25,7 +25,8 @@ Imports:
     glmnet,
     graphics,
     stats,
-    googleVis
+    googleVis,
+    ggplot2
 URL: https://github.com/garthtarr/mplot
 Roxygen: list(wrap = FALSE)
 LazyData: TRUE
