@@ -393,7 +393,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest="all",
 #' plot(v1,highlight="x1",which="lvk")
 #' }
 
-plot.vis = function(x, highlight, classic = FALSE, tag = NULL, shiny = FALSE,
+plot.vis = function(x, highlight, classic = TRUE, tag = NULL, shiny = FALSE,
                     which = c("vip","lvk","boot"),
                     width = 800, height = 400, fontSize = 12,
                     left = 50, top = 30, chartWidth = "60%", chartHeight = "80%",
