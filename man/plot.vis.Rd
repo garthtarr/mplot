@@ -4,7 +4,7 @@
 \alias{plot.vis}
 \title{Plot diagnostics for a vis object}
 \usage{
-\method{plot}{vis}(x, highlight, classic = FALSE, tag = NULL,
+\method{plot}{vis}(x, highlight, classic = TRUE, tag = NULL,
   shiny = FALSE, which = c("vip", "lvk", "boot"), width = 800,
   height = 400, fontSize = 12, left = 50, top = 30,
   chartWidth = "60\%", chartHeight = "80\%", axisTitlesPosition = "out",
