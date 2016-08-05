@@ -521,22 +521,30 @@ plot.vis = function(x, highlight, classic = FALSE, tag = NULL, shiny = FALSE,
       dat$mod.lab = as.character(dat$mods)
       dat$mod.lab[dat$prob<min.prob] = ""
       dat$mod.lab[length(dat$mod.lab)] = ""
-      p = ggplot(dat,aes(x=round(k,0),y=LL,group=var.ident,label = mod.lab)) + 
-        geom_jitter(aes(size=prob,fill=var.ident),
+      p = ggplot2::ggplot(dat,ggplot2::aes(x=round(k,0),y=LL,group=var.ident,label = mod.lab)) + 
+        ggplot2::geom_jitter(ggplot2::aes(size=prob,fill=var.ident),
                     shape = 21,
                     width = jitterk) + 
-        scale_size(range = c(0, max.circle)) + 
-        theme_bw(base_size = 14) + 
-        ylab("-2*Log-likelihood") + 
-        xlab("Number of parameters") +
-        theme(legend.title = element_blank(),
-              legend.key = element_blank()) +
-        scale_fill_manual(values = alpha(c("blue", "red"), .4)) + 
-        guides(fill = guide_legend(override.aes = list(shape = 22,size=5,fill = alpha(c("blue", "red"), .4))))
+        ggplot2::scale_size(range = c(0, max.circle)) + 
+        ggplot2::theme_bw(base_size = 14) + 
+        ggplot2::ylab("-2*Log-likelihood") + 
+        ggplot2::xlab("Number of parameters") +
+        ggplot2::theme(legend.title = ggplot2::element_blank(),
+              legend.key = ggplot2::element_blank()) +
+        ggplot2::scale_fill_manual(values = ggplot2::alpha(c("blue", "red"), .4)) + 
+        ggplot2::guides(
+          fill = ggplot2::guide_legend(
+            override.aes = list(
+              shape = 22,
+              size = 5,
+              fill = ggplot2::alpha(c("blue", "red"), .4)
+              )
+            )
+          )
       if(!missing(ylim)) 
-        p = p + ylim(ylim[1],ylim[2])
+        p = p + ggplot2::ylim(ylim[1],ylim[2])
       if(text){
-        p = p + geom_text(hjust = 0,angle = 45)
+        p = p + ggplot2::geom_text(hjust = 0,angle = 45)
       }
       return(p)
     } else {
