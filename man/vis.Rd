@@ -4,8 +4,8 @@
 \alias{vis}
 \title{Model stability and variable inclusion plots}
 \usage{
-vis(mf, nvmax, B = 100, lambda.max, nbest = 5, n.cores, force.in = NULL,
-  screen = FALSE, redundant = TRUE, ...)
+vis(mf, nvmax, B = 100, lambda.max, nbest = "all", n.cores,
+  force.in = NULL, screen = FALSE, redundant = TRUE, ...)
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call
@@ -47,6 +47,9 @@ and bootstrap enhanced model stability plots (\code{lvk} and
 The result of this function is essentially just a
   list. The supplied plot method provides a way to visualise the
   results.
+  
+  See \code{?plot.vis} or \code{help("plot.vis")} for details of the
+  plot method associated with the result.
 }
 \examples{
 n = 100

@@ -5,7 +5,7 @@
 \title{Plot diagnostics for an af object}
 \usage{
 \method{plot}{af}(x, pch, classic = FALSE, tag = NULL, shiny = FALSE,
-  best.only = TRUE, width = 800, height = 400, fontSize = 12,
+  best.only = FALSE, width = 800, height = 400, fontSize = 12,
   left = 50, top = 30, chartWidth = "60\%", chartHeight = "80\%",
   backgroundColor = "transparent", legend.position = "topleft",
   options = NULL, ...)
@@ -70,7 +70,22 @@ options.}
 \item{...}{further arguments (currently unused)}
 }
 \description{
-Summary plot of the bootstrap results of an
-af object.
+Summary plot of the bootstrap results of an af object.
+}
+\details{
+For each value of \eqn{c}{c} a parametric 
+bootstrap is performed under the full model.  
+For each bootstrap 
+sample we identify the smallest model inside the fence, 
+\eqn{\hat{\alpha}(c)}{hat{alpha}(c)}.   We calculate the empirical probability of selecting 
+model \eqn{\alpha}{alpha} for a given value of \eqn{c}{c} as 
+\deqn{p^*(c,\alpha)=P^*\{\hat{\alpha}(c)=\alpha\}.}{p*(c,alpha)=P*{hat{alpha}(c)=alpha}.}  
+Hence, if \eqn{B}{B} bootstrap replications are performed, 
+\eqn{p^*(c,\alpha)}{p^*(c,alpha)} is the 
+proportion of times that model \eqn{\alpha}{alpha} is selected.  Finally, 
+define an overall selection probability, 
+\deqn{p^*(c)=\max_{\alpha\in\mathcal{A}}p^*(c,\alpha)}{p*(c)=max_{alpha in mathcal{A}}p*(c,alpha)} and we plot 
+\eqn{p^*(c)}{p*(c)} against \eqn{c}{c}. The points on the scatter plot are 
+colour coded by the model that yielded the highest inclusion probability.
 }
 

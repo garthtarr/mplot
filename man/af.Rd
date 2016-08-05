@@ -90,6 +90,9 @@ then it will be the only model at that size that passes the fence over a
 range of values of c.
 The result is more pronounced peaks which can help to determine
 the location of the correct peak and identify the optimal c*.
+
+See \code{?plot.af} or \code{help("plot.af")} for details of the
+plot method associated with the result.
 }
 \examples{
 n = 100
@@ -118,5 +121,8 @@ Jiang J., Nguyen T., Sunil Rao J. (2009),
   Jiang J., Sunil Rao J., Gu Z, Nguyen T. (2008),
   Fence methods for mixed model selection, Annals of Statistics,
   36(4):1669-1692. doi: 10.1214/07-AOS517
+}
+\seealso{
+\code{\link{plot.af}}
 }
 

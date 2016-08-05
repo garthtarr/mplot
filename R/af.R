@@ -48,6 +48,9 @@
 #' range of values of c.
 #' The result is more pronounced peaks which can help to determine
 #' the location of the correct peak and identify the optimal c*.
+#' 
+#' See \code{?plot.af} or \code{help("plot.af")} for details of the
+#' plot method associated with the result.
 #'
 #' @param mf a fitted 'full' model, the result of a call
 #'   to lm or glm (and in the future lme or lmer).
@@ -71,6 +74,7 @@
 #'   screen for outliers.  Highly experimental, use at own risk.
 #'   Default = FALSE.
 #' @param ... further arguments (currently unused)
+#' @seealso \code{\link{plot.af}}
 #' @references Jiang J., Nguyen T., Sunil Rao J. (2009),
 #'   A simplified adaptive fence procedure, Statistics &
 #'   Probability Letters, 79(5):625-629.  doi: 10.1016/j.spl.2008.10.014
@@ -347,8 +351,22 @@ summary.af = function (object,best.only=TRUE,...) {
 
 #' Plot diagnostics for an af object
 #'
-#' Summary plot of the bootstrap results of an
-#' af object.
+#' Summary plot of the bootstrap results of an af object.
+#' 
+#' For each value of \eqn{c}{c} a parametric 
+#' bootstrap is performed under the full model.  
+#' For each bootstrap 
+#' sample we identify the smallest model inside the fence, 
+#' \eqn{\hat{\alpha}(c)}{hat{alpha}(c)}.   We calculate the empirical probability of selecting 
+#' model \eqn{\alpha}{alpha} for a given value of \eqn{c}{c} as 
+#' \deqn{p^*(c,\alpha)=P^*\{\hat{\alpha}(c)=\alpha\}.}{p*(c,alpha)=P*{hat{alpha}(c)=alpha}.}  
+#' Hence, if \eqn{B}{B} bootstrap replications are performed, 
+#' \eqn{p^*(c,\alpha)}{p^*(c,alpha)} is the 
+#' proportion of times that model \eqn{\alpha}{alpha} is selected.  Finally, 
+#' define an overall selection probability, 
+#' \deqn{p^*(c)=\max_{\alpha\in\mathcal{A}}p^*(c,\alpha)}{p*(c)=max_{alpha in mathcal{A}}p*(c,alpha)} and we plot 
+#' \eqn{p^*(c)}{p*(c)} against \eqn{c}{c}. The points on the scatter plot are 
+#' colour coded by the model that yielded the highest inclusion probability.
 #'
 #' @param x \code{af} object, the result of \code{\link{af}}
 #' @param classic logical.  If \code{classic=TRUE} a
@@ -397,7 +415,7 @@ summary.af = function (object,best.only=TRUE,...) {
 # S3 method for class 'af'
 plot.af = function(x, pch, classic = FALSE,
                    tag = NULL, shiny = FALSE,
-                   best.only = TRUE,
+                   best.only = FALSE,
                    width = 800, height = 400, fontSize = 12,
                    left = 50, top = 30, chartWidth = "60%",
                    chartHeight = "80%",
