@@ -129,7 +129,7 @@ af = function(mf,
   } else if(class(mf)=="lm"){
     model.type="lm"
   }
-  m = mextract(mf,screen=screen)
+  m = mextract(mf, screen = screen)
   fixed = m$fixed
   yname = m$yname
   family = m$family
@@ -369,9 +369,14 @@ summary.af = function (object,best.only=TRUE,...) {
 #' colour coded by the model that yielded the highest inclusion probability.
 #'
 #' @param x \code{af} object, the result of \code{\link{af}}
-#' @param classic logical.  If \code{classic=TRUE} a
-#'   base graphics plot is provided instead of a googleVis plot.
-#'   Default is \code{classic=FALSE}.
+#' @param interactive logical.  If \code{interactive=TRUE} a
+#'   googleVis plot is provided instead of the base graphics plot.
+#'   Default is \code{interactive=FALSE}.
+#' @param classic logical.  Depricated. If \code{classic=TRUE} a
+#'   base graphics plot is provided instead of a googleVis plot. 
+#'   For now specifying \code{classic} will overwrite the 
+#'   default \code{interactive} behaviour, though this is
+#'   likely to be removed in the future.
 #' @param best.only logical determining whether the output used the
 #'   standard fence approach of only considering the best models
 #'   that pass the fence (\code{TRUE}) or if it should take into
@@ -413,31 +418,72 @@ summary.af = function (object,best.only=TRUE,...) {
 #' @param ... further arguments (currently unused)
 #' @export
 # S3 method for class 'af'
-plot.af = function(x, pch, classic = FALSE,
-                   tag = NULL, shiny = FALSE,
+plot.af = function(x, pch, interactive = FALSE, classic = NULL, 
+                   tag = NULL, shiny = FALSE, 
                    best.only = FALSE,
                    width = 800, height = 400, fontSize = 12,
                    left = 50, top = 30, chartWidth = "60%",
                    chartHeight = "80%",
                    backgroundColor = 'transparent',
-                   legend.position = "topleft",
+                   legend.position = "top", model.wrap = NULL,
+                   legend.space = NULL,
+                   legend.key.height = NULL,
                    options=NULL, ...){
+  
+  if (!is.null(classic)) interactive = !classic
+  
   if (best.only) {
     x = x$bestOnly
   } else {
     x = x$all
   }
-  if(classic){
-    if(missing(pch)) pch=19
-    graphics::par(mar=c(3.4,3.4,2.1,0.1),mgp=c(2.0, 0.75, 0))
-    graphics::plot(x$p.star[,1]~x$c.range,
-                   ylim=c(0,1), pch=pch,
-                   col=x$p.star[,3],
-                   ylab = "p*", xlab = "c")
-    graphics::legend(legend.position, legend=unique(x$p.star[,2]),
-                     pch=pch,col=unique(x$p.star[,3]),bty="n")
-    graphics::axis(side=3, at=x$c.star,
-                   labels=paste("c*=", round(x$c.star,1),sep=""))
+  if(!interactive){
+    
+    ggdf = cbind(x$p.star,c.range=x$c.range)
+    if(is.numeric(model.wrap)){
+      if(model.wrap==1){
+        ggdf$model = base::gsub("([^\\+]*\\+)","\\1\n", ggdf$model)    
+      } else if(model.wrap==2){
+        ggdf$model = base::gsub("([^\\+]*\\+[^\\+]*\\+)","\\1\n", ggdf$model)    
+      } else if(model.wrap==3){
+        ggdf$model = base::gsub("([^\\+]*\\+[^\\+]*\\+[^\\+]*\\+)","\\1\n", ggdf$model)    
+      } else if(model.wrap==4){
+        ggdf$model = base::gsub("([^\\+]*\\+[^\\+]*\\+[^\\+]*\\+[^\\+]*\\+)","\\1\n", ggdf$model)    
+      } else {
+        warning("The model.wrap parameter can only be 1, 2, 3, 4 or NULL.")
+      }
+    }
+    
+    
+    p = ggplot2::ggplot(data = ggdf, ggplot2::aes(x=c.range,y=pstar,color=model)) + 
+      ggplot2::geom_point() + 
+      ggplot2::ylim(0,1) +
+      ggplot2::theme_bw(base_size = 14) + 
+      ggplot2::ylab("p*") + 
+      ggplot2::xlab("c") + 
+      ggplot2::theme(legend.title = ggplot2::element_blank(),
+                     legend.key = ggplot2::element_blank(),
+                     legend.position = legend.position) 
+    if(!is.null(legend.space)) {
+    p = p + ggplot2::guides(color = ggplot2::guide_legend(
+      keyheight = legend.space,
+      keywidth = legend.space,
+      default.unit = "inch"))      
+    }
+
+    
+    return(p)
+    
+    # if(missing(pch)) pch=19
+    # graphics::par(mar=c(3.4,3.4,2.1,0.1),mgp=c(2.0, 0.75, 0))
+    # graphics::plot(x$p.star[,1]~x$c.range,
+    #                ylim=c(0,1), pch=pch,
+    #                col=x$p.star[,3],
+    #                ylab = "p*", xlab = "c")
+    # graphics::legend(legend.position, legend=unique(x$p.star[,2]),
+    #                  pch=pch,col=unique(x$p.star[,3]),bty="n")
+    # graphics::axis(side=3, at=x$c.star,
+    #                labels=paste("c*=", round(x$c.star,1),sep=""))
   } else {
     dat <- matrix(NA, nrow = nrow(x$p.star),
                   ncol = nlevels(x$p.star$model) + 1)

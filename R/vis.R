@@ -305,9 +305,14 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest="all",
 #'
 #' @param x \code{vis} object, the result of \code{\link{vis}}
 #' @param highlight the name of a variable that will be highlighted
-#' @param classic logical.  If \code{classic=TRUE} a
-#'   base graphics plot is provided instead of a googleVis plot.
-#'   Default is \code{classic=FALSE}.
+#' @param interactive logical.  If \code{interactive=TRUE} a
+#'   googleVis plot is provided instead of the base graphics plot.
+#'   Default is \code{interactive=FALSE}.
+#' @param classic logical.  Depricated. If \code{classic=TRUE} a
+#'   base graphics plot is provided instead of a googleVis plot. 
+#'   For now specifying \code{classic} will overwrite the 
+#'   default \code{interactive} behaviour, though this is
+#'   likely to be removed in the future.
 #' @param tag Default NULL. Name tag of the objects to be extracted 
 #' from a gvis (googleVis) object. 
 #' 
@@ -393,14 +398,15 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest="all",
 #' plot(v1,highlight="x1",which="lvk")
 #' }
 
-plot.vis = function(x, highlight, classic = TRUE, tag = NULL, shiny = FALSE,
+plot.vis = function(x, highlight, interactive = FALSE, classic = NULL, 
+                    tag = NULL, shiny = FALSE,
                     which = c("vip","lvk","boot"),
                     width = 800, height = 400, fontSize = 12,
                     left = 50, top = 30, chartWidth = "60%", chartHeight = "80%",
                     axisTitlesPosition = "out", dataOpacity = 0.5,
-                    options=NULL, ylim,
+                    options=NULL, ylim, legend.position = "right",
                     backgroundColor = 'transparent',
-                    text=FALSE, min.prob = 0.4, srt = -30, max.circle = 15,
+                    text=FALSE, min.prob = 0.4, srt = 45, max.circle = 15,
                     print.full.model = FALSE, jitterk=0.1, ...){
   if (backgroundColor == "transparent") {
     backgroundColor = "{stroke:null, fill:'null', strokeSize: 0}"
@@ -408,6 +414,7 @@ plot.vis = function(x, highlight, classic = TRUE, tag = NULL, shiny = FALSE,
     backgroundColor = paste("{stroke:null, fill:'",backgroundColor,
                             "', strokeSize: 0}",sep = "")
   }
+  if (!is.null(classic)) interactive = !classic
   
   if (missing(highlight)) {
     # highlight first variable in the coefficient list
@@ -422,32 +429,67 @@ plot.vis = function(x, highlight, classic = TRUE, tag = NULL, shiny = FALSE,
     spk = x$res.single.pass$k
     jitter = stats::runif(length(spk),0 - jitterk,0 + jitterk)
     spk = spk + jitter
-    if (classic) {
-      for (i in 1:length(vars)) {
-        col_high = grDevices::rgb(1, 0, 0, alpha = 0)
-        col_nohigh = grDevices::rgb(0, 0, 1, alpha = 0.5)
-        colbg = grDevices::rgb(1, 0, 0, alpha = 0.5)
-        var.ident = which(x$res.single.pass[,vars[i]] == 1)
-        n.var.ident = which(x$res.single.pass[,vars[i]] == 0)
-        graphics::par(mar = c(3.4,3.4,0.1,0.1),mgp = c(2.0, 0.75, 0))
-        if (missing(ylim)) ylim = c(min(m2ll),max(m2ll))
-        graphics::plot(m2ll[n.var.ident] ~ spk[n.var.ident],
-                       pch = 19, cex = 1.3, col = col_nohigh,
-                       bg = colbg,
-                       xlab = "Number of parameters",
-                       ylab = "-2*Log-likelihood",
-                       ylim = ylim,
-                       xlim = c(min(spk),max(spk)))
-        graphics::points(m2ll[var.ident] ~ spk[var.ident],
-                         pch = 24, bg = colbg,
-                         col = col_high, cex = 1.2)
-        graphics::legend("topright",legend = c(paste("With",vars[i]),paste("Without",vars[i])),
-                         col = c(col_high,col_nohigh),
-                         pt.bg = colbg, pch = c(24,19))
-        if (length(vars) > 1) {
-          graphics::par(ask = TRUE)
-        }
-      }
+    if (!interactive) {
+      x$res.single.pass$m2ll = -2*x$res.single.pass$logLikelihood
+      
+      # for (i in 1:length(vars)) {
+      lvk.dat = x$res.single.pass
+      lvk.dat$kj = lvk.dat$k+(lvk.dat[,vars[i]]-0.5)/4
+      lvk.dat[,vars[i]] = as.logical(lvk.dat[,vars[i]])
+      
+      p = ggplot2::ggplot(data = lvk.dat, ggplot2::aes(x=kj,y=m2ll)) + 
+        ggplot2::geom_jitter(ggplot2::aes_string(color=vars[i]),
+                             shape = 19,
+                             width = jitterk,
+                             size=2) + 
+        ggplot2::theme_bw(base_size = 14) + 
+        ggplot2::ylab("-2*Log-likelihood") + 
+        ggplot2::xlab("Number of parameters") + 
+        ggplot2::theme(legend.title = ggplot2::element_blank(),
+                       legend.key = ggplot2::element_blank(),
+                       legend.position = legend.position) +
+        ggplot2::scale_fill_manual(values = ggplot2::alpha(c("blue","red"), .4)) + 
+        ggplot2::scale_color_manual(values = ggplot2::alpha(c("blue","red"), .4),
+                                    labels = paste(c("Without","With"),vars[i])) + 
+        ggplot2::guides(
+          fill = ggplot2::guide_legend(
+            override.aes = list(
+              shape = 22,
+              size = 5,
+              fill = ggplot2::alpha(c("blue","red"), .4)
+            )
+          )
+        )
+      
+      if(!missing(ylim)) 
+        p = p + ggplot2::ylim(ylim[1],ylim[2])
+      
+      return(p)
+      
+      # col_high = grDevices::rgb(1, 0, 0, alpha = 0)
+      # col_nohigh = grDevices::rgb(0, 0, 1, alpha = 0.5)
+      # colbg = grDevices::rgb(1, 0, 0, alpha = 0.5)
+      # var.ident = which(x$res.single.pass[,vars[i]] == 1)
+      # n.var.ident = which(x$res.single.pass[,vars[i]] == 0)
+      # graphics::par(mar = c(3.4,3.4,0.1,0.1),mgp = c(2.0, 0.75, 0))
+      # if (missing(ylim)) ylim = c(min(m2ll),max(m2ll))
+      # graphics::plot(m2ll[n.var.ident] ~ spk[n.var.ident],
+      #                pch = 19, cex = 1.3, col = col_nohigh,
+      #                bg = colbg,
+      #                xlab = "Number of parameters",
+      #                ylab = "-2*Log-likelihood",
+      #                ylim = ylim,
+      #                xlim = c(min(spk),max(spk)))
+      # graphics::points(m2ll[var.ident] ~ spk[var.ident],
+      #                  pch = 24, bg = colbg,
+      #                  col = col_high, cex = 1.2)
+      # graphics::legend("topright",legend = c(paste("With",vars[i]),paste("Without",vars[i])),
+      #                  col = c(col_high,col_nohigh),
+      #                  pt.bg = colbg, pch = c(24,19))
+      #  if (length(vars) > 1) {
+      #    graphics::par(ask = TRUE)
+      # }
+      # }
     } else {# googleVis version
       var.ident = which(x$res.single.pass[,vars[1]] == 1)
       n.var.ident = which(x$res.single.pass[,vars[1]] == 0)
@@ -478,7 +520,7 @@ plot.vis = function(x, highlight, classic = TRUE, tag = NULL, shiny = FALSE,
                            width = width, height = height,
                            dataOpacity = dataOpacity,
                            backgroundColor = backgroundColor,
-                           series = "{0:{color: 'gray', visibleInLegend: true}, 1:{color: 'blue', visibleInLegend: true}}",
+                           series = "{0:{color: 'blue', visibleInLegend: true}, 1:{color: 'red', visibleInLegend: true}}",
                            explorer = "{axis: 'vertical',  keepInBounds: true, maxZoomOut: 1, maxZoomIn: 0.01, actions: ['dragToZoom', 'rightClickToReset']}")
       } else {use.options = options}
       fplot = googleVis::gvisScatterChart(data = dat, options = use.options)
@@ -500,7 +542,7 @@ plot.vis = function(x, highlight, classic = TRUE, tag = NULL, shiny = FALSE,
                      LL = -2*x$res.df$logLikelihood,
                      prob = x$res.df$freq/x$B,
                      var.ident = var.ident)
-    if(classic){
+    if(!interactive){
       # graphics::par(mar = c(3.4,3.4,0.1,0.1),mgp = c(2.0, 0.75, 0))
       # if(missing(ylim)) ylim = NULL
       # graphics::symbols(dat$k,dat$LL,sqrt(dat$prob),inches=max.circle,
@@ -523,28 +565,29 @@ plot.vis = function(x, highlight, classic = TRUE, tag = NULL, shiny = FALSE,
       dat$mod.lab[length(dat$mod.lab)] = ""
       p = ggplot2::ggplot(dat,ggplot2::aes(x=round(k,0),y=LL,group=var.ident,label = mod.lab)) + 
         ggplot2::geom_jitter(ggplot2::aes(size=prob,fill=var.ident),
-                    shape = 21,
-                    width = jitterk) + 
+                             shape = 21,
+                             width = jitterk) + 
         ggplot2::scale_size(range = c(0, max.circle)) + 
         ggplot2::theme_bw(base_size = 14) + 
         ggplot2::ylab("-2*Log-likelihood") + 
         ggplot2::xlab("Number of parameters") +
         ggplot2::theme(legend.title = ggplot2::element_blank(),
-              legend.key = ggplot2::element_blank()) +
-        ggplot2::scale_fill_manual(values = ggplot2::alpha(c("blue", "red"), .4)) + 
+                       legend.key = ggplot2::element_blank(),
+                       legend.position = legend.position) +
+        ggplot2::scale_fill_manual(values = ggplot2::alpha(c("red","blue"), .4)) + 
         ggplot2::guides(
           fill = ggplot2::guide_legend(
             override.aes = list(
               shape = 22,
               size = 5,
-              fill = ggplot2::alpha(c("blue", "red"), .4)
-              )
+              fill = ggplot2::alpha(c("red","blue"), .4)
             )
           )
+        )
       if(!missing(ylim)) 
         p = p + ggplot2::ylim(ylim[1],ylim[2])
       if(text){
-        p = p + ggplot2::geom_text(hjust = 0,angle = 45)
+        p = p + ggplot2::geom_text(hjust = 0,angle = srt)
       }
       return(p)
     } else {
@@ -608,20 +651,40 @@ plot.vis = function(x, highlight, classic = TRUE, tag = NULL, shiny = FALSE,
     vip.df = rbind(vip.df,aicline)
     tid = c(1,2,4,6:dim(vip.df)[2])
     vip.df[, tid] = sapply(vip.df[, tid], as.numeric)
-    if (classic) {
+    if (!interactive) {
       classic.lambda = vip.df$lambda
-      classic.vip.df = subset(vip.df,select = -c(get("AIC"),get("AIC.annotation"),
-                                                 get("BIC"),get("BIC.annotation"),
-                                                 get("lambda")))
+      classic.vip.df = subset(vip.df,
+                              select = -c(get("AIC"),get("AIC.annotation"),
+                                          get("BIC"),get("BIC.annotation"),
+                                          get("lambda")))
       lwds = log((1:length(var.names)) + 1)
       lwds = rev(2*lwds/max(lwds))
-      graphics::par(mar = c(3.4,3.4,0.1,0.1), mgp = c(2.0, 0.75, 0))
-      graphics::matplot(x = classic.lambda,jitter(as.matrix(classic.vip.df)),type = "l",
-                        ylab = "Bootstrapped probability", xlab = "Penalty", lwd = lwds)
-      leg.nm = names(classic.vip.df)
-      graphics::legend("topright", leg.nm, bg = "transparent", bty = "n", inset = c(0.015),
-                       # these are the defaults for matplot:
-                       lty = 1:5, col = 1:6, lwd = lwds)
+      
+      vip.ggdf = cbind(classic.lambda,classic.vip.df)
+      vip.ggdfL = reshape2::melt(vip.ggdf, id="classic.lambda")
+      
+      p = ggplot2::ggplot(data = vip.ggdfL, ggplot2::aes(x=classic.lambda,
+                                                         y=value,
+                                                         colour=variable)) + 
+        ggplot2::geom_line() + 
+        ggplot2::theme_bw(base_size = 14) + 
+        ggplot2::ylab("Bootstrapped probability") + 
+        ggplot2::xlab("Penalty") + 
+        ggplot2::theme(legend.title = ggplot2::element_blank(),
+                       legend.key = ggplot2::element_blank(),
+                       legend.position = legend.position) 
+      
+      return(p)
+      
+      
+      
+      # graphics::par(mar = c(3.4,3.4,0.1,0.1), mgp = c(2.0, 0.75, 0))
+      # graphics::matplot(x = classic.lambda,jitter(as.matrix(classic.vip.df)),type = "l",
+      #                   ylab = "Bootstrapped probability", xlab = "Penalty", lwd = lwds)
+      # leg.nm = names(classic.vip.df)
+      # graphics::legend("topright", leg.nm, bg = "transparent", bty = "n", inset = c(0.015),
+      #                  # these are the defaults for matplot:
+      #                  lty = 1:5, col = 1:6, lwd = lwds)
     } else {
       gvis.title = "Variable inclusion plot"
       #lineDashStyle = paste("[",paste(1:2,collapse=","),"]",sep="")
@@ -657,7 +720,7 @@ plot.vis = function(x, highlight, classic = TRUE, tag = NULL, shiny = FALSE,
       if(shiny){
         return(fplot)
       } else {
-      return(graphics::plot(fplot, tag = tag))
+        return(graphics::plot(fplot, tag = tag))
       }
     }
   } else return(invisible())

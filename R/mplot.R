@@ -28,7 +28,6 @@
 #' }
 #'
 
-
 mplot = function(mf,...){
   full.model = mf
   input_list <- list(...)
@@ -87,14 +86,14 @@ mplot = function(mf,...){
                                      min = 0, max=1, value = 0.3)),
         conditionalPanel(condition = "input.classic=='TRUE' & input.lvp=='lvp'",
                          sliderInput(inputId = "max.circle", label="Max circle size",
-                                     min = 0,max=0.5,value = 0.35),
+                                     min = 1,max=30,value = 15),
                          radioButtons(inputId = "text",label="Add text",
                                       choices=c("Yes"=TRUE,"No" = FALSE),
                                       selected=FALSE,inline=TRUE)
         ),
         conditionalPanel(condition = "input.classic=='TRUE' & input.lvp=='lvp' & input.text=='TRUE'",
                          sliderInput(inputId = "srt", label="Label rotation",
-                                     min = -45, max=45, value = -30)),
+                                     min = -45, max=90, value = 45)),
         conditionalPanel(condition = "input.lvp=='lvp' | input.lvp=='af' | input.lvp=='vip' | input.lvp=='bglmnet'",
                          radioButtons("classic",label="Classic plots",
                                       choices=c("Yes"=TRUE,"No" = FALSE),
@@ -103,7 +102,8 @@ mplot = function(mf,...){
                                       choices = c("Yes"=TRUE,"No" = FALSE),
                                       selected = FALSE,
                                       inline = TRUE))
-      ),
+      )
+      ,
       br(),
       box(
         width = 12, background = "black",
@@ -114,7 +114,8 @@ mplot = function(mf,...){
         icon("github"),
         HTML(paste("</a>"))
       )
-    ),
+    )
+    ,
     dashboardBody(
       tabItems(
         tabItem(tabName="lvp",
@@ -159,7 +160,7 @@ mplot = function(mf,...){
                     collapsible = TRUE, collapsed = FALSE,
                     htmlOutput("bglmnet.gvis2")))
       )
-    )
+     )
   )
 
   server = function(input, output) {
@@ -172,10 +173,10 @@ mplot = function(mf,...){
         lvp.data = lvp.res
       }
       if(input$boot_lvp=="No"){
-      graphics::plot(lvp.data,shiny=TRUE,
+      graphics::plot(lvp.data,shiny=TRUE,classic=FALSE,
              highlight=input$highlight,which="lvk")
       } else if(input$boot_lvp=="Yes") {
-        graphics::plot(lvp.data,shiny=TRUE,
+        graphics::plot(lvp.data,shiny=TRUE,classic=FALSE,
              highlight=input$highlight,which="boot")
       }
     })
@@ -203,7 +204,7 @@ mplot = function(mf,...){
       } else {
         lvp.data = lvp.res
       }
-      graphics::plot(lvp.data,shiny=TRUE,which="vip")
+      graphics::plot(lvp.data,classic=FALSE,shiny=TRUE,which="vip")
     })
     output$vip.classic <- renderPlot({
       if(input$screen){
@@ -222,10 +223,10 @@ mplot = function(mf,...){
         af.data = af.res
       }
       if(!is.null(af.data)){
-      graphics::plot(af.data,shiny=TRUE,best.only=input$bo)
+      graphics::plot(af.data,classic=FALSE,shiny=TRUE,best.only=input$bo)
       } else return(NULL)
     })
-    
+
     output$af.classic <- renderPlot({
       if(input$screen){
         af.data = af.res.screened
@@ -257,21 +258,21 @@ mplot = function(mf,...){
 
     #     ### Bootstrapping glmnet ###
     output$bglmnet.gvis <- googleVis::renderGvis({
-      if(input$screen){ 
-        bglmnet.data = glmnet.res.screened 
+      if(input$screen){
+        bglmnet.data = glmnet.res.screened
       } else {
-        bglmnet.data = glmnet.res  
+        bglmnet.data = glmnet.res
       }
-      graphics::plot(bglmnet.data,shiny=TRUE,which="vip")
+      graphics::plot(bglmnet.data,classic=FALSE,shiny=TRUE,which="vip")
     })
-    
+
     output$bglmnet.gvis2 <- googleVis::renderGvis({
-      if(input$screen){ 
-        bglmnet.data = glmnet.res.screened 
+      if(input$screen){
+        bglmnet.data = glmnet.res.screened
       } else {
-        bglmnet.data = glmnet.res  
+        bglmnet.data = glmnet.res
       }
-      graphics::plot(bglmnet.data,shiny=TRUE,
+      graphics::plot(bglmnet.data,shiny=TRUE,classic=FALSE,
            highlight = input$highlight,
            which="boot",plb = input$min.prob)
     })

@@ -125,9 +125,14 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
 #'
 #' @param x \code{bglmnet} object, the result of \code{\link{bglmnet}}
 #' @param highlight the name of a variable that will be highlighted.
-#' @param classic logical.  If \code{classic=TRUE} a
-#'   base graphics plot is provided instead of a googleVis plot.
-#'   Default is \code{classic=FALSE}.
+#' @param interactive logical.  If \code{interactive=TRUE} a
+#'   googleVis plot is provided instead of the base graphics plot.
+#'   Default is \code{interactive=FALSE}.
+#' @param classic logical.  Depricated. If \code{classic=TRUE} a
+#'   base graphics plot is provided instead of a googleVis plot. 
+#'   For now specifying \code{classic} will overwrite the 
+#'   default \code{interactive} behaviour, though this is
+#'   likely to be removed in the future.
 #' @param tag Default NULL. Name tag of the objects to be extracted 
 #' from a gvis (googleVis) object. 
 #' 
@@ -179,8 +184,10 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
 #' @seealso \code{\link{bglmnet}}
 
 
-plot.bglmnet = function(x, highlight, classic = FALSE, tag = NULL, shiny = FALSE,
-                        which=c("boot","vip"),
+plot.bglmnet = function(x, highlight, interactive = FALSE, 
+                        classic = NULL, 
+                        tag = NULL, shiny = FALSE,
+                        which=c("boot","vip","lvk"),
                         width=800, height=400, fontSize=12,
                         left=50, top=30,
                         chartWidth="60%",
@@ -190,7 +197,8 @@ plot.bglmnet = function(x, highlight, classic = FALSE, tag = NULL, shiny = FALSE
                         options=NULL,
                         hAxis.logScale = TRUE,
                         backgroundColor = 'transparent',
-                        plb = 0.01, ...) {
+                        plb = 0.1, ...) {
+  if (!is.null(classic)) interactive = !classic
   if (backgroundColor == "transparent") {
     backgroundColor = "{stroke:null, fill:'null', strokeSize: 0}"
   } else {
@@ -215,13 +223,11 @@ plot.bglmnet = function(x, highlight, classic = FALSE, tag = NULL, shiny = FALSE
     # remove redundant variables
     df = df.temp[-grep("REDUNDANT.VARIABLE",df.temp$mod.names),]
     df.full = merge(df,x$mod.sum,all.x = TRUE)
+    if(all(df.full$mod.vec.prob<plb))
+      plb = quantile(df.full$mod.vec.prob,0.75)
     df.sub = subset(df.full,df.full$mod.vec.prob > plb)
     df.sub$mod.names = as.character(df.sub$mod.names)
-    if (classic) {
-      warning("Classic plot not implemented.")
-      #graphics::plot(df.sub$ll~df.sub$l.vec,cex=df.sub$mod.vec.counts/5,
-      #     xlim=c(min(x$lambda),max(x$lambda)))
-    }
+    
     if (missing(highlight)) { # highlight best bivariate variable
       no.highlight = TRUE
       if(sum(df.sub$k==2)>0){
@@ -238,43 +244,98 @@ plot.bglmnet = function(x, highlight, classic = FALSE, tag = NULL, shiny = FALSE
     var.ident[var.ident==TRUE] =  paste("With",highlight)
     var.ident[var.ident==FALSE] =  paste("Without",highlight)
     df.sub$var.ident = var.ident
-    gvis.title = paste("Model stability plot for glmnet",sep="")
-    #x.ticks=paste(1:max(x$lk$k),collapse=",")
-    chartArea = paste("{left:",left,
-                      ",top:",top,
-                      ",width:'",chartWidth,
-                      "',height:'",chartHeight,"'}",sep="")
-    bubble = paste("{opacity:",dataOpacity,
-                   ", textStyle: {color: 'none'}}",sep="")
     
-    if(is.null(options)){
-      use.options=list(title=gvis.title,
-                       fontSize = fontSize,
-                       vAxis="{title:'-2*Log-likelihood'}",
-                       hAxis=gvis.hAxis,
-                       sizeAxis = "{minValue: 0, minSize: 1,
-                                maxSize: 20, maxValue:1}",
-                       axisTitlesPosition=axisTitlesPosition,
-                       bubble = bubble,
-                       chartArea=chartArea,
-                       width=width, height=height,
-                       backgroundColor=backgroundColor,
-                       explorer= "{axis: 'vertical',
-                               keepInBounds: true,
-                               maxZoomOut: 1,
-                               maxZoomIn: 0.01,
-                               actions: ['dragToZoom',
-                                         'rightClickToReset']}")
-    } else {use.options = options}
-    
-    fplot = googleVis::gvisBubbleChart(data = df.sub,idvar = "mod.names",xvar = "l.vec",
-                                       yvar = "ll", colorvar = "var.ident",
-                                       sizevar = "mod.vec.prob",
-                                       options = use.options)
-    if(shiny){
-      return(fplot)
+    if (!interactive) {
+      #warning("Classic plot not implemented.")
+      
+      reverselog_trans <- function(base = 10) {
+        trans <- function(x) -base::log(x, base)
+        inv <- function(x) base^(-x)
+        scales::trans_new(base::paste0("reverselog-", base::format(base)), 
+                          trans, inv, 
+                          scales::log_breaks(base = base), 
+                          domain = c(1e-100, Inf))
+      }
+      
+      
+      
+      p = ggplot2::ggplot(data=df.sub,
+                          ggplot2::aes(x = l.vec, y = ll,
+                                       color = mod.names,
+                                       group = var.ident,
+                                       label = mod.names)) + 
+        ggplot2::geom_jitter(ggplot2::aes(size=mod.vec.prob,
+                                          fill=mod.names),
+                             shape=21,
+                             width=0.1,
+                             alpha=0.4) + 
+        ggplot2::scale_x_continuous(trans=reverselog_trans()) +
+        ggplot2::theme_bw(base_size = 14) + 
+        ggplot2::ylab("-2*Log-likelihood") + 
+        ggplot2::xlab("Penalty parameter") + 
+        ggplot2::theme(legend.title = ggplot2::element_blank(),
+                       legend.key = ggplot2::element_blank(),
+                       legend.position = "right") 
+      # this was used when we coloured with var.ident
+      # but I think it's a clearer picture in the above
+      # af like way.
+      #+
+        # ggplot2::scale_fill_manual(values = ggplot2::alpha(c("red","blue"), .4)) + 
+        # ggplot2::guides(
+        #   fill = ggplot2::guide_legend(
+        #     override.aes = list(
+        #       shape = 22,
+        #       size = 5,
+        #       fill = ggplot2::alpha(c("red","blue"), .4)
+        #     )
+        #   )
+        # )
+      
+      if(!missing(ylim)) 
+        p = p + ggplot2::ylim(ylim[1],ylim[2])
+      
+      return(p)
+      #graphics::plot(df.sub$ll~df.sub$l.vec,cex=df.sub$mod.vec.counts/5,
+      #     xlim=c(min(x$lambda),max(x$lambda)))
     } else {
-      graphics::plot(fplot, tag = tag)
+      gvis.title = paste("Model stability plot for glmnet",sep="")
+      #x.ticks=paste(1:max(x$lk$k),collapse=",")
+      chartArea = paste("{left:",left,
+                        ",top:",top,
+                        ",width:'",chartWidth,
+                        "',height:'",chartHeight,"'}",sep="")
+      bubble = paste("{opacity:",dataOpacity,
+                     ", textStyle: {color: 'none'}}",sep="")
+      
+      if(is.null(options)){
+        use.options=list(title=gvis.title,
+                         fontSize = fontSize,
+                         vAxis="{title:'-2*Log-likelihood'}",
+                         hAxis=gvis.hAxis,
+                         sizeAxis = "{minValue: 0, minSize: 1,
+                         maxSize: 20, maxValue:1}",
+                         axisTitlesPosition=axisTitlesPosition,
+                         bubble = bubble,
+                         chartArea=chartArea,
+                         width=width, height=height,
+                         backgroundColor=backgroundColor,
+                         explorer= "{axis: 'vertical',
+                         keepInBounds: true,
+                         maxZoomOut: 1,
+                         maxZoomIn: 0.01,
+                         actions: ['dragToZoom',
+                         'rightClickToReset']}")
+      } else {use.options = options}
+      
+      fplot = googleVis::gvisBubbleChart(data = df.sub,idvar = "mod.names",xvar = "l.vec",
+                                         yvar = "ll", colorvar = "var.ident",
+                                         sizevar = "mod.vec.prob",
+                                         options = use.options)
+      if(shiny){
+        return(fplot)
+      } else {
+        graphics::plot(fplot, tag = tag)
+      }
     }
   }
   if ("vip" %in% which) {
@@ -293,16 +354,16 @@ plot.bglmnet = function(x, highlight, classic = FALSE, tag = NULL, shiny = FALSE
                       "',height:'",chartHeight,"'}", sep = "")
     if (is.null(options)) {
       use.options = list(title = gvis.title,
-                       fontSize = fontSize,
-                       vAxis = "{title:'Bootstrapped probability'}",
-                       hAxis = gvis.hAxis,
-                       sizeAxis = "{minValue: 0, minSize: 1,
+                         fontSize = fontSize,
+                         vAxis = "{title:'Bootstrapped probability'}",
+                         hAxis = gvis.hAxis,
+                         sizeAxis = "{minValue: 0, minSize: 1,
                        maxSize: 20, maxValue:1}",
-                       axisTitlesPosition = axisTitlesPosition,
-                       chartArea = chartArea,
-                       width = width, height = height,
-                       backgroundColor = backgroundColor,
-                       annotations = "{style:'line'}")
+                         axisTitlesPosition = axisTitlesPosition,
+                         chartArea = chartArea,
+                         width = width, height = height,
+                         backgroundColor = backgroundColor,
+                         annotations = "{style:'line'}")
     } else {use.options = options}
     fplot = googleVis::gvisLineChart(data = vip.df,
                                      xvar = "lambda",
