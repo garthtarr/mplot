@@ -4,8 +4,8 @@
 \alias{vis}
 \title{Model stability and variable inclusion plots}
 \usage{
-vis(mf, nvmax, B = 100, lambda.max, nbest = "all", n.cores,
-  force.in = NULL, screen = FALSE, redundant = TRUE, ...)
+vis(mf, nvmax, B = 100, lambda.max, nbest = "all", glmulti = FALSE,
+  n.cores, force.in = NULL, screen = FALSE, redundant = TRUE, ...)
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call
@@ -22,6 +22,9 @@ defaults to 2*log(n)}
 \item{nbest}{maximum number of models at each model size
 that will be considered for the lvk plot. Can also take
 a value of \code{"all"} which displays all models.}
+
+\item{glmulti}{logical. Whether to use the glmulti package
+instead of bestglm. Default \code{glmulti=FALSE}.}
 
 \item{n.cores}{number of cores to be used when parallel
 processing the bootstrap}

@@ -28,7 +28,9 @@ Imports:
     googleVis,
     ggplot2,
     reshape2,
-    scales
+    scales,
+    glmulti,
+    dplyr
 URL: https://github.com/garthtarr/mplot
 Roxygen: list(wrap = FALSE)
 LazyData: TRUE

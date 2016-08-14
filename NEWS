@@ -12,6 +12,8 @@ mplot 0.7.7 [2016-08-17]
 * vis() default is now nbest="all" note this may
   cause memory issues for large models (e.g. k>20)
   and plotting issues
+* experimental support for glmulti as a backend
+  instead of bestglm for glms
 
 mplot 0.7.6 [2016-05-20]
 ------------------------
