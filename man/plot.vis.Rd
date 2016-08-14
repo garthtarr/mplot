@@ -4,13 +4,13 @@
 \alias{plot.vis}
 \title{Plot diagnostics for a vis object}
 \usage{
-\method{plot}{vis}(x, highlight, classic = TRUE, tag = NULL,
-  shiny = FALSE, which = c("vip", "lvk", "boot"), width = 800,
-  height = 400, fontSize = 12, left = 50, top = 30,
+\method{plot}{vis}(x, highlight, interactive = FALSE, classic = NULL,
+  tag = NULL, shiny = FALSE, which = c("vip", "lvk", "boot"),
+  width = 800, height = 400, fontSize = 12, left = 50, top = 30,
   chartWidth = "60\%", chartHeight = "80\%", axisTitlesPosition = "out",
-  dataOpacity = 0.5, options = NULL, ylim,
+  dataOpacity = 0.5, options = NULL, ylim, legend.position = "right",
   backgroundColor = "transparent", text = FALSE, min.prob = 0.4,
-  srt = -30, max.circle = 15, print.full.model = FALSE, jitterk = 0.1,
+  srt = 45, max.circle = 15, print.full.model = FALSE, jitterk = 0.1,
   ...)
 }
 \arguments{
@@ -18,9 +18,15 @@
 
 \item{highlight}{the name of a variable that will be highlighted}
 
-\item{classic}{logical.  If \code{classic=TRUE} a
-base graphics plot is provided instead of a googleVis plot.
-Default is \code{classic=FALSE}.}
+\item{interactive}{logical.  If \code{interactive=TRUE} a
+googleVis plot is provided instead of the base graphics plot.
+Default is \code{interactive=FALSE}.}
+
+\item{classic}{logical.  Depricated. If \code{classic=TRUE} a
+base graphics plot is provided instead of a googleVis plot. 
+For now specifying \code{classic} will overwrite the 
+default \code{interactive} behaviour, though this is
+likely to be removed in the future.}
 
 \item{tag}{Default NULL. Name tag of the objects to be extracted 
 from a gvis (googleVis) object. 
@@ -74,6 +80,10 @@ complete control over the output.  Specifying a value for
 
 \item{ylim}{the y limits of the lvk and boot plots.}
 
+\item{legend.position}{the postion of the legend for classic plots.
+Default \code{legend.position="right"} alternatives include
+\code{legend.position="top"} and \code{legend.position="bottom"}}
+
 \item{backgroundColor}{The background colour for the main area
 of the chart. A simple HTML color string,
 for example: 'red' or '#00cc00'.  Default: 'null' (there is an
@@ -88,7 +98,7 @@ boot plot. Default = \code{FALSE}.}
 selection before a text label is shown.}
 
 \item{srt}{when \code{text=TRUE}, the angle of rotation for the text labels.
-Default = -30.}
+Default = 45.}
 
 \item{max.circle}{determines the maximum circle size.
 Default = 15.}

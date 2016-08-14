@@ -313,6 +313,9 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest="all",
 #'   For now specifying \code{classic} will overwrite the 
 #'   default \code{interactive} behaviour, though this is
 #'   likely to be removed in the future.
+#' @param legend.position the postion of the legend for classic plots.
+#'   Default \code{legend.position="right"} alternatives include
+#'   \code{legend.position="top"} and \code{legend.position="bottom"}
 #' @param tag Default NULL. Name tag of the objects to be extracted 
 #' from a gvis (googleVis) object. 
 #' 
@@ -363,7 +366,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest="all",
 #' @param min.prob when \code{text=TRUE}, a lower bound on the probability of
 #'   selection before a text label is shown.
 #' @param srt when \code{text=TRUE}, the angle of rotation for the text labels.
-#'   Default = -30.
+#'   Default = 45.
 #' @param print.full.model logical, when \code{text=TRUE} this determines if the full
 #'   model gets a label or not.  Default=\code{FALSE}.
 #' @param max.circle  determines the maximum circle size.

@@ -383,6 +383,13 @@ summary.af = function (object,best.only=TRUE,...) {
 #'   account all models that pass the fence at each boundary
 #'   value (\code{FALSE}).
 #' @param pch plotting character, i.e., symbol to use
+#' @param model.wrap Optional parameter to split the legend names
+#'   if they are too long for classic plots.  \code{model.wrap=2} 
+#'   means that there will be two variables per line,  \code{model.wrap=2}
+#'   gives three variables per line and \code{model.wrap=4} gives 4
+#'   variables per line.
+#' @param legend.space Optional parameter to add additional space 
+#'   between the legend items for the classic plot.
 #' @param tag Default NULL. Name tag of the objects to be extracted 
 #' from a gvis (googleVis) object. 
 #' 
@@ -427,7 +434,6 @@ plot.af = function(x, pch, interactive = FALSE, classic = NULL,
                    backgroundColor = 'transparent',
                    legend.position = "top", model.wrap = NULL,
                    legend.space = NULL,
-                   legend.key.height = NULL,
                    options=NULL, ...){
   
   if (!is.null(classic)) interactive = !classic

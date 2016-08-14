@@ -88,7 +88,7 @@ glmfence = function(mf,
           cat("Exploring other options at this model size. ")
           txt.fn(hatQm,UB,em)
         }
-        pos=1
+        pos = 1
         environment(ff) = globalenv()
         ret[[pos]] = ff # record the result
         met[[pos]] = hatQm #record its score

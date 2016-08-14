@@ -4,10 +4,11 @@
 \alias{plot.af}
 \title{Plot diagnostics for an af object}
 \usage{
-\method{plot}{af}(x, pch, classic = FALSE, tag = NULL, shiny = FALSE,
-  best.only = FALSE, width = 800, height = 400, fontSize = 12,
-  left = 50, top = 30, chartWidth = "60\%", chartHeight = "80\%",
-  backgroundColor = "transparent", legend.position = "topleft",
+\method{plot}{af}(x, pch, interactive = FALSE, classic = NULL, tag = NULL,
+  shiny = FALSE, best.only = FALSE, width = 800, height = 400,
+  fontSize = 12, left = 50, top = 30, chartWidth = "60\%",
+  chartHeight = "80\%", backgroundColor = "transparent",
+  legend.position = "top", model.wrap = NULL, legend.space = NULL,
   options = NULL, ...)
 }
 \arguments{
@@ -15,9 +16,15 @@
 
 \item{pch}{plotting character, i.e., symbol to use}
 
-\item{classic}{logical.  If \code{classic=TRUE} a
-base graphics plot is provided instead of a googleVis plot.
-Default is \code{classic=FALSE}.}
+\item{interactive}{logical.  If \code{interactive=TRUE} a
+googleVis plot is provided instead of the base graphics plot.
+Default is \code{interactive=FALSE}.}
+
+\item{classic}{logical.  Depricated. If \code{classic=TRUE} a
+base graphics plot is provided instead of a googleVis plot. 
+For now specifying \code{classic} will overwrite the 
+default \code{interactive} behaviour, though this is
+likely to be removed in the future.}
 
 \item{tag}{Default NULL. Name tag of the objects to be extracted 
 from a gvis (googleVis) object. 
@@ -63,6 +70,15 @@ for example: 'red' or '#00cc00'.  Default: 'transparent'}
 
 \item{legend.position}{legend position, e.g. \code{"topleft"}
 or  \code{"bottomright"}}
+
+\item{model.wrap}{Optional parameter to split the legend names
+if they are too long for classic plots.  \code{model.wrap=2} 
+means that there will be two variables per line,  \code{model.wrap=2}
+gives three variables per line and \code{model.wrap=4} gives 4
+variables per line.}
+
+\item{legend.space}{Optional parameter to add additional space 
+between the legend items for the classic plot.}
 
 \item{options}{If you want to specify the full set of googleVis
 options.}

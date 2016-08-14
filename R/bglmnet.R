@@ -224,7 +224,7 @@ plot.bglmnet = function(x, highlight, interactive = FALSE,
     df = df.temp[-grep("REDUNDANT.VARIABLE",df.temp$mod.names),]
     df.full = merge(df,x$mod.sum,all.x = TRUE)
     if(all(df.full$mod.vec.prob<plb))
-      plb = quantile(df.full$mod.vec.prob,0.75)
+      plb = stats::quantile(df.full$mod.vec.prob,0.75)
     df.sub = subset(df.full,df.full$mod.vec.prob > plb)
     df.sub$mod.names = as.character(df.sub$mod.names)
     
