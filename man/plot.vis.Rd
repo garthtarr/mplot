@@ -23,17 +23,17 @@ googleVis plot is provided instead of the base graphics plot.
 Default is \code{interactive=FALSE}.}
 
 \item{classic}{logical.  Depricated. If \code{classic=TRUE} a
-base graphics plot is provided instead of a googleVis plot. 
-For now specifying \code{classic} will overwrite the 
+base graphics plot is provided instead of a googleVis plot.
+For now specifying \code{classic} will overwrite the
 default \code{interactive} behaviour, though this is
 likely to be removed in the future.}
 
-\item{tag}{Default NULL. Name tag of the objects to be extracted 
-from a gvis (googleVis) object. 
+\item{tag}{Default NULL. Name tag of the objects to be extracted
+from a gvis (googleVis) object.
 
-The default tag for is NULL, which will 
-result in R opening a browser window.  Setting \code{tag='chart'} 
-or setting \code{options(gvis.plot.tag='chart')} is useful when 
+The default tag for is NULL, which will
+result in R opening a browser window.  Setting \code{tag='chart'}
+or setting \code{options(gvis.plot.tag='chart')} is useful when
 googleVis is used in scripts, like knitr or rmarkdown.}
 
 \item{shiny}{Default FALSE. Set to TRUE when using in a shiny interface.}
@@ -115,17 +115,17 @@ Default = 0.1.}
 A plot method to visualise the results of a \code{vis} object.
 }
 \details{
-Specifying \code{which = "lvk"} generates a scatter plot where 
+Specifying \code{which = "lvk"} generates a scatter plot where
 the points correspond to description loss is plot against model size
-for each model considered.  The \code{highlight} argument is 
-used to differentiate models that contain a particular variable 
+for each model considered.  The \code{highlight} argument is
+used to differentiate models that contain a particular variable
 from those that do not.
 
-Specifying \code{which = "boot"} generates a scatter plot where 
-each circle represents a model with a non-zero bootstrap probability, 
-that is, each model that was selected as the best model of a 
-particular dimension in at least one bootstrap replication.  
-The area of each circle is proportional to the 
+Specifying \code{which = "boot"} generates a scatter plot where
+each circle represents a model with a non-zero bootstrap probability,
+that is, each model that was selected as the best model of a
+particular dimension in at least one bootstrap replication.
+The area of each circle is proportional to the
 corresponding model's bootstrapped selection probability.
 }
 \examples{

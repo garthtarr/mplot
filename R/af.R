@@ -48,7 +48,7 @@
 #' range of values of c.
 #' The result is more pronounced peaks which can help to determine
 #' the location of the correct peak and identify the optimal c*.
-#' 
+#'
 #' See \code{?plot.af} or \code{help("plot.af")} for details of the
 #' plot method associated with the result.
 #'
@@ -62,7 +62,7 @@
 #'   should be focussed. See details for implementation.
 #' @param force.in the names of variables that should be forced
 #'   into all estimated models
-#' @param n.cores number of cores to be used when parallel
+#' @param cores number of cores to be used when parallel
 #'   processing the bootstrap
 #' @param nvmax size of the largest model that can still be
 #'   considered as a viable candidate.  Included for performance
@@ -100,34 +100,39 @@
 #' dat = data.frame(y,x1,x2,x3,x4,x5,x6)
 #' lm1 = lm(y~.,data=dat)
 #' \dontrun{
-#' af1 = af(lm1, n.cores=4, initial.stepwise=TRUE)
+#' af1 = af(lm1, cores=4, initial.stepwise=TRUE)
 #' summary(af1)
 #' plot(af1)
 #' }
 
 af = function(mf,
-              B=60, n.c=20,
-              initial.stepwise=FALSE,
-              force.in=NULL,
-              n.cores, nvmax, c.max, screen=FALSE,  ...){
-  method="ML"
+              B = 60,
+              n.c = 20,
+              initial.stepwise = FALSE,
+              force.in = NULL,
+              cores,
+              nvmax,
+              c.max,
+              screen = FALSE,
+              ...) {
+  method = "ML"
   af.call = match.call()
-  if(!missing(c.max) & initial.stepwise==TRUE) {
-    initial.stepwise=FALSE
+  if (!missing(c.max) & initial.stepwise == TRUE) {
+    initial.stepwise = FALSE
     warning("When c.max is specified, initial.stepwise=FALSE")
   }
-  if(!any(class(mf)=="lm")){
+  if (!any(class(mf) == "lm")) {
     warning("Adaptive fence currently only implemented for lm and glm")
     model.type = "lm"
   }
-  if(any(class(mf)=="glm")==TRUE){
-    family=stats::family(mf)
-    if(!is.null(force.in)){
+  if (any(class(mf) == "glm") == TRUE) {
+    family = stats::family(mf)
+    if (!is.null(force.in)) {
       warning("force.in is not implemented for glms")
     }
-    model.type="glm"
-  } else if(class(mf)=="lm"){
-    model.type="lm"
+    model.type = "glm"
+  } else if (class(mf) == "lm") {
+    model.type = "lm"
   }
   m = mextract(mf, screen = screen)
   fixed = m$fixed
@@ -138,93 +143,151 @@ af = function(mf,
   n = m$n
   Xy$initial.weights = m$wts
   initial.weights = m$wts
-  null.ff = stats::as.formula(paste(yname,"~1"))
-  if(model.type=="glm"){
-    m0 = stats::glm(null.ff, data = Xy, family=family, weights = initial.weights)
-    mfstar = stats::glm(fixed, data = Xy, family=family, weights = initial.weights)
+  null.ff = stats::as.formula(paste(yname, "~1"))
+  if (model.type == "glm") {
+    m0 = stats::glm(null.ff,
+                    data = Xy,
+                    family = family,
+                    weights = initial.weights)
+    mfstar = stats::glm(fixed,
+                        data = Xy,
+                        family = family,
+                        weights = initial.weights)
   } else {
     m0 = stats::lm(null.ff, data = Xy, weights = initial.weights)
     mfstar = stats::lm(fixed, data = Xy, weights = initial.weights)
   }
-  Qm0 = Qm(m0, method=method)
-  Qmfstar = Qm(mfstar, method=method)
-  if(!is.null(force.in)){
-    small.ff = stats::as.formula(paste(yname,"~",paste(force.in,collapse="+")))
+  Qm0 = Qm(m0, method = method)
+  Qmfstar = Qm(mfstar, method = method)
+  if (!is.null(force.in)) {
+    small.ff = stats::as.formula(paste(yname, "~", paste(force.in, collapse =
+                                                           "+")))
   } else {
     small.ff = null.ff
   }
   if (initial.stepwise) {
-    if(model.type=="glm"){
-      small.mod = stats::glm(small.ff, data = Xy, family=family, weights = initial.weights)
+    if (model.type == "glm") {
+      small.mod = stats::glm(small.ff,
+                             data = Xy,
+                             family = family,
+                             weights = initial.weights)
     } else {
       small.mod = stats::lm(small.ff, data = Xy, weights = initial.weights)
     }
     # backwards and forwards model selection using
     # BIC (conservative) and AIC (less conservative)
-    bwds.BIC = stats::step(mfstar,
-                           scope = list(lower=small.ff, upper=fixed),
-                           direction="backward", k=log(n), trace=0)
-    fwds.BIC = stats::step(small.mod,
-                           scope = list(lower=small.ff, upper=fixed),
-                           direction="forward", k=log(n), trace=0)
-    bwds.AIC = stats::step(mfstar,
-                           scope = list(lower=small.ff, upper=fixed),
-                           direction="backward", k=2, trace=0)
-    fwds.AIC = stats::step(small.mod,
-                           scope = list(lower = small.ff, upper = fixed),
-                           direction = "forward", k = 2, trace = 0)
-    k.vals = c(length(bwds.BIC$coef),length(fwds.BIC$coef),
-               length(bwds.AIC$coef),length(fwds.AIC$coef))
+    bwds.BIC = stats::step(
+      mfstar,
+      scope = list(lower = small.ff, upper = fixed),
+      direction = "backward",
+      k = log(n),
+      trace = 0
+    )
+    fwds.BIC = stats::step(
+      small.mod,
+      scope = list(lower = small.ff, upper = fixed),
+      direction = "forward",
+      k = log(n),
+      trace = 0
+    )
+    bwds.AIC = stats::step(
+      mfstar,
+      scope = list(lower = small.ff, upper = fixed),
+      direction = "backward",
+      k = 2,
+      trace = 0
+    )
+    fwds.AIC = stats::step(
+      small.mod,
+      scope = list(lower = small.ff, upper = fixed),
+      direction = "forward",
+      k = 2,
+      trace = 0
+    )
+    k.vals = c(
+      length(bwds.BIC$coef),
+      length(fwds.BIC$coef),
+      length(bwds.AIC$coef),
+      length(fwds.AIC$coef)
+    )
     k.min = max(min(k.vals) - 2, 1)
     k.max = min(max(k.vals) + 2, kf)
-    k.range = list(k.min=k.min,k.max=k.max)
-    Q.range = qrange(k.range=k.range, data=Xy,
-                     yname=yname, fixed=fixed,
-                     method=method, force.in=force.in,
-                     model.type = model.type,
-                     family = family)
-    c.max = (Q.range$Q.max - Qmfstar)*1.1
-    c.min = max(Q.range$Q.min - Qmfstar,0)*0.9
-    c.range = seq(c.min,c.max,length.out=n.c)
-    if(missing(nvmax)) nvmax = k.max
+    k.range = list(k.min = k.min, k.max = k.max)
+    Q.range = qrange(
+      k.range = k.range,
+      data = Xy,
+      yname = yname,
+      fixed = fixed,
+      method = method,
+      force.in = force.in,
+      model.type = model.type,
+      family = family
+    )
+    c.max = (Q.range$Q.max - Qmfstar) * 1.1
+    c.min = max(Q.range$Q.min - Qmfstar, 0) * 0.9
+    c.range = seq(c.min, c.max, length.out = n.c)
+    if (missing(nvmax))
+      nvmax = k.max
   } else {
-    k.range = list(k.min=1,k.max=kf)
-    if(missing(c.max)) c.max = (Qm0-Qmfstar)*1.1
+    k.range = list(k.min = 1, k.max = kf)
+    if (missing(c.max))
+      c.max = (Qm0 - Qmfstar) * 1.1
     c.min = 0.1
-    c.range = seq(c.min,c.max,length.out=n.c)
-    if(missing(nvmax)) nvmax = kf
+    c.range = seq(c.min, c.max, length.out = n.c)
+    if (missing(nvmax))
+      nvmax = kf
   }
   
-  if(missing(n.cores)) n.cores = max(detectCores()-1,1)
-  cl.af = makeCluster(n.cores)
+  if (missing(cores))
+    cores = max(detectCores() - 1, 1)
+  cl.af = makeCluster(cores)
   doParallel::registerDoParallel(cl.af)
-  j=NULL # avoid global variable NOTE in R CMD check
-  p.star.all = foreach(j = 1:n.c, .combine=rbind, .packages = c("mplot")) %dopar% {
-    fence.mod = list()
-    fence.rank = list()
-    ystar = stats::simulate(object=mfstar,nsim=B)
-    initial.weights <<- m$wts
-    if(model.type=="glm"){
-      for(i in 1:B){
-        Xy[yname] = ystar[,i]
-        mfstarB = do.call("glm",list(fixed,data=Xy,family=family, weights = initial.weights))
-        fms = glmfence(mfstarB, cstar=c.range[j],
-                       trace=FALSE, nvmax=nvmax, adaptive=TRUE)
-        fence.mod = c(fence.mod,fms)
-        fence.rank = c(fence.rank,1:length(fms))
-      }
-    } else {
-      for(i in 1:B){
-        Xy[yname] = ystar[,i]
-        mfstarB = do.call("lm",list(fixed, data=Xy, weights = initial.weights))
-        fms = lmfence(mfstarB, cstar=c.range[j], trace=FALSE,
-                      nvmax = nvmax, force.in=force.in, adaptive=TRUE)
-        fence.mod = c(fence.mod,fms)
-        fence.rank = c(fence.rank,1:length(fms))
-      }
-    }
-    process.fn(fence.mod,fence.rank)
-  }
+  j = NULL # avoid global variable NOTE in R CMD check
+  p.star.all = foreach(j = 1:n.c,
+                       .combine = rbind,
+                       .packages = c("mplot")) %dopar% {
+                         fence.mod = list()
+                         fence.rank = list()
+                         ystar = stats::simulate(object = mfstar, nsim = B)
+                         initial.weights <<- m$wts
+                         if (model.type == "glm") {
+                           for (i in 1:B) {
+                             Xy[yname] = ystar[, i]
+                             mfstarB = do.call("glm",
+                                               list(
+                                                 fixed,
+                                                 data = Xy,
+                                                 family = family,
+                                                 weights = initial.weights
+                                               ))
+                             fms = glmfence(
+                               mfstarB,
+                               cstar = c.range[j],
+                               trace = FALSE,
+                               nvmax = nvmax,
+                               adaptive = TRUE
+                             )
+                             fence.mod = c(fence.mod, fms)
+                             fence.rank = c(fence.rank, 1:length(fms))
+                           }
+                         } else {
+                           for (i in 1:B) {
+                             Xy[yname] = ystar[, i]
+                             mfstarB = do.call("lm", list(fixed, data = Xy, weights = initial.weights))
+                             fms = lmfence(
+                               mfstarB,
+                               cstar = c.range[j],
+                               trace = FALSE,
+                               nvmax = nvmax,
+                               force.in = force.in,
+                               adaptive = TRUE
+                             )
+                             fence.mod = c(fence.mod, fms)
+                             fence.rank = c(fence.rank, 1:length(fms))
+                           }
+                         }
+                         process.fn(fence.mod, fence.rank)
+                       }
   stopCluster(cl.af)
   
   # Another function that processes results within af function
@@ -232,66 +295,81 @@ af = function(mf,
   # This function is used by the af function to process
   # the results when iterating over different boundary values
   
-  pstar.fn = function(input,type){
-    if(type=="bo"){
-      p.star = input[,1:2]
-    } else if(type=="all"){
-      p.star = input[,3:4]
+  pstar.fn = function(input, type) {
+    if (type == "bo") {
+      p.star = input[, 1:2]
+    } else if (type == "all") {
+      p.star = input[, 3:4]
     }
-    pstarmods = sort(table(p.star[,2]),decreasing=TRUE)
+    pstarmods = sort(table(p.star[, 2]), decreasing = TRUE)
     n.pstarmods = length(pstarmods)
-    p.star = data.frame(pstar = as.numeric(p.star[,1]),
-                        model = as.character(p.star[,2]),
-                        modelident = match(p.star[,2], names(pstarmods)))
-    redundent.vars = grepl("REDUNDANT.VARIABLE",as.character(p.star$model))
+    p.star = data.frame(
+      pstar = as.numeric(p.star[, 1]),
+      model = as.character(p.star[, 2]),
+      modelident = match(p.star[, 2], names(pstarmods))
+    )
+    redundent.vars = grepl("REDUNDANT.VARIABLE", as.character(p.star$model))
     c.range = c.range[!redundent.vars]
-    p.star = p.star[!redundent.vars,]
+    p.star = p.star[!redundent.vars, ]
     p.star$model = droplevels(p.star$model)
     # if want runs of (near) maximums
-    max.p = max(p.star[,1]) #- 2/B
-    tf = p.star[,1] >= max.p
+    max.p = max(p.star[, 1]) #- 2/B
+    tf = p.star[, 1] >= max.p
     a = rle(tf)
-    pos = which(a$values==TRUE)
+    pos = which(a$values == TRUE)
     # what if there was a sequence of falses of the same length?
     # keep only the position of these runs where we had true values
-    pos = pos[a$values[pos]==TRUE]
+    pos = pos[a$values[pos] == TRUE]
     mid = NA
-    for(i in 1:length(pos)){
+    for (i in 1:length(pos)) {
       # find the midpoint
-      if(pos[i]==1){
-        mid[i] = sum(a$lengths[1:pos[i]]+1)/2
+      if (pos[i] == 1) {
+        mid[i] = sum(a$lengths[1:pos[i]] + 1) / 2
       } else {
-        mid[i] = (sum(a$length[1:pos[i]]) + sum(a$lengths[1:(pos[i]-1)])+1)/2
+        mid[i] = (sum(a$length[1:pos[i]]) + sum(a$lengths[1:(pos[i] - 1)]) + 1) /
+          2
       }
     }
     mid = floor(mid)
     c.star = min(c.range[mid])
-    if(model.type=="glm"){
-      afmod = glmfence(mf, cstar=c.star,
-                       trace=FALSE, nvmax=nvmax)[[1]]
+    if (model.type == "glm") {
+      afmod = glmfence(mf,
+                       cstar = c.star,
+                       trace = FALSE,
+                       nvmax = nvmax)[[1]]
     } else {
-      afmod = lmfence(mf, cstar=c.star, trace=FALSE,
-                      nvmax=nvmax, force.in=force.in)[[1]]
+      afmod = lmfence(
+        mf,
+        cstar = c.star,
+        trace = FALSE,
+        nvmax = nvmax,
+        force.in = force.in
+      )[[1]]
     }
-    p.star[,1] = as.numeric(as.character(p.star[,1]))
-    return(list(p.star=p.star,
-                c.range=c.range,
-                c.star=c.star,
-                model = afmod))
+    p.star[, 1] = as.numeric(as.character(p.star[, 1]))
+    return(list(
+      p.star = p.star,
+      c.range = c.range,
+      c.star = c.star,
+      model = afmod
+    ))
   }
   # set up the output object class
   afout = list()
-  afout$bestOnly = pstar.fn(p.star.all,type="bo")
-  afout$all = pstar.fn(p.star.all,type="all")
+  afout$bestOnly = pstar.fn(p.star.all, type = "bo")
+  afout$all = pstar.fn(p.star.all, type = "all")
   afout$call = af.call
   afout$screen = screen
-  if(initial.stepwise){
+  if (initial.stepwise) {
     afout$initial.stepwise = list(
       fwds.AIC = stats::as.formula(fwds.AIC),
       fwds.BIC = stats::as.formula(fwds.BIC),
       bwds.AIC = stats::as.formula(bwds.AIC),
-      bwds.BIC = stats::as.formula(bwds.BIC))
-  } else {afout$initial.stepwise=NULL}
+      bwds.BIC = stats::as.formula(bwds.BIC)
+    )
+  } else {
+    afout$initial.stepwise = NULL
+  }
   afout$k.range = k.range
   class(afout) = "af"
   return(afout)
@@ -311,16 +389,18 @@ af = function(mf,
 #' @param ... further arguments (currently unused)
 #' @export
 # S3 method for class 'af'
-summary.af = function (object,best.only=TRUE,...) {
-  if(best.only){
+summary.af = function (object, best.only = TRUE, ...) {
+  if (best.only) {
     xsub = object$bestOnly
   } else {
     xsub = object$all
   }
-  cat("\nCall:\n", paste(deparse(object$call), sep = "\n", collapse = "\n"),
-      "\n\n", sep = "")
+  cat("\nCall:\n",
+      paste(deparse(object$call), sep = "\n", collapse = "\n"),
+      "\n\n",
+      sep = "")
   cat("Adaptive fence model (c*=")
-  cat(round(xsub$c.star,1))
+  cat(round(xsub$c.star, 1))
   cat("):\n")
   cat(deparse(xsub$model))
   cat("\n\n")
@@ -330,7 +410,7 @@ summary.af = function (object,best.only=TRUE,...) {
   cat(object$k.range$k.max)
   cat(" (including intercept).")
   cat("\n\n")
-  if(!is.null(object$initial.stepwise)){
+  if (!is.null(object$initial.stepwise)) {
     cat("Stepwise procedures:\n")
     cat("Forwards AIC: ")
     cat(deparse(object$initial.stepwise$fwds.AIC))
@@ -352,20 +432,20 @@ summary.af = function (object,best.only=TRUE,...) {
 #' Plot diagnostics for an af object
 #'
 #' Summary plot of the bootstrap results of an af object.
-#' 
-#' For each value of \eqn{c}{c} a parametric 
-#' bootstrap is performed under the full model.  
-#' For each bootstrap 
-#' sample we identify the smallest model inside the fence, 
-#' \eqn{\hat{\alpha}(c)}{hat{alpha}(c)}.   We calculate the empirical probability of selecting 
-#' model \eqn{\alpha}{alpha} for a given value of \eqn{c}{c} as 
-#' \deqn{p^*(c,\alpha)=P^*\{\hat{\alpha}(c)=\alpha\}.}{p*(c,alpha)=P*{hat{alpha}(c)=alpha}.}  
-#' Hence, if \eqn{B}{B} bootstrap replications are performed, 
-#' \eqn{p^*(c,\alpha)}{p^*(c,alpha)} is the 
-#' proportion of times that model \eqn{\alpha}{alpha} is selected.  Finally, 
-#' define an overall selection probability, 
-#' \deqn{p^*(c)=\max_{\alpha\in\mathcal{A}}p^*(c,\alpha)}{p*(c)=max_{alpha in mathcal{A}}p*(c,alpha)} and we plot 
-#' \eqn{p^*(c)}{p*(c)} against \eqn{c}{c}. The points on the scatter plot are 
+#'
+#' For each value of \eqn{c}{c} a parametric
+#' bootstrap is performed under the full model.
+#' For each bootstrap
+#' sample we identify the smallest model inside the fence,
+#' \eqn{\hat{\alpha}(c)}{hat{alpha}(c)}.   We calculate the empirical probability of selecting
+#' model \eqn{\alpha}{alpha} for a given value of \eqn{c}{c} as
+#' \deqn{p^*(c,\alpha)=P^*\{\hat{\alpha}(c)=\alpha\}.}{p*(c,alpha)=P*{hat{alpha}(c)=alpha}.}
+#' Hence, if \eqn{B}{B} bootstrap replications are performed,
+#' \eqn{p^*(c,\alpha)}{p^*(c,alpha)} is the
+#' proportion of times that model \eqn{\alpha}{alpha} is selected.  Finally,
+#' define an overall selection probability,
+#' \deqn{p^*(c)=\max_{\alpha\in\mathcal{A}}p^*(c,\alpha)}{p*(c)=max_{alpha in mathcal{A}}p*(c,alpha)} and we plot
+#' \eqn{p^*(c)}{p*(c)} against \eqn{c}{c}. The points on the scatter plot are
 #' colour coded by the model that yielded the highest inclusion probability.
 #'
 #' @param x \code{af} object, the result of \code{\link{af}}
@@ -373,8 +453,8 @@ summary.af = function (object,best.only=TRUE,...) {
 #'   googleVis plot is provided instead of the base graphics plot.
 #'   Default is \code{interactive=FALSE}.
 #' @param classic logical.  Depricated. If \code{classic=TRUE} a
-#'   base graphics plot is provided instead of a googleVis plot. 
-#'   For now specifying \code{classic} will overwrite the 
+#'   base graphics plot is provided instead of a googleVis plot.
+#'   For now specifying \code{classic} will overwrite the
 #'   default \code{interactive} behaviour, though this is
 #'   likely to be removed in the future.
 #' @param best.only logical determining whether the output used the
@@ -384,22 +464,22 @@ summary.af = function (object,best.only=TRUE,...) {
 #'   value (\code{FALSE}).
 #' @param pch plotting character, i.e., symbol to use
 #' @param model.wrap Optional parameter to split the legend names
-#'   if they are too long for classic plots.  \code{model.wrap=2} 
+#'   if they are too long for classic plots.  \code{model.wrap=2}
 #'   means that there will be two variables per line,  \code{model.wrap=2}
 #'   gives three variables per line and \code{model.wrap=4} gives 4
 #'   variables per line.
-#' @param legend.space Optional parameter to add additional space 
+#' @param legend.space Optional parameter to add additional space
 #'   between the legend items for the classic plot.
-#' @param tag Default NULL. Name tag of the objects to be extracted 
-#' from a gvis (googleVis) object. 
-#' 
-#' The default tag for is NULL, which will 
-#' result in R opening a browser window.  Setting \code{tag='chart'} 
-#' or setting \code{options(gvis.plot.tag='chart')} is useful when 
-#' googleVis is used in scripts, like knitr or rmarkdown. 
-#' 
+#' @param tag Default NULL. Name tag of the objects to be extracted
+#' from a gvis (googleVis) object.
+#'
+#' The default tag for is NULL, which will
+#' result in R opening a browser window.  Setting \code{tag='chart'}
+#' or setting \code{options(gvis.plot.tag='chart')} is useful when
+#' googleVis is used in scripts, like knitr or rmarkdown.
+#'
 #' @param shiny Default FALSE. Set to TRUE when using in a shiny interface.
-#' 
+#'
 #' @param width Width of the googleVis chart canvas area, in pixels.
 #'   Default: 800.
 #' @param height Height of the googleVis chart canvas area, in pixels.
@@ -425,58 +505,79 @@ summary.af = function (object,best.only=TRUE,...) {
 #' @param ... further arguments (currently unused)
 #' @export
 # S3 method for class 'af'
-plot.af = function(x, pch, interactive = FALSE, classic = NULL, 
-                   tag = NULL, shiny = FALSE, 
+plot.af = function(x,
+                   pch,
+                   interactive = FALSE,
+                   classic = NULL,
+                   tag = NULL,
+                   shiny = FALSE,
                    best.only = FALSE,
-                   width = 800, height = 400, fontSize = 12,
-                   left = 50, top = 30, chartWidth = "60%",
+                   width = 800,
+                   height = 400,
+                   fontSize = 12,
+                   left = 50,
+                   top = 30,
+                   chartWidth = "60%",
                    chartHeight = "80%",
                    backgroundColor = 'transparent',
-                   legend.position = "top", model.wrap = NULL,
+                   legend.position = "top",
+                   model.wrap = NULL,
                    legend.space = NULL,
-                   options=NULL, ...){
-  
-  if (!is.null(classic)) interactive = !classic
+                   options = NULL,
+                   ...) {
+  if (!is.null(classic))
+    interactive = !classic
   
   if (best.only) {
     x = x$bestOnly
   } else {
     x = x$all
   }
-  if(!interactive){
-    
-    ggdf = cbind(x$p.star,c.range=x$c.range)
-    if(is.numeric(model.wrap)){
-      if(model.wrap==1){
-        ggdf$model = base::gsub("([^\\+]*\\+)","\\1\n", ggdf$model)    
-      } else if(model.wrap==2){
-        ggdf$model = base::gsub("([^\\+]*\\+[^\\+]*\\+)","\\1\n", ggdf$model)    
-      } else if(model.wrap==3){
-        ggdf$model = base::gsub("([^\\+]*\\+[^\\+]*\\+[^\\+]*\\+)","\\1\n", ggdf$model)    
-      } else if(model.wrap==4){
-        ggdf$model = base::gsub("([^\\+]*\\+[^\\+]*\\+[^\\+]*\\+[^\\+]*\\+)","\\1\n", ggdf$model)    
+  if (!interactive) {
+    ggdf = cbind(x$p.star, c.range = x$c.range)
+    if (is.numeric(model.wrap)) {
+      if (model.wrap == 1) {
+        ggdf$model = base::gsub("([^\\+]*\\+)", "\\1\n", ggdf$model)
+      } else if (model.wrap == 2) {
+        ggdf$model = base::gsub("([^\\+]*\\+[^\\+]*\\+)", "\\1\n", ggdf$model)
+      } else if (model.wrap == 3) {
+        ggdf$model = base::gsub("([^\\+]*\\+[^\\+]*\\+[^\\+]*\\+)",
+                                "\\1\n",
+                                ggdf$model)
+      } else if (model.wrap == 4) {
+        ggdf$model = base::gsub("([^\\+]*\\+[^\\+]*\\+[^\\+]*\\+[^\\+]*\\+)",
+                                "\\1\n",
+                                ggdf$model)
       } else {
         warning("The model.wrap parameter can only be 1, 2, 3, 4 or NULL.")
       }
     }
     
     
-    p = ggplot2::ggplot(data = ggdf, ggplot2::aes(x=c.range,y=pstar,color=model)) + 
-      ggplot2::geom_point() + 
-      ggplot2::ylim(0,1) +
-      ggplot2::theme_bw(base_size = 14) + 
-      ggplot2::ylab("p*") + 
-      ggplot2::xlab("c") + 
-      ggplot2::theme(legend.title = ggplot2::element_blank(),
-                     legend.key = ggplot2::element_blank(),
-                     legend.position = legend.position) 
-    if(!is.null(legend.space)) {
-    p = p + ggplot2::guides(color = ggplot2::guide_legend(
-      keyheight = legend.space,
-      keywidth = legend.space,
-      default.unit = "inch"))      
+    p = ggplot2::ggplot(data = ggdf,
+                        ggplot2::aes_string(x = "c.range",
+                                            y = "pstar",
+                                            color = "model")) +
+      ggplot2::geom_point() +
+      ggplot2::ylim(0, 1) +
+      ggplot2::theme_bw(base_size = 14) +
+      ggplot2::ylab("p*") +
+      ggplot2::xlab("c") +
+      ggplot2::theme(
+        legend.title = ggplot2::element_blank(),
+        legend.key = ggplot2::element_blank(),
+        legend.position = legend.position
+      )
+    if (!is.null(legend.space)) {
+      p = p + ggplot2::guides(
+        color = ggplot2::guide_legend(
+          keyheight = legend.space,
+          keywidth = legend.space,
+          default.unit = "inch"
+        )
+      )
     }
-
+    
     
     return(p)
     
@@ -491,42 +592,55 @@ plot.af = function(x, pch, interactive = FALSE, classic = NULL,
     # graphics::axis(side=3, at=x$c.star,
     #                labels=paste("c*=", round(x$c.star,1),sep=""))
   } else {
-    dat <- matrix(NA, nrow = nrow(x$p.star),
+    dat <- matrix(NA,
+                  nrow = nrow(x$p.star),
                   ncol = nlevels(x$p.star$model) + 1)
-    for(i in 1:nlevels(x$p.star$model)){
+    for (i in 1:nlevels(x$p.star$model)) {
       lvl <- levels(x$p.star$model)[i]
       ind <- which(x$p.star$model == lvl)
-      dat[ind, c(1, i+1)] <- x$p.star$pstar[ind]
+      dat[ind, c(1, i + 1)] <- x$p.star$pstar[ind]
     }
     plot.dat = data.frame(c.range = as.numeric(x$c.range),
-                          dat[,-1])
-    colnames(plot.dat) = c("c.range",levels(x$p.star$model))
-    plot.dat = round(plot.dat,2)
+                          dat[, -1])
+    colnames(plot.dat) = c("c.range", levels(x$p.star$model))
+    plot.dat = round(plot.dat, 2)
     # FOR FUN ON A RAINY DAY
     # INCLUDE ANNOTATION USING `ROLES'
     # SEE HERE: http://cran.r-project.org/web/packages/
     # googleVis/vignettes/Using_Roles_via_googleVis.html
-    gvis.title = paste("Adaptive fence: c*=",round(x$c.star,1),sep="")
+    gvis.title = paste("Adaptive fence: c*=", round(x$c.star, 1), sep =
+                         "")
     namefunc <- function(v1) {
       deparse(substitute(v1))
     }
-    chartArea = paste("{left:",left,
-                      ",top:",top,
-                      ",width:'",chartWidth,
-                      "',height:'",chartHeight,"'}",sep="")
-    if(is.null(options)){
-      options=list(title=gvis.title,
-                   fontSize=fontSize,
-                   vAxis="{title:'p*',minValue:0,maxValue:1,
-                           ticks: [0.0,0.2,0.4,0.6,0.8,1.0]}",
-                   hAxis="{title:'c'}",
-                   axisTitlesPosition="out",
-                   chartArea=chartArea,
-                   backgroundColor=backgroundColor,
-                   width=width, height=height)
+    chartArea = paste(
+      "{left:",
+      left,
+      ",top:",
+      top,
+      ",width:'",
+      chartWidth,
+      "',height:'",
+      chartHeight,
+      "'}",
+      sep = ""
+    )
+    if (is.null(options)) {
+      options = list(
+        title = gvis.title,
+        fontSize = fontSize,
+        vAxis = "{title:'p*',minValue:0,maxValue:1,
+        ticks: [0.0,0.2,0.4,0.6,0.8,1.0]}",
+        hAxis = "{title:'c'}",
+        axisTitlesPosition = "out",
+        chartArea = chartArea,
+        backgroundColor = backgroundColor,
+        width = width,
+        height = height
+      )
     }
-    fplot = googleVis::gvisScatterChart(data=plot.dat,options=options)
-    if(shiny){
+    fplot = googleVis::gvisScatterChart(data = plot.dat, options = options)
+    if (shiny) {
       return(fplot)
     } else {
       return(graphics::plot(fplot, tag = tag))
@@ -549,16 +663,18 @@ plot.af = function(x, pch, interactive = FALSE, classic = NULL,
 #' @param ... further arguments (currently unused)
 #' @export
 # S3 print method for class 'af'
-print.af = function (x, best.only=TRUE, ...) {
-  if(best.only){
+print.af = function (x, best.only = TRUE, ...) {
+  if (best.only) {
     x = x$bestOnly
   } else {
     x = x$all
   }
-  cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"),
-      "\n\n", sep = "")
+  cat("\nCall:\n",
+      paste(deparse(x$call), sep = "\n", collapse = "\n"),
+      "\n\n",
+      sep = "")
   cat("Adaptive fence model (c*=")
-  cat(round(x$c.star,1))
+  cat(round(x$c.star, 1))
   cat("):\n")
   cat(deparse(x$model))
   cat("\n\n")

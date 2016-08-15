@@ -8,7 +8,7 @@
   tag = NULL, shiny = FALSE, which = c("boot", "vip", "lvk"),
   width = 800, height = 400, fontSize = 12, left = 50, top = 30,
   chartWidth = "60\%", chartHeight = "80\%", axisTitlesPosition = "out",
-  dataOpacity = 0.5, options = NULL, hAxis.logScale = TRUE,
+  dataOpacity = 0.5, options = NULL, hAxis.logScale = TRUE, ylim,
   backgroundColor = "transparent", plb = 0.1, ...)
 }
 \arguments{
@@ -77,6 +77,8 @@ complete control over the output.  Specifying a value for
 
 \item{hAxis.logScale}{logical, whether or not to use a log scale on
 the horizontal axis. Default = TRUE.}
+
+\item{ylim}{the y limits of the \code{which="boot"} plots.}
 
 \item{backgroundColor}{The background colour for the main area
 of the chart. A simple HTML color string,

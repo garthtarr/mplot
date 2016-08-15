@@ -5,7 +5,7 @@
 \title{The adaptive fence procedure}
 \usage{
 af(mf, B = 60, n.c = 20, initial.stepwise = FALSE, force.in = NULL,
-  n.cores, nvmax, c.max, screen = FALSE, ...)
+  cores, nvmax, c.max, screen = FALSE, ...)
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call
@@ -23,7 +23,7 @@ should be focussed. See details for implementation.}
 \item{force.in}{the names of variables that should be forced
 into all estimated models}
 
-\item{n.cores}{number of cores to be used when parallel
+\item{cores}{number of cores to be used when parallel
 processing the bootstrap}
 
 \item{nvmax}{size of the largest model that can still be
@@ -108,7 +108,7 @@ y = 1 + x1 + x2 + e
 dat = data.frame(y,x1,x2,x3,x4,x5,x6)
 lm1 = lm(y~.,data=dat)
 \dontrun{
-af1 = af(lm1, n.cores=4, initial.stepwise=TRUE)
+af1 = af(lm1, cores=4, initial.stepwise=TRUE)
 summary(af1)
 plot(af1)
 }

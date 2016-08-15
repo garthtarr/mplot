@@ -4,8 +4,8 @@
 \alias{vis}
 \title{Model stability and variable inclusion plots}
 \usage{
-vis(mf, nvmax, B = 100, lambda.max, nbest = "all", glmulti = FALSE,
-  n.cores, force.in = NULL, screen = FALSE, redundant = TRUE, ...)
+vis(mf, nvmax, B = 100, lambda.max, nbest = "all", use.glmulti = FALSE,
+  cores, force.in = NULL, screen = FALSE, redundant = TRUE, ...)
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call
@@ -23,10 +23,10 @@ defaults to 2*log(n)}
 that will be considered for the lvk plot. Can also take
 a value of \code{"all"} which displays all models.}
 
-\item{glmulti}{logical. Whether to use the glmulti package
-instead of bestglm. Default \code{glmulti=FALSE}.}
+\item{use.glmulti}{logical. Whether to use the glmulti package
+instead of bestglm. Default \code{use.glmulti=FALSE}.}
 
-\item{n.cores}{number of cores to be used when parallel
+\item{cores}{number of cores to be used when parallel
 processing the bootstrap}
 
 \item{force.in}{the names of variables that should be forced
@@ -50,7 +50,7 @@ and bootstrap enhanced model stability plots (\code{lvk} and
 The result of this function is essentially just a
   list. The supplied plot method provides a way to visualise the
   results.
-  
+
   See \code{?plot.vis} or \code{help("plot.vis")} for details of the
   plot method associated with the result.
 }

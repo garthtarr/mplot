@@ -6,7 +6,7 @@
 #' @param nlambda how many penalty values to consider.  Default = 100.
 #' @param lambda manually specify the penalty values (optional).
 #' @param B number of bootstrap replications
-#' @param n.cores number of cores to be used when parallel
+#' @param cores number of cores to be used when parallel
 #'   processing the bootstrap (Not yet implemented.)
 #' @param force.in the names of variables that should be forced
 #'   into all estimated models. (Not yet implemented.)
@@ -30,14 +30,14 @@
 
 bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
                    penalty.factor, screen = FALSE,
-                   n.cores = NULL,
+                   cores = NULL,
                    force.in = NULL) {
   m = mextract(mf, screen = screen)
   fixed = m$fixed
   yname = m$yname
   family = m$family
   fam = family$family
-  if(!is.element(fam,c("gaussian", "binomial", "poisson","multinomial", "cox", "mgaussian"))){
+  if (!is.element(fam,c("gaussian", "binomial", "poisson","multinomial", "cox", "mgaussian"))) {
     stop(paste("family is",fam,
                "but it needs to be one of gaussian, binomial, poisson, multinomial, cox, mgaussian"),
          call. = FALSE)
@@ -177,6 +177,7 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
 #' @param plb lower bound on the probability of a model being selected. If
 #'   a model has a selection probability lower than plb it will not be
 #'   plotted.
+#' @param ylim the y limits of the \code{which="boot"} plots.
 #' @param hAxis.logScale logical, whether or not to use a log scale on
 #'   the horizontal axis. Default = TRUE.
 #' @param ... further arguments (currently unused)
@@ -196,6 +197,7 @@ plot.bglmnet = function(x, highlight, interactive = FALSE,
                         dataOpacity=0.5,
                         options=NULL,
                         hAxis.logScale = TRUE,
+                        ylim,
                         backgroundColor = 'transparent',
                         plb = 0.1, ...) {
   if (!is.null(classic)) interactive = !classic
@@ -259,17 +261,18 @@ plot.bglmnet = function(x, highlight, interactive = FALSE,
       
       
       
-      p = ggplot2::ggplot(data=df.sub,
-                          ggplot2::aes(x = l.vec, y = ll,
-                                       color = mod.names,
-                                       group = var.ident,
-                                       label = mod.names)) + 
-        ggplot2::geom_jitter(ggplot2::aes(size=mod.vec.prob,
-                                          fill=mod.names),
-                             shape=21,
-                             width=0.1,
-                             alpha=0.4) + 
-        ggplot2::scale_x_continuous(trans=reverselog_trans()) +
+      p = ggplot2::ggplot(data = df.sub,
+                          ggplot2::aes_string(x = "l.vec", 
+                                       y = "ll",
+                                       color = "mod.names",
+                                       group = "var.ident",
+                                       label = "mod.names")) + 
+        ggplot2::geom_jitter(ggplot2::aes_string(size = "mod.vec.prob",
+                                          fill = "mod.names"),
+                             shape = 21,
+                             width = 0.1,
+                             alpha = 0.4) + 
+        ggplot2::scale_x_continuous(trans = reverselog_trans()) +
         ggplot2::theme_bw(base_size = 14) + 
         ggplot2::ylab("-2*Log-likelihood") + 
         ggplot2::xlab("Penalty parameter") + 
@@ -291,7 +294,7 @@ plot.bglmnet = function(x, highlight, interactive = FALSE,
         #   )
         # )
       
-      if(!missing(ylim)) 
+      if (!missing(ylim)) 
         p = p + ggplot2::ylim(ylim[1],ylim[2])
       
       return(p)

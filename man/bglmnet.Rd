@@ -5,7 +5,7 @@
 \title{Model stability and variable importance plots for glmnet}
 \usage{
 bglmnet(mf, nlambda = 100, lambda = NULL, B = 100, penalty.factor,
-  screen = FALSE, n.cores = NULL, force.in = NULL)
+  screen = FALSE, cores = NULL, force.in = NULL)
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call
@@ -29,7 +29,7 @@ to sum to nvars, and the lambda sequence will reflect this change.}
 screen for outliers.  Highly experimental, use at own risk.
 Default = FALSE.}
 
-\item{n.cores}{number of cores to be used when parallel
+\item{cores}{number of cores to be used when parallel
 processing the bootstrap (Not yet implemented.)}
 
 \item{force.in}{the names of variables that should be forced
