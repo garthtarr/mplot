@@ -11,8 +11,8 @@
 #' @param B number of bootstrap replications
 #' @param lambda.max maximum penalty value for the vip plot,
 #'   defaults to 2*log(n)
-#' @param glmulti logical. Whether to use the glmulti package
-#'   instead of bestglm. Default \code{glmulti=FALSE}.
+#' @param use.glmulti logical. Whether to use the glmulti package
+#'   instead of bestglm. Default \code{use.glmulti=FALSE}.
 #' @param nbest maximum number of models at each model size
 #'   that will be considered for the lvk plot. Can also take
 #'   a value of \code{"all"} which displays all models.
@@ -61,19 +61,21 @@
 #' plot(v1,highlight="x1")
 #' }
 
-vis=function(mf, nvmax, B=100, lambda.max, nbest="all",glmulti=FALSE,
+vis=function(mf, nvmax, B=100, lambda.max, nbest="all", use.glmulti=FALSE,
              n.cores, force.in=NULL, screen=FALSE,
              redundant=TRUE,...){
   # redundant not supported with glmulti yet
-  if(glmulti) redundant = FALSE
+  if(use.glmulti) redundant = FALSE
   
-  m = mextract(mf,screen=screen,redundant=redundant)
+  m = mextract(mf, screen = screen,
+               redundant = redundant)
   fixed = m$fixed
   yname = m$yname
   family = m$family
   X = m$X
   kf = m$k
   n = m$n
+  
   initial.weights = m$wts
   if(missing(nvmax)) nvmax = kf
   if(nbest=="all") {
@@ -119,7 +121,7 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest="all",glmulti=FALSE,
   
   ## Initial single pass
   ## (gives the minimum envelopping set of models)
-  if (any(class(mf) == "glm") == TRUE & !glmulti) {
+  if (any(class(mf) == "glm") == TRUE & !use.glmulti) {
     # no redundant variable
     # Xy = X
     # Xy$REDUNDANT.VARIABLE = NULL # do want to keep it in
@@ -143,36 +145,55 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest="all",glmulti=FALSE,
     # -(n/2) * log(sum(resid(ans)^2)/n) is used
     # note the bic in bestglm is calculated as:
     # -2*rs.all$logLikelihood + log(n)*(rs.all$k-1)
-  } else if (any(class(mf) == "glm") == TRUE & glmulti) {
+  } else if (any(class(mf) == "glm") == TRUE & use.glmulti) {
+    
+    
     
     glmulti.trans = function(x){
       form.list = lapply(x@formulas,all.vars)
       vars = sort(unique(unlist(form.list)))
       res.mat = data.matrix(sapply(vars, function(x) lapply(form.list, function(y) 1*any(is.element(x, y)))))
-      res.mat = data.frame(res.mat, aic = x@crits, k = x@K)
+      res.mat = data.frame(res.mat, ll = x@crits, k = x@K)
     }
+    n.obs = n 
+    mf <<- mf
+    fam <<- family
+    initial.weights <<- initial.weights
     
     dryrun = glmulti::glmulti(formula(mf),
                               level = 1, marginality = TRUE,
-                              data = model.frame(mf),  method = "d")
+                              data = stats::model.frame(mf),  method = "d",
+                              fitfunction = "glm",
+                              plotty = F, report = F,
+                              includeobjects = FALSE,
+                              family = stats::family(mf)[[1]],
+                              weights = mf$initial.weights)
+    
+    dryrun <<- as.numeric(dryrun)
+    
+    n= nobs(mf)
     
     em = glmulti::glmulti(stats::formula(mf),
                           data = stats::model.frame(mf),
                           level = 1,
                           marginality = TRUE,
                           method = "h",
+                          confsetsize = dryrun, 
                           fitfunction = "glm",
+                          crit = "ll",
                           plotty = F, report = F,
-                          includeobjects=FALSE,
-                          family = stats::family(mf),
-                          weights = mf$weights)
+                          includeobjects = FALSE,
+                          family = stats::family(mf)[[1]],
+                          weights = mf$initial.weights)
     rs.temp = glmulti.trans(em)
     var.order = all.vars(stats::formula(mf))
     rs.all = rs.temp[,var.order]
-    rs.all$logLikelihood = -(rs.temp$aic - 2*(rs.temp$k))/2
-    rs.all$bic = -2*rs.all$logLikelihood + rs.temp$k*log(n)
-    rs.all$aic = rs.temp$aic
+    rs.all$logLikelihood = rs.temp$ll # -(rs.temp$bic - log(n)*(rs.temp$k))/2
+    rs.all$bic = -2*rs.all$logLikelihood +  log(n)*(rs.temp$k)# -2*rs.all$logLikelihood + rs.temp$k*log(n)
+    rs.all$aic = -2*rs.all$logLikelihood +  2*(rs.temp$k) #rs.temp$aic
     rs.all$k = rs.temp$k
+    
+    
     
   } else {
     em = leaps::regsubsets(x = fixed,
@@ -198,22 +219,30 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest="all",glmulti=FALSE,
     # differs from the bestglm BIC buy a constant
   }
   
-  nms = colnames(rs.all)[2:kf]
-  nm = apply(rs.all[,2:kf],1,function(x) {
-    Reduce(paste,paste(nms[x == 1],sep = "",collapse = "+"))
-  })
+  if(use.glmulti) {
+    nms = all.vars(formula(mf))
+    nms = nms[nms!=yname]
+    nm = apply(rs.all[,nms],1,function(x) {
+      Reduce(paste,paste(nms[x == 1],sep = "",collapse = "+"))
+    })
+  } else {
+    nms = colnames(rs.all)[2:kf]
+    nm = apply(rs.all[,2:kf],1,function(x) {
+      Reduce(paste,paste(nms[x == 1],sep = "",collapse = "+"))
+    })
+  }
   nm[nm == ""] = "1"
   nm = paste(yname,"~",nm,sep = "")
   nm = gsub(pattern = " ",replacement = "",x = nm)
   nm = gsub(pattern = "REDUNDANT.VARIABLE","RV",x = nm)
-  rs.all$name = nm
-  res.single.pass = rs.all
+  res.single.pass = base::data.frame(base::data.matrix(rs.all))
+  res.single.pass$name = nm
   
   ## Bootstrap version:
   if (missing(n.cores)) n.cores = max(detectCores() - 1, 1)
   cl.visB = parallel::makeCluster(n.cores)
   doParallel::registerDoParallel(cl.visB)
-  if (any(class(mf) == "glm") == TRUE & !glmulti) {
+  if (any(class(mf) == "glm") == TRUE & !use.glmulti) {
     res = foreach(b = 1:B, .packages = c("bestglm")) %dopar% {
       wts = stats::rexp(n = n, rate = 1)*initial.weights
       
@@ -234,14 +263,14 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest="all",glmulti=FALSE,
       # note the bic in bestglm is calculated as:
       # -2*rs.all$logLikelihood + log(n)*(rs.all$k-1)
     } 
-  } else if (any(class(mf) == "glm") == TRUE & glmulti) {
+  } else if (any(class(mf) == "glm") == TRUE & use.glmulti) {
     res = foreach(b = 1:B, .packages = c("glmulti","dplyr")) %dopar% {
       
       mf <<- mf
       fam <<- family
       initial.weights <<- initial.weights
+      n.obs <<- n.obs
       dryrun <<- dryrun
-      wts <<- stats::rexp(n = n, rate = 1)*initial.weights
       
       em <-
         glmulti::glmulti(formula(mf),
@@ -249,25 +278,24 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest="all",glmulti=FALSE,
                          marginality = TRUE,
                          data = model.frame(mf), 
                          method = "h",            # Exhaustive approach
-                         crit = "aic",            # AIC as criteria
+                         crit = "ll",            # AIC as criteria
                          confsetsize = dryrun,         # Keep 5 best models
                          plotty = FALSE, report = FALSE,  # No plot or interim reports
                          fitfunction = "glm",     # glm function
+                         includeobjects = FALSE,
                          family = fam,
-                         weights = wts)       # binomial family for logistic regression
+                         weights = I(stats::rexp(n = n.obs, rate = 1)*initial.weights))       # binomial family for logistic regression
       
       rs.temp = glmulti.trans(em)
       var.order = all.vars(stats::formula(mf))
       rs.all = rs.temp[,var.order]
-      rs.all$logLikelihood = -(rs.temp$aic - 2*(rs.temp$k))/2
+      rs.all$logLikelihood = rs.temp$ll #-(rs.temp$aic - 2*(rs.temp$k))/2
       rs.all$bic = -2*rs.all$logLikelihood + rs.temp$k*log(n)
-      rs.all$aic = rs.temp$aic
+      rs.all$aic = -2*rs.all$logLikelihood + rs.temp$k*2 #rs.temp$aic
       rs.all$k = rs.temp$k
-      rs.all %>% 
-        dplyr::group_by(k) %>% 
-        dplyr::filter(logLikelihood==max(logLikelihood)) %>% 
-        base::data.matrix() %>%
-        base::data.frame()
+      rs.all = dplyr::filter(dplyr::group_by(rs.all,k),logLikelihood==max(logLikelihood))
+      rs.all = base::data.frame(base::data.matrix(rs.all))
+        
     } 
   } else {
     res = foreach(b = 1:B, .packages = c("leaps")) %dopar% {
@@ -300,13 +328,23 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest="all",glmulti=FALSE,
   ### Variable inclusion Plot Calculations
   if (missing(lambda.max)) lambda.max = 2*log(n)
   lambdas = seq(0,lambda.max,0.01)
-  var.in = matrix(NA,ncol=kf,nrow=length(lambdas))
-  colnames(var.in) = colnames(res[[1]][1:kf])
+  
+  if(use.glmulti) {
+    nms = all.vars(formula(mf))
+    nms = nms[nms!=yname]
+    real.k = length(nms)+1
+  } else {
+    real.k = kf
+  }
+  
+  var.in = matrix(NA,ncol=real.k,nrow=length(lambdas))
+  colnames(var.in) = colnames(res[[1]][1:real.k])
+  
   rownames(var.in) = lambdas
   for(i in 1:length(lambdas)){
     resl = lapply(res, function(x) -2*x$logLikelihood+lambdas[i]*x$k)
     min.pos = unlist(lapply(resl,which.min))
-    temp.best = mapply(function(x,row) {x[row,1:kf]}, res, min.pos, SIMPLIFY=TRUE)
+    temp.best = mapply(function(x,row) {x[row,1:real.k]}, res, min.pos, SIMPLIFY=TRUE)
     temp.best = matrix(as.numeric(temp.best),nrow=dim(temp.best)[1],dimnames=dimnames(temp.best))
     var.in[i,] = rowSums(temp.best)
   }
@@ -319,23 +357,36 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest="all",glmulti=FALSE,
   res.best = lapply(res,best.within.size)
   
   res.df = do.call(rbind.data.frame,res.best)
-  res.df = plyr::count(df = res.df,vars = 1:kf)
-  res.df$logLikelihood = NA
-  res.df$name = NA
-  res.df$k = rowSums(res.df[,1:kf])
+  
+  if (use.glmulti) {
+    res.df = dplyr::group_by(res.df,k) 
+    res.df = dplyr::count_(res.df,vars = nms) 
+    res.df = base::data.frame(base::data.matrix(res.df))
+    res.df$freq = res.df$n
+    res.df$n = NULL
+  } else {
+    res.df = plyr::count(df = res.df,vars = 1:real.k)
+    res.df$logLikelihood = NA
+    res.df$name = NA
+    res.df$k = rowSums(res.df[,1:real.k])
+  }
+  
   
   # iterate over all required models on the original date
   # to obtain logLiks (in future could extract other stats)
   for(i in 1:dim(res.df)[1]){
     ff = paste(yname," ~ ",
-               paste(colnames(res.df[2:kf])[res.df[i,2:kf]==1],collapse="+"),sep="")
+               paste(colnames(res.df[2:real.k])[res.df[i,2:real.k]==1],collapse="+"),sep="")
     if(ff == paste(yname," ~ ",sep="")){
       ff = stats::as.formula(paste(yname,"~1"))
     } else {
       ff = stats::as.formula(ff)
     }
-    if(any(class(mf)=="glm")==TRUE){
+    # redo this to access previous estimated models
+    if(any(class(mf)=="glm")==TRUE & !use.glmulti) {
       em = stats::glm(formula=ff, data=X, family=family,weights=initial.weights)
+    } else if(any(class(mf)=="glm")==TRUE & use.glmulti) {
+      em = stats::glm(formula=ff, data=model.frame(mf), family=family,weights=initial.weights)
     } else {
       em = stats::lm(formula=ff, data=X,weights=initial.weights)
     }
@@ -353,7 +404,9 @@ vis=function(mf, nvmax, B=100, lambda.max, nbest="all",glmulti=FALSE,
                 screen = screen,
                 mextract = m,
                 lambdas = lambdas,
-                B=B)
+                B = B,
+                mf = mf,
+                use.glmulti = use.glmulti)
   
   class(output) = "vis"
   return(output)
@@ -497,8 +550,13 @@ plot.vis = function(x, highlight, interactive = FALSE, classic = NULL,
   
   if (missing(highlight)) {
     # highlight first variable in the coefficient list
-    highlight = x$m$exp.vars[1]
-    vars = make.names(x$m$exp.vars)
+    if (x$use.glmulti) {
+      vars = all.vars(formula(x$mf))[-1]
+      highlight = vars[1]
+    } else {
+      highlight = x$m$exp.vars[1]
+      vars = make.names(x$m$exp.vars) 
+    }
   } else {
     vars = highlight
   }
@@ -700,20 +758,24 @@ plot.vis = function(x, highlight, interactive = FALSE, classic = NULL,
                            maxZoomIn: 0.01,
                            actions: ['dragToZoom',
                            'rightClickToReset']}")
-} else {use.options = options}
+      } else {use.options = options}
       fplot = googleVis::gvisBubbleChart(data = dat, idvar = "mods", xvar = "k",
                                          yvar = "LL", colorvar = "var.ident",
                                          sizevar = "prob",
                                          options = use.options)
-      if(shiny){
+      if (shiny) {
         return(fplot)
       } else {
         graphics::plot(fplot, tag = tag)
       }
-      }
+    }
   }
   if ("vip" %in% which) { # variable inclusion plot
-    var.names = make.names(x$m$exp.vars)
+    if (x$use.glmulti){
+      var.names = vars
+    } else {
+      var.names = make.names(x$m$exp.vars) 
+    }
     var.names = gsub(pattern = ":",replacement = ".",x = var.names)
     B = x$B
     p.var = x$var.in[,is.element(colnames(x$var.in),var.names)]
@@ -789,7 +851,7 @@ plot.vis = function(x, highlight, interactive = FALSE, classic = NULL,
                            width = width, height = height,
                            backgroundColor = 'transparent',
                            annotations = "{style:'line'}")
-  } else {use.options = options}
+      } else {use.options = options}
       fplot = googleVis::gvisLineChart(data = vip.df,
                                        xvar = "lambda",
                                        yvar = c("AIC","AIC.annotation",
@@ -801,8 +863,8 @@ plot.vis = function(x, highlight, interactive = FALSE, classic = NULL,
       } else {
         return(graphics::plot(fplot, tag = tag))
       }
-      }
-    } else return(invisible())
+    }
+  } else return(invisible())
   
   
   
