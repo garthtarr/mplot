@@ -76,7 +76,7 @@ mplot = function(mf,...){
         menuItem(text="Bootstrap glmnet",icon=icon("line-chart"),tabName="bglmnet"),
         conditionalPanel(condition = "input.lvp=='lvp' | input.lvp=='bglmnet'",
                          selectInput("highlight",label="Highlight models with:",
-                                     choices=if(lvp.res$use.glmulti) all.vars(formula(full.model))[-1] else names(stats::coef(full.model))[!names(stats::coef(full.model))=="(Intercept)"]),
+                                     choices=if(lvp.res$use.glmulti) base::all.vars(stats::formula(full.model))[-1] else names(stats::coef(full.model))[!names(stats::coef(full.model))=="(Intercept)"]),
                          conditionalPanel(condition = "input.lvp=='lvp'",
                                           radioButtons("boot_lvp","Bootstrap?",
                                                        choices=c("Yes","No"),
