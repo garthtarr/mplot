@@ -158,7 +158,8 @@ vis = function(mf,
     # -(n/2) * log(sum(resid(ans)^2)/n) is used
     # note the bic in bestglm is calculated as:
     # -2*rs.all$logLikelihood + log(n)*(rs.all$k-1)
-  } else if (any(class(mf) == "glm") == TRUE & use.glmulti) {
+  } 
+  if (any(class(mf) == "glm") == TRUE & use.glmulti) {
     glmulti.trans = function(x) {
       form.list = lapply(x@formulas, all.vars)
       vars = sort(unique(unlist(form.list)))
@@ -211,14 +212,13 @@ vis = function(mf,
     rs.all$bic = -2 * rs.all$logLikelihood +  log(n) * (rs.temp$k)# -2*rs.all$logLikelihood + rs.temp$k*log(n)
     rs.all$aic = -2 * rs.all$logLikelihood +  2 * (rs.temp$k) #rs.temp$aic
     rs.all$k = rs.temp$k
-    
-    
-    
-  } else {
+  } 
+  if(any(class(mf)=="lm") & length(class(mf))==1) {
+    wts = initial.weights
     em = leaps::regsubsets(
       x = fixed,
       data = X,
-      weights = initial.weights,
+      weights = wts,
       nbest = nbest,
       nvmax = nvmax,
       intercept = TRUE,
