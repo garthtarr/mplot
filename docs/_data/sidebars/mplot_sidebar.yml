@@ -2,7 +2,7 @@
 
 entries:
 - title: sidebar
-  product: plot documentation
+  product: mplot documentation
   version: 
   folders:
 
@@ -42,22 +42,6 @@ entries:
 
     - title: Support
       url: /mplot_support.html
-      output: web, pdf
-
-  - title: Release Notes
-    output: web, pdf
-    folderitems:
-
-    - title: 0.7 Release notes
-      url: /mplot_release_notes_70.html
-      output: web, pdf
-
-    - title: 0.6 Release notes
-      url: /mplot_release_notes_60.html
-      output: web, pdf
-
-    - title: 0.5 Release notes
-      url: /mplot_release_notes_50.html
       output: web, pdf
 
   - title: Variable inclusion plots
@@ -117,17 +101,21 @@ entries:
       url: /mplot_af_glm.html
       output: web, pdf
 
-  - title: Handling reviews
+  - title: Release Notes
     output: web, pdf
-
     folderitems:
-    - title: Commenting on files
-      url: /mplot_commenting_on_files.html
+
+    - title: 0.7 Release notes
+      url: /mplot_release_notes_70.html
       output: web, pdf
 
-#    - title: Git collaboration
-#      url: /mplot_git_collaboration
-#      output: web, pdf
+    - title: 0.6 Release notes
+      url: /mplot_release_notes_60.html
+      output: web, pdf
+
+    - title: 0.5 Release notes
+      url: /mplot_release_notes_50.html
+      output: web, pdf
 
 
   - title: Troubleshooting
