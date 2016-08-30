@@ -100,6 +100,32 @@ entries:
     - title: Generalised linear models
       url: /mplot_af_glm.html
       output: web, pdf
+      
+  - title: Plotting
+    output: web, pdf
+
+    folderitems:
+
+    - title: Static plots
+      url: /mplot_static.html
+      output: web, pdf
+
+    - title: Interactive plots
+      url: /mplot_interactive.html
+      output: web, pdf
+      
+  - title: References
+    output: web, pdf
+
+    folderitems:
+
+    - title: References
+      url: /mplot_refs.html
+      output: web, pdf
+      
+    - title: Contributors
+      url: /mplot_people.html
+      output: web, pdf
 
   - title: Release Notes
     output: web, pdf
