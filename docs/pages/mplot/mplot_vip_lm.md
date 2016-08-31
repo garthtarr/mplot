@@ -13,7 +13,6 @@ permalink: mplot_vip_lm.html
 folder: mplot
 ---
 
-## Linear models
 
 
 

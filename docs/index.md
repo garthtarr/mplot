@@ -7,11 +7,16 @@ permalink: index.html
 summary: These brief instructions will help you get started quickly with mplot. The other topics in this help provide additional information and detail about working with other aspects of the mplot package.
 ---
 
-The `mplot` package provides a collection of functions designed for exploratory model selection.
+The **mplot** package provides a collection of functions designed for exploratory model selection.  
+
+
+The main contributions of the **mplot** package are model stability plots and variable inclusion plots, implemented through the `vis()` function, and the simplified adaptive fence for linear and generalised linear models via the `af()`.
+
+Our methods generate large amounts of raw data about the fitted models.  While the print and summary output from both functions provide suggestions as to which models appear to be performing best, it is not our intention to have researchers simply read off the _best_ model from the output.  The primary purpose of these techniques is to help inform a researcher's model selection choice. As such, the real value in using these functions is in the extensive plot methods provided that help visualise the results and get new insights.  This is reflected in the choice of name `vis`, short for visualise, as this is the ultimate goal -- to visualise the stability of the model selection process.  
 
 We implement model stability and variable importance plots ([Mueller and Welsh (2010)](http://doi.org/10.1111/j.1751-5823.2010.00108.x); [Murray, Heritier and Mueller (2013)](http://doi.org/10.1002/sim.5855)) as well as the adaptive fence ([Jiang et al. (2008)](http://doi.org/10.1214/07-AOS517); [Jiang et al. (2009)](http://doi.org/10.1016/j.spl.2008.10.014)) for linear and generalised linear models.   We address many practical implementation issues with sensible defaults and interactive graphics to highlight model selection stability.  The speed of implementation comes from the leaps package and multicore support for bootstrapping.
 
-The `mplot` currently only supports linear and generalised linear models, however work is progressing to incorporate survival models and mixed models.
+The **mplot** package currently only supports linear and generalised linear models, however work is progressing to incorporate survival models and mixed models.
 
 You can see an example of the output [here](http://garthtarr.com/apps/mplot/).
 
