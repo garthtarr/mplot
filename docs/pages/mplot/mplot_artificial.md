@@ -23,7 +23,7 @@ data("artificialeg", package = "mplot")
 help("artificialeg", package = "mplot")
 ```
 
-A scatterplot matrix of the data and the estimated pairwise correlations are given in Figure \ref{pairsplot}.  There are no outliers and we have not positioned the observations in a subspace of the artificially generated data set. All variables, while related, originate from a Gaussian distribution.  Fitting the full model yields no individually significant variables.
+A scatterplot matrix of the data and the estimated pairwise correlations are given in Figure \ref{pairsplot} @fig:description.  There are no outliers and we have not positioned the observations in a subspace of the artificially generated data set. All variables, while related, originate from a Gaussian distribution.  Fitting the full model yields no individually significant variables.
 
 ```s
 require("mplot")
@@ -50,7 +50,7 @@ Performing default stepwise variable selection yields a model with all explanato
 
 ![Artificial example pairs plot](images/pairsplot.png)
 *Scatterplot matrix of the artificially generated data set with estimated correlations in the upper right triangle.  The true data generating process for the dependent variable is $y=0.6\, x_8 + \varepsilon$ where $\varepsilon\sim\mathcal{N}(0,2^2)$.*
-\label{pairsplot}
+\label{pairsplot} {#fig:description}
 
 ```s
 step.model = step(full.model, trace = 0)
