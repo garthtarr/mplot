@@ -13,6 +13,7 @@ folder: mplot
 ---
 
 Rather than visualising a loss measure against model size, it can be instructive to consider which variables are present in the overall _best_ model over a set of bootstrap replications.  To facilitate comparison between models of different sizes we use the GIC, 
+
 $$\textrm{GIC}(\alpha,\lambda) = \hat{Q}(\alpha) + \lambda p_{\alpha}.$$
 
 The \\(\hat{Q}(\alpha)\\) component is a measure of _description loss_ or _lack of fit_, a function that describes how well a model fits the data, for example, the residual sum of squares or \\(-2~\times~\text{log-likelihood}\\). The number of independent regression model parameters, \\(p\_{\alpha}\\), is a measure of _model complexity_. The penalty multiplier, \\(\lambda\\), determines the properties of the model selection criterion \citep{Mueller:2013,Mueller:2010}. Special cases, when \\(\hat{Q}(\alpha)=-2\times\text{log-likelihood}(\alpha)\\), include the AIC with \\(\lambda=2\\), BIC with \\(\lambda=\log(n)\\) and more generally the generalised information criterion (GIC) with \\(\lambda\in\mathbb{R}\\) \citep{Konishi:1996}.
