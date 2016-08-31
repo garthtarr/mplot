@@ -52,6 +52,10 @@ Performing default stepwise variable selection yields a model with all explanato
 *Scatterplot matrix of the artificially generated data set with estimated correlations in the upper right triangle.  The true data generating process for the dependent variable is $y=0.6\, x_8 + \varepsilon$ where $\varepsilon\sim\mathcal{N}(0,2^2)$.*
 \label{pairsplot} {#fig:description}
 
+[image]: images/pairsplot.png "Image Title" 
+![Alt text][image] 
+A reference to the [image](#image).
+
 ```s
 step.model = step(full.model, trace = 0)
 round(summary(step.model)$coef, 2)
