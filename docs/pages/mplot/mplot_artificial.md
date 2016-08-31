@@ -15,7 +15,7 @@ folder: mplot
 ---
 
 
-A reference to the [artificialeg](image).
+A reference to the [image](artificialeg).
 
 The artificially generated data set was originally designed to emphasise statistical deficiencies in stepwise procedures, but here it will be used to highlight the utility of the various procedures and plots provided by  **mplot**.   The data set and details of how it was generated are provided with the **mplot** package.
 
