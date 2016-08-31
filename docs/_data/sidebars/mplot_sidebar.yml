@@ -37,19 +37,19 @@ entries:
     folderitems:
     
     - title: Overview
-      url: /mplot_vis.html
+      url: /mplot_vip.html
       output: web, pdf
 
     - title: Linear models
-      url: /mplot_vis_linear.html
+      url: /mplot_vip_lm.html
       output: web, pdf
 
     - title: Generalised linear models
-      url: /mplot_vis_glm.html
+      url: /mplot_vip_glm.html
       output: web, pdf
       
     - title: Regularised estimators
-      url: /mplot_vis_bglmnet.html
+      url: /mplot_vip_bglmnet.html
       output: web, pdf
 
   - title: Model stability plots

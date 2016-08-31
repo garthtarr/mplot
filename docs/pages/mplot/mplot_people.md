@@ -2,7 +2,7 @@
 title: About mplot contributors
 keywords: authors, mplot, contributors
 last_updated: August 30, 2016
-tags: [getting_started]
+tags: [refs]
 summary: "Details of those who have contributed to the mplot project."
 sidebar: mplot_sidebar
 permalink: mplot_people.html
