@@ -89,7 +89,7 @@ entries:
       url: /mplot_af_glm.html
       output: web, pdf
       
-  - title: Plotting
+  - title: Plotting tips
     output: web, pdf
 
     folderitems:
@@ -100,6 +100,23 @@ entries:
 
     - title: Interactive plots
       url: /mplot_interactive.html
+      output: web, pdf
+      
+  - title: Applications
+    output: web, pdf
+
+    folderitems:
+
+    - title: Artificial example
+      url: /mplot_artificial.html
+      output: web, pdf
+
+    - title: Diabetes
+      url: /mplot_diabetes.html
+      output: web, pdf
+
+    - title: Birth weight
+      url: /mplot_birthweight.html
       output: web, pdf
       
   - title: References
