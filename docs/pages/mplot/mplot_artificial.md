@@ -15,7 +15,7 @@ folder: mplot
 ---
 
 
-A reference to the [image](#image).
+A reference to the ![image].
 
 The artificially generated data set was originally designed to emphasise statistical deficiencies in stepwise procedures, but here it will be used to highlight the utility of the various procedures and plots provided by  **mplot**.   The data set and details of how it was generated are provided with the **mplot** package.
 
@@ -52,10 +52,6 @@ Performing default stepwise variable selection yields a model with all explanato
 
 ![Artificial example pairs plot](images/pairsplot.png)
 *Scatterplot matrix of the artificially generated data set with estimated correlations in the upper right triangle.  The true data generating process for the dependent variable is $y=0.6\, x_8 + \varepsilon$ where $\varepsilon\sim\mathcal{N}(0,2^2)$.*
-\label{pairsplot} {#fig:description}
-
-[image]: images/pairsplot.png "Image Title" 
-![Alt text][image] 
 
 
 ```s
