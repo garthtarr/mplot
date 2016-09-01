@@ -49,13 +49,12 @@ x9              0.40       0.64    0.63     0.53
 Performing default stepwise variable selection yields a model with all explanatory variables except \\(x\_8\\).  As an aside, the dramatic changes in the p-values indicate that there is substantial interdependence between the explanatory variables even though none of the pairwise correlations in the [pairs plot](#fig:pairsplot) are particularly extreme.
 
 
+<div id="fig:pairsplot">
 
 ![Scatterplot matrix](images/pairsplot.png)
 
-*Scatterplot matrix of the artificially generated data set with estimated correlations in the upper right triangle.  The true data generating process for the dependent variable is $y=0.6\, x_8 + \varepsilon$ where $\varepsilon\sim\mathcal{N}(0,2^2)$.*
+*Scatterplot matrix of the artificially generated data set with estimated correlations in the upper right triangle.  The true data generating process for the dependent variable is \\(y=0.6\, x_8 + \varepsilon\\) where \\(\varepsilon\sim\mathcal{N}(0,2^2)\\).*
 
-
-<div id="fig:pairsplot">
 </div>
 
 ```s
