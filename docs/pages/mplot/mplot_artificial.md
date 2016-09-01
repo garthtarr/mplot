@@ -50,7 +50,7 @@ Performing default stepwise variable selection yields a model with all explanato
 
 
 <div id="fig:pairsplot">
-<img style="float: center;" src="images/pairsplot.png">
+<img style="margin:auto;" src="images/pairsplot.png">
 
 </div>
 *Figure: scatterplot matrix of the artificially generated data set with estimated correlations in the upper right triangle.  The true data generating process for the dependent variable is \\(y=0.6\, x_8 + \varepsilon\\) where \\(\varepsilon\sim\mathcal{N}(0,2^2)\\).*
