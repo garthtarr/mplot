@@ -15,8 +15,6 @@ folder: mplot
 ---
 
 
-A reference to the [image](#fig:pairsplot).
-
 The artificially generated data set was originally designed to emphasise statistical deficiencies in stepwise procedures, but here it will be used to highlight the utility of the various procedures and plots provided by  **mplot**.   The data set and details of how it was generated are provided with the **mplot** package.
 
 ```s
@@ -25,7 +23,7 @@ data("artificialeg", package = "mplot")
 help("artificialeg", package = "mplot")
 ```
 
-A scatterplot matrix of the data and the estimated pairwise correlations are given in Figure \ref{pairsplot} @fig:description.  There are no outliers and we have not positioned the observations in a subspace of the artificially generated data set. All variables, while related, originate from a Gaussian distribution.  Fitting the full model yields no individually significant variables.
+A scatterplot matrix of the data and the estimated pairwise correlations are given in the [pairs plot](#fig:pairsplot) below.  There are no outliers and we have not positioned the observations in a subspace of the artificially generated data set. All variables, while related, originate from a Gaussian distribution.  Fitting the full model yields no individually significant variables.
 
 ```s
 require("mplot")
@@ -48,12 +46,12 @@ x8              0.15       0.62    0.24     0.81
 x9              0.40       0.64    0.63     0.53
 ```
 
-Performing default stepwise variable selection yields a model with all explanatory variables except \\(x\_8\\).  As an aside, the dramatic changes in the p-values indicate that there is substantial interdependence between the explanatory variables even though none of the pairwise correlations in Figure \ref{pairsplot} are particularly extreme.
+Performing default stepwise variable selection yields a model with all explanatory variables except \\(x\_8\\).  As an aside, the dramatic changes in the p-values indicate that there is substantial interdependence between the explanatory variables even though none of the pairwise correlations in the [pairs plot](#fig:pairsplot) are particularly extreme.
 
 
 <div id="fig:pairsplot">
-[artificialeg]: images/pairsplot.png
-![artificialeg]
+![](images/pairsplot.png)
+
 *Scatterplot matrix of the artificially generated data set with estimated correlations in the upper right triangle.  The true data generating process for the dependent variable is $y=0.6\, x_8 + \varepsilon$ where $\varepsilon\sim\mathcal{N}(0,2^2)$.*
 
 </div>
