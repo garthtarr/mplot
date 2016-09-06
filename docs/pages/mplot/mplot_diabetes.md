@@ -136,10 +136,8 @@ lm.d = lm(y ~ ., data = diabetes)
 vis.d = vis(lm.d, B = 200)
 af.d = af(lm.d, B = 200, n.c = 100, c.max = 100)
 plot(vis.d, interactive = FALSE, which = "vip")
-plot(vis.d, interactive = FALSE, which = "boot", max.circle = 0.25,
-+    highlight = "hdl")
-plot(af.d, interactive = FALSE, best.only = TRUE, 
-+    legend.position = "bottomright")
+plot(vis.d, interactive = FALSE, which = "boot", max.circle = 0.25, highlight = "hdl")
+plot(af.d, interactive = FALSE, best.only = TRUE, legend.position = "bottomright")
 plot(af.d, interactive = FALSE, best.only = FALSE)
 ```
 
@@ -182,13 +180,8 @@ _Figure: diabetes main effects example._
 
 
 
-\begin{figure}[p]
-\centering
-\includegraphics[width=0.45\textwidth]{figs/dbvipint.pdf}\includegraphics[width=0.45\textwidth]{figs/dbbootint.pdf}
-\includegraphics[width=0.45\textwidth]{figs/dbaf1int10.pdf}\includegraphics[width=0.45\textwidth]{figs/dbaf2int10.pdf}
-\caption{Diabetes interactions terms example.}
-\label{fig:diabetesint}
-\end{figure}
+
+
 
 
 To incorporate interaction terms, we suggest selecting the main effects first, then regressing the relevant interaction terms on the residuals from the main effects model.  This approach ensures that the main effects are always taken into account. In this example, we estimate the dominant model of dimension six and obtain the fitted residuals.  The interaction terms are then regressed on the fitted residuals. 
@@ -210,7 +203,16 @@ vis.d.int
  y~bmi.map+bmi.hdl+map.ltg+hdl.ltg 0.56      -2385.89
 ```
 
-The result can be found in Figure \ref{fig:diabetesint}. The variable inclusion plots suggest that the most important interaction terms are `hdl.ltg`, `bmi.hdl`, `map.ltg` and `bmi.map`.  The model stability plot suggests that there are no dominant models of size 2, 3 or 4.  Furthermore there are no models of size 2, 3 or 4 that make large improvements in description loss. There is a dominant model of dimension 5 that is selected in 56% of bootstrap resamples.  The variables selected in the dominant model are {`bmi.map`, `bmi.hdl`, `map.ltg`, `hdl.ltg`}, which can be found in the print output above.  Furthermore, this model does make a reasonable improvement in description loss, almost in line with the full model.  This finding is reinforced in the adaptive fence plots where there are only two regions of stability, one for the null model and another for the {`bmi.map`, `bmi.hdl`, `map.ltg`, `hdl.ltg`} model. In this instance, the difference between `best.only = TRUE` and `best.only = FALSE` is minor.
+The result can be found in the [figure below](#fig:diabetesint) The variable inclusion plots suggest that the most important interaction terms are `hdl.ltg`, `bmi.hdl`, `map.ltg` and `bmi.map`.  The model stability plot suggests that there are no dominant models of size 2, 3 or 4.  Furthermore there are no models of size 2, 3 or 4 that make large improvements in description loss. There is a dominant model of dimension 5 that is selected in 56% of bootstrap resamples.  The variables selected in the dominant model are {`bmi.map`, `bmi.hdl`, `map.ltg`, `hdl.ltg`}, which can be found in the print output above.  Furthermore, this model does make a reasonable improvement in description loss, almost in line with the full model.  This finding is reinforced in the adaptive fence plots where there are only two regions of stability, one for the null model and another for the {`bmi.map`, `bmi.hdl`, `map.ltg`, `hdl.ltg`} model. In this instance, the difference between `best.only = TRUE` and `best.only = FALSE` is minor.
+
+<div id="fig:diabetesint">
+<img src="images/dbint.png">
+
+</div>
+_Figure: diabetes interactions terms example._
+
 
 
 Hence, as a final model for the diabetes example we suggest including the main effects {`bmi`, `map`, `ltg`, `sex`, `hdl`} and the interaction effects {`bmi.map`, `bmi.hdl`, `map.ltg`, `hdl.ltg`}.  Further investigation can also be useful.  For example, we could use cross validation to compare the model with interaction effects, the model with just main effects and other simpler models that were identified as having peaks in the adaptive fence.  Researchers should also incorporate their specialist knowledge of the predictors and evaluate whether or not the estimated model is sensible from a scientific perspective.
+
+
