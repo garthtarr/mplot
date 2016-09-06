@@ -36,6 +36,10 @@ entries:
       url: /mplot_background.html
       output: web, pdf
 
+    - title: Timing
+      url: /mplot_timing.html
+      output: web, pdf
+
   - title: Variable inclusion plots
     output: web, pdf
     folderitems:

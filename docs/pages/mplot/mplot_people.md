@@ -19,7 +19,7 @@ Suggestions and testing:
 
 - Dr Kevin Murray (University of Western Australia)
 
-
+This research was undertaken with the assistance of resources from the National Computational Infrastructure (NCI), which is supported by the Australian Government.  Samuel Mueller and Alan Welsh were supported by the Australian Research Council (DP140101259).   We also gratefully acknowledge two anonymous referees for their helpful comments and suggestions for the paper and package.
 
 
 {% include links.html %}
