@@ -4,7 +4,7 @@ keywords: sample homepage
 tags: [getting_started]
 sidebar: mydoc_sidebar
 permalink: index.html
-summary: These brief instructions will help you get started quickly with mplot. The other topics in this help provide additional information and detail about working with other aspects of the mplot package.
+summary: This website will help you get started with mplot. The topics covered in this documentation provide information  about working with many aspects of the mplot package.
 ---
 
 The **mplot** package provides an easy to use implementation of model stability and variable inclusion plots ([Mueller and Welsh (2010)](http://doi.org/10.1111/j.1751-5823.2010.00108.x); [Murray, Heritier and Mueller (2013)](http://doi.org/10.1002/sim.5855)) as well as the adaptive fence ([Jiang et al. (2008)](http://doi.org/10.1214/07-AOS517); [Jiang et al. (2009)](http://doi.org/10.1016/j.spl.2008.10.014)) for linear and generalised linear models. We provide a number of innovations on the standard procedures and address many practical implementation issues including the addition of redundant variables, interactive visualisations and approximating logistic models with linear models. An option is provided that combines our bootstrap approach with **glmnet** for higher dimensional models.  The plots and graphical user interface leverage state of the art web technologies to facilitate interaction with the results. The speed of implementation comes from the **leaps** package and cross-platform multicore support.
@@ -19,14 +19,6 @@ You can see an example of the output [here](http://garthtarr.com/apps/mplot/).
 
 
 
-## Usage
-
-```s
-require(mplot)
-?af
-?vis
-?mplot
-```
 
 
 
