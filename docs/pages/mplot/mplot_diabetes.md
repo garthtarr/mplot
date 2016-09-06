@@ -33,6 +33,123 @@ Patient &age&sex&bmi&\multicolumn{1}{c}{map}&tc&\multicolumn{1}{c}{ldl} & hdl & 
 \label{tab:diabetes}
 \end{table} 
 
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-yw4l{vertical-align:top}
+</style>
+<table class="tg">
+  <tr>
+    <th class="tg-yw4l"></th>
+    <th class="tg-yw4l"></th>
+    <th class="tg-yw4l"></th>
+    <th class="tg-yw4l"></th>
+    <th class="tg-yw4l"></th>
+    <th class="tg-yw4l" colspan="6">Serum measurements</th>
+    <th class="tg-yw4l">Response</th>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">Patient</td>
+    <td class="tg-yw4l">age</td>
+    <td class="tg-yw4l">sex</td>
+    <td class="tg-yw4l">bmi</td>
+    <td class="tg-yw4l">map</td>
+    <td class="tg-yw4l">tc</td>
+    <td class="tg-yw4l">ldl</td>
+    <td class="tg-yw4l">hdl</td>
+    <td class="tg-yw4l">tch</td>
+    <td class="tg-yw4l">ltg</td>
+    <td class="tg-yw4l">glu</td>
+    <td class="tg-yw4l">y</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">1</td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">2</td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">3</td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">...</td>
+    <td class="tg-yw4l">...</td>
+    <td class="tg-yw4l">...</td>
+    <td class="tg-yw4l">...</td>
+    <td class="tg-yw4l">...</td>
+    <td class="tg-yw4l">...</td>
+    <td class="tg-yw4l">...</td>
+    <td class="tg-yw4l">...</td>
+    <td class="tg-yw4l">...</td>
+    <td class="tg-yw4l">...</td>
+    <td class="tg-yw4l">...</td>
+    <td class="tg-yw4l">...</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">441</td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">442</td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l"></td>
+  </tr>
+</table>
+
 Figure \ref{fig:diabetesmain} shows the results of the main methods for the diabetes data obtained using the following code.
 
 \begin{CodeChunk}
