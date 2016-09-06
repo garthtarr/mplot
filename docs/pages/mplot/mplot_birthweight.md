@@ -16,7 +16,7 @@ folder: mplot
 
 The `birthwt` dataset from the **MASS** package has data on 189 births at the Baystate Medical Centre, Springfield, Massachusetts during 1986 ([Venables and Ripley (2002)](http://www.springer.com/us/book/9780387954578 "Venables WN, Ripley BD (2002). Modern Applied Statistics with S. Fourth edition. Springer-Verlag, New York.")).  The main variable of  interest is low birth weight, a binary response variable `low` ([Hosmer D, Lemeshow (1989)](http://www.wiley.com/WileyCDA/WileyTitle/productCd-0470582472.html "Hosmer D, Lemeshow S (1989). Applied Logistic Regression. John Wiley & Sons, New York.")).  We have taken the same approach to modelling the full model as in \citet[pp.\ 194--197]{Venables:2002}, where `ptl` is reduced to a binary indicator of past history and `ftv` is reduced to a factor with three levels.
 
-```r
+```s
 require(MASS)
 bwt <- with(birthwt, {
   race <- factor(race, labels = c("white", "black", "other"))
@@ -45,18 +45,17 @@ ftv1           -0.44       0.48   -0.91     0.36
 ftv2+           0.18       0.46    0.39     0.69
 ```
 
-\begin{figure}
-\centering
-\includegraphics[width=0.9\textwidth]{figs/bwvis.png}
-\includegraphics[width=0.9\textwidth]{figs/bwboot.png}
-\includegraphics[width=0.9\textwidth]{figs/bwaf.png}
-\caption{Birth weight example.}
-\label{fig:birthwt}
-\end{figure}
+<div id="fig:birthwt">
+<img src="images/bwvis.png">
+<img src="images/bwboot.png">
+<img src="images/bwaf.png">
 
-The `vis` and `af` objects are generated using the fitted full model object as an argument to the `vis()` and `af()` functions.  The results are shown in Figure \ref{fig:birthwt}, where screenshots have been taken of the interactive plots because they display the larger set of variables more clearly than the static plot methods.
+</div>
+_Figure: birth weight example._
 
-```r
+The `vis` and `af` objects are generated using the fitted full model object as an argument to the `vis()` and `af()` functions.  The results are shown in the [figure above](#fig:birthwt), where screenshots have been taken of the interactive plots because they display the larger set of variables more clearly than the static plot methods.
+
+```s
 af.bw = af(bw.glm, B = 150, c.max = 20, n.c = 40)
 vis.bw = vis(bw.glm, B = 150)
 plot(vis.bw, which = "vip")
@@ -89,11 +88,13 @@ low ~ smoke + ptd + ht + ui + ftv + age + lwt + ui:smoke + ui:ht + ftv:age
 
 As a general rule, we would warn against the `.*.` approach, where all possible interaction terms are considered, as it does not consider whether or not the interaction terms actually make practical sense.  [Calcagno and de Mazancourt (2010)](http://www.jstatsoft.org/v34/i12 "Calcagno V, de Mazancourt C (2010). “glmulti: An R Package for Easy Automated Model Selection with (Generalized) Linear Models.” Journal of Statistical Software, 34(12), 1–29.")  conclude that "Having two best models and not one is an extreme case where taking model selection uncertainty into account rather than looking for a single best model is certainly recommended!"  The issue here is that the software did not highlight that these models are  identical as the `ui:ht` interaction variable is simply a vector of ones, and as such, is ignored by the GLM fitting routine.
 
-As computation time can be an issue for GLMs, it is useful to approximate the results using weighted least squares ([Hosmer, Jovanovic and Lemeshow (1989)](http://doi.org/10.2307/2531779 "Hosmer DW, Jovanovic B, Lemeshow S (1989). “Best Subsets Logistic Regression.” Biometrics, 45(4), 1265–1270.")).  In practice this can be done by fitting the logistic regression and extracting the estimated logistic probabilities, $\hat{\pi}_{i}$.  A new dependent variable is then constructed,
-$$z_{i} = \log\left(\frac{\hat{\pi}_{i}}{1-\hat{\pi}_{i}}\right)  + \frac{y_{i}-\hat{\pi}_{i}}{\hat{\pi}_{i}(1-\hat{\pi}_{i})},$$ 
-along with observation weights $v_{i}=\hat{\pi}_{i}(1-\hat{\pi}_{i})$. For any submodel $\alpha$ this approach produces the approximate coefficient estimates of [Lawless and Singhal (1978)](http://doi.org/10.2307/2530022 "Lawless JF, Singhal K (1978). “Efficient Screening of Nonnormal Regression Models.” Biometrics, 34(2), 318–327.") and enables us to use the **leaps** package to perform the computations for best subsets logistic regression as follows.
+As computation time can be an issue for GLMs, it is useful to approximate the results using weighted least squares ([Hosmer, Jovanovic and Lemeshow (1989)](http://doi.org/10.2307/2531779 "Hosmer DW, Jovanovic B, Lemeshow S (1989). “Best Subsets Logistic Regression.” Biometrics, 45(4), 1265–1270.")).  In practice this can be done by fitting the logistic regression and extracting the estimated logistic probabilities, \\(\hat{\pi}_{i}\\).  A new dependent variable is then constructed,
 
-```r
+$$z_{i} = \log\left(\frac{\hat{\pi}_{i}}{1-\hat{\pi}_{i}}\right)  + \frac{y_{i}-\hat{\pi}_{i}}{\hat{\pi}_{i}(1-\hat{\pi}_{i})},$$ 
+
+along with observation weights \\(v_{i}=\hat{\pi}_{i}(1-\hat{\pi}_{i})\\). For any submodel \\(\alpha\\) this approach produces the approximate coefficient estimates of [Lawless and Singhal (1978)](http://doi.org/10.2307/2530022 "Lawless JF, Singhal K (1978). “Efficient Screening of Nonnormal Regression Models.” Biometrics, 34(2), 318–327.") and enables us to use the **leaps** package to perform the computations for best subsets logistic regression as follows.
+
+```s
 pihat = bw.glm$fitted.values
 r = bw.glm$residuals 
 z = log(pihat/(1 - pihat)) + r
@@ -109,15 +110,15 @@ plot(bw.lm.vis, which = "boot", highlight = "htTRUE")
 plot(bw.lm.af)
 ```
 
-The coefficients from `bw.lm`  are identical to `bw.glm`.  This approximation provides similar results, shown in Figure \ref{fig:bwtapprox}, in a fraction of the time.
+The coefficients from `bw.lm`  are identical to `bw.glm`.  This approximation provides similar results, shown in the [figure below](#fig:bwtapprox), in a fraction of the time.
 
-\begin{figure}
-\centering
-\includegraphics[width=0.9\textwidth]{figs/approxvip.png}
-\includegraphics[width=0.9\textwidth]{figs/approxboot.png}
-\includegraphics[width=0.9\textwidth]{figs/approxaf.png}
-\caption{Birth weight example with linear model approximation.}
-\label{fig:bwtapprox}
-\end{figure}
+<div id="fig:bwtapprox">
+<img src="images/approxvip.png">
+<img src="images/approxboot.png">
+<img src="images/approxaf.png">
+
+</div>
+_Figure: birth weight example with linear model approximation._
+
 
 
