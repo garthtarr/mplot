@@ -1,8 +1,8 @@
 ---
 title: Diabetes example
 tags:
-  - example
-  - linear models
+  - [example]
+  - [linear models]
 keywords: "example, AF, VIP, MSP, linear model"
 last_updated: "September 6, 2016"
 summary: "Diabetes example."
