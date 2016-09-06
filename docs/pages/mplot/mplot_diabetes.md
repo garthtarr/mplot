@@ -34,12 +34,6 @@ Patient &age&sex&bmi&\multicolumn{1}{c}{map}&tc&\multicolumn{1}{c}{ldl} & hdl & 
 \end{table} 
 
 
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-.tg .tg-yw4l{vertical-align:top}
-</style>
 <table class="tg">
   <tr>
     <th class="tg-yw4l"></th>
@@ -66,45 +60,45 @@ Patient &age&sex&bmi&\multicolumn{1}{c}{map}&tc&\multicolumn{1}{c}{ldl} & hdl & 
   </tr>
   <tr>
     <td class="tg-yw4l">1</td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l">59</td>
+    <td class="tg-yw4l">2</td>
+    <td class="tg-yw4l">32.1</td>
+    <td class="tg-yw4l">101</td>
+    <td class="tg-yw4l">157</td>
+    <td class="tg-yw4l">93.2</td>
+    <td class="tg-yw4l">38</td>
+    <td class="tg-yw4l">4</td>
+    <td class="tg-yw4l">4.9</td>
+    <td class="tg-yw4l">87</td>
+    <td class="tg-yw4l">151</td>
   </tr>
   <tr>
     <td class="tg-yw4l">2</td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l">48</td>
+    <td class="tg-yw4l">1</td>
+    <td class="tg-yw4l">21.6</td>
+    <td class="tg-yw4l">87</td>
+    <td class="tg-yw4l">183</td>
+    <td class="tg-yw4l">103.2</td>
+    <td class="tg-yw4l">70</td>
+    <td class="tg-yw4l">3</td>
+    <td class="tg-yw4l">3.9</td>
+    <td class="tg-yw4l">69</td>
+    <td class="tg-yw4l">75</td>
   </tr>
   <tr>
     <td class="tg-yw4l">3</td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l">72</td>
+    <td class="tg-yw4l">2</td>
+    <td class="tg-yw4l">30.5</td>
+    <td class="tg-yw4l">93</td>
+    <td class="tg-yw4l">156</td>
+    <td class="tg-yw4l">93.6</td>
+    <td class="tg-yw4l">41</td>
+    <td class="tg-yw4l">4</td>
+    <td class="tg-yw4l">4.7</td>
+    <td class="tg-yw4l">85</td>
+    <td class="tg-yw4l">141</td>
   </tr>
   <tr>
     <td class="tg-yw4l">...</td>
@@ -122,31 +116,31 @@ Patient &age&sex&bmi&\multicolumn{1}{c}{map}&tc&\multicolumn{1}{c}{ldl} & hdl & 
   </tr>
   <tr>
     <td class="tg-yw4l">441</td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l">36</td>
+    <td class="tg-yw4l">1</td>
+    <td class="tg-yw4l">30.0</td>
+    <td class="tg-yw4l">95</td>
+    <td class="tg-yw4l">201</td>
+    <td class="tg-yw4l">125.2</td>
+    <td class="tg-yw4l">42</td>
+    <td class="tg-yw4l">5</td>
+    <td class="tg-yw4l">5.1</td>
+    <td class="tg-yw4l">85</td>
+    <td class="tg-yw4l">220</td>
   </tr>
   <tr>
     <td class="tg-yw4l">442</td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
-    <td class="tg-yw4l"></td>
+    <td class="tg-yw4l">36</td>
+    <td class="tg-yw4l">1</td>
+    <td class="tg-yw4l">19.6</td>
+    <td class="tg-yw4l">71</td>
+    <td class="tg-yw4l">250</td>
+    <td class="tg-yw4l">133.2</td>
+    <td class="tg-yw4l">97</td>
+    <td class="tg-yw4l">3</td>
+    <td class="tg-yw4l">4.6</td>
+    <td class="tg-yw4l">92</td>
+    <td class="tg-yw4l">57</td>
   </tr>
 </table>
 
