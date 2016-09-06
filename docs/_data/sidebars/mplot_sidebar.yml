@@ -32,6 +32,10 @@ entries:
       url: /mplot_install.html
       output: web, pdf
 
+    - title: Background
+      url: /mplot_background.html
+      output: web, pdf
+
   - title: Variable inclusion plots
     output: web, pdf
     folderitems:

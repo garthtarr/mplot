@@ -49,7 +49,7 @@ x9              0.40       0.64    0.63     0.53
 Performing default stepwise variable selection yields a model with all explanatory variables except \\(x\_8\\).  As an aside, the dramatic changes in the p-values indicate that there is substantial interdependence between the explanatory variables even though none of the pairwise correlations in the [pairs plot](#fig:pairsplot) are particularly extreme.
 
 
-<div id="fig:pairsplot" style="margin:auto;">
+<div id="fig:pairsplot">
 <img src="images/pairsplot.png">
 
 </div>
