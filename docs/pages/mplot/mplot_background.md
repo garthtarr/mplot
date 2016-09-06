@@ -5,7 +5,7 @@ last_updated: August 31, 2016
 tags: [getting_started]
 summary: "Background on model selection."
 sidebar: mplot_sidebar
-permalink: mplot_install.html
+permalink: mplot_background.html
 folder: mplot
 ---
 
