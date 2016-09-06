@@ -129,7 +129,7 @@ The [table below](#tab:diabetes) shows a subset of the diabetes data used in [Ti
 </div>
 _Table: measurements on 442 diabetes patients over 10 potential predictor variables and the response variable, a measure of disease progression after one year._
 
-Figure \ref{fig:diabetesmain} shows the results of the main methods for the diabetes data obtained using the following code.
+The [figure below](#fig:diabetesmain) shows the results of the main methods for the diabetes data obtained using the following code.
 
 ```s
 lm.d = lm(y ~ ., data = diabetes)
@@ -168,19 +168,19 @@ vis.d
 
 As in the variable inclusion plots, it is clear that the two most important variables are `bmi` and `ltg`, and the third most important variable is  `map`.  In models of size four (including the intercept), the model with `bmi`, `ltg` and `map` was selected in 69% of bootstrap resamples.  There is no clear dominant model in models of size five, with `tc` and `hdl` both competing to be included.  In models of size six, the combination of `sex` and `hdl` with the core variables `bmi`, `map` and `ltg`, is the most stable option; it is selected in 67% of bootstrap resamples.  As the size of the model space in dimension six is much larger than the size of the model space for dimension four, it could be suggested that the 0.67 empirical probability for the {`bmi`, `map`, `ltg`, `sex`, `hdl`} model is a stronger result than the 0.69 result for the {`bmi`, `ltg`, `map`} model. 
 
-The adaptive fence plots in the bottom row of Figure \ref{fig:diabetesmain} show a clear peak for the model with just `bmi` and `ltg`. There are two larger models that also occupy regions of stability, albeit with much lower peaks.  These are {`bmi`, `map`, `ltg`} and {`bmi`, `map`, `ltg`, `sex`, `hdl`} which also showed up as dominant models in the model stability plots.  Contrasting  `best.only = TRUE` in the lower left panel with  `best.only = FALSE` in the lower right panel, we can see that the peaks tend to be more clearly distinguished, though the regions of stability remain largely unchanged.
+The adaptive fence plots in the bottom row of the [figure below](#fig:diabetesmain) show a clear peak for the model with just `bmi` and `ltg`. There are two larger models that also occupy regions of stability, albeit with much lower peaks.  These are {`bmi`, `map`, `ltg`} and {`bmi`, `map`, `ltg`, `sex`, `hdl`} which also showed up as dominant models in the model stability plots.  Contrasting  `best.only = TRUE` in the lower left panel with  `best.only = FALSE` in the lower right panel, we can see that the peaks tend to be more clearly distinguished, though the regions of stability remain largely unchanged.
 
 Stepwise approaches using a forward search or backward search with the AIC or BIC all yield a model with {`bmi`, `map`, `ltg`, `sex`, `ldl`, `tc`}.  This model was selected 47% of the time in models of size 7.  The agreement between the stepwise methods may be comforting for the researcher, but it does not aid a discussion about what other models may be worth exploring.
 
-An interactive version of the plots in Figure \ref{fig:diabetesmain} is available at garthtarr.com/apps/mplot.
+An interactive version of the plots in the [figure below](#fig:diabetesmain) is available at garthtarr.com/apps/mplot.
 
-\begin{figure}[p]
-\centering
-\includegraphics[width=0.45\textwidth]{figs/dbvip.pdf}\includegraphics[width=0.45\textwidth]{figs/dbboot.pdf}
-\includegraphics[width=0.45\textwidth]{figs/dbaf1.pdf}\includegraphics[width=0.45\textwidth]{figs/dbaf2.pdf}
-\caption{Diabetes main effects example.}
-\label{fig:diabetesmain}
-\end{figure}
+<div id="fig:diabetesmain">
+<img src="images/dbmain.png">
+
+</div>
+_Figure: diabetes main effects example._
+
+
 
 \begin{figure}[p]
 \centering
