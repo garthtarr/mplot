@@ -32,8 +32,7 @@ The arguments indicate that we perform \\(B = 150\\) bootstrap resamples, over a
 
 
 <div id="fig:plot.af">
-<img src="images/artafboT.png">
-<img src="images/artafboF.png">
+<img src="images/artafboTF.png">
 
 </div>
 *Result of a call to `plot(af.art, interactive = FALSE)` with additional arguments `best.only = TRUE` on the left and `best.only = FALSE` on the right.  The more rapid decay after the \\(x\_8\\) model is typical of using `best.only = FALSE` where the troughs between candidate/dominant models are more pronounced.*
