@@ -4,7 +4,7 @@ tags:
   - example
   - linear models
 keywords: "example, AF, VIP, MSP, linear model"
-last_updated: "August 31, 2016"
+last_updated: "September 6, 2016"
 summary: "Diabetes example."
 series: "Examples"
 weight: 10
@@ -215,4 +215,4 @@ _Figure: diabetes interactions terms example._
 
 Hence, as a final model for the diabetes example we suggest including the main effects {`bmi`, `map`, `ltg`, `sex`, `hdl`} and the interaction effects {`bmi.map`, `bmi.hdl`, `map.ltg`, `hdl.ltg`}.  Further investigation can also be useful.  For example, we could use cross validation to compare the model with interaction effects, the model with just main effects and other simpler models that were identified as having peaks in the adaptive fence.  Researchers should also incorporate their specialist knowledge of the predictors and evaluate whether or not the estimated model is sensible from a scientific perspective.
 
-
+{% include links.html %}

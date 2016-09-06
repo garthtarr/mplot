@@ -120,5 +120,5 @@ The coefficients from `bw.lm`  are identical to `bw.glm`.  This approximation pr
 </div>
 _Figure: birth weight example with linear model approximation._
 
-
+{% include links.html %}
 
