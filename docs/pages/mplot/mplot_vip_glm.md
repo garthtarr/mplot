@@ -13,7 +13,7 @@ permalink: mplot_vip_glm.html
 folder: mplot
 ---
   
-## Variable importance plots for generalised linear models
+
 
   
   
