@@ -33,6 +33,7 @@ mplot = function(mf,...){
   input_list <- list(...)
   af.res = af.res.screened = NULL
   lvp.res = lvp.res.screened = NULL
+  glmnet.res = glmnet.res.screened = NULL
   anyScreen = FALSE
   for(j in 1:length(input_list)){
     if(class(input_list[[j]])=="af"){
@@ -58,9 +59,9 @@ mplot = function(mf,...){
       } else {
         glmnet.res = input_list[[j]]
       }
-    }
+    } 
   }
-
+  
   ui = dashboardPage(
     dashboardHeader(title="mplot",disable = FALSE),
     dashboardSidebar(
@@ -97,11 +98,9 @@ mplot = function(mf,...){
         conditionalPanel(condition = "input.lvp=='lvp' | input.lvp=='af' | input.lvp=='vip' | input.lvp=='bglmnet'",
                          radioButtons("classic",label="Classic plots",
                                       choices=c("Yes"=TRUE,"No" = FALSE),
-                                      selected=FALSE,inline=TRUE),
-                         radioButtons("screen",label="Screen",
-                                      choices = c("Yes"=TRUE,"No" = FALSE),
-                                      selected = FALSE,
-                                      inline = TRUE))
+                                      selected=FALSE,inline=TRUE)),
+        uiOutput("screenui")
+        
       )
       ,
       br(),
@@ -160,124 +159,158 @@ mplot = function(mf,...){
                     collapsible = TRUE, collapsed = FALSE,
                     htmlOutput("bglmnet.gvis2")))
       )
-     )
+    )
   )
-
+  
   server = function(input, output) {
-
+    output$anyscreen = reactive({
+      anyscreen
+    })
+    output$screenui = renderUI({
+      conditionalPanel(condition = "output.anyscreen=='TRUE'",
+                       radioButtons("screen",label="Screen",
+                                    choices = c("Yes"=TRUE,"No" = FALSE),
+                                    selected = FALSE,
+                                    inline = TRUE))
+    })
+    
+    visdat = reactive({
+      validate(
+        need(!is.null(lvp.res.screened)|!is.null(lvp.res), 
+             "You did not include a vis object in the call to mplot.")
+      )
+      if(input$screen){
+        validate(
+          need(!is.null(lvp.res.screened), 
+               "You did not include a screened vis object in the call to mplot.")
+        )
+        return(lvp.res.screened)
+      } else {
+        validate(
+          need(!is.null(lvp.res), 
+               "You did not include an unscreened vis object in the call to mplot.")
+        )
+        return(lvp.res)
+      }
+    })
+    
+    afdat = reactive({
+      validate(
+        need(!is.null(af.res.screened) | !is.null(af.res), 
+             "You did not include an af object in the call to mplot.")
+      )
+      if(input$screen){
+        validate(
+          need(!is.null(af.res.screened), 
+               "You did not include a screened af object in the call to mplot.")
+        )
+        return(af.res.screened)
+      } else {
+        validate(
+          need(!is.null(af.res), 
+               "You did not include an unscreened af object in the call to mplot.")
+        )
+        return(af.res)
+      }
+    })
+    
+    bglmnetdat = reactive({
+      validate(
+        need(!is.null(glmnet.res.screened) | !is.null(glmnet.res), 
+             "You did not include a bglmnet object in the call to mplot.")
+      )
+      if(input$screen){
+        validate(
+          need(!is.null(glmnet.res.screened), 
+               "You did not include a screened bglmnet object in the call to mplot.")
+        )
+        return(glmnet.res.screened)
+      } else {
+        validate(
+          need(!is.null(glmnet.res), 
+               "You did not include an unscreened bglmnet object in the call to mplot.")
+        )
+        return(glmnet.res)
+      }
+    })
+    
+    
     #### Model seleciton plot
     output$lvp.gvis <- googleVis::renderGvis({
-      if(input$screen){
-        lvp.data = lvp.res.screened
-      } else {
-        lvp.data = lvp.res
-      }
+      lvp.data = visdat()
       if(input$boot_lvp=="No"){
-      graphics::plot(lvp.data,shiny=TRUE,classic=FALSE,
-             highlight=input$highlight,which="lvk")
+        graphics::plot(lvp.data,shiny=TRUE,classic=FALSE,
+                       highlight=input$highlight,which="lvk")
       } else if(input$boot_lvp=="Yes") {
         graphics::plot(lvp.data,shiny=TRUE,classic=FALSE,
-             highlight=input$highlight,which="boot")
+                       highlight=input$highlight,which="boot")
       }
     })
+    
     output$lvp.classic <- renderPlot({
-      if(input$screen){
-        lvp.data = lvp.res.screened
-      } else {
-        lvp.data = lvp.res
-      }
+      lvp.data = visdat()
       if(input$boot_lvp=="No"){
         graphics::plot(lvp.data, highlight=input$highlight,
-             which="lvk", classic=TRUE)
+                       which="lvk", classic=TRUE)
       } else if(input$boot_lvp=="Yes") {
         graphics::plot(lvp.data, highlight=input$highlight,
-             which="boot", classic=TRUE, max.circle=input$max.circle,
-             text=input$text, min.prob=input$min.prob, srt = input$srt)
+                       which="boot", classic=TRUE, max.circle=input$max.circle,
+                       text=input$text, min.prob=input$min.prob, srt = input$srt)
       }
     })
-
-
+    
+    
     #### Variable inclusion plots
     output$vip.gvis <- googleVis::renderGvis({
-      if(input$screen){
-        lvp.data = lvp.res.screened
-      } else {
-        lvp.data = lvp.res
-      }
+      lvp.data = visdat()
       graphics::plot(lvp.data,classic=FALSE,shiny=TRUE,which="vip")
     })
+    
     output$vip.classic <- renderPlot({
-      if(input$screen){
-        lvp.data = lvp.res.screened
-      } else {
-        lvp.data = lvp.res
-      }
+      lvp.data = visdat()
       graphics::plot(lvp.data,classic=TRUE,which="vip")
     })
-
+    
+    output$boot.verb = renderPrint({
+      lvp.data = visdat()
+      print(lvp.data,min.prob=input$min.prob)
+    })
+    
     #### Adaptive fence plots
     output$af.gvis <- googleVis::renderGvis({
-      if(input$screen){
-        af.data = af.res.screened
-      } else {
-        af.data = af.res
-      }
+      af.data = afdat()
       if(!is.null(af.data)){
-      graphics::plot(af.data,classic=FALSE,shiny=TRUE,best.only=input$bo)
+        graphics::plot(af.data,classic=FALSE,shiny=TRUE,best.only=input$bo)
       } else return(NULL)
     })
-
+    
     output$af.classic <- renderPlot({
-      if(input$screen){
-        af.data = af.res.screened
-      } else {
-        af.data = af.res
-      }
+      af.data = afdat()
       if(!is.null(af.data)){
         graphics::plot(af.data,classic=TRUE,best.only=input$bo)
       } else return(NULL)
     })
-
+    
     output$af.verb = renderPrint({
-      if(input$screen){
-        af.data = af.res.screened
-      } else {
-        af.data = af.res
-      }
+      af.data = afdat()
       summary(af.data)
     })
-
-    output$boot.verb = renderPrint({
-      if(input$screen){
-        lvp.data = lvp.res.screened
-      } else {
-        lvp.data = lvp.res
-      }
-      print(lvp.data,min.prob=input$min.prob)
-    })
-
-    #     ### Bootstrapping glmnet ###
+    
+    
+    ### Bootstrapping glmnet 
     output$bglmnet.gvis <- googleVis::renderGvis({
-      if(input$screen){
-        bglmnet.data = glmnet.res.screened
-      } else {
-        bglmnet.data = glmnet.res
-      }
+      bglmnet.data = bglmnetdat()
       graphics::plot(bglmnet.data,classic=FALSE,shiny=TRUE,which="vip")
     })
-
+    
     output$bglmnet.gvis2 <- googleVis::renderGvis({
-      if(input$screen){
-        bglmnet.data = glmnet.res.screened
-      } else {
-        bglmnet.data = glmnet.res
-      }
+      bglmnet.data = bglmnetdat()
       graphics::plot(bglmnet.data,shiny=TRUE,classic=FALSE,
-           highlight = input$highlight,
-           which="boot",plb = input$min.prob)
+                     highlight = input$highlight,
+                     which="boot",plb = input$min.prob)
     })
-
+    
   }
-
+  
   shinyApp(ui, server)
 }
