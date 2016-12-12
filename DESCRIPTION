@@ -12,7 +12,8 @@ Description: Model stability and variable inclusion plots [Mueller and Welsh
 License: GPL (>= 2)
 Suggests:
     knitr,
-    mvoutlier
+    mvoutlier,
+    glmulti
 Imports:
     leaps,
     foreach,
@@ -29,7 +30,6 @@ Imports:
     ggplot2,
     reshape2,
     scales,
-    glmulti,
     dplyr
 URL: https://github.com/garthtarr/mplot
 Roxygen: list(wrap = FALSE)

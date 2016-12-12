@@ -73,8 +73,14 @@ vis = function(mf,
                redundant = TRUE,
                ...) {
   # redundant not supported with glmulti yet
-  if (use.glmulti)
+  if (use.glmulti){
+    if (!requireNamespace("mvoutlier", quietly = TRUE)) {
+      stop("mvoutlier package needed when screen=TRUE. Please install it.",
+           call. = FALSE)
+    }
     redundant = FALSE
+  }
+    
   
   m = mextract(mf, screen = screen,
                redundant = redundant)
@@ -632,6 +638,10 @@ plot.vis = function(x,
   }
   if (!is.null(classic))
     interactive = !classic
+  
+  #backwards compatability for use.glmulti
+  if(!exists("x$use.glmulti"))
+    x$use.glmulti = FALSE
   
   if (missing(highlight)) {
     # highlight first variable in the coefficient list
