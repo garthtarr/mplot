@@ -311,7 +311,7 @@ af = function(mf,
     redundent.vars = grepl("REDUNDANT.VARIABLE", as.character(p.star$model))
     c.range = c.range[!redundent.vars]
     p.star = p.star[!redundent.vars, ]
-    p.star$model = droplevels(p.star$model)
+    p.star$model = droplevels(as.factor(p.star$model))
     # if want runs of (near) maximums
     max.p = max(p.star[, 1]) #- 2/B
     tf = p.star[, 1] >= max.p
