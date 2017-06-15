@@ -8,4 +8,3 @@
 Graphical model stability and model selection procedures
 }
 \keyword{package}
-

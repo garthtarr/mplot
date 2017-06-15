@@ -104,4 +104,3 @@ define an overall selection probability,
 \eqn{p^*(c)}{p*(c)} against \eqn{c}{c}. The points on the scatter plot are
 colour coded by the model that yielded the highest inclusion probability.
 }
-

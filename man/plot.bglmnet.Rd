@@ -96,4 +96,3 @@ A plot method to visualise the results of a \code{bglmnet} object.
 \seealso{
 \code{\link{bglmnet}}
 }
-

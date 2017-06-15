@@ -21,4 +21,3 @@ model gets printed or not.  Default=\code{FALSE}.}
 Prints basic output of the bootstrap results of an
 vis object.
 }
-

@@ -48,4 +48,3 @@ The result of this function is essentially just a
 \seealso{
 \code{\link{plot.bglmnet}}
 }
-

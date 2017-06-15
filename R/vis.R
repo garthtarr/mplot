@@ -80,7 +80,7 @@ vis = function(mf,
     }
     redundant = FALSE
   }
-    
+  
   
   m = mextract(mf, screen = screen,
                redundant = redundant)
@@ -607,6 +607,7 @@ plot.vis = function(x,
                     classic = NULL,
                     tag = NULL,
                     shiny = FALSE,
+                    nbest = "all",
                     which = c("vip", "lvk", "boot"),
                     width = 800,
                     height = 400,
@@ -657,17 +658,22 @@ plot.vis = function(x,
   }
   if ("lvk" %in% which) {
     var.ident = n.var.ident = NA
-    m2ll = -2 * x$res.single.pass$logLikelihood
-    spk = x$res.single.pass$k
-    jitter = stats::runif(length(spk), 0 - jitterk, 0 + jitterk)
-    spk = spk + jitter
+    lvk.dat = data.frame(x$res.single.pass)
+    if(is.numeric(nbest)){
+      lvk.dat = lvk.dat %>% 
+        dplyr::group_by(k) %>% 
+        dplyr::top_n(n = nbest, wt = logLikelihood)
+    }
+    #m2ll = -2 * lvk.dat$logLikelihood
+    lvk.dat$m2ll = -2 * lvk.dat$logLikelihood
+    lvk.dat$spk = lvk.dat$k
+    jitter = stats::runif(length(lvk.dat$spk), 0 - jitterk, 0 + jitterk)
+    lvk.dat$spk = lvk.dat$spk + jitter
     if (!interactive) {
-      x$res.single.pass$m2ll = -2 * x$res.single.pass$logLikelihood
-      
       # for (i in 1:length(vars)) {
-      lvk.dat = x$res.single.pass
+      #lvk.dat = x$res.single.pass
       lvk.dat$kj = lvk.dat$k + (unlist(lvk.dat[, vars[1]]) - 0.5) / 4
-      lvk.dat[, vars[1]] = as.logical(lvk.dat[, vars[1]])
+      lvk.dat[, vars[1]] = as.logical(unlist(lvk.dat[, vars[1]]))
       
       p = ggplot2::ggplot(data = lvk.dat, ggplot2::aes_string(x = "kj", y = "m2ll")) +
         ggplot2::geom_jitter(
@@ -705,14 +711,14 @@ plot.vis = function(x,
       # n.var.ident = which(x$res.single.pass[,vars[i]] == 0)
       # graphics::par(mar = c(3.4,3.4,0.1,0.1),mgp = c(2.0, 0.75, 0))
       # if (missing(ylim)) ylim = c(min(m2ll),max(m2ll))
-      # graphics::plot(m2ll[n.var.ident] ~ spk[n.var.ident],
+      # graphics::plot(m2ll[n.var.ident] ~ lvk.dat$spk[n.var.ident],
       #                pch = 19, cex = 1.3, col = col_nohigh,
       #                bg = colbg,
       #                xlab = "Number of parameters",
       #                ylab = "-2*Log-likelihood",
       #                ylim = ylim,
-      #                xlim = c(min(spk),max(spk)))
-      # graphics::points(m2ll[var.ident] ~ spk[var.ident],
+      #                xlim = c(min(lvk.dat$spk),max(lvk.dat$spk)))
+      # graphics::points(m2ll[var.ident] ~ lvk.dat$spk[var.ident],
       #                  pch = 24, bg = colbg,
       #                  col = col_high, cex = 1.2)
       # graphics::legend("topright",legend = c(paste("With",vars[i]),paste("Without",vars[i])),
@@ -724,14 +730,14 @@ plot.vis = function(x,
       # }
     } else {
       # googleVis version
-      var.ident = which(x$res.single.pass[, vars[1]] == 1)
-      n.var.ident = which(x$res.single.pass[, vars[1]] == 0)
-      with.var = without.var = rep(NA, dim(x$res.single.pass)[1])
-      with.var[var.ident] = m2ll[var.ident]
-      without.var[n.var.ident] = m2ll[n.var.ident]
-      mods = x$res.single.pass$name
+      var.ident = which(lvk.dat[, vars[1]] == 1)
+      n.var.ident = which(lvk.dat[, vars[1]] == 0)
+      with.var = without.var = rep(NA, dim(lvk.dat)[1])
+      with.var[var.ident] = lvk.dat$m2ll[var.ident]
+      without.var[n.var.ident] = lvk.dat$m2ll[n.var.ident]
+      mods = lvk.dat$name
       dat = data.frame(
-        k = spk,
+        k = lvk.dat$spk,
         without.var,
         without.var.html.tooltip = mods,
         with.var,
@@ -740,7 +746,7 @@ plot.vis = function(x,
       colnames(dat)[4] = paste("With", highlight)
       colnames(dat)[2] = paste("Without", highlight)
       gvis.title = paste("Model stability plot", sep = "")
-      x.ticks = paste(1:max(spk), collapse = ",")
+      x.ticks = paste(1:max(lvk.dat$spk), collapse = ",")
       gvis.hAxis = paste("{title:'Number of parameters', ticks: [",
                          x.ticks, "]}")
       chartArea = paste(
@@ -904,9 +910,9 @@ plot.vis = function(x,
           actions: ['dragToZoom',
           'rightClickToReset']}"
         )
-    } else {
-      use.options = options
-  }
+      } else {
+        use.options = options
+      }
       fplot = googleVis::gvisBubbleChart(
         data = dat,
         idvar = "mods",
@@ -921,7 +927,7 @@ plot.vis = function(x,
       } else {
         graphics::plot(fplot, tag = tag)
       }
-  }
+    }
   }
   if ("vip" %in% which) {
     # variable inclusion plot
@@ -991,16 +997,6 @@ plot.vis = function(x,
         )
       
       return(p)
-      
-      
-      
-      # graphics::par(mar = c(3.4,3.4,0.1,0.1), mgp = c(2.0, 0.75, 0))
-      # graphics::matplot(x = classic.lambda,jitter(as.matrix(classic.vip.df)),type = "l",
-      #                   ylab = "Bootstrapped probability", xlab = "Penalty", lwd = lwds)
-      # leg.nm = names(classic.vip.df)
-      # graphics::legend("topright", leg.nm, bg = "transparent", bty = "n", inset = c(0.015),
-      #                  # these are the defaults for matplot:
-      #                  lty = 1:5, col = 1:6, lwd = lwds)
     } else {
       gvis.title = "Variable inclusion plot"
       #lineDashStyle = paste("[",paste(1:2,collapse=","),"]",sep="")
@@ -1057,7 +1053,7 @@ plot.vis = function(x,
       } else {
         return(graphics::plot(fplot, tag = tag))
       }
-  }
+    }
   } else
     return(invisible())
   
@@ -1069,7 +1065,7 @@ plot.vis = function(x,
   
   
   
-  }
+}
 
 
 #' Print method for a vis object

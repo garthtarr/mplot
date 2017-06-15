@@ -125,4 +125,3 @@ Jiang J., Nguyen T., Sunil Rao J. (2009),
 \seealso{
 \code{\link{plot.af}}
 }
-

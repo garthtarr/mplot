@@ -47,4 +47,3 @@ Tager, I. B., Weiss, S. T., Rosner, B., and Speizer, F. E. (1979).
    http://www.amstat.org/publications/jse/v13n2/datasets.kahn.html
 }
 \keyword{datasets}
-

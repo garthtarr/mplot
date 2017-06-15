@@ -83,4 +83,3 @@ Mueller, S. and Welsh, A. H. (2010), On model
 \seealso{
 \code{\link{plot.vis}}
 }
-

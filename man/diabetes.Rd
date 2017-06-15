@@ -41,4 +41,3 @@ Efron, B., Hastie, T., Johnstone, I., Tibshirani, R., (2004).
   DOI: 10.1214/009053604000000067
 }
 \keyword{datasets}
-

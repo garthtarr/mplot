@@ -6,7 +6,6 @@
 #' @keywords package
 NULL
 
-
 #' Body fat data set
 #'
 #' A data frame with 128 observations on 15 variables.
@@ -394,3 +393,7 @@ process.fn = function(fence.mod,fence.rank){
 
   return(c(pstarj.bo,pstarnamej.bo,pstarj.all,pstarnamej.all))
 }
+
+
+#' @importFrom dplyr "%>%"
+NULL

@@ -21,4 +21,3 @@ value (\code{FALSE}).}
 Prints basic output of the bootstrap results of an
 af object.
 }
-

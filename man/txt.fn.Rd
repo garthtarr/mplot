@@ -18,4 +18,3 @@ This function provides the text for the case when trace=TRUE
 when using lmfence and glmfence functions.
 }
 \keyword{internal}
-

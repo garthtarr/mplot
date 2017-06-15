@@ -48,4 +48,3 @@ Johnson W (1996, Vol 4). Fitting percentage of
   An expanded version is included in the \code{mfp} R package.
 }
 \keyword{datasets}
-
