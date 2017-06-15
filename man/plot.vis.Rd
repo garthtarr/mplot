@@ -38,6 +38,10 @@ googleVis is used in scripts, like knitr or rmarkdown.}
 
 \item{shiny}{Default FALSE. Set to TRUE when using in a shiny interface.}
 
+\item{nbest}{maximum number of models at each model size
+that will be considered for the lvk plot. Can also take
+a value of \code{"all"} which displays all models (default).}
+
 \item{which}{a vector specifying the plots to be output.  Variable
 inclusion plots \code{which="vip"}; description loss against model
 size \code{which="lvk"}; bootstrapped description loss against

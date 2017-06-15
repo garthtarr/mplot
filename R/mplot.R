@@ -71,34 +71,35 @@ mplot = function(mf,...){
         menuItem(text="Adaptive fence",icon=icon("area-chart"),tabName="af"),
         conditionalPanel(condition = "input.lvp=='af'",
                          radioButtons("bo",label="Best Only",
-                                      choices=c("TRUE"=TRUE, "FALSE" = FALSE),
-                                      inline=TRUE)),
+                                      choices = c("TRUE" = TRUE, "FALSE" = FALSE),
+                                      inline = TRUE)),
         menuItem(text="Model stability",icon=icon("bar-chart"),tabName="lvp"),
         menuItem(text="Bootstrap glmnet",icon=icon("line-chart"),tabName="bglmnet"),
         conditionalPanel(condition = "input.lvp=='lvp' | input.lvp=='bglmnet'",
                          selectInput("highlight",label="Highlight models with:",
                                      choices=if(lvp.res$use.glmulti) base::all.vars(stats::formula(full.model))[-1] else names(stats::coef(full.model))[!names(stats::coef(full.model))=="(Intercept)"]),
                          conditionalPanel(condition = "input.lvp=='lvp'",
-                                          radioButtons("boot_lvp","Bootstrap?",
-                                                       choices=c("Yes","No"),
+                                          radioButtons("boot_lvp", "Bootstrap?",
+                                                       choices=c("Yes", "No"),
                                                        selected = "Yes",
-                                                       inline=TRUE)),
+                                                       inline = TRUE)),
+                         uiOutput("nbestui"),
                          sliderInput(inputId = "min.prob", label="Min probability with label",
                                      min = 0, max=1, value = 0.3)),
-        conditionalPanel(condition = "input.classic=='TRUE' & input.lvp=='lvp'",
-                         sliderInput(inputId = "max.circle", label="Max circle size",
+        conditionalPanel(condition = "input.classic=='TRUE' & input.lvp=='lvp' & input.boot_lvp=='Yes'",
+                         sliderInput(inputId = "max.circle", label = "Max circle size",
                                      min = 1,max=30,value = 15),
                          radioButtons(inputId = "text",label="Add text",
-                                      choices=c("Yes"=TRUE,"No" = FALSE),
-                                      selected=FALSE,inline=TRUE)
+                                      choices=c("Yes" = TRUE, "No" = FALSE),
+                                      selected = FALSE, inline = TRUE)
         ),
-        conditionalPanel(condition = "input.classic=='TRUE' & input.lvp=='lvp' & input.text=='TRUE'",
+        conditionalPanel(condition = "input.classic=='TRUE' & input.lvp=='lvp' & input.boot_lvp=='Yes' & input.text=='TRUE'",
                          sliderInput(inputId = "srt", label="Label rotation",
-                                     min = -45, max=90, value = 45)),
+                                     min = -45, max = 90, value = 45)),
         conditionalPanel(condition = "input.lvp=='lvp' | input.lvp=='af' | input.lvp=='vip' | input.lvp=='bglmnet'",
-                         radioButtons("classic",label="Classic plots",
-                                      choices=c("Yes"=TRUE,"No" = FALSE),
-                                      selected=FALSE,inline=TRUE)),
+                         radioButtons("classic", label = "Interactive plots",
+                                      choices=c("Yes" = FALSE, "No" = TRUE),
+                                      selected = FALSE, inline = TRUE)),
         uiOutput("screenui")
         
       )
@@ -117,22 +118,22 @@ mplot = function(mf,...){
     ,
     dashboardBody(
       tabItems(
-        tabItem(tabName="lvp",
-                box(title = "Model stability plot",status="primary",
-                    solidHeader = TRUE,width = 12,
+        tabItem(tabName = "lvp",
+                box(title = "Model stability plot", status = "primary",
+                    solidHeader = TRUE, width = 12,
                     conditionalPanel(condition = "input.classic=='FALSE'",
                                      htmlOutput("lvp.gvis")),
                     conditionalPanel(condition = "input.classic=='TRUE'",
                                      plotOutput("lvp.classic"))
                 ),
                 box(title = "R output", status = "primary",
-                    solidHeader = TRUE, collapsible = TRUE,
-                    width=12, collapsed = FALSE,
+                    solidHeader = TRUE, collapsible = TRUE, 
+                    width = 12, collapsed = FALSE, 
                     verbatimTextOutput("boot.verb"))),
-        tabItem(tabName="vip",
+        tabItem(tabName = "vip",
                 box(title = "Variable inclusion plot",
-                    status="info",
-                    solidHeader = TRUE, width=12,
+                    status = "info",
+                    solidHeader = TRUE, width = 12,
                     conditionalPanel(condition = "input.classic=='FALSE'",
                                      htmlOutput("vip.gvis")),
                     conditionalPanel(condition = "input.classic=='TRUE'",
@@ -172,6 +173,15 @@ mplot = function(mf,...){
                                     choices = c("Yes"=TRUE,"No" = FALSE),
                                     selected = FALSE,
                                     inline = TRUE))
+    })
+    output$nbestui = renderUI({
+      kf = max(lvp.res$res.single.pass$k)
+      max_n_mod = max(choose((kf-1),0:(kf-1)))
+      conditionalPanel(condition = "input.lvp=='lvp' & input.boot_lvp=='No'",
+                       sliderInput("nbest", label = "Max number of models to display at each dimension",
+                                    min = 1, max = max_n_mod, 
+                                    value = max_n_mod, ticks = FALSE,
+                                   round = TRUE))
     })
     
     visdat = reactive({
@@ -234,41 +244,39 @@ mplot = function(mf,...){
       }
     })
     
-    
     #### Model seleciton plot
     output$lvp.gvis <- googleVis::renderGvis({
       lvp.data = visdat()
-      if(input$boot_lvp=="No"){
-        graphics::plot(lvp.data,shiny=TRUE,classic=FALSE,
-                       highlight=input$highlight,which="lvk")
-      } else if(input$boot_lvp=="Yes") {
-        graphics::plot(lvp.data,shiny=TRUE,classic=FALSE,
-                       highlight=input$highlight,which="boot")
+      if (input$boot_lvp=="No") {
+        graphics::plot(lvp.data, shiny = TRUE, interactive = TRUE,
+                       highlight = input$highlight, which = "lvk", nbest = input$nbest)
+      } else if (input$boot_lvp == "Yes") {
+        graphics::plot(lvp.data, shiny = TRUE, interactive = TRUE,
+                       highlight = input$highlight, which = "boot")
       }
     })
     
     output$lvp.classic <- renderPlot({
       lvp.data = visdat()
-      if(input$boot_lvp=="No"){
-        graphics::plot(lvp.data, highlight=input$highlight,
-                       which="lvk", classic=TRUE)
-      } else if(input$boot_lvp=="Yes") {
-        graphics::plot(lvp.data, highlight=input$highlight,
-                       which="boot", classic=TRUE, max.circle=input$max.circle,
-                       text=input$text, min.prob=input$min.prob, srt = input$srt)
+      if (input$boot_lvp == "No") {
+        graphics::plot(lvp.data, highlight = input$highlight,
+                       which = "lvk", interactive = FALSE, nbest = input$nbest)
+      } else if (input$boot_lvp == "Yes") {
+        graphics::plot(lvp.data, highlight = input$highlight,
+                       which = "boot", interactive = FALSE, max.circle = input$max.circle,
+                       text = input$text, min.prob = input$min.prob, srt = input$srt)
       }
     })
-    
     
     #### Variable inclusion plots
     output$vip.gvis <- googleVis::renderGvis({
       lvp.data = visdat()
-      graphics::plot(lvp.data,classic=FALSE,shiny=TRUE,which="vip")
+      graphics::plot(lvp.data,interactive = TRUE,shiny=TRUE,which="vip")
     })
     
     output$vip.classic <- renderPlot({
       lvp.data = visdat()
-      graphics::plot(lvp.data,classic=TRUE,which="vip")
+      graphics::plot(lvp.data,interactive = FALSE,which="vip")
     })
     
     output$boot.verb = renderPrint({
@@ -279,15 +287,16 @@ mplot = function(mf,...){
     #### Adaptive fence plots
     output$af.gvis <- googleVis::renderGvis({
       af.data = afdat()
-      if(!is.null(af.data)){
-        graphics::plot(af.data,classic=FALSE,shiny=TRUE,best.only=input$bo)
+      if (!is.null(af.data)) {
+        graphics::plot(af.data, interactive = TRUE, 
+                       shiny = TRUE, best.only = input$bo)
       } else return(NULL)
     })
     
     output$af.classic <- renderPlot({
       af.data = afdat()
-      if(!is.null(af.data)){
-        graphics::plot(af.data,classic=TRUE,best.only=input$bo)
+      if (!is.null(af.data)) {
+        graphics::plot(af.data, interactive = FALSE, best.only = input$bo)
       } else return(NULL)
     })
     
@@ -300,16 +309,16 @@ mplot = function(mf,...){
     ### Bootstrapping glmnet 
     output$bglmnet.gvis <- googleVis::renderGvis({
       bglmnet.data = bglmnetdat()
-      graphics::plot(bglmnet.data,classic=FALSE,shiny=TRUE,which="vip")
+      graphics::plot(bglmnet.data, interactive = TRUE, 
+                     shiny = TRUE, which = "vip")
     })
     
     output$bglmnet.gvis2 <- googleVis::renderGvis({
       bglmnet.data = bglmnetdat()
-      graphics::plot(bglmnet.data,shiny=TRUE,classic=FALSE,
+      graphics::plot(bglmnet.data, shiny = TRUE, interactive = TRUE,
                      highlight = input$highlight,
-                     which="boot",plb = input$min.prob)
+                     which = "boot", plb = input$min.prob)
     })
-    
   }
   
   shinyApp(ui, server)

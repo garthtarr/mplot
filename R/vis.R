@@ -140,7 +140,7 @@ vis = function(mf,
   ## (gives the minimum envelopping set of models)
   if (any(class(mf) == "glm") == TRUE & !use.glmulti) {
     # no redundant variable
-    # Xy = X
+    # Xy = X 
     # Xy$REDUNDANT.VARIABLE = NULL # do want to keep it in
     em = bestglm::bestglm(
       Xy = X,
@@ -561,6 +561,9 @@ vis = function(mf,
 #'   issue with GoogleCharts when setting 'transparent' related to the
 #'   zoom window sticking - once that's sorted out, the default
 #'   will change back to 'transparent')
+#' @param nbest maximum number of models at each model size
+#'   that will be considered for the lvk plot. Can also take
+#'   a value of \code{"all"} which displays all models (default).
 #' @param text logical, whether or not to add text labels to classic
 #'   boot plot. Default = \code{FALSE}.
 #' @param min.prob when \code{text=TRUE}, a lower bound on the probability of
@@ -745,21 +748,14 @@ plot.vis = function(x,
       )
       colnames(dat)[4] = paste("With", highlight)
       colnames(dat)[2] = paste("Without", highlight)
-      gvis.title = paste("Model stability plot", sep = "")
+      gvis.title = paste("Loss versus dimension plot", sep = "")
       x.ticks = paste(1:max(lvk.dat$spk), collapse = ",")
       gvis.hAxis = paste("{title:'Number of parameters', ticks: [",
                          x.ticks, "]}")
       chartArea = paste(
-        "{left:",
-        left,
-        ",top:",
-        top,
-        ",width:'",
-        chartWidth,
-        "',height:'",
-        chartHeight,
-        "'}",
-        sep = ""
+        "{left:", left, ",top:", top,
+        ",width:'", chartWidth, "',height:'", chartHeight,
+        "'}", sep = ""
       )
       if (is.null(options)) {
         use.options = list(
@@ -779,7 +775,8 @@ plot.vis = function(x,
       } else {
         use.options = options
       }
-      fplot = googleVis::gvisScatterChart(data = dat, options = use.options)
+      fplot = googleVis::gvisScatterChart(data = dat, 
+                                          options = use.options)
       if (shiny) {
         return(fplot)
       } else {
@@ -801,23 +798,6 @@ plot.vis = function(x,
       var.ident = var.ident
     )
     if (!interactive) {
-      # graphics::par(mar = c(3.4,3.4,0.1,0.1),mgp = c(2.0, 0.75, 0))
-      # if(missing(ylim)) ylim = NULL
-      # graphics::symbols(dat$k,dat$LL,sqrt(dat$prob),inches=max.circle,
-      #                   bg = ifelse(vi,grDevices::rgb(1, 0, 0, alpha=0.5),grDevices::rgb(0, 0, 1, alpha=0.5)),
-      #                   fg = "white",
-      #                   ylim = ylim,
-      #                   xlab = "Number of parameters",
-      #                   ylab = "-2*Log-likelihood")
-      # graphics::legend("topright",legend = c(paste("With",vars[1]),paste("Without",vars[1])),
-      #                  col = c(grDevices::rgb(1, 0, 0, alpha=0.5),grDevices::rgb(0, 0, 1, alpha=0.5)),pch=19)
-      # if(text){
-      #   bdat = dat[dat$prob>min.prob,]
-      #   if(!print.full.model){
-      #     bdat = bdat[-dim(bdat)[1],]
-      #   }
-      #   text(bdat$k,bdat$LL,bdat$mods,cex=0.9,pos=2,offset=0.5,srt=srt)
-      # }
       dat$mod.lab = as.character(dat$mods)
       dat$mod.lab[dat$prob < min.prob] = ""
       dat$mod.lab[length(dat$mod.lab)] = ""
@@ -874,16 +854,9 @@ plot.vis = function(x,
         "]}"
       )
       chartArea = paste(
-        "{left:",
-        left,
-        ",top:",
-        top,
-        ",width:'",
-        chartWidth,
-        "',height:'",
-        chartHeight,
-        "'}",
-        sep = ""
+        "{left:", left, ",top:", top,
+        ",width:'", chartWidth, "',height:'", chartHeight,
+        "'}", sep = ""
       )
       bubble = paste("{opacity:",
                      dataOpacity,
