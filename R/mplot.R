@@ -170,7 +170,7 @@ mplot = function(mf,...){
     output$screenui = renderUI({
       conditionalPanel(condition = "output.anyscreen=='TRUE'",
                        radioButtons("screen",label="Screen",
-                                    choices = c("Yes"=TRUE,"No" = FALSE),
+                                    choices = c("Yes" = TRUE,"No" = FALSE),
                                     selected = FALSE,
                                     inline = TRUE))
     })
@@ -178,10 +178,12 @@ mplot = function(mf,...){
       kf = max(lvp.res$res.single.pass$k)
       max_n_mod = max(choose((kf-1),0:(kf-1)))
       conditionalPanel(condition = "input.lvp=='lvp' & input.boot_lvp=='No'",
-                       sliderInput("nbest", label = "Max number of models to display at each dimension",
-                                    min = 1, max = max_n_mod, 
-                                    value = max_n_mod, ticks = FALSE,
-                                   round = TRUE))
+                       selectInput("nbest", label = "Max number of models to display at each dimension",
+                                    choices = c(1,
+                                                5,
+                                                10,
+                                                max_n_mod),
+                                    selected = max_n_mod))
     })
     
     visdat = reactive({
@@ -249,7 +251,7 @@ mplot = function(mf,...){
       lvp.data = visdat()
       if (input$boot_lvp=="No") {
         graphics::plot(lvp.data, shiny = TRUE, interactive = TRUE,
-                       highlight = input$highlight, which = "lvk", nbest = input$nbest)
+                       highlight = input$highlight, which = "lvk", nbest = as.numeric(input$nbest))
       } else if (input$boot_lvp == "Yes") {
         graphics::plot(lvp.data, shiny = TRUE, interactive = TRUE,
                        highlight = input$highlight, which = "boot")
@@ -260,7 +262,7 @@ mplot = function(mf,...){
       lvp.data = visdat()
       if (input$boot_lvp == "No") {
         graphics::plot(lvp.data, highlight = input$highlight,
-                       which = "lvk", interactive = FALSE, nbest = input$nbest)
+                       which = "lvk", interactive = FALSE, nbest = as.numeric(input$nbest))
       } else if (input$boot_lvp == "Yes") {
         graphics::plot(lvp.data, highlight = input$highlight,
                        which = "boot", interactive = FALSE, max.circle = input$max.circle,
