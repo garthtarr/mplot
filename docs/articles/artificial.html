@@ -145,8 +145,22 @@ full.model =<span class="st"> </span><span class="kw">lm</span>(y <span class="o
 ## x8              0.15       0.62    0.24     0.81
 ## x9              0.40       0.64    0.63     0.53</code></pre>
 <p>Performing default stepwise variable selection yields a model with all explanatory variables except <span class="math inline">\(x_8\)</span>. As an aside, the dramatic changes in the p-values indicate that there is substantial interdependence between the explanatory variables even though none of the pairwise correlations in the <a href="#fig:pairsplot">pairs plot</a> are particularly extreme.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">mgp=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="fl">0.5</span>,<span class="dv">0</span>), <span class="dt">tcl=</span><span class="op">-</span><span class="fl">0.3</span>, <span class="dt">bg =</span> <span class="st">"transparent"</span>)
+panel.cor &lt;-<span class="st"> </span><span class="cf">function</span>(x, y, <span class="dt">digits=</span><span class="dv">1</span>, <span class="dt">prefix=</span><span class="st">""</span>, cex.cor, ...)
+{
+  usr &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="st">"usr"</span>); <span class="kw">on.exit</span>(<span class="kw">par</span>(usr))
+  <span class="kw">par</span>(<span class="dt">usr =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))
+  r &lt;-<span class="st"> </span><span class="kw">abs</span>(<span class="kw">cor</span>(x, y))
+  txt &lt;-<span class="st"> </span><span class="kw">format</span>(<span class="kw">c</span>(r, <span class="fl">0.123456789</span>), <span class="dt">digits=</span>digits)[<span class="dv">1</span>]
+  txt &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">""</span>, txt, <span class="dt">sep=</span><span class="st">""</span>)
+  <span class="kw">text</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, txt, <span class="dt">cex =</span> <span class="dv">1</span>)
+}
+<span class="kw">pairs</span>(artificialeg, <span class="dt">upper.panel =</span> panel.cor, 
+      <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">col =</span> <span class="st">'#22558866'</span>, <span class="dt">oma =</span> <span class="kw">c</span>(<span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>),
+      <span class="dt">cex.labels =</span> <span class="fl">1.25</span>, <span class="dt">gap =</span> <span class="fl">0.2</span>)</code></pre></div>
+<p><img src="artificial_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 <div id="fig:pairsplot">
-<p><img src="images/pairsplot.png"></p>
+<!-- <img src="images/pairsplot.png"> -->
 </div>
 <p><em>Figure: scatterplot matrix of the artificially generated data set with estimated correlations in the upper right triangle. The true data generating process for the dependent variable is <span class="math inline">\(y=0.6\, x_8 + \varepsilon\)</span> where <span class="math inline">\(\varepsilon\sim\mathcal{N}(0,2^2)\)</span>.</em></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">step.model =<span class="st"> </span><span class="kw">step</span>(full.model, <span class="dt">trace =</span> <span class="dv">0</span>)

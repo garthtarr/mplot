@@ -4,7 +4,9 @@ tags:
   - [example]
   - [linear models]
 keywords: "example, AF, VIP, MSP, linear model"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    self_contained: no
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
 vignette: >
@@ -61,6 +63,13 @@ plot(af.d, best.only = TRUE, legend.position = "bottomright", interactive = TRUE
 plot(af.d, best.only = FALSE, interactive = TRUE, tag = "chart")
 ```
 
+<div id="fig:diabetesmain">
+<!-- <img src="images/dbmain.png"> -->
+
+</div>
+_Figure: diabetes main effects example._
+
+
 
 A striking feature of the variable inclusion plot is the non-monotonic nature of the `hdl` line.   As the penalty value increases, and a more parsimonious model is sought, the `hdl` variable is selected more frequently while at the same time other variables with similar information are dropped.  Such paths occur when a group of variables contains similar information to another variable.  The `hdl` line is a less extreme example of what occurs with $x_8$ in the artificial example (see [here](vip#fig:plotvis)).   The path for the age variable lies below the path for the redundant variable, indicating that it does not provide any useful information. The `bmi` and `ltg` paths are horizontal with a bootstrap probability of 1 for all penalty values indicating that they are very important variables, as are `map` and `sex`.  From the variable inclusion plot alone, it is not obvious whether `tc` or `hdl` is the next most important variable.  Some guidance on this issue is provided by the model stability and adaptive fence plots.
 
@@ -78,11 +87,6 @@ Stepwise approaches using a forward search or backward search with the AIC or BI
 
 Interactive versions of the plots in the [figure below](#fig:diabetesmain) are shown above and a Shiny app example resulting from a call to `mplot(lm.d, vis.d, af.d)` is available at garthtarr.com/apps/mplot.
 
-<div id="fig:diabetesmain">
-<img src="images/dbmain.png">
-
-</div>
-_Figure: diabetes main effects example._
 
 To incorporate interaction terms, we suggest selecting the main effects first, then regressing the relevant interaction terms on the residuals from the main effects model.  This approach ensures that the main effects are always taken into account. In this example, we estimate the dominant model of dimension six and obtain the fitted residuals.  The interaction terms are then regressed on the fitted residuals. 
 
@@ -129,13 +133,13 @@ plot(vis.d.int, which = "boot", max.circle = 0.25, highlight = "bmi.map", intera
 plot(af.d.int, best.only = TRUE, legend.position = "bottomright", interactive = TRUE, tag = "chart")
 ```
 
-Or if we used static plots instead (`interactive = FALSE`), we would get something similar to the following figures (generated using a different seed).
+<!-- Or if we used static plots instead (`interactive = FALSE`), we would get something similar to the following figures (generated using a different seed). -->
 
-<div id="fig:diabetesint">
-<img src="images/dbint.png">
+<!-- <div id="fig:diabetesint"> -->
+<!-- <img src="images/dbint.png"> -->
 
-</div>
-_Figure: diabetes interactions terms example._
+<!-- </div> -->
+<!-- _Figure: diabetes interactions terms example._ -->
 
 Hence, as a final model for the diabetes example we suggest including the main effects {`bmi`, `map`, `ltg`, `sex`, `hdl`} and the interaction effects {`bmi.map`, `bmi.hdl`, `map.ltg`, `hdl.ltg`}.  Further investigation can also be useful.  For example, we could use cross validation to compare the model with interaction effects, the model with just main effects and other simpler models that were identified as having peaks in the adaptive fence.  Researchers should also incorporate their specialist knowledge of the predictors and evaluate whether or not the estimated model is sensible from a scientific perspective.
 

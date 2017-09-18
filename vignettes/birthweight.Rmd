@@ -4,7 +4,9 @@ tags:
   - example
   - linear models
 keywords: "example, AF, VIP, MSP, linear model"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    self_contained: no
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
 vignette: >
@@ -16,7 +18,7 @@ vignette: >
 The `birthwt` dataset from the **MASS** package has data on 189 births at the Baystate Medical Centre, Springfield, Massachusetts during 1986 [@Venables:2002].  The main variable of  interest is low birth weight, a binary response variable `low` [@Hosmer:1989book].  We have taken the same approach to modelling the full model as in @Venables:2002, where `ptl` is reduced to a binary indicator of past history and `ftv` is reduced to a factor with three levels.
 
 ```{r, message = FALSE}
-library(MASS)
+data("birthwt", package = "MASS")
 bwt <- with(birthwt, {
   race <- factor(race, labels = c("white", "black", "other"))
   ptd <- factor(ptl > 0)

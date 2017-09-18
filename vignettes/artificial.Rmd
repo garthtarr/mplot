@@ -34,9 +34,24 @@ round(summary(full.model)$coef, 2)
 
 Performing default stepwise variable selection yields a model with all explanatory variables except $x_8$.  As an aside, the dramatic changes in the p-values indicate that there is substantial interdependence between the explanatory variables even though none of the pairwise correlations in the [pairs plot](#fig:pairsplot) are particularly extreme.
 
-<div id="fig:pairsplot">
-<img src="images/pairsplot.png">
+```{r}
+par(mar=c(0,0,0,0), mgp=c(1,0.5,0), tcl=-0.3, bg = "transparent")
+panel.cor <- function(x, y, digits=1, prefix="", cex.cor, ...)
+{
+  usr <- par("usr"); on.exit(par(usr))
+  par(usr = c(0, 1, 0, 1))
+  r <- abs(cor(x, y))
+  txt <- format(c(r, 0.123456789), digits=digits)[1]
+  txt <- paste("", txt, sep="")
+  text(0.5, 0.5, txt, cex = 1)
+}
+pairs(artificialeg, upper.panel = panel.cor, 
+      pch = 19, col = '#22558866', oma = c(1.5,1.5,1.5,1.5),
+      cex.labels = 1.25, gap = 0.2)
+```
 
+<div id="fig:pairsplot">
+<!-- <img src="images/pairsplot.png"> -->
 </div>
 *Figure: scatterplot matrix of the artificially generated data set with estimated correlations in the upper right triangle.  The true data generating process for the dependent variable is $y=0.6\, x_8 + \varepsilon$ where $\varepsilon\sim\mathcal{N}(0,2^2)$.*
 
