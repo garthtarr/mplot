@@ -1,12 +1,13 @@
 year <- sub("-.*", "", meta$Date)
 note <- sprintf("R package version %s", meta$Version)
 
-bibentry("Misc",
+bibentry("Article",
    title = "{{mplot}: An R package for graphical model stability and variable selection}",
-   author = c(person("Garth","Tarr"), person("Samuel","Mueller"),person("Alan","Welsh")),
-   year = 2015,
-   eprint = "arXiv:1509.07583 [stat.ME]",
-   url    = "http://arxiv.org/abs/1509.07583",
+   author = c(person("Garth","Tarr"), person("Samuel","Mueller"), person(given = "Alan H.", family = "Welsh")),
+   year = 2017,
+   journal = "Journal of Statistical Software",
+   Note = "In press",
+   url = "http://arxiv.org/abs/1509.07583",
    mheader = "To cite mplot in publications use:"
 )
 

@@ -1,0 +1,55 @@
+---
+title: Artificial example
+tags:
+  - VIP
+  - AF
+  - MSP
+keywords: "VIP, variable inclusion plots, adaptive fence, model stability plots"
+output: rmarkdown::html_vignette
+bibliography: jss.bib
+csl: apa-old-doi-prefix.csl
+vignette: >
+  %\VignetteIndexEntry{egebundleR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+The artificially generated data set was originally designed to emphasise statistical deficiencies in stepwise procedures, but here it will be used to highlight the utility of the various procedures and plots provided by  **mplot**.   The data set and details of how it was generated are provided with the **mplot** package.
+
+```{r, eval = FALSE}
+# install.packages("mplot")
+data("artificialeg", package = "mplot")
+help("artificialeg", package = "mplot")
+```
+
+A scatterplot matrix of the data and the estimated pairwise correlations are given in the [pairs plot](#fig:pairsplot) below.  There are no outliers and we have not positioned the observations in a subspace of the artificially generated data set. All variables, while related, originate from a Gaussian distribution.  Fitting the full model yields no individually significant variables.
+
+```{r}
+library("mplot")
+data("artificialeg")
+full.model = lm(y ~ ., data = artificialeg)
+round(summary(full.model)$coef, 2)
+```
+
+Performing default stepwise variable selection yields a model with all explanatory variables except $x_8$.  As an aside, the dramatic changes in the p-values indicate that there is substantial interdependence between the explanatory variables even though none of the pairwise correlations in the [pairs plot](#fig:pairsplot) are particularly extreme.
+
+<div id="fig:pairsplot">
+<img src="images/pairsplot.png">
+
+</div>
+*Figure: scatterplot matrix of the artificially generated data set with estimated correlations in the upper right triangle.  The true data generating process for the dependent variable is $y=0.6\, x_8 + \varepsilon$ where $\varepsilon\sim\mathcal{N}(0,2^2)$.*
+
+
+```{r}
+step.model = step(full.model, trace = 0)
+round(summary(step.model)$coef, 2)
+```
+
+The true data generating process is, $y = 0.6\,x_{8} + \varepsilon$, where $\varepsilon\sim\mathcal{N}(0,2^2)$.  The bivariate regression of $y$ on $x_{8}$ is the more desirable model, not just because it is the true model representing the data generating process, but it is also more parsimonious with essentially the same residual variance as the larger model chosen by the stepwise procedure.  This example illustrates a key statistical failing of stepwise model selection procedures, in that they only explore a subset of the model space so are inherently susceptible to local minima in the information criterion [@Harrell:2001].  
+
+Perhaps the real problem with of stepwise methods is that they allow researchers to transfer all responsibility for model selection to a computer and not put any real thought into the model selection process.  This is an issue that is also shared, to a certain extent with more recent model selection procedures based on regularisation such as the lasso and least angle regression [@Tibshirani:1996; @Tibshirani:2004], where attention focusses only on those models that are identified by the path taken through the model space. In the lasso, as the tuning parameter $\lambda$ is varied from zero to $\infty$, different regression parameters remain non-zero, thus generating a path through the set of possible regression models, starting with the largest _optimal_ model when $\lambda=0$ to the smallest possible model when $\lambda=\infty$, typically the null model because the intercept is not penalised. The lasso selects that model on the lasso path at a single $\lambda$ value, that minimises one of the many possible criteria (such as 5-fold cross-validation, or the prediction error) or by determining the model on the lasso path that minimises an information criterion (for example BIC).
+
+An alternative to stepwise or regularisation procedures is to perform exhaustive searches of the model space.  While exhaustive searches avoid the issue of local minima, they are computationally expensive, growing exponentially in the number of variables $p$, with more than a thousand models when $p=10$ and a million when $p=20$.  The methods provided in the **mplot** package and described in the remainder of the article go beyond stepwise procedures by incorporating exhaustive searches where feasible and using resampling techniques to provide an indication of the stability of the selected model.  The **mplot** package can feasibly handle up to 50 variables in linear regression models and a similar number for logistic regression models when an appropriate transformation (described in the [birth weight example](birthweight.html)) is implemented.  
+
+#### References

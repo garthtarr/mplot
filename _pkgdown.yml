@@ -1,0 +1,69 @@
+template:
+  params:
+    bootswatch: lumen
+    toc_depth: 3
+
+reference:
+  - title: "Core functions"
+    contents:
+      - af
+      - vis
+      - bglmnet
+      - mplot
+  - title: "Data sets"
+    contents:
+      - bodyfat
+      - diabetes
+      - fev
+      - wallabies
+  - title: "Generic plot, print and summary methods"
+    contents:
+      - plot.af
+      - plot.bglmnet
+      - plot.vis
+      - print.af
+      - print.vis
+      - summary.af
+  - exclude:
+    contents:
+      - mplot-package
+
+
+navbar:
+  title: "mplot"
+  type: default
+  left:
+    - icon: fa-home fa-lg
+      href: index.html
+    - text: "Reference"
+      href: reference/index.html
+    - text: "Theory"
+      menu: 
+        - text: "Background and philosophy"
+          href: articles/background.html
+        - text: "Variable inclusion plots"
+          href: articles/vip.html
+        - text: "Model stability plots"
+          href: articles/msp.html
+        - text: "Adaptive fence"
+          href: articles/af.html
+    - text: "Applications"
+      menu: 
+        - text: "Diabetes"
+          href: articles/diabetes.html
+        - text: "Birth weight"
+          href: articles/birthweight.html
+        - text: "Artificial example"
+          href: articles/artificial.html
+    - text: "Tips"
+      menu: 
+        - text: "Interactive plots"
+          href: articles/interactive.html
+        - text: "Timing"
+          href: articles/timing.html
+  right:
+    - icon: fa-github fa-lg
+      href: https://github.com/garthtarr/mplot
+    - icon: fa-info-circle fa-lg
+      href: articles/people.html
+

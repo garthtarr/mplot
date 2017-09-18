@@ -1,0 +1,45 @@
+---
+title: mplot contributors
+keywords: authors, mplot, contributors
+tags: [refs]
+bibliography: jss.bib
+csl: apa-old-doi-prefix.csl
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{egebundleR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+> Details of those who have contributed to the mplot project.
+
+Core development team:
+
+- Dr Garth Tarr (University of Sydney)
+- A/Prof Samuel Mueller (University of Sydney)
+- Prof Alan Welsh (Australian National University)
+
+Suggestions and testing:
+
+- Dr Kevin Murray (University of Western Australia)
+
+This research was undertaken with the assistance of resources from the National Computational Infrastructure (NCI), which is supported by the Australian Government. Samuel Mueller and Alan Welsh were supported by the Australian Research Council (DP140101259). We also gratefully acknowledge two anonymous referees for their helpful comments and suggestions for the paper and package.
+
+#### Citation
+
+If you use this package to inform your model selection choices, please use the following citation:
+
+* Tarr G, Mueller S and Welsh AH (2017). “mplot: An R package for graphical model
+stability and variable selection.” _Journal of Statistical Software_. In press,
+<URL: http://arxiv.org/abs/1509.07583>.
+
+
+From R you can use:
+
+```{r, comment=NA}
+citation("mplot")
+toBibtex(citation("mplot"))
+```
+
+
+
