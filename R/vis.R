@@ -636,6 +636,12 @@ plot.vis = function(x,
                     print.full.model = FALSE,
                     jitterk = 0.1,
                     ...) {
+  
+  # to prevent the notes:
+  # plot.vis: no visible binding for global variable k
+  # plot.vis: no visible binding for global variable logLikelihood
+  k = logLikelihood = NULL
+  
   if (backgroundColor == "transparent") {
     backgroundColor = "{stroke:null, fill:'null', strokeSize: 0}"
   } else {

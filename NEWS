@@ -1,7 +1,9 @@
-mplot 0.7.9 [2017-11-03]
+mplot 0.8.0 [2017-11-03]
 ------------------------
 
 * Random seed parameter for reproducible results
+* New website
+* Small fixes for JSS article (e.g. googleVis axis padding)
 
 
 mplot 0.7.8 [2016-08-17]

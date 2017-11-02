@@ -151,7 +151,7 @@ corresponding best model as described in Jiang et. al.
     
 
     <pre class="usage"><span class='fu'>af</span>(<span class='no'>mf</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>60</span>, <span class='kw'>n.c</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>initial.stepwise</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>force.in</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>cores</span>, <span class='no'>nvmax</span>, <span class='no'>c.max</span>, <span class='kw'>screen</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='no'>cores</span>, <span class='no'>nvmax</span>, <span class='no'>c.max</span>, <span class='kw'>screen</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -203,6 +203,10 @@ Only applies when <code>initial.stepwise=FALSE</code>.</p></td>
       <td><p>logical, whether or not to perform an initial
 screen for outliers.  Highly experimental, use at own risk.
 Default = FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>seed</th>
+      <td><p>random seed for reproducible results</p></td>
     </tr>
     <tr>
       <th>...</th>

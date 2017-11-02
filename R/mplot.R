@@ -34,6 +34,9 @@ mplot = function(mf,...){
   af.res = af.res.screened = NULL
   lvp.res = lvp.res.screened = NULL
   glmnet.res = glmnet.res.screened = NULL
+  # to prevent the note:
+  # mplot : server: no visible binding for global variable anyscreen
+  anyscreen = NULL
   anyScreen = FALSE
   for (j in 1:length(input_list)) {
     if (class(input_list[[j]]) == "af") {
@@ -175,6 +178,7 @@ mplot = function(mf,...){
   )
   
   server = function(input, output) {
+    
     output$anyscreen = reactive({
       anyscreen
     })

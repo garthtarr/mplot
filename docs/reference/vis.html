@@ -150,7 +150,8 @@ and bootstrap enhanced model stability plots (<code>lvk</code> and
     
 
     <pre class="usage"><span class='fu'>vis</span>(<span class='no'>mf</span>, <span class='no'>nvmax</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='no'>lambda.max</span>, <span class='kw'>nbest</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>use.glmulti</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>cores</span>, <span class='kw'>force.in</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>screen</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>redundant</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='no'>cores</span>, <span class='kw'>force.in</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>screen</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>redundant</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -205,6 +206,10 @@ Default = <code>FALSE</code>.</p></td>
       <th>redundant</th>
       <td><p>logical, whether or not to add a redundant
 variable.  Default = <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>seed</th>
+      <td><p>random seed for reproducible results</p></td>
     </tr>
     <tr>
       <th>...</th>
