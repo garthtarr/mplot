@@ -73,6 +73,7 @@
 #' @param screen logical, whether or not to perform an initial
 #'   screen for outliers.  Highly experimental, use at own risk.
 #'   Default = FALSE.
+#' @param seed random seed for reproducible results
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{plot.af}}
 #' @references Jiang J., Nguyen T., Sunil Rao J. (2009),
@@ -114,7 +115,9 @@ af = function(mf,
               nvmax,
               c.max,
               screen = FALSE,
+              seed = NULL,
               ...) {
+  set.seed(seed, kind = "L'Ecuyer-CMRG")
   method = "ML"
   af.call = match.call()
   if (!missing(c.max) & initial.stepwise == TRUE) {
@@ -245,7 +248,7 @@ af = function(mf,
   j = NULL # avoid global variable NOTE in R CMD check
   p.star.all = foreach(j = 1:n.c,
                        .combine = rbind,
-                       .packages = c("mplot")) %dopar% {
+                       .packages = c("mplot")) %dorng% {
                          fence.mod = list()
                          fence.rank = list()
                          ystar = stats::simulate(object = mfstar, nsim = B)

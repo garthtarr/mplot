@@ -397,3 +397,6 @@ process.fn = function(fence.mod,fence.rank){
 
 #' @importFrom dplyr "%>%"
 NULL
+
+#' @importFrom doRNG "%dorng%"
+NULL

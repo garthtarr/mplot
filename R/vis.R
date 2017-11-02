@@ -25,6 +25,7 @@
 #'   Default = \code{FALSE}.
 #' @param redundant logical, whether or not to add a redundant
 #'   variable.  Default = \code{TRUE}.
+#' @param seed random seed for reproducible results
 #' @param ... further arguments (currently unused)
 #' @details The result of this function is essentially just a
 #'   list. The supplied plot method provides a way to visualise the
@@ -71,6 +72,7 @@ vis = function(mf,
                force.in = NULL,
                screen = FALSE,
                redundant = TRUE,
+               seed = NULL,
                ...) {
   # redundant not supported with glmulti yet
   if (use.glmulti){
@@ -80,6 +82,7 @@ vis = function(mf,
     }
     redundant = FALSE
   }
+  set.seed(seed, kind = "L'Ecuyer-CMRG")
   
   
   m = mextract(mf, screen = screen,
@@ -267,13 +270,14 @@ vis = function(mf,
   res.single.pass = base::data.frame(base::data.matrix(rs.all))
   res.single.pass$name = nm
   
-  ## Bootstrap version:
+  # Bootstrap run -----------------------------------------------------------
+  
   if (missing(cores))
     cores = max(detectCores() - 1, 1)
   cl.visB = parallel::makeCluster(cores)
   doParallel::registerDoParallel(cl.visB)
   if (any(class(mf) == "glm") == TRUE & !use.glmulti) {
-    res = foreach(b = 1:B, .packages = c("bestglm")) %dopar% {
+    res = foreach(b = 1:B, .packages = c("bestglm")) %dorng% {
       wts = stats::rexp(n = n, rate = 1) * initial.weights
       
       em = bestglm::bestglm(
@@ -296,7 +300,7 @@ vis = function(mf,
       # -2*rs.all$logLikelihood + log(n)*(rs.all$k-1)
     }
   } else if (any(class(mf) == "glm") == TRUE & use.glmulti) {
-    res = foreach(b = 1:B, .packages = c("glmulti", "dplyr")) %dopar% {
+    res = foreach(b = 1:B, .packages = c("glmulti", "dplyr")) %dorng% {
       mf <<- mf
       initial.weights <<- initial.weights
       n.obs <<- n.obs
@@ -339,7 +343,7 @@ vis = function(mf,
       
     }
   } else {
-    res = foreach(b = 1:B, .packages = c("leaps")) %dopar% {
+    res = foreach(b = 1:B, .packages = c("leaps")) %dorng% {
       wts = stats::rexp(n = n, rate = 1) * initial.weights
       em = leaps::regsubsets(
         x = fixed,
@@ -752,6 +756,9 @@ plot.vis = function(x,
       x.ticks = paste(1:max(lvk.dat$spk), collapse = ",")
       gvis.hAxis = paste("{title:'Number of parameters', ticks: [",
                          x.ticks, "]}")
+      y.min = min(lvk.dat$m2ll) - 0.02*(max(lvk.dat$m2ll)- min(lvk.dat$m2ll))
+      gvis.vAxis = paste("{title:'-2*Log-likelihood', minValue:",
+                         y.min, "}")
       chartArea = paste(
         "{left:", left, ",top:", top,
         ",width:'", chartWidth, "',height:'", chartHeight,
@@ -761,8 +768,8 @@ plot.vis = function(x,
         use.options = list(
           title = gvis.title,
           fontSize = fontSize,
-          vAxis = "{title:'-2*Log-likelihood'}",
           hAxis = gvis.hAxis,
+          vAxis = gvis.vAxis,
           axisTitlesPosition = axisTitlesPosition,
           chartArea = chartArea,
           width = width,
@@ -853,6 +860,9 @@ plot.vis = function(x,
         x.ticks,
         "]}"
       )
+      y.min = min(dat$LL) - 0.02*(max(dat$LL)- min(dat$LL))
+      gvis.vAxis = paste("{title:'-2*Log-likelihood', minValue:",
+                         y.min, "}")
       chartArea = paste(
         "{left:", left, ",top:", top,
         ",width:'", chartWidth, "',height:'", chartHeight,
@@ -866,7 +876,7 @@ plot.vis = function(x,
         use.options = list(
           title = gvis.title,
           fontSize = fontSize,
-          vAxis = "{title:'-2*Log-likelihood'}",
+          vAxis = gvis.vAxis,
           hAxis = gvis.hAxis,
           sizeAxis = "{minValue: 0, minSize: 1,
           maxSize: 20, maxValue:1}",

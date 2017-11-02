@@ -5,7 +5,7 @@
 \title{The adaptive fence procedure}
 \usage{
 af(mf, B = 60, n.c = 20, initial.stepwise = FALSE, force.in = NULL,
-  cores, nvmax, c.max, screen = FALSE, ...)
+  cores, nvmax, c.max, screen = FALSE, seed = NULL, ...)
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call
@@ -37,6 +37,8 @@ Only applies when \code{initial.stepwise=FALSE}.}
 \item{screen}{logical, whether or not to perform an initial
 screen for outliers.  Highly experimental, use at own risk.
 Default = FALSE.}
+
+\item{seed}{random seed for reproducible results}
 
 \item{...}{further arguments (currently unused)}
 }
