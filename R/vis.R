@@ -55,11 +55,11 @@
 #' x4 = x2^2
 #' x5 = x1*x2
 #' y = 1 + x1 + x2 + e
-#' dat = data.frame(y,x1,x2,x3,x4,x5)
-#' lm1 = lm(y~.,data=dat)
+#' dat = data.frame(y, x1, x2, x3, x4, x5)
+#' lm1 = lm(y ~ ., data = dat)
 #' \dontrun{
-#' v1 = vis(lm1)
-#' plot(v1,highlight="x1")
+#' v1 = vis(lm1, seed = 1)
+#' plot(v1, highlight = "x1")
 #' }
 
 vis = function(mf,
@@ -82,9 +82,8 @@ vis = function(mf,
     }
     redundant = FALSE
   }
-  set.seed(seed, kind = "L'Ecuyer-CMRG")
   
-  
+  set.seed(seed)
   m = mextract(mf, screen = screen,
                redundant = redundant)
   fixed = m$fixed
@@ -277,7 +276,9 @@ vis = function(mf,
   cl.visB = parallel::makeCluster(cores)
   doParallel::registerDoParallel(cl.visB)
   if (any(class(mf) == "glm") == TRUE & !use.glmulti) {
-    res = foreach(b = 1:B, .packages = c("bestglm")) %dorng% {
+    res = foreach(b = 1:B, 
+                  .packages = c("bestglm"),
+                  .options.RNG=seed) %dorng% {
       wts = stats::rexp(n = n, rate = 1) * initial.weights
       
       em = bestglm::bestglm(
@@ -300,7 +301,9 @@ vis = function(mf,
       # -2*rs.all$logLikelihood + log(n)*(rs.all$k-1)
     }
   } else if (any(class(mf) == "glm") == TRUE & use.glmulti) {
-    res = foreach(b = 1:B, .packages = c("glmulti", "dplyr")) %dorng% {
+    res = foreach(b = 1:B, 
+                  .packages = c("glmulti", "dplyr"),
+                  .options.RNG=seed) %dorng% {
       mf <<- mf
       initial.weights <<- initial.weights
       n.obs <<- n.obs
@@ -343,7 +346,9 @@ vis = function(mf,
       
     }
   } else {
-    res = foreach(b = 1:B, .packages = c("leaps")) %dorng% {
+    res = foreach(b = 1:B, 
+                  .packages = c("leaps"),
+                  .options.RNG=seed) %dorng% {
       wts = stats::rexp(n = n, rate = 1) * initial.weights
       em = leaps::regsubsets(
         x = fixed,

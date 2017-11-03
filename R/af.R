@@ -96,12 +96,12 @@
 #' x3 = x1^2
 #' x4 = x2^2
 #' x5 = x1*x2
-#' x6 = rep(c("A","B"),n=50)
+#' x6 = rep(c("A", "B"), n = 50)
 #' y = 1 + x1 + x2 + e
 #' dat = data.frame(y,x1,x2,x3,x4,x5,x6)
-#' lm1 = lm(y~.,data=dat)
+#' lm1 = lm(y ~ ., data = dat)
 #' \dontrun{
-#' af1 = af(lm1, cores=4, initial.stepwise=TRUE)
+#' af1 = af(lm1, cores = 4, initial.stepwise = TRUE, seed = 1)
 #' summary(af1)
 #' plot(af1)
 #' }
@@ -117,7 +117,7 @@ af = function(mf,
               screen = FALSE,
               seed = NULL,
               ...) {
-  set.seed(seed, kind = "L'Ecuyer-CMRG")
+  set.seed(seed)
   method = "ML"
   af.call = match.call()
   if (!missing(c.max) & initial.stepwise == TRUE) {
@@ -248,7 +248,8 @@ af = function(mf,
   j = NULL # avoid global variable NOTE in R CMD check
   p.star.all = foreach(j = 1:n.c,
                        .combine = rbind,
-                       .packages = c("mplot")) %dorng% {
+                       .packages = c("mplot"),
+                       .options.RNG=seed) %dorng% {
                          fence.mod = list()
                          fence.rank = list()
                          ystar = stats::simulate(object = mfstar, nsim = B)
