@@ -105,12 +105,12 @@ x2 = rnorm(n)
 x3 = x1^2
 x4 = x2^2
 x5 = x1*x2
-x6 = rep(c("A","B"),n=50)
+x6 = rep(c("A", "B"), n = 50)
 y = 1 + x1 + x2 + e
 dat = data.frame(y,x1,x2,x3,x4,x5,x6)
-lm1 = lm(y~.,data=dat)
+lm1 = lm(y ~ ., data = dat)
 \dontrun{
-af1 = af(lm1, cores=4, initial.stepwise=TRUE)
+af1 = af(lm1, cores = 4, initial.stepwise = TRUE, seed = 1)
 summary(af1)
 plot(af1)
 }

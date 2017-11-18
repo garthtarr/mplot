@@ -137,7 +137,7 @@
 }
 </style>
 <p>Any bootstrap model selection procedure is time consuming. However, for linear models, we have leveraged the efficiency of the branch-and-bound algorithm provided by <strong>leaps</strong> <span class="citation">(Lumley &amp; Miller, 2009; Miller, 2002)</span>. The <strong>bestglm</strong> package is used for GLMs; but in the absence of a comparably efficient algorithm the computational burden is much greater <span class="citation">(McLeod &amp; Xu, 2014)</span>.</p>
-<p>Furthermore, we have taken advantage of the embarrassingly parallel nature of bootstrapping, utilising the <a href="http://CRAN.R-project.org/package=%20doParallel"><strong>doParallel</strong></a> and <a href="http://CRAN.R-project.org/package=foreach"><strong>foreach</strong></a> packages to provide cross platform multicore support, available through the <code>cores</code> argument. By default it will detect the number of cores available on your computer and leave one free.</p>
+<p>Furthermore, we have taken advantage of the embarrassingly parallel nature of bootstrapping, utilising the <a href="https://cran.r-project.org/package=doParallel"><strong>doParallel</strong></a> and <a href="https://cran.r-project.org/package=foreach"><strong>foreach</strong></a> packages to provide cross platform multicore support, available through the <code>cores</code> argument. By default it will detect the number of cores available on your computer and leave one free.</p>
 <p>Figure  shows the timing results of simulations run for standard use scenarios with 4, 8 or 16 cores used in parallel. Each observation plotted is the average of four runs of a given model size. The simulated models had a sample size of <span class="math inline">\(n=100\)</span> with <span class="math inline">\(5,10,\ldots,50\)</span> candidate variables, of which 30% were active in the true model.</p>
 <p>The results show both the <code><a href="../reference/vis.html">vis()</a></code> and <code><a href="../reference/af.html">af()</a></code> functions are quite feasible on standard desktop hardware with 4 cores even for moderate dimensions of up to 40 candidate variables. The adaptive fence takes longer than the <code><a href="../reference/vis.html">vis()</a></code> function, though this is to be expected as the effective number of bootstrap replications is <code>B</code><span class="math inline">\(\times\)</span><code>n.c</code>, where <code>n.c</code> is the number divisions in the grid of the parameter <span class="math inline">\(c\)</span>.</p>
 <p>The results for GLMs are far less impressive, even when the maximum dimension of a candidate solution is set to <code>nvmax = 10</code>. In its current implementation, the adaptive fence is only really feasible for models of around 10 predictors and the <code><a href="../reference/vis.html">vis()</a></code> function for 15. Future improvements could see approximations of the type outlined by  to bring the power of the linear model branch-and-bound algorithm to GLMs. An example of how this works in practice is given in Section .</p>
@@ -151,10 +151,10 @@
 <a href="#references" class="anchor"></a>References</h4>
 <div id="refs" class="references">
 <div id="ref-Lumley:2009">
-<p>Lumley, T., &amp; Miller, A. (2009). <em>leaps: Regression subset selection</em>. <a href="http://CRAN.R-project.org/package=leaps" class="uri">http://CRAN.R-project.org/package=leaps</a></p>
+<p>Lumley, T., &amp; Miller, A. (2009). <em>leaps: Regression subset selection</em>. <a href="https://cran.r-project.org/package=leaps" class="uri">https://cran.r-project.org/package=leaps</a></p>
 </div>
 <div id="ref-McLeod:2014">
-<p>McLeod, A., &amp; Xu, C. (2014). <em>bestglm: Best subset glm</em>. <a href="http://CRAN.R-project.org/package=bestglm" class="uri">http://CRAN.R-project.org/package=bestglm</a></p>
+<p>McLeod, A., &amp; Xu, C. (2014). <em>bestglm: Best subset glm</em>. <a href="https://cran.r-project.org/package=bestglm" class="uri">https://cran.r-project.org/package=bestglm</a></p>
 </div>
 <div id="ref-Miller:2002">
 <p>Miller, A. (2002). <em>Subset selection in regression</em>. Boca Raton: Chapman &amp; Hall.</p>

@@ -282,11 +282,11 @@ plot method associated with the result.</p>
 <span class='no'>x3</span> <span class='kw'>=</span> <span class='no'>x1</span>^<span class='fl'>2</span>
 <span class='no'>x4</span> <span class='kw'>=</span> <span class='no'>x2</span>^<span class='fl'>2</span>
 <span class='no'>x5</span> <span class='kw'>=</span> <span class='no'>x1</span>*<span class='no'>x2</span>
-<span class='no'>x6</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fu'>c</span>(<span class='st'>"A"</span>,<span class='st'>"B"</span>),<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>50</span>)
+<span class='no'>x6</span> <span class='kw'>=</span> <span class='fu'>rep</span>(<span class='fu'>c</span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>50</span>)
 <span class='no'>y</span> <span class='kw'>=</span> <span class='fl'>1</span> + <span class='no'>x1</span> + <span class='no'>x2</span> + <span class='no'>e</span>
 <span class='no'>dat</span> <span class='kw'>=</span> <span class='fu'>data.frame</span>(<span class='no'>y</span>,<span class='no'>x1</span>,<span class='no'>x2</span>,<span class='no'>x3</span>,<span class='no'>x4</span>,<span class='no'>x5</span>,<span class='no'>x6</span>)
-<span class='no'>lm1</span> <span class='kw'>=</span> <span class='fu'>lm</span>(<span class='no'>y</span>~<span class='no'>.</span>,<span class='kw'>data</span><span class='kw'>=</span><span class='no'>dat</span>)</div><span class='co'># NOT RUN {</span>
-<span class='no'>af1</span> <span class='kw'>=</span> <span class='fu'>af</span>(<span class='no'>lm1</span>, <span class='kw'>cores</span><span class='kw'>=</span><span class='fl'>4</span>, <span class='kw'>initial.stepwise</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>lm1</span> <span class='kw'>=</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dat</span>)</div><span class='co'># NOT RUN {</span>
+<span class='no'>af1</span> <span class='kw'>=</span> <span class='fu'>af</span>(<span class='no'>lm1</span>, <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>initial.stepwise</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 <span class='fu'>summary</span>(<span class='no'>af1</span>)
 <span class='fu'>plot</span>(<span class='no'>af1</span>)
 <span class='co'># }</span></pre>

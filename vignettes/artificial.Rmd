@@ -8,10 +8,6 @@ keywords: "VIP, variable inclusion plots, adaptive fence, model stability plots"
 output: rmarkdown::html_vignette
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
-vignette: >
-  %\VignetteIndexEntry{egebundleR}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 

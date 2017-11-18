@@ -1,15 +1,9 @@
 ---
 title: Model stability plots
-tags:
-  - MSP
 keywords: "MSP, model stability plots"
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
 output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{egebundleR}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 > Overview of model stability plots.

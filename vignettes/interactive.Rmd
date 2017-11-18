@@ -1,15 +1,9 @@
 ---
 title: Interactive graphics
-tags:
-  - graphics
 keywords: "interactive graphics, plots, graphics, visualisations"
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
 output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{egebundleR}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 > Overview of the interactive graphics provided by mplot.

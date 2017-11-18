@@ -1,14 +1,9 @@
 ---
 title: mplot contributors
 keywords: authors, mplot, contributors
-tags: [refs]
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
 output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{egebundleR}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 > Details of those who have contributed to the mplot project.

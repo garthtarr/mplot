@@ -1,3 +1,16 @@
+mplot 0.8.1 [2017-11-18]
+------------------------
+
+* More sensible nbest parameter behaviour in the vis function. 
+  Now nbest = "all" reverts back to nbest = 1 for models with 
+  more than 15 parameters.  This can be overridden by specifying 
+  a number, rather than specifying "all").  For large model sizes, 
+  if the number specified is too large, it will lead to memory 
+  overruns and failures with dependent packages.
+* Fixed vignette/pkgdown issue where there were multiple 
+  vignettes created with the same name.
+
+
 mplot 0.8.0 [2017-11-03]
 ------------------------
 

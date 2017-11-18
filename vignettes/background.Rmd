@@ -4,10 +4,6 @@ keywords: mplot, getting_started
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
 output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{egebundleR}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 > Background on model selection and the mplot package.

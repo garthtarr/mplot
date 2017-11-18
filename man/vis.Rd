@@ -67,11 +67,11 @@ x3 = x1^2
 x4 = x2^2
 x5 = x1*x2
 y = 1 + x1 + x2 + e
-dat = data.frame(y,x1,x2,x3,x4,x5)
-lm1 = lm(y~.,data=dat)
+dat = data.frame(y, x1, x2, x3, x4, x5)
+lm1 = lm(y ~ ., data = dat)
 \dontrun{
-v1 = vis(lm1)
-plot(v1,highlight="x1")
+v1 = vis(lm1, seed = 1)
+plot(v1, highlight = "x1")
 }
 }
 \references{

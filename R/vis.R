@@ -97,7 +97,13 @@ vis = function(mf,
   if (missing(nvmax))
     nvmax = kf
   if (nbest == "all") {
-    nbest = 2 ^ (kf - 1)
+    if(kf > 15) {
+      cat('\nUsing nbest = "all" is not currently allowed when the full\nmodel has more than 15 variables.  Defaulting to nbest = 1 
+          \n')
+      nbest = 1
+    } else {
+      nbest = 2 ^ (kf - 1) 
+    }
     # nbest needs to be whole model space because
     # bestglm takes option TopModels which is the
     # top models to show overall
@@ -148,7 +154,7 @@ vis = function(mf,
       Xy = X,
       family = fam,
       IC = "AIC",
-      TopModels = nbest,
+      TopModels = nbest+1,
       nvmax = nvmax,
       weights = initial.weights
     )
@@ -348,12 +354,12 @@ vis = function(mf,
   } else {
     res = foreach(b = 1:B, 
                   .packages = c("leaps"),
-                  .options.RNG=seed) %dorng% {
+                  .options.RNG = seed) %dorng% {
       wts = stats::rexp(n = n, rate = 1) * initial.weights
       em = leaps::regsubsets(
         x = fixed,
         data = X,
-        nbest = nbest,
+        nbest = 1,
         nvmax = nvmax,
         intercept = TRUE,
         force.in = force.in,

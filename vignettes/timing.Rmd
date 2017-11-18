@@ -4,10 +4,6 @@ keywords: mplot, getting_started
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
 output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{egebundleR}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 <style>
@@ -25,7 +21,7 @@ vignette: >
 
 Any bootstrap model selection procedure is time consuming.  However, for linear models, we have leveraged the efficiency of the branch-and-bound algorithm provided by **leaps** [@Lumley:2009; @Miller:2002].  The **bestglm** package is used for GLMs; but in the absence of a comparably efficient algorithm the computational burden is much greater [@McLeod:2014].
 
-Furthermore, we have taken advantage of the embarrassingly parallel nature of bootstrapping, utilising the [**doParallel**](http://CRAN.R-project.org/package= doParallel) and [**foreach**](http://CRAN.R-project.org/package=foreach) packages to provide cross platform multicore support, available through the `cores` argument.  By default it will detect the number of cores available on your computer and leave one free.
+Furthermore, we have taken advantage of the embarrassingly parallel nature of bootstrapping, utilising the [**doParallel**](https://cran.r-project.org/package=doParallel) and [**foreach**](https://cran.r-project.org/package=foreach) packages to provide cross platform multicore support, available through the `cores` argument.  By default it will detect the number of cores available on your computer and leave one free.
 
 Figure \ref{fig:time} shows the timing results of simulations run for standard use scenarios with 4, 8 or 16 cores used in parallel.  Each observation plotted is the average of four runs of a given model size. The simulated models had a sample size of $n=100$ with $5,10,\ldots,50$ candidate variables, of which 30% were active in the true model.
 

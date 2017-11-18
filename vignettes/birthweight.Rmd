@@ -1,8 +1,5 @@
 ---
 title: Birth weight example
-tags:
-  - example
-  - linear models
 keywords: "example, AF, VIP, MSP, linear model"
 output: 
   rmarkdown::html_vignette:
@@ -10,7 +7,7 @@ output:
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
 vignette: >
-  %\VignetteIndexEntry{egebundleR}
+  %\VignetteIndexEntry{Birth weight example}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
