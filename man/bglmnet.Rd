@@ -5,7 +5,8 @@
 \title{Model stability and variable importance plots for glmnet}
 \usage{
 bglmnet(mf, nlambda = 100, lambda = NULL, B = 100, penalty.factor,
-  screen = FALSE, cores = NULL, force.in = NULL)
+  screen = FALSE, redundant = TRUE, cores = NULL, force.in = NULL,
+  seed = NULL)
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call
@@ -29,11 +30,16 @@ to sum to nvars, and the lambda sequence will reflect this change.}
 screen for outliers.  Highly experimental, use at own risk.
 Default = FALSE.}
 
+\item{redundant}{logical, whether or not to add a redundant
+variable.  Default = \code{TRUE}.}
+
 \item{cores}{number of cores to be used when parallel
 processing the bootstrap (Not yet implemented.)}
 
 \item{force.in}{the names of variables that should be forced
 into all estimated models. (Not yet implemented.)}
+
+\item{seed}{random seed for reproducible results}
 
 \item{...}{further arguments (currently unused)}
 }
@@ -44,6 +50,29 @@ Model stability and variable importance plots for glmnet
 The result of this function is essentially just a
   list. The supplied plot method provides a way to visualise the
   results.
+}
+\examples{
+n = 100
+set.seed(11)
+e = rnorm(n)
+x1 = rnorm(n)
+x2 = rnorm(n)
+x3 = x1^2
+x4 = x2^2
+x5 = x1*x2
+y = 1 + x1 + x2 + e
+dat = data.frame(y, x1, x2, x3, x4, x5)
+lm1 = lm(y ~ ., data = dat)
+\dontrun{
+bg1 = bglmnet(lm1, seed = 1)
+plot(bg1)
+plot(bg1, which = "boot_size", interactive = TRUE)
+plot(bg1, which = "boot_size", interactive = FALSE)
+plot(bg1, which = "boot", interactive = TRUE)
+plot(bg1, which = "boot", interactive = FALSE)
+plot(bg1, which = "vip", interactive = TRUE)
+plot(bg1, which = "vip", interactive = FALSE)
+}
 }
 \seealso{
 \code{\link{plot.bglmnet}}

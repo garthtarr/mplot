@@ -9,7 +9,9 @@
   width = 800, height = 400, fontSize = 12, left = 50, top = 30,
   chartWidth = "60\%", chartHeight = "80\%", axisTitlesPosition = "out",
   dataOpacity = 0.5, options = NULL, hAxis.logScale = TRUE, ylim,
-  backgroundColor = "transparent", plb = 0.1, ...)
+  text = FALSE, backgroundColor = "transparent",
+  legend.position = "right", jitterk = 0.1, srt = 45, max.circle = 15,
+  min.prob = 0.1, ...)
 }
 \arguments{
 \item{x}{\code{bglmnet} object, the result of \code{\link{bglmnet}}}
@@ -80,12 +82,28 @@ the horizontal axis. Default = TRUE.}
 
 \item{ylim}{the y limits of the \code{which="boot"} plots.}
 
+\item{text}{logical, whether or not to add text labels to classic
+boot plot. Default = \code{FALSE}.}
+
 \item{backgroundColor}{The background colour for the main area
 of the chart. A simple HTML color string,
 for example: 'red' or '#00cc00'.  Default: 'transparent'}
 
-\item{plb}{lower bound on the probability of a model being selected. If
-a model has a selection probability lower than plb it will not be
+\item{legend.position}{the postion of the legend for classic plots.
+Default \code{legend.position="right"} alternatives include
+\code{legend.position="top"} and \code{legend.position="bottom"}}
+
+\item{jitterk}{amount of jittering of the model size in the lvk and boot plots.
+Default = 0.1.}
+
+\item{srt}{when \code{text=TRUE}, the angle of rotation for the text labels.
+Default = 45.}
+
+\item{max.circle}{determines the maximum circle size.
+Default = 15.}
+
+\item{min.prob}{lower bound on the probability of a model being selected. If
+a model has a selection probability lower than \code{min.prob} it will not be
 plotted.}
 
 \item{...}{further arguments (currently unused)}

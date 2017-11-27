@@ -400,3 +400,6 @@ NULL
 
 #' @importFrom doRNG "%dorng%"
 NULL
+
+globalVariables(".")
+#  # hack for no visible binding for global variable '.'

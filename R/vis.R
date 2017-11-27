@@ -1058,13 +1058,6 @@ plot.vis = function(x,
     return(invisible())
   
   
-  
-  
-  
-  
-  
-  
-  
 }
 
 
