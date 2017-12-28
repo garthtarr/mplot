@@ -3,7 +3,9 @@ title: mplot contributors
 keywords: authors, mplot, contributors
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
-output: rmarkdown::html_vignette
+output: 
+  github_document:
+    toc_dept: 1
 ---
 
 > Details of those who have contributed to the mplot project.

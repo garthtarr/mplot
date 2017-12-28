@@ -153,7 +153,9 @@
   <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>800</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>400</span>, <span class='kw'>fontSize</span> <span class='kw'>=</span> <span class='fl'>12</span>, <span class='kw'>left</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>top</span> <span class='kw'>=</span> <span class='fl'>30</span>,
   <span class='kw'>chartWidth</span> <span class='kw'>=</span> <span class='st'>"60%"</span>, <span class='kw'>chartHeight</span> <span class='kw'>=</span> <span class='st'>"80%"</span>, <span class='kw'>axisTitlesPosition</span> <span class='kw'>=</span> <span class='st'>"out"</span>,
   <span class='kw'>dataOpacity</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hAxis.logScale</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>ylim</span>,
-  <span class='kw'>backgroundColor</span> <span class='kw'>=</span> <span class='st'>"transparent"</span>, <span class='kw'>plb</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>text</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>backgroundColor</span> <span class='kw'>=</span> <span class='st'>"transparent"</span>,
+  <span class='kw'>legend.position</span> <span class='kw'>=</span> <span class='st'>"right"</span>, <span class='kw'>jitterk</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>srt</span> <span class='kw'>=</span> <span class='fl'>45</span>, <span class='kw'>max.circle</span> <span class='kw'>=</span> <span class='fl'>15</span>,
+  <span class='kw'>min.prob</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -264,15 +266,41 @@ the horizontal axis. Default = TRUE.</p></td>
       <td><p>the y limits of the <code>which="boot"</code> plots.</p></td>
     </tr>
     <tr>
+      <th>text</th>
+      <td><p>logical, whether or not to add text labels to classic
+boot plot. Default = <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
       <th>backgroundColor</th>
       <td><p>The background colour for the main area
 of the chart. A simple HTML color string,
 for example: 'red' or '#00cc00'.  Default: 'transparent'</p></td>
     </tr>
     <tr>
-      <th>plb</th>
+      <th>legend.position</th>
+      <td><p>the postion of the legend for classic plots.
+Default <code>legend.position="right"</code> alternatives include
+<code>legend.position="top"</code> and <code>legend.position="bottom"</code></p></td>
+    </tr>
+    <tr>
+      <th>jitterk</th>
+      <td><p>amount of jittering of the model size in the lvk and boot plots.
+Default = 0.1.</p></td>
+    </tr>
+    <tr>
+      <th>srt</th>
+      <td><p>when <code>text=TRUE</code>, the angle of rotation for the text labels.
+Default = 45.</p></td>
+    </tr>
+    <tr>
+      <th>max.circle</th>
+      <td><p>determines the maximum circle size.
+Default = 15.</p></td>
+    </tr>
+    <tr>
+      <th>min.prob</th>
       <td><p>lower bound on the probability of a model being selected. If
-a model has a selection probability lower than plb it will not be
+a model has a selection probability lower than <code>min.prob</code> it will not be
 plotted.</p></td>
     </tr>
     <tr>

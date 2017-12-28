@@ -592,6 +592,7 @@ vis = function(mf,
 #' @param jitterk amount of jittering of the model size in the lvk and boot plots.
 #'   Default = 0.1.
 #' @param ylim the y limits of the lvk and boot plots.
+#' @param seed random seed for reproducible results
 #' @param ... further arguments (currently unused)
 #' @seealso \code{\link{vis}}
 #' @references Mueller, S. and Welsh, A. H. (2010), On model
@@ -646,8 +647,12 @@ plot.vis = function(x,
                     max.circle = 15,
                     print.full.model = FALSE,
                     jitterk = 0.1,
+                    seed = NULL,
                     ...) {
-  
+  # reproducible jitter?
+  if(!is.null(seed)) { 
+    set.seed(seed)
+    }
   # to prevent the notes:
   # plot.vis: no visible binding for global variable k
   # plot.vis: no visible binding for global variable logLikelihood

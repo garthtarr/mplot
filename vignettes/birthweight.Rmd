@@ -1,15 +1,11 @@
 ---
 title: Birth weight example
 keywords: "example, AF, VIP, MSP, linear model"
-output: 
-  rmarkdown::html_vignette:
-    self_contained: no
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
-vignette: >
-  %\VignetteIndexEntry{Birth weight example}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: 
+  github_document:
+    toc_dept: 1
 ---
 
 The `birthwt` dataset from the **MASS** package has data on 189 births at the Baystate Medical Centre, Springfield, Massachusetts during 1986 [@Venables:2002].  The main variable of  interest is low birth weight, a binary response variable `low` [@Hosmer:1989book].  We have taken the same approach to modelling the full model as in @Venables:2002, where `ptl` is reduced to a binary indicator of past history and `ftv` is reduced to a factor with three levels.
@@ -55,7 +51,7 @@ plot(vis.bw, which = "vip", interactive = TRUE, tag = "chart")
 In this example, it is far less clear which is the best model, or if indeed a _best model_ exists.  It is possible to infer an ordering of variable importance from the variable inclusion plots, but there is no clear cutoff as to which variables should be included and which should be excluded. The `ptdTRUE` variable is clearly important.  It's less obvious that the `htTRUE` and `lwt` variables are important as they are in the vicinity of the redundant variable curve (`RV`). The other variables lie below the  redundant variable curve with `ftv2+` clearly the least important variable.  
 
 ```{r, results = "asis", message=FALSE}
-plot(vis.bw, which = "boot", highlight = "htTRUE", interactive = TRUE, tag = "chart")
+plot(vis.bw, which = "boot", highlight = "htTRUE", interactive = TRUE, tag = "chart", seed = 1)
 ```
 
 In the model stability plot (below) the only dominant (non-trivial, i.e. not the full model or the null model) is the simple linear regression with `ptdTRUE` as the explanatory variable. In models of size 3, there are a range of competing models that perform similarly well. 

@@ -1,15 +1,11 @@
 ---
 title: Diabetes example
 keywords: "example, AF, VIP, MSP, linear model"
-output: 
-  rmarkdown::html_vignette:
-    self_contained: no
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
-vignette: >
-  %\VignetteIndexEntry{Diabetes example}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: 
+  github_document:
+    toc_dept: 1
 ---
 
 
@@ -17,7 +13,7 @@ The [table below](#tab:diabetes) shows a subset of the diabetes data used in @Ti
 
 ```{r}
 library(mplot)
-DT::datatable(diabetes, options = list(dom = 'tp'))
+DT::datatable(diabetes, options = list(dom = 'tp'), elementId = "diabetestable")
 ```
 
 _Table: measurements on 442 diabetes patients over 10 potential predictor variables and the response variable, a measure of disease progression after one year._
@@ -49,7 +45,7 @@ plot(vis.d, which = "vip", interactive = TRUE, tag = "chart")
 
 
 ```{r, results = "asis", message=FALSE}
-plot(vis.d, which = "boot", max.circle = 0.25, highlight = "hdl", interactive = TRUE, tag = "chart")
+plot(vis.d, which = "boot", max.circle = 0.25, highlight = "hdl", interactive = TRUE, tag = "chart", seed = 1)
 ```
 
 ```{r, results = "asis", message=FALSE}
@@ -123,7 +119,7 @@ plot(vis.d.int, which = "vip", interactive = TRUE, tag = "chart")
 
 
 ```{r, results = "asis", message=FALSE}
-plot(vis.d.int, which = "boot", max.circle = 0.25, highlight = "bmi.map", interactive = TRUE, tag = "chart")
+plot(vis.d.int, which = "boot", max.circle = 0.25, highlight = "bmi.map", interactive = TRUE, tag = "chart", seed = 1)
 ```
 
 ```{r, results = "asis", message=FALSE}

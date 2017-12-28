@@ -161,13 +161,13 @@ vis.bw =<span class="st"> </span><span class="kw"><a href="../reference/vis.html
 <p>The results are shown below in the interactive plots. Note that they they display the larger set of variables more clearly than the static plot methods (where the legend might overwhelm the plot). An interactive plot is obtained using the <code>interactive = TRUE</code> parameter. As this is being rendered in an rmarkdown document, we use the rmarkdown chunk option <code>results = "asis"</code> along with the additional <code>tag = "chart"</code> parameter in the <code>plot()</code> function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">"bw_main.RData"</span>)
 <span class="kw">plot</span>(vis.bw, <span class="dt">which =</span> <span class="st">"vip"</span>, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</code></pre></div>
-<!-- LineChart generated in R 3.4.1 by googleVis 0.6.2 package -->
-<!-- Tue Sep 19 07:52:28 2017 -->
+<!-- LineChart generated in R 3.4.3 by googleVis 0.6.2 package -->
+<!-- Thu Dec 28 16:59:01 2017 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataLineChartID77abe41668a () {
+function gvisDataLineChartID4cae5ef42e95 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -19147,8 +19147,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartLineChartID77abe41668a() {
-var data = gvisDataLineChartID77abe41668a();
+function drawChartLineChartID4cae5ef42e95() {
+var data = gvisDataLineChartID4cae5ef42e95();
 var options = {};
 options["allowHtml"] = true;
 options["title"] = "Variable inclusion plot";
@@ -19169,7 +19169,7 @@ options["backgroundColor"] = "transparent";
 options["annotations"] = {style:'line'};
 
     var chart = new google.visualization.LineChart(
-    document.getElementById('LineChartID77abe41668a')
+    document.getElementById('LineChartID4cae5ef42e95')
     );
     chart.draw(data,options);
     
@@ -19193,9 +19193,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartLineChartID77abe41668a);
+callbacks.push(drawChartLineChartID4cae5ef42e95);
 })();
-function displayChartLineChartID77abe41668a() {
+function displayChartLineChartID4cae5ef42e95() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -19216,3909 +19216,3909 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID77abe41668a"></script><!-- divChart --><div id="LineChartID77abe41668a" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID4cae5ef42e95"></script><!-- divChart --><div id="LineChartID4cae5ef42e95" style="width: 800; height: 400;">
 
 </div>
 <p>In this example, it is far less clear which is the best model, or if indeed a <em>best model</em> exists. It is possible to infer an ordering of variable importance from the variable inclusion plots, but there is no clear cutoff as to which variables should be included and which should be excluded. The <code>ptdTRUE</code> variable is clearly important. It’s less obvious that the <code>htTRUE</code> and <code>lwt</code> variables are important as they are in the vicinity of the redundant variable curve (<code>RV</code>). The other variables lie below the redundant variable curve with <code>ftv2+</code> clearly the least important variable.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(vis.bw, <span class="dt">which =</span> <span class="st">"boot"</span>, <span class="dt">highlight =</span> <span class="st">"htTRUE"</span>, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</code></pre></div>
-<!-- BubbleChart generated in R 3.4.1 by googleVis 0.6.2 package -->
-<!-- Tue Sep 19 07:52:29 2017 -->
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(vis.bw, <span class="dt">which =</span> <span class="st">"boot"</span>, <span class="dt">highlight =</span> <span class="st">"htTRUE"</span>, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>, <span class="dt">seed =</span> <span class="dv">1</span>)</code></pre></div>
+<!-- BubbleChart generated in R 3.4.3 by googleVis 0.6.2 package -->
+<!-- Thu Dec 28 16:59:03 2017 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataBubbleChartID77ab1608d4a3 () {
+function gvisDataBubbleChartID4cae3790e0f () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
  [
 "low~1",
-1.09759844,
+0.9531017326,
 234.6719962,
 "Without htTRUE",
 1
 ],
 [
 "low~ptdTRUE",
-2.053613962,
+1.97442478,
 221.8977555,
 "Without htTRUE",
 0.5533333333
 ],
 [
 "low~uiTRUE",
-1.967975056,
+2.014570673,
 229.5958992,
 "Without htTRUE",
 0.1266666667
 ],
 [
 "low~RV",
-1.968537158,
+2.081641558,
 231.2854044,
 "Without htTRUE",
 0.07333333333
 ],
 [
 "low~smokeTRUE",
-1.912277561,
+1.940336386,
 229.8045995,
 "Without htTRUE",
 0.06
 ],
 [
 "low~lwt",
-1.974243899,
+2.079677937,
 228.6906691,
 "Without htTRUE",
 0.06
 ],
 [
 "low~htTRUE",
-2.005963092,
+2.088935054,
 230.6498627,
 "With htTRUE",
 0.04666666667
 ],
 [
 "low~raceother",
-1.938420159,
+2.032159558,
 232.8981117,
 "Without htTRUE",
 0.03333333333
 ],
 [
 "low~ftv1",
-1.959112033,
+2.025822809,
 232.8269832,
 "Without htTRUE",
 0.02
 ],
 [
 "low~age",
-2.041084199,
+1.912357254,
 231.9119585,
 "Without htTRUE",
 0.02
 ],
 [
 "low~raceblack",
-2.035713062,
+1.941194915,
 233.0186968,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~ptdTRUE+RV",
-3.083542382,
+2.935311351,
 217.7549119,
 "Without htTRUE",
 0.1466666667
 ],
 [
 "low~lwt+ptdTRUE",
-3.009240011,
+3.037404569,
 217.49677,
 "Without htTRUE",
 0.1133333333
 ],
 [
 "low~ptdTRUE+ftv1",
-2.945752352,
+2.976820744,
 218.2937694,
 "Without htTRUE",
 0.1066666667
 ],
 [
 "low~age+ptdTRUE",
-3.074892384,
+3.053968284,
 217.2979911,
 "Without htTRUE",
 0.09333333333
 ],
 [
 "low~ptdTRUE+htTRUE",
-3.068147968,
+2.999539848,
 217.6619312,
 "With htTRUE",
 0.07333333333
 ],
 [
 "low~raceblack+ptdTRUE",
-3.052008847,
+3.043523702,
 220.0613204,
 "Without htTRUE",
 0.05333333333
 ],
 [
 "low~lwt+htTRUE",
-3.013023223,
+3.098381219,
 221.1420917,
 "With htTRUE",
 0.05333333333
 ],
 [
 "low~smokeTRUE+uiTRUE",
-2.977996799,
+2.976007036,
 225.2108881,
 "Without htTRUE",
 0.04666666667
 ],
 [
 "low~uiTRUE+RV",
-3.052319709,
+3.055489044,
 226.3643608,
 "Without htTRUE",
 0.04
 ],
 [
 "low~ptdTRUE+uiTRUE",
-2.97433026,
+3.086941046,
 219.1204243,
 "Without htTRUE",
 0.04
 ],
 [
 "low~smokeTRUE+ptdTRUE",
-2.980303636,
+2.942428504,
 219.328898,
 "Without htTRUE",
 0.04
 ],
 [
 "low~raceother+smokeTRUE",
-3.030925481,
+3.030334753,
 224.8030962,
 "Without htTRUE",
 0.03333333333
 ],
 [
 "low~raceother+ptdTRUE",
-2.949094078,
+2.925111019,
 220.3969834,
 "Without htTRUE",
 0.02666666667
 ],
 [
 "low~lwt+RV",
-2.980829511,
+2.953444134,
 225.6129557,
 "Without htTRUE",
 0.02666666667
 ],
 [
 "low~htTRUE+uiTRUE",
-3.018775974,
+2.977222819,
 224.3206268,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+ftv1",
-2.96096051,
+2.902678067,
 226.6840651,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack",
-2.946622602,
+2.976477591,
 225.0749098,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~htTRUE+ftv1",
-2.996087202,
+3.073938169,
 228.7554035,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~smokeTRUE+htTRUE",
-2.95459911,
+2.968069799,
 225.7919355,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceother+uiTRUE",
-3.03918978,
+2.996416023,
 228.1530311,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+uiTRUE",
-3.078157304,
+3.019913165,
 227.6559309,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+htTRUE",
-3.032945724,
+2.998708261,
 229.3765806,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+smokeTRUE",
-3.027992899,
+2.93724352,
 228.0705854,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+RV",
-3.066730272,
+3.065474664,
 228.1952701,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+htTRUE",
-2.969079523,
+3.033693348,
 227.9269061,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+smokeTRUE",
-2.970909916,
+3.058847972,
 227.2762916,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceother",
-2.927803135,
+2.921588725,
 230.5703318,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+ptdTRUE+htTRUE",
-4.067449694,
+4.044742189,
 210.1233781,
 "With htTRUE",
 0.06
 ],
 [
 "low~age+ptdTRUE+RV",
-4.008964874,
+3.982254886,
 212.7246418,
 "Without htTRUE",
 0.06
 ],
 [
 "low~ptdTRUE+htTRUE+RV",
-4.058803941,
+4.064189259,
 213.9991778,
 "With htTRUE",
 0.04666666667
 ],
 [
 "low~ptdTRUE+htTRUE+ftv1",
-3.948109815,
+4.029412039,
 213.9729373,
 "With htTRUE",
 0.04666666667
 ],
 [
 "low~lwt+raceblack+ptdTRUE",
-3.964115066,
+4.056586552,
 213.9674719,
 "Without htTRUE",
 0.04666666667
 ],
 [
 "low~lwt+ptdTRUE+RV",
-3.902705559,
+4.010607262,
 213.7396308,
 "Without htTRUE",
 0.04
 ],
 [
 "low~lwt+ptdTRUE+ftv1",
-4.045970996,
+4.005943916,
 213.9206972,
 "Without htTRUE",
 0.04
 ],
 [
 "low~raceblack+ptdTRUE+RV",
-4.066282993,
+4.057871246,
 215.8711535,
 "Without htTRUE",
 0.03333333333
 ],
 [
 "low~age+ptdTRUE+htTRUE",
-4.057228712,
+3.90466624,
 213.1212779,
 "With htTRUE",
 0.03333333333
 ],
 [
 "low~lwt+htTRUE+uiTRUE",
-3.972730145,
+3.995446013,
 216.6128459,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~ptdTRUE+uiTRUE+RV",
-3.968829657,
+4.046462748,
 215.1369157,
 "Without htTRUE",
 0.02
 ],
 [
 "low~ptdTRUE+htTRUE+uiTRUE",
-4.029347206,
+4.038546311,
 213.9578067,
 "With htTRUE",
 0.02
 ],
 [
 "low~smokeTRUE+htTRUE+uiTRUE",
-3.971432267,
+3.995523924,
 220.0057,
 "With htTRUE",
 0.02
 ],
 [
 "low~smokeTRUE+ptdTRUE+RV",
-3.965953856,
+4.072241895,
 216.114794,
 "Without htTRUE",
 0.02
 ],
 [
 "low~raceother+smokeTRUE+uiTRUE",
-3.905408652,
+3.987619421,
 220.9646945,
 "Without htTRUE",
 0.02
 ],
 [
 "low~raceother+smokeTRUE+ptdTRUE",
-3.928945091,
+3.948959455,
 215.59641,
 "Without htTRUE",
 0.02
 ],
 [
 "low~raceblack+raceother+ptdTRUE",
-4.038441109,
+3.914135809,
 217.0226347,
 "Without htTRUE",
 0.02
 ],
 [
 "low~lwt+smokeTRUE+ptdTRUE",
-4.089392015,
+3.919893232,
 215.2228585,
 "Without htTRUE",
 0.02
 ],
 [
 "low~age+raceblack+ptdTRUE",
-4.077613117,
+3.963254341,
 216.0839427,
 "Without htTRUE",
 0.02
 ],
 [
 "low~age+lwt+ptdTRUE",
-4.033227658,
+4.003726853,
 214.3151672,
 "Without htTRUE",
 0.02
 ],
 [
 "low~ptdTRUE+ftv1+RV",
-4.056924722,
+4.032401015,
 214.5360991,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~ptdTRUE+uiTRUE+ftv2.",
-3.969077743,
+3.981366037,
 219.1114501,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~smokeTRUE+ptdTRUE+uiTRUE",
-3.972159143,
+4.082575185,
 216.6720392,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~smokeTRUE+ptdTRUE+htTRUE",
-3.910413864,
+3.958720675,
 215.167992,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~raceother+ptdTRUE+htTRUE",
-4.055558015,
+3.991813145,
 215.9999737,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~raceother+smokeTRUE+htTRUE",
-4.004545647,
+3.966478935,
 220.5857392,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+uiTRUE+RV",
-4.089955105,
+4.030174093,
 224.4048077,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+ptdTRUE+htTRUE",
-4.075212142,
+3.951603356,
 216.271201,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+smokeTRUE+uiTRUE",
-4.056065275,
+3.99570905,
 223.1767557,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+smokeTRUE+ptdTRUE",
-4.031833366,
+4.053262134,
 217.4402227,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+raceother+uiTRUE",
-4.078385583,
+3.916849383,
 224.6758014,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+raceother+smokeTRUE",
-4.016546549,
+4.075064266,
 219.9747105,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+htTRUE+RV",
-3.958944506,
+3.967814588,
 218.5157172,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+htTRUE",
-3.996608158,
+4.06788807,
 217.6954069,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+ptdTRUE+uiTRUE",
-3.910219915,
+3.969336698,
 215.1306278,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceother+ptdTRUE",
-3.955419259,
+3.966754986,
 216.3134763,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~ptdTRUE+ftv1+ftv2.",
-4.03865661,
+3.995270249,
 217.8780009,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~smokeTRUE+ptdTRUE+ftv1",
-4.041501282,
+4.078439667,
 216.6924512,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceother+ptdTRUE+RV",
-3.931722359,
+4.072867894,
 216.1311855,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceother+ptdTRUE+ftv1",
-4.06849032,
+3.977997909,
 217.2612136,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceother+ptdTRUE+uiTRUE",
-3.968727236,
+4.05546414,
 217.8298438,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceother+smokeTRUE+RV",
-4.099032865,
+4.092123599,
 222.646549,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+htTRUE+uiTRUE",
-3.902102535,
+3.986931897,
 222.8243828,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+ptdTRUE+ftv1",
-3.926658355,
+4.042502936,
 216.4812686,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+ptdTRUE+uiTRUE",
-3.9480723,
+3.979998874,
 217.0923137,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+ftv2.+RV",
-3.984415247,
+3.96507043,
 225.5817892,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+ftv1+RV",
-3.976350014,
+4.05141743,
 223.7948246,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+htTRUE+ftv1",
-4.065296502,
+3.940538451,
 218.9320814,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+htTRUE",
-3.952381608,
+4.042224244,
 220.7533418,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+smokeTRUE",
-4.050514169,
+3.924338384,
 221.3867165,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+ftv1",
-4.042361981,
+3.949097703,
 223.0199615,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+uiTRUE",
-3.956974901,
+3.928660876,
 221.2729336,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+uiTRUE+RV",
-4.074182814,
+3.947925883,
 223.7904394,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+htTRUE+RV",
-4.074158241,
+3.911786875,
 224.6969432,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+htTRUE+uiTRUE",
-3.922153772,
+4.028457652,
 222.1199021,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+ptdTRUE+ftv2.",
-4.066097309,
+4.075253843,
 217.2309118,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+ptdTRUE+ftv1",
-4.069023635,
+4.055782935,
 214.6835428,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+smokeTRUE+RV",
-3.96652376,
+4.059461765,
 224.6153073,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+smokeTRUE+ptdTRUE",
-4.084525838,
+3.991054891,
 215.0399171,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+ptdTRUE+htTRUE+ftv1",
-5.090318833,
+4.982016816,
 206.2620471,
 "With htTRUE",
 0.06666666667
 ],
 [
 "low~age+ptdTRUE+htTRUE+RV",
-4.92560044,
+5.062174049,
 209.1693752,
 "With htTRUE",
 0.05333333333
 ],
 [
 "low~lwt+raceblack+ptdTRUE+RV",
-4.998475616,
+5.020986658,
 210.1650148,
 "Without htTRUE",
 0.03333333333
 ],
 [
 "low~lwt+raceblack+ptdTRUE+ftv1",
-5.095234507,
+5.030944786,
 210.3686295,
 "Without htTRUE",
 0.03333333333
 ],
 [
 "low~lwt+raceblack+ptdTRUE+htTRUE",
-4.944733319,
+4.970639454,
 206.8153804,
 "With htTRUE",
 0.03333333333
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE",
-5.077479688,
+4.954052029,
 210.9022981,
 "Without htTRUE",
 0.02666666667
 ],
 [
 "low~lwt+ptdTRUE+htTRUE+RV",
-4.996455175,
+5.098536812,
 207.0112043,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~age+lwt+ptdTRUE+htTRUE",
-5.061216198,
+5.026698653,
 207.4334287,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~ptdTRUE+htTRUE+uiTRUE+ftv1",
-4.928401748,
+4.942641627,
 210.8201924,
 "With htTRUE",
 0.02
 ],
 [
 "low~raceother+smokeTRUE+ptdTRUE+htTRUE",
-4.915637349,
+4.92587447,
 211.2371396,
 "With htTRUE",
 0.02
 ],
 [
 "low~raceblack+ptdTRUE+htTRUE+RV",
-5.076037091,
+4.995623607,
 212.5448302,
 "With htTRUE",
 0.02
 ],
 [
 "low~raceblack+raceother+ptdTRUE+uiTRUE",
-4.99266982,
+5.084814894,
 214.2787765,
 "Without htTRUE",
 0.02
 ],
 [
 "low~lwt+ptdTRUE+ftv1+RV",
-5.090296179,
+5.019752193,
 210.4178024,
 "Without htTRUE",
 0.02
 ],
 [
 "low~lwt+raceother+smokeTRUE+htTRUE",
-4.990015949,
+5.095234139,
 214.345843,
 "With htTRUE",
 0.02
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE",
-5.011208329,
+5.046358502,
 211.6963837,
 "Without htTRUE",
 0.02
 ],
 [
 "low~age+ptdTRUE+uiTRUE+RV",
-4.992396015,
+4.971345382,
 210.7360058,
 "Without htTRUE",
 0.02
 ],
 [
 "low~age+ptdTRUE+htTRUE+uiTRUE",
-5.096127532,
+4.986294738,
 210.1258758,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+ptdTRUE+RV",
-5.081112699,
+4.929642312,
 210.058568,
 "Without htTRUE",
 0.02
 ],
 [
 "low~ptdTRUE+htTRUE+ftv1+RV",
-5.095222451,
+4.902615515,
 210.716659,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~smokeTRUE+ptdTRUE+htTRUE+ftv1",
-5.025502314,
+5.043113213,
 212.4342935,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~raceother+smokeTRUE+ptdTRUE+RV",
-5.013887318,
+4.920636847,
 212.6063576,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~raceother+smokeTRUE+ptdTRUE+uiTRUE",
-4.945054572,
+4.98925687,
 213.3487758,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+ptdTRUE+ftv1+RV",
-5.089711212,
+5.028020209,
 212.6241148,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+ptdTRUE+uiTRUE+RV",
-4.922975977,
+5.098367724,
 213.0882367,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+raceother+uiTRUE+RV",
-5.0864136,
+4.999118716,
 221.256907,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+raceother+smokeTRUE+uiTRUE",
-4.945258387,
+4.996869905,
 215.8680733,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+htTRUE+uiTRUE+RV",
-4.935980319,
+4.934688467,
 214.0598115,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+ptdTRUE+htTRUE+uiTRUE",
-5.003219312,
+5.050964189,
 207.5123544,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+smokeTRUE+ptdTRUE+htTRUE",
-5.000053944,
+4.990779098,
 207.9553328,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+ptdTRUE+ftv1+RV",
-5.092142838,
+5.002233957,
 210.4564572,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~age+ptdTRUE+htTRUE+ftv2.",
-5.018044748,
+4.941509023,
 212.9254398,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceother+smokeTRUE+ptdTRUE",
-5.088212698,
+4.945731629,
 212.1701689,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceblack+ptdTRUE+RV",
-5.050149676,
+5.019142399,
 211.4499885,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE",
-5.087071742,
+5.01497444,
 213.9741359,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~htTRUE+uiTRUE+ftv1+ftv2.",
-4.932422434,
+4.915412876,
 222.4790336,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~ptdTRUE+uiTRUE+ftv2.+RV",
-5.064525109,
+4.907108116,
 215.1235062,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~ptdTRUE+uiTRUE+ftv1+RV",
-4.964322337,
+5.028559098,
 212.3086709,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~ptdTRUE+uiTRUE+ftv1+ftv2.",
-4.997956867,
+5.08572304,
 215.6186879,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~ptdTRUE+htTRUE+ftv1+ftv2.",
-5.058856341,
+5.019618484,
 213.7694925,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~smokeTRUE+ptdTRUE+uiTRUE+ftv2.",
-4.927652103,
+5.01218015,
 216.6573428,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~smokeTRUE+ptdTRUE+htTRUE+RV",
-5.059148703,
+5.005205545,
 212.3590222,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-5.056658493,
+5.097019045,
 211.5824758,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceother+ptdTRUE+htTRUE+RV",
-4.9425427,
+5.001528364,
 212.1857882,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceother+smokeTRUE+uiTRUE+RV",
-4.912744208,
+5.036557616,
 218.765357,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceother+smokeTRUE+htTRUE+uiTRUE",
-4.945900762,
+5.020308244,
 215.6385673,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+htTRUE+uiTRUE+RV",
-4.90168296,
+4.947773736,
 220.0473302,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+ptdTRUE+ftv1+ftv2.",
-4.988255949,
+4.951633185,
 216.0578411,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+ptdTRUE+htTRUE+uiTRUE",
-5.033476851,
+5.045861925,
 212.3992674,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+smokeTRUE+uiTRUE+RV",
-5.058910891,
+4.990514166,
 220.8740932,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+smokeTRUE+ptdTRUE+ftv2.",
-4.969452457,
+4.935025354,
 217.4229705,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+htTRUE+uiTRUE",
-4.903488016,
+5.049339654,
 219.9300692,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+ptdTRUE+RV",
-5.053242219,
+4.920997528,
 212.6141206,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+htTRUE",
-4.927989783,
+5.07290899,
 216.350114,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+htTRUE+ftv1+RV",
-4.900927897,
+5.022928994,
 216.4243438,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+ptdTRUE+uiTRUE+RV",
-5.094220114,
+5.011431908,
 211.8800904,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+ptdTRUE+uiTRUE+ftv1",
-4.910780077,
+4.965755464,
 212.3745926,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+smokeTRUE+ftv1+RV",
-5.027112782,
+4.990626289,
 221.1085428,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+smokeTRUE+htTRUE+uiTRUE",
-5.028103549,
+5.000088195,
 212.8257402,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+smokeTRUE+ptdTRUE+uiTRUE",
-5.072653859,
+4.936173272,
 213.410494,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+ptdTRUE+ftv1",
-4.943010231,
+5.005926121,
 213.6347714,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+ptdTRUE+htTRUE",
-5.056147315,
+4.915055149,
 209.7124102,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+ftv1+RV",
-5.00300154,
+4.955551187,
 220.0325254,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+uiTRUE+RV",
-4.962557802,
+4.942539904,
 218.2188295,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+htTRUE+RV",
-4.938708046,
+4.956958096,
 214.9421595,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE",
-4.933832526,
+5.079018821,
 215.0146574,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+smokeTRUE+ptdTRUE+RV",
-4.916359972,
+4.989247065,
 211.3541201,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+smokeTRUE+ptdTRUE+ftv2.",
-5.036028495,
+5.055996978,
 214.9923147,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+smokeTRUE+ptdTRUE+uiTRUE",
-5.008179757,
+5.076123807,
 213.01316,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+smokeTRUE+ptdTRUE+htTRUE",
-5.021679362,
+4.982624842,
 210.8905996,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceother+ptdTRUE+RV",
-5.0658469,
+4.912761696,
 211.726957,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceother+ptdTRUE+htTRUE",
-4.943958348,
+4.967097498,
 212.0082805,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceother+smokeTRUE+htTRUE",
-4.954689172,
+5.044745189,
 218.7897521,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+ptdTRUE+ftv2.",
-4.979350989,
+4.967523067,
 216.0399221,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+ptdTRUE+uiTRUE",
-4.952585929,
+5.026082824,
 213.731074,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+ptdTRUE+ftv1",
-5.092064662,
+5.068122911,
 211.562189,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+ptdTRUE+uiTRUE",
-4.995902485,
+5.071226333,
 212.7005958,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE",
-4.909644696,
+4.978271856,
 211.7473391,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+ptdTRUE+htTRUE+ftv1+RV",
-5.923616811,
+5.976098777,
 203.3977519,
 "With htTRUE",
 0.05333333333
 ],
 [
 "low~lwt+raceblack+ptdTRUE+htTRUE+ftv1",
-6.099912778,
+6.079089085,
 202.9568621,
 "With htTRUE",
 0.05333333333
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+RV",
-6.073578138,
+6.028863153,
 207.814685,
 "Without htTRUE",
 0.04
 ],
 [
 "low~lwt+raceblack+ptdTRUE+htTRUE+RV",
-6.049827379,
+6.04821573,
 203.6463122,
 "With htTRUE",
 0.04
 ],
 [
 "low~raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-5.925627122,
+6.021060689,
 208.1452953,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~lwt+raceblack+ptdTRUE+ftv1+RV",
-6.062588016,
+6.080616322,
 206.7358839,
 "Without htTRUE",
 0.02666666667
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE",
-5.9986699,
+5.958746031,
 204.5483303,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~age+ptdTRUE+htTRUE+uiTRUE+RV",
-6.020532398,
+5.938252022,
 206.3962252,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~age+raceother+smokeTRUE+ptdTRUE+htTRUE",
-5.986366172,
+6.077290189,
 207.8202505,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+htTRUE",
-5.989925717,
+6.000667897,
 204.8028194,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+htTRUE+uiTRUE",
-6.090973872,
+6.075411509,
 211.1659586,
 "With htTRUE",
 0.02
 ],
 [
 "low~lwt+raceblack+ptdTRUE+htTRUE+uiTRUE",
-6.042109931,
+5.937838724,
 203.8864591,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE",
-5.934618756,
+6.05162061,
 208.4232463,
 "Without htTRUE",
 0.02
 ],
 [
 "low~age+lwt+ptdTRUE+ftv1+RV",
-6.081960216,
+6.044899779,
 207.5806465,
 "Without htTRUE",
 0.02
 ],
 [
 "low~age+lwt+smokeTRUE+ptdTRUE+htTRUE",
-6.09836136,
+6.088744964,
 205.3925953,
 "With htTRUE",
 0.02
 ],
 [
 "low~ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-6.037655476,
+6.009529317,
 207.6452789,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+ptdTRUE+uiTRUE+ftv2.+RV",
-5.920236594,
+6.042348774,
 213.0751837,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+ptdTRUE+htTRUE+ftv1+ftv2.",
-5.915434934,
+5.97778102,
 212.4126119,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1",
-5.905884973,
+5.920174625,
 209.3355337,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+raceother+ptdTRUE+uiTRUE+RV",
-5.987321018,
+6.085460418,
 210.0807433,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+ptdTRUE+htTRUE+uiTRUE+RV",
-6.051468193,
+5.9566465,
 204.4475235,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+ptdTRUE+htTRUE+uiTRUE+ftv1",
-6.040789904,
+6.018114632,
 204.0922304,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-5.927397661,
+5.922072121,
 205.4657788,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceother+smokeTRUE+ptdTRUE+htTRUE",
-5.968104138,
+6.068101406,
 206.1694066,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+htTRUE+uiTRUE+RV",
-5.90836806,
+5.963592737,
 210.2482828,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+htTRUE",
-6.073037459,
+6.056570267,
 208.2474161,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+ptdTRUE+htTRUE+ftv2.+RV",
-5.91204689,
+5.953501641,
 209.0025328,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+ptdTRUE+htTRUE+ftv1+RV",
-6.038795496,
+5.943729057,
 206.7795071,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceother+ptdTRUE+uiTRUE+RV",
-6.099222815,
+6.003359367,
 209.8781094,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceblack+ptdTRUE+htTRUE+RV",
-5.960573651,
+5.953790118,
 208.1572463,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+ptdTRUE+ftv2.+RV",
-6.086952031,
+5.936233665,
 209.9070308,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+ptdTRUE+htTRUE+uiTRUE",
-5.948421346,
+6.003715227,
 205.1534892,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-5.920734757,
+6.012556587,
 208.8975658,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-6.037094271,
+5.925831371,
 211.574295,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceother+ptdTRUE+htTRUE+ftv2.+RV",
-6.06131221,
+5.951273521,
 212.1544839,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceother+ptdTRUE+htTRUE+ftv1+RV",
-6.011876063,
+6.043587055,
 209.4050842,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceother+smokeTRUE+htTRUE+uiTRUE+RV",
-5.944725845,
+6.092281987,
 213.7439882,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceother+smokeTRUE+ptdTRUE+uiTRUE+RV",
-5.972992632,
+5.920028169,
 210.4075073,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+htTRUE+uiTRUE+ftv1+ftv2.",
-6.009617062,
+6.052644538,
 221.0377453,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+ptdTRUE+uiTRUE+ftv1+RV",
-5.9802168,
+6.089593271,
 210.2478468,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+ptdTRUE+htTRUE+ftv2.+RV",
-6.092940145,
+6.063726938,
 212.5409506,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+htTRUE+uiTRUE+RV",
-5.983320575,
+5.961658466,
 216.9383771,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+ptdTRUE+ftv1+RV",
-5.958934098,
+6.029915892,
 209.9846657,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+ptdTRUE+uiTRUE+ftv1",
-5.922282971,
+6.09067109,
 211.7856862,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+ptdTRUE+htTRUE+uiTRUE",
-5.995324315,
+6.09074653,
 209.6418048,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+uiTRUE+RV",
-5.951208053,
+5.967995841,
 213.5939396,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+ftv2.",
-5.96137304,
+5.952494822,
 210.9021029,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE",
-5.993701859,
+5.933090787,
 208.3977738,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+htTRUE+uiTRUE+ftv1+RV",
-6.069692966,
+5.964433611,
 212.4095595,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-6.093387494,
+6.002025041,
 207.3792592,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+smokeTRUE+uiTRUE+ftv1+RV",
-5.972797909,
+6.084793694,
 218.1442043,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+smokeTRUE+ptdTRUE+uiTRUE+ftv1",
-6.081161576,
+6.00219194,
 211.0579245,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+smokeTRUE+ptdTRUE+htTRUE+ftv1",
-6.000904436,
+5.951524252,
 205.0314602,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+ptdTRUE+htTRUE+ftv1",
-5.953808395,
+5.909292177,
 206.1038027,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+smokeTRUE+htTRUE+uiTRUE",
-6.053847961,
+5.983571252,
 210.6597263,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+htTRUE+ftv1+RV",
-5.908305799,
+6.0708003,
 212.822856,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+ptdTRUE+ftv2.+RV",
-6.082439783,
+5.969446136,
 210.1455995,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+ftv1",
-6.044623754,
+5.926288464,
 209.0181897,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+uiTRUE",
-6.035081404,
+5.974897373,
 209.677723,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+RV",
-6.092918341,
+6.026284046,
 208.2259738,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+ftv1",
-5.974349595,
+5.978015787,
 209.1142412,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+htTRUE",
-6.01595488,
+6.03792557,
 205.3971745,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+uiTRUE",
-6.059680268,
+6.037882682,
 211.9146067,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE",
-5.939764774,
+6.010980125,
 207.0394293,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-6.030707379,
+5.985924882,
 209.9426852,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+smokeTRUE+ptdTRUE+ftv2.+RV",
-6.077503577,
+5.990544013,
 211.3151349,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+smokeTRUE+ptdTRUE+uiTRUE+RV",
-5.913532732,
+5.961288652,
 209.4377135,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceother+ptdTRUE+htTRUE+RV",
-6.038971478,
+6.015670789,
 208.0202151,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceother+smokeTRUE+ptdTRUE+RV",
-5.915146851,
+6.082074061,
 208.8423144,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+ptdTRUE+uiTRUE+RV",
-5.999006619,
+5.928520816,
 209.3049738,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+ptdTRUE+htTRUE+ftv2.",
-5.98334695,
+5.983009525,
 212.03797,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+smokeTRUE+ptdTRUE+ftv2.",
-5.948294481,
+5.94218515,
 213.6811468,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+RV",
-5.966248082,
+5.985750074,
 209.275239,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+ftv2.",
-6.030063818,
+5.926537995,
 213.8926711,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+uiTRUE",
-5.949236655,
+5.992019289,
 211.754168,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+ptdTRUE+uiTRUE+RV",
-6.060399279,
+6.088591412,
 208.5320532,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+ptdTRUE+htTRUE+ftv2.",
-5.930569486,
+6.052394772,
 207.0581008,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+ptdTRUE+htTRUE+ftv1",
-6.031228003,
+6.086581966,
 204.3362,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+smokeTRUE+ptdTRUE+RV",
-6.043800994,
+5.9941357,
 208.8121799,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceother+ptdTRUE+ftv1",
-5.970887228,
+6.020717614,
 211.3537057,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+RV",
-6.073167012,
+5.996997936,
 207.4591246,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+ptdTRUE+htTRUE+ftv1+RV",
-7.005429918,
+6.921761263,
 199.9531656,
 "With htTRUE",
 0.04666666667
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-6.990397726,
+6.949545367,
 201.7189003,
 "With htTRUE",
 0.04
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+RV",
-7.005722773,
+6.999702906,
 205.4075425,
 "Without htTRUE",
 0.03333333333
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+htTRUE+RV",
-7.041457918,
+6.974573342,
 201.2893693,
 "With htTRUE",
 0.03333333333
 ],
 [
 "low~lwt+raceblack+ptdTRUE+uiTRUE+ftv1+RV",
-7.075179204,
+7.086938274,
 205.1008405,
 "Without htTRUE",
 0.02666666667
 ],
 [
 "low~lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1",
-6.954963175,
+7.004797216,
 200.5358361,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE",
-7.036156898,
+6.963428934,
 204.2166199,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+RV",
-6.913982364,
+6.955593206,
 204.4350472,
 "With htTRUE",
 0.02
 ],
 [
 "low~lwt+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-7.0544792,
+7.057508102,
 201.2279505,
 "With htTRUE",
 0.02
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv1",
-7.077952123,
+7.040492503,
 201.6505857,
 "With htTRUE",
 0.02
 ],
 [
 "low~lwt+raceblack+raceother+htTRUE+uiTRUE+RV",
-7.063695907,
+6.933005528,
 208.7573561,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-7.023428831,
+6.912891508,
 206.2336448,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+ptdTRUE+htTRUE+ftv1+RV",
-6.939897511,
+7.050941124,
 201.1420163,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-7.096987647,
+7.024082007,
 203.2402893,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE",
-6.95816575,
+6.933915353,
 203.9706845,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+htTRUE",
-7.020508166,
+6.91244281,
 203.7718569,
 "With htTRUE",
 0.02
 ],
 [
 "low~raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-6.920682833,
+6.921805854,
 205.5444051,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+RV",
-7.076606964,
+6.97634327,
 205.8953253,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-7.062789097,
+6.933862183,
 203.8158417,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-6.975957708,
+6.959730508,
 203.3750411,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-7.093687641,
+6.938441907,
 202.9083407,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv1",
-7.010845493,
+6.951434004,
 202.0591331,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE",
-7.086117064,
+6.936246365,
 200.4822526,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-7.064755865,
+6.995462742,
 204.3246346,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceother+smokeTRUE+ptdTRUE+htTRUE+RV",
-7.026406737,
+7.054147409,
 204.9347511,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceblack+ptdTRUE+htTRUE+ftv2.+RV",
-7.064587931,
+6.905557424,
 208.0210744,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+RV",
-7.051434758,
+7.005462155,
 205.0624309,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+ptdTRUE+htTRUE+uiTRUE+RV",
-6.912036337,
+7.076063814,
 201.7785885,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-6.91401531,
+6.974612674,
 204.788481,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+smokeTRUE+ptdTRUE+htTRUE+RV",
-6.997425953,
+6.909591826,
 202.6628826,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceother+ptdTRUE+ftv1+RV",
-6.957829953,
+6.927725649,
 207.3383396,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+htTRUE+uiTRUE",
-7.02959963,
+6.964298424,
 202.2066974,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+RV",
-6.922804082,
+6.930966322,
 206.1016414,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-7.083583003,
+6.926445634,
 206.4993176,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-7.001452941,
+6.944261186,
 207.007312,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-7.063342096,
+6.945276159,
 208.0949528,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-6.935732304,
+6.926283307,
 209.8845834,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+ptdTRUE+uiTRUE+ftv2.+RV",
-7.058623407,
+7.096312692,
 210.0799388,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+ptdTRUE+uiTRUE+ftv1+RV",
-6.964912884,
+6.965402745,
 207.7595931,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+ptdTRUE+uiTRUE+ftv1+ftv2.",
-7.079932368,
+7.001387899,
 211.5789086,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+ptdTRUE+htTRUE+ftv2.+RV",
-6.942843744,
+7.036288503,
 209.1920596,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+ptdTRUE+htTRUE+ftv1+RV",
-6.954818334,
+6.919833821,
 206.6339595,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+ptdTRUE+htTRUE+ftv1+ftv2.",
-7.026043101,
+6.923780512,
 210.2287536,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+uiTRUE+ftv1+RV",
-6.954763443,
+6.910087932,
 213.446793,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+RV",
-6.976086427,
+7.085850784,
 209.2531176,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+ftv2.+RV",
-7.00952646,
+7.034742447,
 207.814473,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv2.",
-7.040856005,
+6.918971571,
 208.3970888,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.",
-6.986517304,
+6.998519224,
 207.1249324,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+smokeTRUE+ptdTRUE+uiTRUE+ftv1+RV",
-7.067780442,
+6.992310368,
 208.1919981,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-6.98843403,
+6.975043306,
 203.1002093,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-6.934712768,
+7.098219844,
 205.3355149,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+ptdTRUE+htTRUE+ftv1+RV",
-6.980816377,
+6.935270143,
 203.1865628,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1",
-6.982740245,
+7.062687042,
 204.0422195,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-7.03312794,
+6.913689327,
 203.8960018,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+htTRUE+uiTRUE+ftv1+ftv2.",
-6.902871515,
+6.980089949,
 211.0955793,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+ptdTRUE+htTRUE+ftv2.+RV",
-7.006660225,
+6.928228865,
 203.4787124,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+ptdTRUE+htTRUE+ftv1+ftv2.",
-7.003574966,
+6.938661972,
 202.924421,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+RV",
-6.924346668,
+7.068270343,
 202.1147953,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+ftv2.+RV",
-6.980256271,
+7.043982798,
 208.1597367,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+ftv1+RV",
-6.933362799,
+6.953442417,
 205.3076043,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE",
-7.020654796,
+6.999000329,
 202.5665867,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+uiTRUE+ftv2.",
-7.060201132,
+6.91662278,
 211.9138614,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+htTRUE+ftv2.",
-6.920675446,
+6.970776848,
 208.1423408,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE",
-7.090892731,
+7.093841761,
 205.162137,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+smokeTRUE+ptdTRUE+htTRUE+ftv2.+RV",
-7.007127569,
+7.024942838,
 207.5907384,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceother+ptdTRUE+uiTRUE+ftv1+RV",
-6.984890885,
+7.03292365,
 208.0384265,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceother+ptdTRUE+htTRUE+ftv2.+RV",
-6.993221396,
+6.962497931,
 207.7774176,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceother+ptdTRUE+htTRUE+ftv1+RV",
-7.094159067,
+6.981137923,
 205.8667148,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceother+smokeTRUE+ptdTRUE+uiTRUE+RV",
-7.006770575,
+7.099215474,
 207.1972705,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+ptdTRUE+htTRUE+ftv1+RV",
-7.036526368,
+7.071016471,
 205.6995981,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+ptdTRUE+htTRUE+uiTRUE+RV",
-7.074272185,
+7.090709679,
 205.2412211,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+ftv2.+RV",
-6.991946643,
+7.062461018,
 209.1819532,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+uiTRUE+ftv2.",
-7.039171235,
+7.056436423,
 211.6899627,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+htTRUE+RV",
-6.969643243,
+6.953575626,
 205.8980646,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+htTRUE+ftv2.",
-7.031713237,
+7.052430306,
 209.8256216,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE",
-6.970096159,
+7.097262318,
 210.351546,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+ftv2.",
-7.019737107,
+6.95872111,
 208.3501958,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE",
-7.03957076,
+6.979870221,
 204.5524057,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+ptdTRUE+uiTRUE+ftv1+RV",
-7.014312308,
+7.062426305,
 206.3060652,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+ptdTRUE+htTRUE+uiTRUE+ftv1",
-7.096640921,
+6.915430334,
 202.4203855,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+smokeTRUE+ptdTRUE+ftv2.+RV",
-6.955396943,
+6.972739362,
 208.6926947,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+smokeTRUE+ptdTRUE+htTRUE+ftv2.",
-7.045998622,
+6.988518493,
 205.0269365,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+smokeTRUE+ptdTRUE+htTRUE+ftv1",
-7.02932783,
+6.931342827,
 203.1279737,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceother+ptdTRUE+uiTRUE+RV",
-7.072991052,
+7.016441054,
 208.1852464,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+htTRUE+ftv2.",
-7.079185507,
+7.094032436,
 204.4713601,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+htTRUE+ftv1",
-7.018258729,
+7.097899967,
 201.5624471,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE",
-6.902707607,
+6.935290407,
 205.6073532,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-7.966439517,
+8.008426085,
 197.579888,
 "With htTRUE",
 0.04666666667
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+htTRUE+ftv1+RV",
-8.031974197,
+7.976860778,
 198.241122,
 "With htTRUE",
 0.04
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-7.92647686,
+8.03523281,
 201.2064653,
 "With htTRUE",
 0.03333333333
 ],
 [
 "low~lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-7.918910295,
+7.953858756,
 201.6153433,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-7.939154781,
+7.993850188,
 199.255983,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-8.021507306,
+7.934360016,
 197.8515698,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE",
-8.095513931,
+7.973837892,
 199.1514091,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-8.099994002,
+8.045081055,
 205.8507896,
 "With htTRUE",
 0.02
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-7.922522145,
+7.997229821,
 203.7593908,
 "With htTRUE",
 0.02
 ],
 [
 "low~lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-8.012153448,
+7.912760493,
 201.8156755,
 "With htTRUE",
 0.02
 ],
 [
 "low~lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-8.085423345,
+8.056909246,
 200.5178509,
 "With htTRUE",
 0.02
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv1+RV",
-7.935801321,
+7.983664327,
 198.9006903,
 "With htTRUE",
 0.02
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+RV",
-8.016416707,
+8.096203617,
 198.1869167,
 "With htTRUE",
 0.02
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.",
-7.959524645,
+7.956576791,
 200.1979821,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-7.942462223,
+8.06957643,
 201.3770469,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-7.994647146,
+7.916447846,
 201.2583783,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-7.95060792,
+8.07729175,
 200.1257787,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+RV",
-8.035590796,
+7.994386146,
 202.5203115,
 "Without htTRUE",
 0.02
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-8.073453453,
+7.921820193,
 199.2068822,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-8.061037187,
+7.966655597,
 201.5657267,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+uiTRUE+ftv1+RV",
-8.040504525,
+8.067483314,
 203.6795977,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+RV",
-8.053928727,
+7.955369968,
 199.3186483,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+RV",
-8.009809311,
+8.017407028,
 202.507269,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+ftv1",
-8.039465559,
+8.067346454,
 203.8496053,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1",
-8.063610163,
+7.914230805,
 198.8014644,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-8.000637307,
+8.040555749,
 203.7561146,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+RV",
-7.943436002,
+8.039764907,
 203.1584531,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+RV",
-7.913809922,
+7.992792476,
 203.199141,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+RV",
-7.971116731,
+7.987386222,
 201.5985091,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-7.960505207,
+8.012435358,
 199.2425023,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+RV",
-7.984824098,
+8.085696645,
 201.4189367,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+htTRUE+ftv2.+RV",
-7.908760449,
+7.946093283,
 200.9026294,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+ftv1+RV",
-7.973914957,
+7.944362751,
 203.6523552,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+smokeTRUE+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-8.001130321,
+7.984043179,
 208.9658648,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-7.922216873,
+7.966704161,
 203.6419355,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv2.+RV",
-7.924101347,
+8.07296151,
 205.4067863,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.+RV",
-7.972617078,
+7.935438907,
 204.4002391,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.",
-7.991506897,
+7.998663746,
 205.8098672,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+smokeTRUE+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-7.958070357,
+7.985942673,
 208.0358473,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-7.922143361,
+8.012852769,
 202.898305,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-7.919228036,
+8.031232463,
 203.1774773,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.075335825,
+8.095710813,
 201.0430564,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-7.971587676,
+7.94643223,
 202.0172671,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-8.041538332,
+7.948162319,
 199.3543507,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv2.+RV",
-8.09136055,
+8.059367217,
 201.7950275,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-8.059804966,
+8.066334343,
 202.3309254,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1",
-7.940669049,
+7.922701541,
 199.6665984,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+uiTRUE+ftv1+RV",
-8.084035713,
+8.092662403,
 209.5738966,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+htTRUE+ftv1+RV",
-7.910285512,
+7.92946458,
 206.0016351,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+ftv2.",
-7.903969986,
+7.928725389,
 204.0902506,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+ftv2.+RV",
-7.946653429,
+8.085045987,
 204.2190355,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+ftv1+RV",
-7.937431763,
+8.001407121,
 202.7588712,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+RV",
-8.09978085,
+7.930970203,
 202.4337739,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1",
-8.000846691,
+7.96966041,
 203.8969384,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-8.023253038,
+8.031964205,
 204.3243037,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-8.094018154,
+7.962354475,
 204.8887244,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceother+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-8.089110991,
+7.970314682,
 205.1899115,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-8.04699265,
+7.929569141,
 204.8135837,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+uiTRUE+ftv1+RV",
-7.922320758,
+8.031775522,
 205.4046141,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+htTRUE+ftv2.+RV",
-7.96074612,
+7.937013993,
 205.6779946,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+htTRUE+ftv1+RV",
-7.938419165,
+8.090875627,
 203.7624524,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+ftv2.",
-7.982812568,
+8.079569698,
 210.3354796,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+ftv1+RV",
-8.013255184,
+8.088739411,
 204.0549291,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+ftv1+ftv2.",
-7.978988847,
+8.04473815,
 207.374148,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv2.",
-8.02211496,
+7.974071413,
 206.3888758,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.",
-7.949979,
+8.056203508,
 204.3286665,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1",
-7.929646355,
+7.902229902,
 203.4958971,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-7.984948218,
+8.088061742,
 201.8333217,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+smokeTRUE+ptdTRUE+htTRUE+ftv2.+RV",
-7.988712805,
+8.098749845,
 202.2759154,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-7.907042987,
+7.971481149,
 200.4645415,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.",
-8.094826361,
+8.049527013,
 203.1041632,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-8.025771159,
+8.058581805,
 202.8781779,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceother+ptdTRUE+ftv1+ftv2.+RV",
-7.979666762,
+8.041171801,
 207.3377313,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceother+ptdTRUE+uiTRUE+ftv1+RV",
-8.022315182,
+7.995165008,
 206.0842624,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceother+ptdTRUE+htTRUE+uiTRUE+RV",
-8.066945491,
+7.998930905,
 201.5579629,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceother+smokeTRUE+ptdTRUE+uiTRUE+RV",
-8.083854283,
+7.96161049,
 206.0078288,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+uiTRUE+ftv1+RV",
-7.941911222,
+8.039002449,
 203.35976,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+RV",
-8.030235208,
+8.064558661,
 198.826007,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1",
-7.933635267,
+7.986943528,
 199.389433,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+ftv2.+RV",
-8.07652097,
+8.002946531,
 206.0179743,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv1",
-8.07802415,
+8.032602194,
 200.261022,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+htTRUE+uiTRUE+RV",
-8.013074137,
+7.928633317,
 208.2009916,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+uiTRUE+ftv2.",
-7.985969707,
+7.968897479,
 208.5394541,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+RV",
-7.978373016,
+7.981152716,
 200.165715,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv2.",
-7.908016974,
+7.917062201,
 203.3540199,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE",
-7.978552605,
+8.086514386,
 201.2470435,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-9.061989035,
+9.067676813,
 195.5734896,
 "With htTRUE",
 0.06666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv1+RV",
-9.055642813,
+9.075886659,
 197.4258867,
 "With htTRUE",
 0.04
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-9.065500876,
+9.087142494,
 196.5093805,
 "With htTRUE",
 0.03333333333
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-8.927585829,
+8.914492127,
 196.4641298,
 "With htTRUE",
 0.03333333333
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.944487795,
+8.975751888,
 196.1365385,
 "With htTRUE",
 0.03333333333
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.91401629,
+9.007572985,
 196.8401598,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-9.093801532,
+8.921010028,
 199.2516908,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-8.983239017,
+9.060337541,
 197.5366002,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-9.035436889,
+9.047928349,
 199.0057622,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-9.088585264,
+8.910429803,
 199.7918681,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+RV",
-9.010768813,
+8.996433915,
 197.7644587,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+RV",
-8.982131776,
+9.084103568,
 196.5894425,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-9.046369646,
+8.908305686,
 199.0502038,
 "With htTRUE",
 0.02
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.+RV",
-8.905906565,
+8.95879836,
 197.8923764,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.+RV",
-9.039388225,
+9.000170097,
 201.3884168,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+raceother+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-9.068596722,
+9.021949787,
 201.1114929,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-9.083355971,
+8.95284981,
 199.7573881,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv2.+RV",
-9.035079026,
+8.984619722,
 199.6760543,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.",
-8.940740406,
+8.973312723,
 198.6549467,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-8.936821708,
+9.088501064,
 196.8337035,
 "With htTRUE",
 0.02
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.950501247,
+8.924744713,
 200.2006814,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.001580776,
+8.914006536,
 197.5725127,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-9.075125487,
+9.092863408,
 198.9004463,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.915647114,
+8.988502022,
 196.5513264,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1+RV",
-9.086767539,
+8.974054476,
 201.131859,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.",
-8.983326856,
+8.934048716,
 198.777249,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-9.047511779,
+8.910838086,
 200.6028932,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-8.937436379,
+9.031565614,
 199.2108888,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-9.03760667,
+9.015632383,
 199.4673445,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-9.080115806,
+9.097420353,
 197.4336856,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-8.945868485,
+9.02075848,
 203.5937024,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-9.076460879,
+8.912989984,
 203.1743032,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-8.904081183,
+8.932421816,
 201.1561225,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-9.086816477,
+8.995079584,
 202.7629935,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-8.943207666,
+8.900386567,
 201.0383443,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-8.939028797,
+8.988291829,
 206.9787746,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-9.062975978,
+8.952185947,
 201.8150746,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-9.009770044,
+9.087682749,
 201.4058338,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.991819903,
+9.043166657,
 199.7438316,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-8.999591469,
+8.932617096,
 199.2000542,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-8.946967176,
+8.995237604,
 199.1889544,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.063443105,
+9.038051345,
 203.6284264,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+ftv2.+RV",
-8.988767287,
+8.992179036,
 202.3675932,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-9.07987964,
+9.091029348,
 203.8183626,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+ftv1+ftv2.+RV",
-8.95091675,
+9.042508024,
 202.7464595,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv2.+RV",
-8.99048872,
+8.979429587,
 202.3733658,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-8.904942948,
+8.923544122,
 203.7262326,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-9.059619123,
+8.948023255,
 202.3219635,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+smokeTRUE+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-8.901564444,
+9.072726113,
 206.3085721,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-8.920325008,
+8.98719528,
 205.3916968,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-9.065465311,
+8.99957361,
 203.7592589,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-9.03940303,
+9.038385534,
 202.9448111,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-9.00579511,
+9.052062656,
 201.3112146,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+ftv2.+RV",
-8.930311994,
+8.931080245,
 208.291678,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1+RV",
-8.933864877,
+9.069891419,
 202.3456922,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-9.066342985,
+9.089363564,
 201.6023607,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-8.966610331,
+9.017683838,
 200.9954066,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-8.988904402,
+9.000450163,
 200.4262346,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.917563694,
+8.937955984,
 198.5901762,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.995485744,
+8.900367372,
 199.136723,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1+RV",
-8.935670849,
+9.075515612,
 204.7681917,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.",
-9.048162686,
+8.926822268,
 202.1926806,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-9.007215047,
+8.904548245,
 198.2236595,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-8.959066356,
+9.087827341,
 198.4459738,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-9.077231699,
+8.958589745,
 199.3836604,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+uiTRUE+ftv2.+RV",
-8.992459543,
+8.932865315,
 204.4062123,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv2.+RV",
-8.963585412,
+8.979820511,
 199.4742564,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.",
-8.943010854,
+8.991915082,
 200.2474219,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-9.047465049,
+8.98680617,
 198.1093575,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+htTRUE+uiTRUE+ftv2.+RV",
-9.093003561,
+9.003401965,
 208.0805165,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+ftv1+ftv2.+RV",
-8.994292467,
+9.069249151,
 203.6523175,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+uiTRUE+ftv1+RV",
-9.042529532,
+8.911032857,
 202.2762042,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1",
-8.933478158,
+9.010835412,
 198.7037487,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+ftv1+RV",
-9.024936874,
+9.037655048,
 201.2584585,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+ftv1+ftv2.",
-9.077574139,
+9.031611511,
 204.3456154,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+RV",
-9.007809619,
+9.032668545,
 200.9857065,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv2.",
-8.951258735,
+8.994446841,
 203.8543045,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-9.922214074,
+10.09390563,
 194.1730215,
 "With htTRUE",
 0.1066666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-9.926004759,
+9.980439413,
 195.2509092,
 "With htTRUE",
 0.08
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-9.922456841,
+10.06991042,
 194.3190398,
 "With htTRUE",
 0.07333333333
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-10.02895022,
+10.05132898,
 195.3492659,
 "With htTRUE",
 0.06
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-9.953067011,
+10.00652024,
 196.3242129,
 "With htTRUE",
 0.04666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-10.0355146,
+10.07482993,
 198.7840786,
 "With htTRUE",
 0.04
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-9.908550897,
+9.993423023,
 197.3696512,
 "With htTRUE",
 0.04
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-10.05168432,
+9.901625691,
 195.1565929,
 "With htTRUE",
 0.04
 ],
 [
 "low~age+lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.929617677,
+10.0455534,
 196.113551,
 "With htTRUE",
 0.03333333333
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-10.02289939,
+10.0433179,
 195.3972059,
 "With htTRUE",
 0.03333333333
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.+RV",
-9.942761138,
+9.937485274,
 196.0634612,
 "With htTRUE",
 0.03333333333
 ],
 [
 "low~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-10.02498268,
+10.02921346,
 196.8384303,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-9.942507151,
+10.00839586,
 199.6565521,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-9.975996475,
+9.967064152,
 197.0607827,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-9.984237658,
+10.02758174,
 198.0870551,
 "With htTRUE",
 0.02666666667
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-10.0153248,
+10.06584021,
 201.1238539,
 "Without htTRUE",
 0.02
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-9.987387899,
+10.04179504,
 196.4786272,
 "With htTRUE",
 0.02
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-9.951580933,
+9.96971007,
 196.4173941,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.955839438,
+9.925665575,
 199.0902042,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-9.922566206,
+9.977615698,
 197.9687997,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.",
-9.910679775,
+10.08563551,
 197.5854926,
 "With htTRUE",
 0.02
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-9.988675408,
+10.06087815,
 195.6287436,
 "With htTRUE",
 0.02
 ],
 [
 "low~lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.902794745,
+10.05173936,
 199.7407772,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-10.09710263,
+10.09144998,
 196.548731,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.905736235,
+10.09878278,
 202.1025517,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.98877878,
+10.0212882,
 204.7649784,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-10.08999707,
+9.905875433,
 198.9859367,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-9.953567027,
+9.967289072,
 197.4703052,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-10.08425418,
+9.955531617,
 202.2760751,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-10.0198518,
+9.92343951,
 197.2868384,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.999829782,
+9.908643652,
 201.3055473,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-9.901002487,
+9.974061957,
 200.571215,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-9.90899662,
+9.967375662,
 198.1899101,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-9.906440171,
+9.934730511,
 200.9494596,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.958837294,
+10.02435466,
 202.6505207,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+ftv2.+RV",
-9.939858482,
+9.979568725,
 201.9273273,
 "With htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+ftv1+ftv2.+RV",
-10.06220478,
+10.09113515,
 201.2478513,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv2.+RV",
-9.952306341,
+10.03066989,
 200.813207,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1+RV",
-9.93979879,
+9.965748743,
 199.8919152,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-10.90711725,
+10.93942934,
 193.7788557,
 "With htTRUE",
 0.2133333333
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-11.06716021,
+10.92306846,
 193.10376,
 "With htTRUE",
 0.16
 ],
 [
 "low~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-10.96544843,
+11.0991931,
 194.1207885,
 "With htTRUE",
 0.1266666667
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-10.94262923,
+10.97585535,
 195.0050475,
 "With htTRUE",
 0.1133333333
 ],
 [
 "low~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-11.05269699,
+11.01239762,
 195.2849206,
 "With htTRUE",
 0.1066666667
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-11.08546232,
+11.0465436,
 195.4755183,
 "With htTRUE",
 0.09333333333
 ],
 [
 "low~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-10.90914374,
+11.07416111,
 195.3583216,
 "With htTRUE",
 0.07333333333
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-10.9488679,
+11.01443405,
 199.8801086,
 "Without htTRUE",
 0.04666666667
 ],
 [
 "low~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-10.96648981,
+10.90220721,
 197.8591444,
 "With htTRUE",
 0.04
 ],
 [
 "low~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-10.92478412,
+11.08126305,
 198.1440582,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-11.01131988,
+11.05413073,
 201.7641091,
 "With htTRUE",
 0.01333333333
 ],
 [
 "low~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-11.98940646,
+11.97650092,
 192.9258706,
 "With htTRUE",
 1
@@ -23134,14 +23134,14 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartBubbleChartID77ab1608d4a3() {
-var data = gvisDataBubbleChartID77ab1608d4a3();
+function drawChartBubbleChartID4cae3790e0f() {
+var data = gvisDataBubbleChartID4cae3790e0f();
 var options = {};
 options["title"] = "Model stability plot";
 options["fontSize"] = 12;
-options["vAxis"] = {title:'-2*Log-likelihood'};
+options["vAxis"] = {title:'-2*Log-likelihood', minValue: 192.090948126343 };
 options["hAxis"] = {title:'Number of parameters',
-        maxValue: 12.4894064628519  ,
+        maxValue: 12.4765009246767  ,
         minValue: 0.5  ,
         ticks: [ 1,2,3,4,5,6,7,8,9,10,11 ]};
 options["sizeAxis"] = {minValue: 0, minSize: 1,
@@ -23160,7 +23160,7 @@ options["explorer"] = {axis: 'vertical',
           'rightClickToReset']};
 
     var chart = new google.visualization.BubbleChart(
-    document.getElementById('BubbleChartID77ab1608d4a3')
+    document.getElementById('BubbleChartID4cae3790e0f')
     );
     chart.draw(data,options);
     
@@ -23184,9 +23184,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartBubbleChartID77ab1608d4a3);
+callbacks.push(drawChartBubbleChartID4cae3790e0f);
 })();
-function displayChartBubbleChartID77ab1608d4a3() {
+function displayChartBubbleChartID4cae3790e0f() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -23207,18 +23207,18 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBubbleChartID77ab1608d4a3"></script><!-- divChart --><div id="BubbleChartID77ab1608d4a3" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBubbleChartID4cae3790e0f"></script><!-- divChart --><div id="BubbleChartID4cae3790e0f" style="width: 800; height: 400;">
 
 </div>
 <p>In the model stability plot (below) the only dominant (non-trivial, i.e. not the full model or the null model) is the simple linear regression with <code>ptdTRUE</code> as the explanatory variable. In models of size 3, there are a range of competing models that perform similarly well.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(af.bw, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</code></pre></div>
-<!-- ScatterChart generated in R 3.4.1 by googleVis 0.6.2 package -->
-<!-- Tue Sep 19 07:52:29 2017 -->
+<!-- ScatterChart generated in R 3.4.3 by googleVis 0.6.2 package -->
+<!-- Thu Dec 28 16:59:03 2017 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataScatterChartID77ab31a516f0 () {
+function gvisDataScatterChartID4cae632493dd () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -23646,8 +23646,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartScatterChartID77ab31a516f0() {
-var data = gvisDataScatterChartID77ab31a516f0();
+function drawChartScatterChartID4cae632493dd() {
+var data = gvisDataScatterChartID4cae632493dd();
 var options = {};
 options["allowHtml"] = true;
 options["title"] = "Adaptive fence: c*=20";
@@ -23662,7 +23662,7 @@ options["width"] = 800;
 options["height"] = 400;
 
     var chart = new google.visualization.ScatterChart(
-    document.getElementById('ScatterChartID77ab31a516f0')
+    document.getElementById('ScatterChartID4cae632493dd')
     );
     chart.draw(data,options);
     
@@ -23686,9 +23686,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartScatterChartID77ab31a516f0);
+callbacks.push(drawChartScatterChartID4cae632493dd);
 })();
-function displayChartScatterChartID77ab31a516f0() {
+function displayChartScatterChartID4cae632493dd() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -23709,7 +23709,7 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID77ab31a516f0"></script><!-- divChart --><div id="ScatterChartID77ab31a516f0" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID4cae632493dd"></script><!-- divChart --><div id="ScatterChartID4cae632493dd" style="width: 800; height: 400;">
 
 </div>
 <p>In the adaptive fence plot, the only model more complex than a single covariate regression model that shows up with some regularity is the model with <code>lwt</code>, <code>ptd</code> and <code>ht</code>, though at such low levels, it can hardly be considered as a region of stability. This model also stands out slightly in the model stability plot, where it is selected in 6% of bootstrap resamples and has a slightly lower description loss than other models of the same dimension. It is worth recalling that the bootstrap resamples generated for the adaptive fence are separate from those generated for the model stability plots. Indeed the adaptive fence procedure relies on a parametric bootstrap, whereas the model stability plots rely on an exponential weighted bootstrap. Thus, to find some agreement between these methods is reassuring.</p>
@@ -23734,13 +23734,13 @@ bw.lm.af =<span class="st"> </span><span class="kw"><a href="../reference/af.htm
 <span class="kw">save</span>(bw.lm, bw.lm.vis, bw.lm.af, <span class="dt">file =</span> <span class="st">"bw_lm.RData"</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">"bw_lm.RData"</span>)
 <span class="kw">plot</span>(bw.lm.vis, <span class="dt">which =</span> <span class="st">"vip"</span>, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</code></pre></div>
-<!-- LineChart generated in R 3.4.1 by googleVis 0.6.2 package -->
-<!-- Tue Sep 19 07:52:30 2017 -->
+<!-- LineChart generated in R 3.4.3 by googleVis 0.6.2 package -->
+<!-- Thu Dec 28 16:59:03 2017 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataLineChartID77ab109e09ef () {
+function gvisDataLineChartID4cae45a86c67 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -42720,8 +42720,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartLineChartID77ab109e09ef() {
-var data = gvisDataLineChartID77ab109e09ef();
+function drawChartLineChartID4cae45a86c67() {
+var data = gvisDataLineChartID4cae45a86c67();
 var options = {};
 options["allowHtml"] = true;
 options["title"] = "Variable inclusion plot";
@@ -42742,7 +42742,7 @@ options["backgroundColor"] = "transparent";
 options["annotations"] = {style:'line'};
 
     var chart = new google.visualization.LineChart(
-    document.getElementById('LineChartID77ab109e09ef')
+    document.getElementById('LineChartID4cae45a86c67')
     );
     chart.draw(data,options);
     
@@ -42766,9 +42766,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartLineChartID77ab109e09ef);
+callbacks.push(drawChartLineChartID4cae45a86c67);
 })();
-function displayChartLineChartID77ab109e09ef() {
+function displayChartLineChartID4cae45a86c67() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -42789,3460 +42789,3460 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID77ab109e09ef"></script><!-- divChart --><div id="LineChartID77ab109e09ef" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID4cae45a86c67"></script><!-- divChart --><div id="LineChartID4cae45a86c67" style="width: 800; height: 400;">
 
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(bw.lm.vis, <span class="dt">which =</span> <span class="st">"boot"</span>, <span class="dt">highlight =</span> <span class="st">"htTRUE"</span>, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</code></pre></div>
-<!-- BubbleChart generated in R 3.4.1 by googleVis 0.6.2 package -->
-<!-- Tue Sep 19 07:52:31 2017 -->
+<!-- BubbleChart generated in R 3.4.3 by googleVis 0.6.2 package -->
+<!-- Thu Dec 28 16:59:04 2017 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataBubbleChartID77ab3301111c () {
+function gvisDataBubbleChartID4cae5361062c () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
  [
 "z~1",
-1.008055651,
+0.9188091778,
 907.2627103,
 "Without htTRUE",
 1
 ],
 [
 "z~ptdTRUE",
-2.079726553,
+1.909930717,
 899.7079199,
 "Without htTRUE",
 0.4933333333
 ],
 [
 "z~htTRUE",
-1.963184021,
+2.064232464,
 905.1378482,
 "With htTRUE",
 0.08666666667
 ],
 [
 "z~lwt",
-2.077706787,
+2.065864861,
 904.7782698,
 "Without htTRUE",
 0.08666666667
 ],
 [
 "z~uiTRUE",
-1.99278782,
+2.030946575,
 904.4776449,
 "Without htTRUE",
 0.08
 ],
 [
 "z~smokeTRUE",
-2.051266664,
+1.926565563,
 904.7557082,
 "Without htTRUE",
 0.06666666667
 ],
 [
 "z~age",
-2.091821378,
+1.96836198,
 906.4629488,
 "Without htTRUE",
 0.06
 ],
 [
 "z~RV",
-2.077713061,
+2.046274316,
 906.1944552,
 "Without htTRUE",
 0.04666666667
 ],
 [
 "z~raceblack",
-2.0034311,
+2.081458283,
 906.4326005,
 "Without htTRUE",
 0.02666666667
 ],
 [
 "z~ftv1",
-1.990121673,
+2.0392394,
 906.6633999,
 "Without htTRUE",
 0.02
 ],
 [
 "z~raceother",
-1.916770087,
+1.948315844,
 906.8221501,
 "Without htTRUE",
 0.02
 ],
 [
 "z~ftv2.",
-1.956749042,
+2.028821446,
 907.0994121,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+htTRUE",
-3.051797384,
+2.956150043,
 899.933211,
 "With htTRUE",
 0.1533333333
 ],
 [
 "z~age+ptdTRUE",
-3.014358811,
+3.091527304,
 897.3209365,
 "Without htTRUE",
 0.1333333333
 ],
 [
 "z~ptdTRUE+htTRUE",
-3.072975951,
+2.931679191,
 896.9783324,
 "With htTRUE",
 0.1133333333
 ],
 [
 "z~ptdTRUE+uiTRUE",
-3.0209115,
+2.983667798,
 897.8089189,
 "Without htTRUE",
 0.08
 ],
 [
 "z~ptdTRUE+ftv1",
-2.942489228,
+2.950401959,
 897.6109007,
 "Without htTRUE",
 0.07333333333
 ],
 [
 "z~ptdTRUE+RV",
-3.038404629,
+2.918878054,
 898.6478621,
 "Without htTRUE",
 0.06
 ],
 [
 "z~lwt+ptdTRUE",
-2.956689841,
+3.065543554,
 897.6010788,
 "Without htTRUE",
 0.06
 ],
 [
 "z~raceblack+ptdTRUE",
-3.053372578,
+3.005061101,
 898.6061344,
 "Without htTRUE",
 0.04666666667
 ],
 [
 "z~raceother+smokeTRUE",
-2.934915536,
+3.033549525,
 902.4368276,
 "Without htTRUE",
 0.04
 ],
 [
 "z~htTRUE+uiTRUE",
-2.957570087,
+2.981655552,
 901.5334571,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~smokeTRUE+htTRUE",
-2.932842773,
+3.068517981,
 902.6260408,
 "With htTRUE",
 0.02
 ],
 [
 "z~smokeTRUE+ptdTRUE",
-2.965618586,
+3.047461094,
 898.2189508,
 "Without htTRUE",
 0.02
 ],
 [
 "z~htTRUE+RV",
-3.075246318,
+2.96964488,
 903.5044659,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~smokeTRUE+RV",
-2.98731754,
+3.089787635,
 903.6554827,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~smokeTRUE+uiTRUE",
-2.933723553,
+3.029335838,
 901.9735812,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~raceblack+raceother",
-3.002783342,
+2.907055553,
 905.2772616,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+ftv1",
-3.037447582,
+3.019289691,
 904.1043393,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+uiTRUE",
-2.934769645,
+2.9830636,
 902.5016491,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~ftv1+ftv2.",
-3.000916449,
+2.915379408,
 906.2455604,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~uiTRUE+RV",
-3.073653312,
+3.005609776,
 903.1020046,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~uiTRUE+ftv2.",
-3.001113275,
+3.092466662,
 904.3395834,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~htTRUE+ftv1",
-3.064696428,
+3.04174801,
 904.4249343,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceother+uiTRUE",
-2.947582948,
+3.010695141,
 904.1198046,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceother+ptdTRUE",
-3.011909056,
+2.948591322,
 899.172534,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+RV",
-2.902819303,
+3.055608506,
 905.2461216,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+htTRUE",
-2.935851648,
+3.030388189,
 904.4655808,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+smokeTRUE",
-2.91089404,
+3.066049141,
 903.7486868,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack",
-3.08828491,
+3.029710189,
 902.6930051,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+smokeTRUE",
-2.925130981,
+2.995967159,
 903.7837744,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceother",
-3.01785482,
+2.999012821,
 906.0969009,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack",
-3.063028656,
+2.975974518,
 905.7358856,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+ptdTRUE+htTRUE",
-3.906322879,
+3.990097087,
 892.0492716,
 "With htTRUE",
 0.16
 ],
 [
 "z~lwt+ptdTRUE+ftv1",
-3.932883683,
+4.06285035,
 895.4204897,
 "Without htTRUE",
 0.06666666667
 ],
 [
 "z~ptdTRUE+htTRUE+uiTRUE",
-3.915499958,
+4.085755445,
 894.3505459,
 "With htTRUE",
 0.05333333333
 ],
 [
 "z~lwt+htTRUE+uiTRUE",
-3.949517898,
+3.929496209,
 896.804152,
 "With htTRUE",
 0.05333333333
 ],
 [
 "z~age+ptdTRUE+htTRUE",
-3.972983292,
+4.049964333,
 894.3489247,
 "With htTRUE",
 0.04666666667
 ],
 [
 "z~age+ptdTRUE+RV",
-3.915286033,
+4.09513147,
 895.2423807,
 "Without htTRUE",
 0.04
 ],
 [
 "z~ptdTRUE+uiTRUE+RV",
-4.025623614,
+4.094958493,
 896.4949591,
 "Without htTRUE",
 0.03333333333
 ],
 [
 "z~ptdTRUE+uiTRUE+ftv1",
-4.051538495,
+3.970125114,
 895.946234,
 "Without htTRUE",
 0.02666666667
 ],
 [
 "z~ptdTRUE+htTRUE+RV",
-4.026623128,
+3.978789811,
 895.2736819,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~smokeTRUE+ptdTRUE+htTRUE",
-3.963514445,
+4.090190202,
 895.5229054,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~raceblack+raceother+ptdTRUE",
-3.994864151,
+3.921329664,
 897.1519347,
 "Without htTRUE",
 0.02666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE",
-3.955362575,
+4.086952023,
 898.9645415,
 "Without htTRUE",
 0.02666666667
 ],
 [
 "z~age+ptdTRUE+ftv1",
-3.950914103,
+3.96923242,
 895.5082054,
 "Without htTRUE",
 0.02666666667
 ],
 [
 "z~smokeTRUE+ptdTRUE+RV",
-4.033622548,
+4.006612121,
 897.1334462,
 "Without htTRUE",
 0.02
 ],
 [
 "z~raceblack+ptdTRUE+uiTRUE",
-4.006361094,
+4.00775886,
 896.4609579,
 "Without htTRUE",
 0.02
 ],
 [
 "z~raceblack+smokeTRUE+uiTRUE",
-3.976322413,
+4.04294359,
 900.6598676,
 "Without htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+htTRUE",
-3.989656357,
+3.9811581,
 897.4928569,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+ptdTRUE",
-3.93884705,
+3.930557628,
 895.2068834,
 "Without htTRUE",
 0.02
 ],
 [
 "z~age+raceblack+raceother",
-3.937275597,
+3.968046552,
 904.7419731,
 "Without htTRUE",
 0.02
 ],
 [
 "z~ptdTRUE+htTRUE+ftv1",
-4.054689304,
+4.02533097,
 894.5454913,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~smokeTRUE+uiTRUE+RV",
-4.048464337,
+3.911474536,
 900.5616081,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~raceother+smokeTRUE+RV",
-3.959089734,
+4.070333528,
 901.3764833,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~raceother+smokeTRUE+htTRUE",
-4.025412891,
+3.942529069,
 899.9258193,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~raceother+smokeTRUE+ptdTRUE",
-4.065638565,
+4.007892406,
 896.1989598,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~raceblack+htTRUE+RV",
-4.008403011,
+3.927297517,
 902.7218777,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~raceblack+ptdTRUE+RV",
-4.025461054,
+3.964973028,
 897.4103104,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+htTRUE+ftv1",
-3.946778004,
+4.024215259,
 899.0085543,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+uiTRUE",
-3.960459939,
+3.95119645,
 900.1674967,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~age+smokeTRUE+ptdTRUE",
-3.987276917,
+4.02697516,
 895.7251363,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~age+raceblack+ptdTRUE",
-4.070195647,
+3.997134421,
 896.3956708,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~htTRUE+uiTRUE+RV",
-4.086109897,
+4.087635383,
 899.3190519,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~ptdTRUE+ftv1+RV",
-3.984805112,
+4.071500307,
 896.4859555,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~ptdTRUE+ftv1+ftv2.",
-3.984444384,
+3.974176708,
 897.2957562,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~ptdTRUE+uiTRUE+ftv2.",
-3.94848185,
+3.962840366,
 897.7890272,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceother+ptdTRUE+ftv2.",
-3.916382422,
+4.065706872,
 899.1655511,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceother+ptdTRUE+uiTRUE",
-3.967452202,
+3.990368303,
 897.3549085,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceother+ptdTRUE+htTRUE",
-3.94656479,
+3.963175682,
 896.2500588,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+smokeTRUE+RV",
-4.044538761,
+3.919561708,
 902.5147595,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+smokeTRUE+ptdTRUE",
-3.97461718,
+3.912980107,
 896.9790744,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+htTRUE+RV",
-4.07746735,
+4.037891473,
 898.7768796,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+htTRUE+ftv2.",
-4.022319173,
+4.033610121,
 899.9328476,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+smokeTRUE+htTRUE",
-4.081249233,
+4.08090933,
 897.4230819,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceother+htTRUE",
-4.011683581,
+3.960338654,
 899.866331,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+htTRUE+RV",
-3.924058044,
+4.086561741,
 901.859215,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+ptdTRUE+uiTRUE",
-3.902715111,
+3.940396603,
 895.735797,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceother+ptdTRUE",
-3.993458356,
+4.058475751,
 896.9174332,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceother+smokeTRUE",
-3.960096352,
+3.944926102,
 901.5988262,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+ptdTRUE",
-3.931542427,
+3.906151314,
 895.6995551,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+ptdTRUE+htTRUE+ftv1",
-5.029067787,
+5.072406808,
 889.2716994,
 "With htTRUE",
 0.12
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE",
-4.952493121,
+5.037021501,
 889.2273896,
 "With htTRUE",
 0.06
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE",
-4.950416823,
+5.088414982,
 892.4589862,
 "Without htTRUE",
 0.04666666667
 ],
 [
 "z~ptdTRUE+htTRUE+uiTRUE+RV",
-4.986987143,
+5.035170752,
 892.1433603,
 "With htTRUE",
 0.04
 ],
 [
 "z~lwt+smokeTRUE+ptdTRUE+htTRUE",
-5.065714657,
+5.06862403,
 890.5782481,
 "With htTRUE",
 0.04
 ],
 [
 "z~raceblack+raceother+smokeTRUE+uiTRUE",
-5.084875765,
+4.972378837,
 895.941375,
 "Without htTRUE",
 0.03333333333
 ],
 [
 "z~lwt+ptdTRUE+htTRUE+RV",
-5.020152243,
+4.978473177,
 890.8206726,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~age+ptdTRUE+htTRUE+RV",
-5.002594853,
+5.01353748,
 891.2252292,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~age+raceother+smokeTRUE+ptdTRUE",
-4.996860108,
+4.919030427,
 893.946982,
 "Without htTRUE",
 0.03333333333
 ],
 [
 "z~age+lwt+ptdTRUE+htTRUE",
-4.992341657,
+4.938756814,
 890.1443031,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~lwt+ptdTRUE+htTRUE+uiTRUE",
-4.979915741,
+5.017613279,
 889.8024901,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~lwt+raceblack+htTRUE+uiTRUE",
-4.957631345,
+5.050300834,
 894.0073955,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~age+ptdTRUE+htTRUE+uiTRUE",
-5.072034143,
+5.073447757,
 892.0838641,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~ptdTRUE+htTRUE+uiTRUE+ftv1",
-5.072885894,
+4.974359147,
 892.1764607,
 "With htTRUE",
 0.02
 ],
 [
 "z~ptdTRUE+uiTRUE+ftv1+RV",
-4.96711287,
+5.05976291,
 894.5805118,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~raceblack+ptdTRUE+htTRUE+RV",
-4.986868292,
+4.911662879,
 894.2359784,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~raceblack+smokeTRUE+ptdTRUE+RV",
-5.014821269,
+5.024687142,
 895.7462197,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~raceblack+raceother+ptdTRUE+uiTRUE",
-5.005014655,
+4.971328281,
 895.0574269,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~raceblack+raceother+smokeTRUE+RV",
-4.943229925,
+5.017585586,
 897.6551862,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+htTRUE+uiTRUE+RV",
-5.046476837,
+5.082756928,
 895.1608486,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+htTRUE+uiTRUE+ftv1",
-5.035789715,
+4.939888437,
 895.9835537,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+smokeTRUE+htTRUE+uiTRUE",
-5.080860123,
+4.973816725,
 894.295397,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceother+ptdTRUE+htTRUE",
-5.097232796,
+5.034281666,
 891.9205901,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+htTRUE+RV",
-4.904787105,
+5.05362891,
 896.2529273,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+ptdTRUE+RV",
-4.952478225,
+5.004449655,
 894.4658021,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+ptdTRUE+ftv1",
-5.095071817,
+5.065615004,
 892.8622308,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~age+ptdTRUE+uiTRUE+RV",
-4.936628197,
+5.005419239,
 893.4049959,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+ptdTRUE+ftv1",
-5.083365242,
+5.000350965,
 893.7879529,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE",
-5.0771651,
+4.983994664,
 893.6886754,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~ptdTRUE+htTRUE+ftv1+RV",
-4.957935329,
+4.972459657,
 892.7057436,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~ptdTRUE+htTRUE+ftv1+ftv2.",
-5.027400798,
+4.924685782,
 894.3794461,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~ptdTRUE+htTRUE+uiTRUE+ftv2.",
-5.06062779,
+4.959632306,
 894.3475194,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~smokeTRUE+ptdTRUE+uiTRUE+RV",
-4.909267881,
+4.955335298,
 894.9237943,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~smokeTRUE+ptdTRUE+htTRUE+ftv2.",
-4.972862002,
+5.054045071,
 895.5227169,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceother+ptdTRUE+ftv1+ftv2.",
-4.950795143,
+5.05563626,
 896.950721,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceother+smokeTRUE+htTRUE+uiTRUE",
-4.9368164,
+4.928757456,
 896.524899,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceother+smokeTRUE+ptdTRUE+RV",
-5.072800927,
+5.00310523,
 895.1499548,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceother+smokeTRUE+ptdTRUE+uiTRUE",
-5.041207229,
+5.019448097,
 894.4033163,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceother+smokeTRUE+ptdTRUE+htTRUE",
-4.902780873,
+5.001168605,
 893.1155918,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+ptdTRUE+ftv1+RV",
-4.955792864,
+4.977219927,
 895.1518674,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+smokeTRUE+htTRUE+uiTRUE",
-5.067831787,
+4.98521962,
 897.9053084,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+smokeTRUE+ptdTRUE+uiTRUE",
-5.051203775,
+4.902351947,
 894.7627726,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+ptdTRUE+ftv2.",
-4.917063203,
+5.083866354,
 897.1494034,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+htTRUE",
-5.035459259,
+4.915887939,
 896.6381188,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+ptdTRUE+uiTRUE+RV",
-5.036667846,
+5.001474851,
 895.1565672,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+smokeTRUE+htTRUE+ftv2.",
-5.081208177,
+5.064034323,
 897.4216465,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceother+smokeTRUE+ptdTRUE",
-4.95864062,
+5.019679084,
 894.9318253,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+smokeTRUE+uiTRUE",
-4.98344495,
+4.984830705,
 897.3577725,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+smokeTRUE+ptdTRUE",
-5.015484674,
+5.011862054,
 893.4745549,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+raceother+htTRUE",
-4.989329148,
+5.057818894,
 896.8487416,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+ptdTRUE+ftv1+RV",
-4.93751725,
+4.933543052,
 893.4093045,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+ptdTRUE+uiTRUE+ftv1",
-5.032273171,
+5.094090346,
 894.1066786,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+ptdTRUE+htTRUE+ftv1",
-4.909240818,
+4.99470062,
 892.2249827,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+smokeTRUE+uiTRUE+RV",
-4.953929586,
+5.085948641,
 899.1060873,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+smokeTRUE+htTRUE+RV",
-5.040937495,
+5.080187854,
 899.0391837,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+smokeTRUE+ptdTRUE+RV",
-5.003638231,
+5.050176438,
 893.5829692,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceother+ptdTRUE+RV",
-5.075200464,
+5.035313754,
 894.8946452,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+htTRUE+RV",
-4.976041736,
+5.029602689,
 901.2030582,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+ptdTRUE+ftv1",
-5.067123753,
+4.914649374,
 894.4988923,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+ptdTRUE+uiTRUE",
-5.03533763,
+4.984711684,
 894.5899463,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+RV",
-5.004234678,
+5.006164873,
 903.049941,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+uiTRUE",
-5.003562021,
+5.088540952,
 901.8504422,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+ptdTRUE",
-5.003165986,
+5.042444912,
 895.2407867,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+ptdTRUE+htTRUE+uiTRUE+ftv1",
-6.06550613,
+6.044898115,
 887.2927049,
 "With htTRUE",
 0.08
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+ftv1",
-5.931515519,
+5.994025724,
 886.2208875,
 "With htTRUE",
 0.05333333333
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+RV",
-6.02212971,
+5.924056451,
 887.903676,
 "With htTRUE",
 0.04
 ],
 [
 "z~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE",
-6.062220969,
+6.056619534,
 887.5179937,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE",
-6.092506961,
+5.987631479,
 890.2802674,
 "Without htTRUE",
 0.02666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE",
-5.979977832,
+5.986291196,
 889.5755855,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~age+ptdTRUE+htTRUE+uiTRUE+RV",
-6.017087429,
+5.905499576,
 888.4299028,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~age+raceother+smokeTRUE+ptdTRUE+RV",
-6.011477841,
+5.929312369,
 891.90724,
 "Without htTRUE",
 0.02666666667
 ],
 [
 "z~age+lwt+ptdTRUE+htTRUE+RV",
-6.077846337,
+5.984519032,
 887.8172951,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~raceblack+ptdTRUE+htTRUE+uiTRUE+RV",
-6.055953685,
+6.053427435,
 890.8031545,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+ptdTRUE+htTRUE+ftv1+RV",
-5.988275404,
+5.900953289,
 887.936403,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+ptdTRUE+htTRUE+uiTRUE+RV",
-6.086596972,
+6.020719138,
 888.1541123,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceother+smokeTRUE+ptdTRUE+htTRUE",
-5.909530413,
+6.081115452,
 889.5291103,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+raceother+ptdTRUE+htTRUE",
-6.048254819,
+6.041332306,
 888.3203003,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE",
-6.022276685,
+5.952507432,
 890.0125271,
 "Without htTRUE",
 0.02
 ],
 [
 "z~age+lwt+smokeTRUE+ptdTRUE+htTRUE",
-5.90830137,
+6.070215244,
 888.5799159,
 "With htTRUE",
 0.02
 ],
 [
 "z~ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-6.064389355,
+5.966721103,
 889.8495129,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~raceother+ptdTRUE+htTRUE+uiTRUE+RV",
-5.983178134,
+6.015656854,
 891.5209627,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~raceother+smokeTRUE+ptdTRUE+uiTRUE+RV",
-6.026540476,
+5.986554626,
 893.106303,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~raceblack+raceother+smokeTRUE+uiTRUE+RV",
-5.960124576,
+5.910319065,
 894.2521563,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~raceblack+raceother+smokeTRUE+htTRUE+RV",
-5.962309604,
+6.045960658,
 894.6853534,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+ftv2.",
-6.04246617,
+6.009634083,
 892.4540544,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+ptdTRUE+uiTRUE+RV",
-5.958697465,
+6.050244397,
 892.4847343,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+uiTRUE",
-5.903462764,
+5.910154233,
 886.676442,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+smokeTRUE+htTRUE+uiTRUE",
-5.976332637,
+6.042993242,
 891.1590165,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+raceother+htTRUE+uiTRUE",
-6.073029581,
+5.959538891,
 893.3557152,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+ptdTRUE+htTRUE+ftv1+RV",
-5.932180446,
+5.956695442,
 889.015196,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+ptdTRUE+htTRUE+uiTRUE+ftv1",
-6.057789096,
+6.065975425,
 890.1660894,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+raceblack+smokeTRUE+ptdTRUE+RV",
-5.944341663,
+5.917279075,
 892.3798388,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+ptdTRUE+htTRUE+ftv1",
-6.097723358,
+5.908531424,
 887.6706003,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+ptdTRUE+htTRUE+uiTRUE",
-6.015049897,
+5.969748162,
 888.1618852,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-5.954496968,
+6.008467202,
 892.0564234,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceother+smokeTRUE+htTRUE+uiTRUE+RV",
-6.095284369,
+6.021892173,
 894.2802213,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceother+smokeTRUE+htTRUE+uiTRUE+ftv1",
-6.035968809,
+5.95427442,
 896.36484,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+ptdTRUE+uiTRUE+ftv1+RV",
-5.952206923,
+5.941046186,
 892.961336,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv2.",
-5.970704038,
+5.97632643,
 894.4917352,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-6.038500859,
+5.994511623,
 891.551689,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+ptdTRUE+ftv1+ftv2.",
-6.06125118,
+6.06710359,
 894.9346265,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+uiTRUE+ftv2.",
-6.043088247,
+5.924294299,
 895.9261555,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+htTRUE+uiTRUE",
-5.908766136,
+6.035161625,
 892.7551341,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+RV",
-6.053653513,
+5.999337044,
 891.1522757,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+ptdTRUE+htTRUE+ftv1+ftv2.",
-6.013790789,
+6.08044755,
 889.250795,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+smokeTRUE+htTRUE+uiTRUE+RV",
-5.925828918,
+6.010252793,
 892.6102619,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+smokeTRUE+ptdTRUE+htTRUE+RV",
-5.992303918,
+5.925712935,
 889.326144,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+smokeTRUE+ptdTRUE+htTRUE+ftv2.",
-6.062096895,
+5.988401957,
 890.4942706,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceother+ptdTRUE+htTRUE+RV",
-6.052164809,
+5.938459539,
 890.6782175,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceother+ptdTRUE+htTRUE+ftv1",
-6.010655977,
+5.986980124,
 889.2093455,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceother+smokeTRUE+htTRUE+uiTRUE",
-6.048729307,
+5.945026681,
 893.1530882,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+htTRUE+uiTRUE+RV",
-6.036009056,
+6.092219256,
 892.2252158,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+htTRUE+uiTRUE+ftv1",
-5.967271365,
+5.989685493,
 893.104005,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+ptdTRUE+uiTRUE+ftv1",
-5.982526843,
+6.055428997,
 891.3708232,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+ftv2.",
-5.955218694,
+5.931643955,
 889.1257241,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+raceother+ptdTRUE+ftv1",
-5.963871279,
+6.073361717,
 892.1124915,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+uiTRUE",
-6.085416131,
+5.941229121,
 893.6908054,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+ptdTRUE+uiTRUE+ftv2.+RV",
-6.01913443,
+5.935589937,
 893.3787183,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+ptdTRUE+htTRUE+ftv2.+RV",
-6.025110051,
+5.932978229,
 891.057831,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+ptdTRUE+htTRUE+ftv1+ftv2.",
-6.022651339,
+6.013053795,
 892.2149442,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-5.970359345,
+6.045436204,
 891.9768769,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+smokeTRUE+ptdTRUE+htTRUE+RV",
-5.994803417,
+6.075183798,
 889.587181,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-5.904496211,
+6.041684877,
 890.4744461,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceother+smokeTRUE+ptdTRUE+htTRUE",
-5.968866736,
+5.995492642,
 890.638122,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+ptdTRUE+ftv1+RV",
-6.098257824,
+6.064055999,
 892.2562718,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+ptdTRUE+uiTRUE+RV",
-6.069587581,
+5.903322442,
 892.0777372,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+ptdTRUE+htTRUE+RV",
-5.914574283,
+6.09922222,
 890.3793086,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+ptdTRUE+htTRUE+uiTRUE",
-5.95163792,
+6.026978967,
 891.140342,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+htTRUE+RV",
-6.082628568,
+5.985695076,
 900.0965952,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+ptdTRUE+RV",
-6.064623183,
+5.905678587,
 893.0742734,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+ptdTRUE+uiTRUE",
-5.937425479,
+6.05066654,
 893.4547746,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+uiTRUE",
-6.059712222,
+5.941726795,
 895.5293254,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE",
-5.953633324,
+6.099891081,
 890.6887324,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+ptdTRUE+ftv1+RV",
-5.993087149,
+6.081449839,
 892.260007,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+smokeTRUE+htTRUE+ftv2.",
-5.970004573,
+6.042493006,
 896.7721036,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+smokeTRUE+htTRUE+uiTRUE",
-6.024148342,
+6.046186577,
 893.7826465,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+htTRUE",
-6.057416577,
+5.994497584,
 895.6112774,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+ptdTRUE",
-6.043738915,
+6.072502137,
 893.0139479,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+RV",
-6.094005204,
+5.933083024,
 892.1887932,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+ftv1",
-5.947064445,
+6.024085585,
 891.605271,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+htTRUE",
-5.913247312,
+5.958466279,
 887.7385132,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE",
-6.037091316,
+5.991228347,
 891.8841859,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE",
-7.024471577,
+6.909127842,
 884.0648918,
 "With htTRUE",
 0.07333333333
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+RV",
-6.907142241,
+6.93553235,
 884.8801521,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1",
-7.013630415,
+6.911586414,
 883.9561023,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+RV",
-6.991776108,
+7.088882047,
 887.5473895,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~lwt+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-6.946619158,
+6.968548695,
 885.5532762,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-6.994975115,
+7.003590114,
 884.8958721,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~age+lwt+ptdTRUE+htTRUE+ftv1+RV",
-7.023785524,
+7.025049067,
 885.2962474,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~age+lwt+ptdTRUE+htTRUE+uiTRUE+ftv1",
-7.045070663,
+6.947452971,
 885.9072166,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+RV",
-7.046112841,
+7.003224783,
 889.1030937,
 "With htTRUE",
 0.02
 ],
 [
 "z~raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+RV",
-6.989703311,
+7.061308366,
 890.1131562,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+smokeTRUE+htTRUE+uiTRUE+RV",
-6.916948744,
+6.969652947,
 889.3213595,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv2.",
-6.970117933,
+7.071737491,
 887.4166392,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+raceother+ptdTRUE+htTRUE+RV",
-7.093226577,
+6.906887752,
 886.9373751,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+htTRUE+RV",
-6.92217468,
+7.094199429,
 885.4170044,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+htTRUE+uiTRUE",
-6.971081918,
+7.049022027,
 885.4565008,
 "With htTRUE",
 0.02
 ],
 [
 "z~ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-6.997843562,
+6.954651048,
 889.7337637,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-6.948263551,
+7.03542122,
 889.0923395,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.",
-6.921709793,
+6.969589494,
 889.5076263,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-7.050462486,
+7.089404104,
 886.3166262,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1",
-7.022167186,
+6.967724755,
 887.241719,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+ftv1+RV",
-6.913487827,
+6.906342641,
 884.7774864,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-6.953580023,
+6.97071716,
 886.5550428,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE",
-7.04836476,
+6.977424718,
 887.4866522,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-6.963857715,
+6.971389432,
 886.4473675,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-6.942090583,
+7.091993721,
 887.9122859,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-6.91788714,
+6.976747641,
 886.7344818,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+raceother+smokeTRUE+ptdTRUE+htTRUE+RV",
-6.959255307,
+7.009267524,
 887.515118,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-6.970263418,
+7.085064695,
 888.4416155,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE",
-7.037264238,
+7.083371905,
 887.5969694,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+ptdTRUE+htTRUE+uiTRUE+RV",
-6.970838767,
+6.948546599,
 885.3710659,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+smokeTRUE+ptdTRUE+htTRUE+RV",
-6.906500413,
+7.043418168,
 886.1891796,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+ftv1",
-7.092044071,
+6.969789207,
 890.9788024,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+htTRUE",
-6.970307532,
+7.01085667,
 886.9868107,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~raceother+smokeTRUE+htTRUE+uiTRUE+ftv1+RV",
-7.09277344,
+7.048594483,
 894.0878634,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceother+smokeTRUE+ptdTRUE+ftv1+ftv2.+RV",
-6.903327343,
+7.063939664,
 893.8334687,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-6.991949576,
+7.073931453,
 888.3519628,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-6.981973954,
+6.907173027,
 888.4326046,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-7.068664323,
+6.944004881,
 890.8299572,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+ptdTRUE+uiTRUE+ftv1+ftv2.",
-6.950434801,
+6.973394642,
 893.1008301,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+RV",
-7.068856356,
+6.961139288,
 888.6502977,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv2.",
-7.079902988,
+7.045566092,
 890.2735494,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1",
-6.942431001,
+7.039945753,
 889.5014907,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-7.014913676,
+7.082012185,
 886.6236559,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-7.029700082,
+7.069120522,
 887.2831539,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-6.901081487,
+7.055708928,
 886.6004086,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceother+ptdTRUE+htTRUE+uiTRUE+RV",
-6.950988669,
+6.980168686,
 888.0339817,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-6.911568957,
+7.015360932,
 887.2822384,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+ptdTRUE+uiTRUE+ftv1+RV",
-7.00525845,
+6.915271889,
 890.3399256,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+ftv2.+RV",
-7.0358731,
+7.07459497,
 887.8038118,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+ftv1+ftv2.",
-7.037916843,
+7.091257147,
 886.2030979,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+RV",
-7.057371766,
+7.001106216,
 886.1636269,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv1",
-6.938156941,
+7.084873273,
 885.1331412,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv1",
-6.900494728,
+6.926902707,
 885.4872278,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE",
-7.063896099,
+6.947747401,
 885.776633,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+ftv1",
-7.018255678,
+6.997992524,
 888.8982428,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-7.047319181,
+6.994812019,
 889.0151717,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceother+ptdTRUE+uiTRUE+ftv2.+RV",
-7.097712569,
+6.986998832,
 893.0735307,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceother+ptdTRUE+htTRUE+ftv2.+RV",
-7.080136743,
+6.907849792,
 890.4732685,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+ptdTRUE+htTRUE+ftv1+RV",
-6.942149679,
+7.028866203,
 888.0896525,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+ptdTRUE+htTRUE+ftv1+ftv2.",
-7.001621741,
+7.04311344,
 891.4045959,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+ptdTRUE+htTRUE+uiTRUE+RV",
-7.05972224,
+6.970333344,
 887.3153836,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+smokeTRUE+ptdTRUE+ftv1+RV",
-6.986980063,
+7.08931135,
 890.9748793,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+smokeTRUE+ptdTRUE+htTRUE+RV",
-7.032641657,
+7.048621301,
 888.6147002,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+ptdTRUE+htTRUE+RV",
-7.048906947,
+6.910157184,
 889.0649476,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE",
-7.083487845,
+7.096072956,
 889.7985318,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+uiTRUE+RV",
-7.020122289,
+6.943564491,
 893.3247078,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+uiTRUE+ftv2.",
-6.950885141,
+6.9072392,
 895.5282183,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+htTRUE+RV",
-7.007723835,
+6.952140773,
 893.3567598,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+RV",
-7.025408707,
+7.044083157,
 888.434579,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+ftv2.",
-6.914172129,
+6.949578836,
 890.602174,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+smokeTRUE+htTRUE+ftv2.+RV",
-6.916423628,
+6.946983158,
 894.968931,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+smokeTRUE+ptdTRUE+htTRUE+ftv1",
-6.933201168,
+6.904202369,
 886.6591883,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-7.07202916,
+6.952924126,
 886.5557363,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+ptdTRUE+RV",
-7.036905123,
+7.038360324,
 891.3805453,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE",
-7.007233171,
+6.906933878,
 887.6047752,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+ftv1+RV",
-7.061375695,
+6.912557226,
 890.1055029,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+uiTRUE+RV",
-7.058838761,
+6.979541218,
 890.4081054,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+htTRUE+ftv1",
-6.934562961,
+6.998005685,
 885.0260749,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE+uiTRUE",
-6.968149565,
+7.02620975,
 890.3240273,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE",
-6.989411983,
+7.044680862,
 885.9578436,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+htTRUE+RV",
-6.943366521,
+6.915353158,
 894.9462713,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+htTRUE+uiTRUE",
-7.064685143,
+6.984289216,
 893.2111359,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+uiTRUE",
-6.948509519,
+7.094745337,
 893.4719955,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+htTRUE",
-6.910616713,
+7.062761157,
 890.7765164,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE",
-7.006814908,
+6.944753545,
 888.7291124,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-7.966311111,
+7.997948461,
 882.0552124,
 "With htTRUE",
 0.06
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-8.032372772,
+7.902268039,
 883.9875528,
 "With htTRUE",
 0.05333333333
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-7.919955133,
+7.951720459,
 881.4003817,
 "With htTRUE",
 0.05333333333
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+RV",
-7.910288843,
+7.990919754,
 882.5470618,
 "With htTRUE",
 0.04
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+RV",
-7.945826769,
+8.048195338,
 884.2529086,
 "With htTRUE",
 0.04
 ],
 [
 "z~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-7.917971135,
+8.098132002,
 883.0557774,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~age+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-8.015447676,
+7.966440989,
 884.7919713,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+htTRUE+ftv1+RV",
-7.985654684,
+8.088958281,
 882.6550408,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-7.968882319,
+8.092370684,
 883.6758136,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-7.906794874,
+8.0798555,
 882.784782,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv1+ftv2.",
-8.009958788,
+7.998543167,
 885.4855985,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+RV",
-8.029251308,
+8.056987096,
 885.4475042,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1",
-7.955623595,
+8.060623809,
 882.4678772,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+lwt+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.047694905,
+8.035553525,
 883.0923729,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+lwt+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1",
-8.067902304,
+8.016255516,
 885.8709842,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-7.955202496,
+7.966133617,
 885.1665669,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE",
-7.935424868,
+7.900262931,
 882.8079223,
 "With htTRUE",
 0.02
 ],
 [
 "z~raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.049317444,
+7.913160393,
 887.0739828,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+RV",
-7.921704896,
+7.917190383,
 883.9117805,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.",
-7.959460203,
+7.902621943,
 883.7994186,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+raceblack+raceother+ptdTRUE+htTRUE+ftv1+RV",
-7.962439928,
+7.967149125,
 886.9160987,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv2.",
-7.93924606,
+7.923852863,
 888.7318996,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+RV",
-8.026343232,
+8.018719089,
 885.1608899,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1",
-7.927241224,
+7.907462535,
 886.052455,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+RV",
-8.05506486,
+7.901914358,
 882.6371239,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1",
-8.029979859,
+7.932319225,
 882.9771881,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-8.034440578,
+8.066379798,
 883.6136321,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+RV",
-8.040899445,
+8.053368551,
 884.644569,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE",
-7.911308106,
+7.954556063,
 884.6969969,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE",
-8.098645578,
+7.93763266,
 887.3196193,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+ftv1",
-7.972756075,
+7.945152367,
 887.7688325,
 "Without htTRUE",
 0.01333333333
 ],
 [
 "z~smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-7.951851197,
+7.912394074,
 888.7400056,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-8.040657941,
+7.911980048,
 888.2956058,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1+RV",
-7.932385635,
+7.929631174,
 887.8405167,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-7.944010639,
+7.914597577,
 886.2958561,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-8.022684014,
+7.908577178,
 886.5333251,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-7.905381599,
+8.004492254,
 885.6601892,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-7.92473434,
+8.057846298,
 885.4940857,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-8.078937532,
+8.03895067,
 884.7562329,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-7.987792388,
+7.913315209,
 884.7590943,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-7.977387119,
+7.903591549,
 883.9492727,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-8.001083061,
+7.988431685,
 884.7745246,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv2.+RV",
-7.95356536,
+7.931520417,
 886.7720117,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1",
-8.076059386,
+8.043772023,
 883.220678,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+ftv2.",
-8.029168522,
+8.040788367,
 887.3867927,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv2.",
-7.904813292,
+8.077045261,
 888.160305,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1",
-7.93664796,
+7.965052203,
 887.2561557,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.093723005,
+8.094176313,
 885.270608,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceother+smokeTRUE+ptdTRUE+ftv1+ftv2.+RV",
-7.997006642,
+8.096964053,
 890.9387166,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-7.945616617,
+7.907836944,
 885.2580049,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-7.924054381,
+8.078714258,
 885.4685889,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+ptdTRUE+htTRUE+ftv2.+RV",
-8.07367477,
+8.06447983,
 888.8268943,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+RV",
-8.032345858,
+8.044848939,
 886.0049193,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+htTRUE+ftv2.+RV",
-7.939064147,
+7.957784028,
 893.3179136,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+ftv2.+RV",
-7.921815421,
+8.000389721,
 888.3158556,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+RV",
-7.980752098,
+7.9856694,
 886.2519372,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.",
-8.055894682,
+8.022003203,
 887.3375054,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-8.058418775,
+8.085222635,
 884.9963407,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-7.963614905,
+7.948024652,
 885.8905566,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+smokeTRUE+ptdTRUE+htTRUE+ftv2.+RV",
-8.094319124,
+7.954376367,
 885.8281698,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-7.906903187,
+8.047000729,
 884.23743,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-8.04960242,
+8.050309175,
 883.6886473,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceother+ptdTRUE+htTRUE+ftv1+RV",
-7.937318277,
+8.086118384,
 885.2472908,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+ptdTRUE+ftv2.+RV",
-8.059118879,
+7.992546055,
 891.2783129,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-8.069849868,
+8.072138235,
 885.620828,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+uiTRUE+ftv2.+RV",
-7.959623101,
+7.962407284,
 890.3700168,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+uiTRUE+ftv1+RV",
-7.923671922,
+7.941607803,
 888.53616,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+htTRUE+ftv2.+RV",
-7.929584173,
+8.084165493,
 885.062485,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+htTRUE+ftv1+ftv2.",
-8.069567041,
+7.910547377,
 885.0198808,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+RV",
-8.043700331,
+7.982231086,
 883.5684469,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+htTRUE+uiTRUE+RV",
-7.979542434,
+7.991268243,
 890.9701264,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv1",
-8.089403998,
+7.98317205,
 884.411212,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+htTRUE+RV",
-7.963496552,
+8.03407069,
 888.8880087,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+htTRUE+ftv2.",
-7.983533915,
+8.051380816,
 890.665615,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE",
-7.949504798,
+8.082330263,
 887.1142919,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-9.090382256,
+9.063990417,
 879.3630109,
 "With htTRUE",
 0.07333333333
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-9.020344842,
+8.918729971,
 881.0397765,
 "With htTRUE",
 0.06666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+RV",
-8.927593929,
+8.935581216,
 880.3147839,
 "With htTRUE",
 0.06
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-9.030528761,
+9.028442916,
 880.0355035,
 "With htTRUE",
 0.05333333333
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-9.089568136,
+9.074856599,
 880.1309837,
 "With htTRUE",
 0.05333333333
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1",
-9.099372758,
+9.01846267,
 881.394772,
 "With htTRUE",
 0.04
 ],
 [
 "z~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-9.072689318,
+8.952486438,
 880.8582732,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-9.040435833,
+9.076750453,
 881.101275,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+RV",
-9.042874176,
+8.937537869,
 884.8278903,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-8.92895838,
+8.997773396,
 883.22056,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.+RV",
-9.058629342,
+8.901964097,
 883.8793154,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-8.933855677,
+8.972086809,
 883.884146,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-8.967560884,
+8.988432338,
 882.9347704,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-9.025831841,
+8.925145844,
 880.8788293,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv2.+RV",
-8.926902119,
+9.02487291,
 886.1369367,
 "Without htTRUE",
 0.02
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-9.020159263,
+8.960486266,
 881.4349688,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-9.04204386,
+8.947927446,
 880.710513,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv1+RV",
-9.079230884,
+8.971725953,
 882.0223596,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+RV",
-9.049371577,
+9.078582083,
 881.853585,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.",
-9.073104746,
+9.098125453,
 882.3123924,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE",
-9.020573573,
+9.046484239,
 880.3961126,
 "With htTRUE",
 0.02
 ],
 [
 "z~raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-8.902483834,
+9.098557618,
 887.1764666,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.973722549,
+9.007957872,
 882.9501386,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.974750514,
+8.986760352,
 883.89892,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-9.052465035,
+9.092934735,
 883.9890724,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.95106466,
+8.929663929,
 881.259002,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.+RV",
-8.903356342,
+8.913298611,
 882.2798795,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-9.091441992,
+8.904850298,
 882.701172,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-8.914778181,
+9.022484648,
 882.9654806,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1",
-9.092896356,
+9.03932175,
 882.3498821,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+htTRUE+ftv2.+RV",
-8.938905361,
+9.060228377,
 888.7420288,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-8.971721804,
+8.927546057,
 885.6599486,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.092615809,
+8.931956965,
 882.0467986,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-9.077942255,
+9.097766719,
 882.7835479,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.964545014,
+8.979729139,
 885.2090559,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-8.979191932,
+8.937582363,
 889.3179834,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-8.960636358,
+8.995545648,
 884.4354683,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.94078033,
+9.008846805,
 883.7351835,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-8.95261263,
+8.965631596,
 885.3004012,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-8.977021618,
+9.099986119,
 883.959895,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-8.924700222,
+9.005556367,
 883.206365,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.",
-8.95262787,
+8.926746902,
 886.5576675,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-9.001334967,
+8.987708014,
 884.7211179,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.028029577,
+9.024158788,
 883.0508262,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-9.067840552,
+8.940582482,
 884.8061776,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.+RV",
-8.901016943,
+8.926833955,
 884.6819066,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-9.005323809,
+9.0553668,
 883.5907065,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-8.977860729,
+9.02718997,
 884.2453342,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-8.923514284,
+8.956427259,
 888.4958899,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv2.+RV",
-8.988843171,
+8.938251891,
 883.2073528,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-8.983945186,
+8.953107344,
 883.3186751,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-9.017857003,
+9.006161759,
 881.7333789,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+htTRUE+uiTRUE+ftv2.+RV",
-9.064789594,
+9.036972181,
 890.900031,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv2.+RV",
-9.04710261,
+8.976656679,
 884.198101,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+ftv2.+RV",
-9.045750684,
+9.0909976,
 886.9445501,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+RV",
-9.098701057,
+8.923671316,
 885.1790063,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+RV",
-9.974359047,
+9.907820011,
 877.3688136,
 "With htTRUE",
 0.1533333333
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-9.961758225,
+10.00090101,
 877.9448779,
 "With htTRUE",
 0.09333333333
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv2.+RV",
-10.04526822,
+10.01569651,
 879.7123019,
 "With htTRUE",
 0.08666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-10.01164776,
+10.06786078,
 880.6321339,
 "With htTRUE",
 0.07333333333
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+RV",
-10.01630294,
+10.030889,
 878.8848818,
 "With htTRUE",
 0.06666666667
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-9.92129016,
+10.08890567,
 879.0582738,
 "With htTRUE",
 0.06
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-9.937607649,
+10.00233153,
 879.4823281,
 "With htTRUE",
 0.04666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.",
-9.971831561,
+9.916984212,
 879.8840022,
 "With htTRUE",
 0.04666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1",
-10.03391489,
+10.0989541,
 879.1745387,
 "With htTRUE",
 0.04
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-10.04075904,
+9.980288824,
 880.1701013,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~age+lwt+raceblack+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.922103566,
+10.07912926,
 880.0974013,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-10.01703195,
+10.07537168,
 878.8201617,
 "With htTRUE",
 0.02666666667
 ],
 [
 "z~raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.953741957,
+9.95929696,
 882.9494395,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.947478447,
+9.926518382,
 880.8563578,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.911119587,
+9.953182182,
 881.2589727,
 "With htTRUE",
 0.02
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-10.00169611,
+9.901145509,
 879.9857227,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-9.990972748,
+10.06392036,
 881.7060015,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-9.959806481,
+9.934932336,
 882.3150237,
 "With htTRUE",
 0.02
 ],
 [
 "z~age+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.959450227,
+10.06861611,
 883.955936,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-9.910833083,
+9.933342433,
 881.3946899,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-9.907092316,
+10.05280389,
 881.3824632,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+htTRUE+uiTRUE+ftv2.+RV",
-9.956175857,
+10.00378762,
 884.6394722,
 "With htTRUE",
 0.01333333333
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-10.09647158,
+9.954537061,
 880.8540846,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-9.996239178,
+9.968640627,
 884.0962572,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-10.06092669,
+10.04101507,
 883.0021236,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.930645392,
+10.01830706,
 888.8773008,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-9.920649716,
+9.993875808,
 881.3280092,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-9.970656849,
+9.967275321,
 880.3274991,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-9.919000655,
+10.09356749,
 887.8670828,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-9.958485263,
+10.02916838,
 881.9726468,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv2.+RV",
-10.00851026,
+9.939260234,
 885.0398466,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.",
-9.994628028,
+9.971436077,
 881.2614436,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv2.+RV",
-11.05815405,
+11.00260362,
 876.7337063,
 "With htTRUE",
 0.34
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+RV",
-11.03804326,
+11.07659935,
 876.1507578,
 "With htTRUE",
 0.1866666667
 ],
 [
 "z~lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-11.05638666,
+10.93053351,
 877.8956928,
 "With htTRUE",
 0.14
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.",
-11.04173543,
+10.94609232,
 879.0123962,
 "With htTRUE",
 0.08666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-11.09877799,
+10.93259772,
 879.4127293,
 "With htTRUE",
 0.08
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+ftv1+ftv2.+RV",
-11.0245738,
+11.02286937,
 878.6925513,
 "With htTRUE",
 0.08
 ],
 [
 "z~age+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-10.90411425,
+11.00032729,
 880.0320546,
 "With htTRUE",
 0.04
 ],
 [
 "z~age+lwt+raceblack+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-11.06766846,
+10.93762378,
 878.7610624,
 "With htTRUE",
 0.03333333333
 ],
 [
 "z~age+lwt+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-10.93972196,
+10.98154297,
 881.1881739,
 "With htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+uiTRUE+ftv1+ftv2.+RV",
-11.00471233,
+11.01647761,
 884.3837565,
 "Without htTRUE",
 0.006666666667
 ],
 [
 "z~age+lwt+raceblack+raceother+smokeTRUE+ptdTRUE+htTRUE+uiTRUE+ftv1+ftv2.+RV",
-12.05271392,
+11.96178581,
 875.912554,
 "With htTRUE",
 1
@@ -46258,16 +46258,16 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartBubbleChartID77ab3301111c() {
-var data = gvisDataBubbleChartID77ab3301111c();
+function drawChartBubbleChartID4cae5361062c() {
+var data = gvisDataBubbleChartID4cae5361062c();
 var options = {};
 options["title"] = "Model stability plot";
 options["fontSize"] = 12;
-options["vAxis"] = {title:'-2*Log-likelihood'};
+options["vAxis"] = {title:'-2*Log-likelihood', minValue: 875.28555086219 };
 options["hAxis"] = {title:'Number of parameters',
-        maxValue: 12.5527139180806  ,
+        maxValue: 12.4617858130019  ,
         minValue: 0.5  ,
-        ticks: [ 1,2,3,4,5,6,7,8,9,10,11,12 ]};
+        ticks: [ 1,2,3,4,5,6,7,8,9,10,11 ]};
 options["sizeAxis"] = {minValue: 0, minSize: 1,
           maxSize: 20, maxValue:1};
 options["axisTitlesPosition"] = "out";
@@ -46284,7 +46284,7 @@ options["explorer"] = {axis: 'vertical',
           'rightClickToReset']};
 
     var chart = new google.visualization.BubbleChart(
-    document.getElementById('BubbleChartID77ab3301111c')
+    document.getElementById('BubbleChartID4cae5361062c')
     );
     chart.draw(data,options);
     
@@ -46308,9 +46308,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartBubbleChartID77ab3301111c);
+callbacks.push(drawChartBubbleChartID4cae5361062c);
 })();
-function displayChartBubbleChartID77ab3301111c() {
+function displayChartBubbleChartID4cae5361062c() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -46331,17 +46331,17 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBubbleChartID77ab3301111c"></script><!-- divChart --><div id="BubbleChartID77ab3301111c" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBubbleChartID4cae5361062c"></script><!-- divChart --><div id="BubbleChartID4cae5361062c" style="width: 800; height: 400;">
 
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(bw.lm.af, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</code></pre></div>
-<!-- ScatterChart generated in R 3.4.1 by googleVis 0.6.2 package -->
-<!-- Tue Sep 19 07:52:31 2017 -->
+<!-- ScatterChart generated in R 3.4.3 by googleVis 0.6.2 package -->
+<!-- Thu Dec 28 16:59:04 2017 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataScatterChartID77ab55fef2c4 () {
+function gvisDataScatterChartID4cae6d7c74cc () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -46909,8 +46909,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartScatterChartID77ab55fef2c4() {
-var data = gvisDataScatterChartID77ab55fef2c4();
+function drawChartScatterChartID4cae6d7c74cc() {
+var data = gvisDataScatterChartID4cae6d7c74cc();
 var options = {};
 options["allowHtml"] = true;
 options["title"] = "Adaptive fence: c*=20";
@@ -46925,7 +46925,7 @@ options["width"] = 800;
 options["height"] = 400;
 
     var chart = new google.visualization.ScatterChart(
-    document.getElementById('ScatterChartID77ab55fef2c4')
+    document.getElementById('ScatterChartID4cae6d7c74cc')
     );
     chart.draw(data,options);
     
@@ -46949,9 +46949,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartScatterChartID77ab55fef2c4);
+callbacks.push(drawChartScatterChartID4cae6d7c74cc);
 })();
-function displayChartScatterChartID77ab55fef2c4() {
+function displayChartScatterChartID4cae6d7c74cc() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -46972,7 +46972,7 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID77ab55fef2c4"></script><!-- divChart --><div id="ScatterChartID77ab55fef2c4" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID4cae6d7c74cc"></script><!-- divChart --><div id="ScatterChartID4cae6d7c74cc" style="width: 800; height: 400;">
 
 </div>
 <p>The coefficients from <code>bw.lm</code> are identical to <code>bw.glm</code>. This approximation provides similar results, shown in the <a href="#fig:bwtapprox">figures above</a>, in a fraction of the time.</p>

@@ -7,7 +7,9 @@ keywords: "af, adaptive fence, linear models, generalised linear models"
 series: "Adaptive fence"
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
-output: rmarkdown::html_vignette
+output: 
+  github_document:
+    toc_dept: 1
 ---
 
 > Overview of the simplified adaptive fence procedure.

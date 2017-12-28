@@ -5,9 +5,11 @@ tags:
   - AF
   - MSP
 keywords: "VIP, variable inclusion plots, adaptive fence, model stability plots"
-output: rmarkdown::html_vignette
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
+output: 
+  github_document:
+    toc_dept: 1
 ---
 
 
@@ -30,7 +32,7 @@ round(summary(full.model)$coef, 2)
 
 Performing default stepwise variable selection yields a model with all explanatory variables except $x_8$.  As an aside, the dramatic changes in the p-values indicate that there is substantial interdependence between the explanatory variables even though none of the pairwise correlations in the [pairs plot](#fig:pairsplot) are particularly extreme.
 
-```{r}
+```{r pairsplot, cache=TRUE}
 par(mar=c(0,0,0,0), mgp=c(1,0.5,0), tcl=-0.3, bg = "transparent")
 panel.cor <- function(x, y, digits=1, prefix="", cex.cor, ...)
 {

@@ -3,7 +3,9 @@ title: Timing considerations
 keywords: mplot, getting_started
 bibliography: jss.bib
 csl: apa-old-doi-prefix.csl
-output: rmarkdown::html_vignette
+output: 
+  github_document:
+    toc_dept: 1
 ---
 
 <style>
