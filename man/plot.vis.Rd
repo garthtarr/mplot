@@ -11,7 +11,7 @@
   axisTitlesPosition = "out", dataOpacity = 0.5, options = NULL, ylim,
   legend.position = "right", backgroundColor = "transparent",
   text = FALSE, min.prob = 0.4, srt = 45, max.circle = 15,
-  print.full.model = FALSE, jitterk = 0.1, ...)
+  print.full.model = FALSE, jitterk = 0.1, seed = NULL, ...)
 }
 \arguments{
 \item{x}{\code{vis} object, the result of \code{\link{vis}}}
@@ -112,6 +112,8 @@ model gets a label or not.  Default=\code{FALSE}.}
 
 \item{jitterk}{amount of jittering of the model size in the lvk and boot plots.
 Default = 0.1.}
+
+\item{seed}{random seed for reproducible results}
 
 \item{...}{further arguments (currently unused)}
 }

@@ -3,6 +3,7 @@ mplot 0.8.2 [2017-11-26]
 
 * The bglmnet function has been been re-written
 * Added boot_size plot option for bglmnet objects
+* Vignettes removed, replaced with pkgdown website
 
 
 mplot 0.8.1 [2017-11-18]
