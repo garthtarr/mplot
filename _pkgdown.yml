@@ -49,6 +49,8 @@ navbar:
           href: articles/af.html
     - text: "Applications"
       menu: 
+        - text: "Publications"
+          href: articles/publications.html
         - text: "Diabetes"
           href: articles/diabetes.html
         - text: "Birth weight"

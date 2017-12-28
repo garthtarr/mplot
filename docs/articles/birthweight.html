@@ -66,6 +66,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/publications.html">Publications</a>
+    </li>
+    <li>
       <a href="../articles/diabetes.html">Diabetes</a>
     </li>
     <li>
@@ -162,12 +165,12 @@ vis.bw =<span class="st"> </span><span class="kw"><a href="../reference/vis.html
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">"bw_main.RData"</span>)
 <span class="kw">plot</span>(vis.bw, <span class="dt">which =</span> <span class="st">"vip"</span>, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</code></pre></div>
 <!-- LineChart generated in R 3.4.3 by googleVis 0.6.2 package -->
-<!-- Thu Dec 28 16:59:01 2017 -->
+<!-- Thu Dec 28 19:55:56 2017 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataLineChartID4cae5ef42e95 () {
+function gvisDataLineChartID629a5895e40a () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -19147,8 +19150,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartLineChartID4cae5ef42e95() {
-var data = gvisDataLineChartID4cae5ef42e95();
+function drawChartLineChartID629a5895e40a() {
+var data = gvisDataLineChartID629a5895e40a();
 var options = {};
 options["allowHtml"] = true;
 options["title"] = "Variable inclusion plot";
@@ -19169,7 +19172,7 @@ options["backgroundColor"] = "transparent";
 options["annotations"] = {style:'line'};
 
     var chart = new google.visualization.LineChart(
-    document.getElementById('LineChartID4cae5ef42e95')
+    document.getElementById('LineChartID629a5895e40a')
     );
     chart.draw(data,options);
     
@@ -19193,9 +19196,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartLineChartID4cae5ef42e95);
+callbacks.push(drawChartLineChartID629a5895e40a);
 })();
-function displayChartLineChartID4cae5ef42e95() {
+function displayChartLineChartID629a5895e40a() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -19216,18 +19219,18 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID4cae5ef42e95"></script><!-- divChart --><div id="LineChartID4cae5ef42e95" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID629a5895e40a"></script><!-- divChart --><div id="LineChartID629a5895e40a" style="width: 800; height: 400;">
 
 </div>
 <p>In this example, it is far less clear which is the best model, or if indeed a <em>best model</em> exists. It is possible to infer an ordering of variable importance from the variable inclusion plots, but there is no clear cutoff as to which variables should be included and which should be excluded. The <code>ptdTRUE</code> variable is clearly important. It’s less obvious that the <code>htTRUE</code> and <code>lwt</code> variables are important as they are in the vicinity of the redundant variable curve (<code>RV</code>). The other variables lie below the redundant variable curve with <code>ftv2+</code> clearly the least important variable.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(vis.bw, <span class="dt">which =</span> <span class="st">"boot"</span>, <span class="dt">highlight =</span> <span class="st">"htTRUE"</span>, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>, <span class="dt">seed =</span> <span class="dv">1</span>)</code></pre></div>
 <!-- BubbleChart generated in R 3.4.3 by googleVis 0.6.2 package -->
-<!-- Thu Dec 28 16:59:03 2017 -->
+<!-- Thu Dec 28 19:55:57 2017 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataBubbleChartID4cae3790e0f () {
+function gvisDataBubbleChartID629a26c8f14f () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -23134,8 +23137,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartBubbleChartID4cae3790e0f() {
-var data = gvisDataBubbleChartID4cae3790e0f();
+function drawChartBubbleChartID629a26c8f14f() {
+var data = gvisDataBubbleChartID629a26c8f14f();
 var options = {};
 options["title"] = "Model stability plot";
 options["fontSize"] = 12;
@@ -23160,7 +23163,7 @@ options["explorer"] = {axis: 'vertical',
           'rightClickToReset']};
 
     var chart = new google.visualization.BubbleChart(
-    document.getElementById('BubbleChartID4cae3790e0f')
+    document.getElementById('BubbleChartID629a26c8f14f')
     );
     chart.draw(data,options);
     
@@ -23184,9 +23187,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartBubbleChartID4cae3790e0f);
+callbacks.push(drawChartBubbleChartID629a26c8f14f);
 })();
-function displayChartBubbleChartID4cae3790e0f() {
+function displayChartBubbleChartID629a26c8f14f() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -23207,18 +23210,18 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBubbleChartID4cae3790e0f"></script><!-- divChart --><div id="BubbleChartID4cae3790e0f" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBubbleChartID629a26c8f14f"></script><!-- divChart --><div id="BubbleChartID629a26c8f14f" style="width: 800; height: 400;">
 
 </div>
 <p>In the model stability plot (below) the only dominant (non-trivial, i.e. not the full model or the null model) is the simple linear regression with <code>ptdTRUE</code> as the explanatory variable. In models of size 3, there are a range of competing models that perform similarly well.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(af.bw, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</code></pre></div>
 <!-- ScatterChart generated in R 3.4.3 by googleVis 0.6.2 package -->
-<!-- Thu Dec 28 16:59:03 2017 -->
+<!-- Thu Dec 28 19:55:57 2017 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataScatterChartID4cae632493dd () {
+function gvisDataScatterChartID629a36fb1958 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -23646,8 +23649,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartScatterChartID4cae632493dd() {
-var data = gvisDataScatterChartID4cae632493dd();
+function drawChartScatterChartID629a36fb1958() {
+var data = gvisDataScatterChartID629a36fb1958();
 var options = {};
 options["allowHtml"] = true;
 options["title"] = "Adaptive fence: c*=20";
@@ -23662,7 +23665,7 @@ options["width"] = 800;
 options["height"] = 400;
 
     var chart = new google.visualization.ScatterChart(
-    document.getElementById('ScatterChartID4cae632493dd')
+    document.getElementById('ScatterChartID629a36fb1958')
     );
     chart.draw(data,options);
     
@@ -23686,9 +23689,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartScatterChartID4cae632493dd);
+callbacks.push(drawChartScatterChartID629a36fb1958);
 })();
-function displayChartScatterChartID4cae632493dd() {
+function displayChartScatterChartID629a36fb1958() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -23709,7 +23712,7 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID4cae632493dd"></script><!-- divChart --><div id="ScatterChartID4cae632493dd" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID629a36fb1958"></script><!-- divChart --><div id="ScatterChartID629a36fb1958" style="width: 800; height: 400;">
 
 </div>
 <p>In the adaptive fence plot, the only model more complex than a single covariate regression model that shows up with some regularity is the model with <code>lwt</code>, <code>ptd</code> and <code>ht</code>, though at such low levels, it can hardly be considered as a region of stability. This model also stands out slightly in the model stability plot, where it is selected in 6% of bootstrap resamples and has a slightly lower description loss than other models of the same dimension. It is worth recalling that the bootstrap resamples generated for the adaptive fence are separate from those generated for the model stability plots. Indeed the adaptive fence procedure relies on a parametric bootstrap, whereas the model stability plots rely on an exponential weighted bootstrap. Thus, to find some agreement between these methods is reassuring.</p>
@@ -23735,12 +23738,12 @@ bw.lm.af =<span class="st"> </span><span class="kw"><a href="../reference/af.htm
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">"bw_lm.RData"</span>)
 <span class="kw">plot</span>(bw.lm.vis, <span class="dt">which =</span> <span class="st">"vip"</span>, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</code></pre></div>
 <!-- LineChart generated in R 3.4.3 by googleVis 0.6.2 package -->
-<!-- Thu Dec 28 16:59:03 2017 -->
+<!-- Thu Dec 28 19:55:57 2017 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataLineChartID4cae45a86c67 () {
+function gvisDataLineChartID629a3ed1d437 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -42720,8 +42723,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartLineChartID4cae45a86c67() {
-var data = gvisDataLineChartID4cae45a86c67();
+function drawChartLineChartID629a3ed1d437() {
+var data = gvisDataLineChartID629a3ed1d437();
 var options = {};
 options["allowHtml"] = true;
 options["title"] = "Variable inclusion plot";
@@ -42742,7 +42745,7 @@ options["backgroundColor"] = "transparent";
 options["annotations"] = {style:'line'};
 
     var chart = new google.visualization.LineChart(
-    document.getElementById('LineChartID4cae45a86c67')
+    document.getElementById('LineChartID629a3ed1d437')
     );
     chart.draw(data,options);
     
@@ -42766,9 +42769,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartLineChartID4cae45a86c67);
+callbacks.push(drawChartLineChartID629a3ed1d437);
 })();
-function displayChartLineChartID4cae45a86c67() {
+function displayChartLineChartID629a3ed1d437() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -42789,17 +42792,17 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID4cae45a86c67"></script><!-- divChart --><div id="LineChartID4cae45a86c67" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID629a3ed1d437"></script><!-- divChart --><div id="LineChartID629a3ed1d437" style="width: 800; height: 400;">
 
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(bw.lm.vis, <span class="dt">which =</span> <span class="st">"boot"</span>, <span class="dt">highlight =</span> <span class="st">"htTRUE"</span>, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</code></pre></div>
 <!-- BubbleChart generated in R 3.4.3 by googleVis 0.6.2 package -->
-<!-- Thu Dec 28 16:59:04 2017 -->
+<!-- Thu Dec 28 19:55:59 2017 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataBubbleChartID4cae5361062c () {
+function gvisDataBubbleChartID629abda9c0a () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -46258,8 +46261,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartBubbleChartID4cae5361062c() {
-var data = gvisDataBubbleChartID4cae5361062c();
+function drawChartBubbleChartID629abda9c0a() {
+var data = gvisDataBubbleChartID629abda9c0a();
 var options = {};
 options["title"] = "Model stability plot";
 options["fontSize"] = 12;
@@ -46284,7 +46287,7 @@ options["explorer"] = {axis: 'vertical',
           'rightClickToReset']};
 
     var chart = new google.visualization.BubbleChart(
-    document.getElementById('BubbleChartID4cae5361062c')
+    document.getElementById('BubbleChartID629abda9c0a')
     );
     chart.draw(data,options);
     
@@ -46308,9 +46311,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartBubbleChartID4cae5361062c);
+callbacks.push(drawChartBubbleChartID629abda9c0a);
 })();
-function displayChartBubbleChartID4cae5361062c() {
+function displayChartBubbleChartID629abda9c0a() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -46331,17 +46334,17 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBubbleChartID4cae5361062c"></script><!-- divChart --><div id="BubbleChartID4cae5361062c" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBubbleChartID629abda9c0a"></script><!-- divChart --><div id="BubbleChartID629abda9c0a" style="width: 800; height: 400;">
 
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(bw.lm.af, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</code></pre></div>
 <!-- ScatterChart generated in R 3.4.3 by googleVis 0.6.2 package -->
-<!-- Thu Dec 28 16:59:04 2017 -->
+<!-- Thu Dec 28 19:55:59 2017 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataScatterChartID4cae6d7c74cc () {
+function gvisDataScatterChartID629a421253dd () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -46909,8 +46912,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartScatterChartID4cae6d7c74cc() {
-var data = gvisDataScatterChartID4cae6d7c74cc();
+function drawChartScatterChartID629a421253dd() {
+var data = gvisDataScatterChartID629a421253dd();
 var options = {};
 options["allowHtml"] = true;
 options["title"] = "Adaptive fence: c*=20";
@@ -46925,7 +46928,7 @@ options["width"] = 800;
 options["height"] = 400;
 
     var chart = new google.visualization.ScatterChart(
-    document.getElementById('ScatterChartID4cae6d7c74cc')
+    document.getElementById('ScatterChartID629a421253dd')
     );
     chart.draw(data,options);
     
@@ -46949,9 +46952,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartScatterChartID4cae6d7c74cc);
+callbacks.push(drawChartScatterChartID629a421253dd);
 })();
-function displayChartScatterChartID4cae6d7c74cc() {
+function displayChartScatterChartID629a421253dd() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -46972,7 +46975,7 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID4cae6d7c74cc"></script><!-- divChart --><div id="ScatterChartID4cae6d7c74cc" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID629a421253dd"></script><!-- divChart --><div id="ScatterChartID629a421253dd" style="width: 800; height: 400;">
 
 </div>
 <p>The coefficients from <code>bw.lm</code> are identical to <code>bw.glm</code>. This approximation provides similar results, shown in the <a href="#fig:bwtapprox">figures above</a>, in a fraction of the time.</p>
