@@ -13,9 +13,9 @@ bibentry("Article",
 
 bibentry("Manual",
    title = "{mplot}: graphical model stability and variable selection procedures",
-   author = c(person("Garth","Tarr"), 
-              person("Samuel","Mueller"),
-              person("Alan","Welsh")),
+   author = c(person("G.","Tarr"), 
+              person("S.","M{\"u}ller"),
+              person("A.H.","Welsh")),
     year = year,
     note = note,
     url = "https://github.com/garthtarr/mplot"
