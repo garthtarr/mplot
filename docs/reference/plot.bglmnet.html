@@ -152,7 +152,7 @@
 
     <pre class="usage"><span class='co'># S3 method for bglmnet</span>
 <span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>highlight</span>, <span class='kw'>interactive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>classic</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>shiny</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"boot"</span>, <span class='st'>"vip"</span>, <span class='st'>"lvk"</span>),
+  <span class='kw'>tag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>shiny</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"vip"</span>, <span class='st'>"boot"</span>, <span class='st'>"boot_size"</span>),
   <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>800</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>400</span>, <span class='kw'>fontSize</span> <span class='kw'>=</span> <span class='fl'>12</span>, <span class='kw'>left</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>top</span> <span class='kw'>=</span> <span class='fl'>30</span>,
   <span class='kw'>chartWidth</span> <span class='kw'>=</span> <span class='st'>"60%"</span>, <span class='kw'>chartHeight</span> <span class='kw'>=</span> <span class='st'>"80%"</span>, <span class='kw'>axisTitlesPosition</span> <span class='kw'>=</span> <span class='st'>"out"</span>,
   <span class='kw'>dataOpacity</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>options</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hAxis.logScale</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>ylim</span>,
@@ -201,8 +201,10 @@ googleVis is used in scripts, like knitr or rmarkdown.</p></td>
     <tr>
       <th>which</th>
       <td><p>a vector specifying the plots to be output. Variable
-inclusion type plots <code>which="vip"</code> or model description loss against
-penalty parameter <code>which="boot"</code>.</p></td>
+inclusion type plots <code>which = "vip"</code> or plots where the size
+of the point representing each model is proportional to selection 
+probabilities by model size <code>which = "boot_size"</code> 
+or by penalty paramter <code>which = "boot"</code>.</p></td>
     </tr>
     <tr>
       <th>width</th>

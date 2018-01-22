@@ -220,8 +220,10 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
 #' @param shiny Default FALSE. Set to TRUE when using in a shiny interface.
 #' 
 #' @param which a vector specifying the plots to be output. Variable
-#'   inclusion type plots \code{which="vip"} or model description loss against
-#'   penalty parameter \code{which="boot"}.
+#'   inclusion type plots \code{which = "vip"} or plots where the size
+#'   of the point representing each model is proportional to selection 
+#'   probabilities by model size \code{which = "boot_size"} 
+#'   or by penalty paramter \code{which = "boot"}.
 #' @param width Width of the googleVis chart canvas area, in pixels.
 #'   Default: 800.
 #' @param height Height of the googleVis chart canvas area, in pixels.
@@ -274,7 +276,7 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
 plot.bglmnet = function(x, highlight, interactive = FALSE, 
                         classic = NULL, 
                         tag = NULL, shiny = FALSE,
-                        which=c("boot","vip","lvk"),
+                        which=c("vip","boot","boot_size"),
                         width=800, height=400, fontSize=12,
                         left=50, top=30,
                         chartWidth="60%",

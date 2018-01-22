@@ -5,7 +5,7 @@
 \title{Plot diagnostics for a bglmnet object}
 \usage{
 \method{plot}{bglmnet}(x, highlight, interactive = FALSE, classic = NULL,
-  tag = NULL, shiny = FALSE, which = c("boot", "vip", "lvk"),
+  tag = NULL, shiny = FALSE, which = c("vip", "boot", "boot_size"),
   width = 800, height = 400, fontSize = 12, left = 50, top = 30,
   chartWidth = "60\%", chartHeight = "80\%", axisTitlesPosition = "out",
   dataOpacity = 0.5, options = NULL, hAxis.logScale = TRUE, ylim,
@@ -39,8 +39,10 @@ googleVis is used in scripts, like knitr or rmarkdown.}
 \item{shiny}{Default FALSE. Set to TRUE when using in a shiny interface.}
 
 \item{which}{a vector specifying the plots to be output. Variable
-inclusion type plots \code{which="vip"} or model description loss against
-penalty parameter \code{which="boot"}.}
+inclusion type plots \code{which = "vip"} or plots where the size
+of the point representing each model is proportional to selection 
+probabilities by model size \code{which = "boot_size"} 
+or by penalty paramter \code{which = "boot"}.}
 
 \item{width}{Width of the googleVis chart canvas area, in pixels.
 Default: 800.}
