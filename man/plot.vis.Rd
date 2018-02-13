@@ -161,7 +161,7 @@ Mueller, S. and Welsh, A. H. (2010), On model
   Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
   
   Tarr G, Mueller S and Welsh AH (2018). mplot: An R Package for 
-  Graphical Model Stability and Variable Selection Procedures.” 
+  Graphical Model Stability and Variable Selection Procedures. 
   Journal of Statistical Software, 83(9), pp. 1-28. doi: 10.18637/jss.v083.i09
 }
 \seealso{
