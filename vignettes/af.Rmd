@@ -1,8 +1,5 @@
 ---
 title: Simplified adaptive fence
-tags:
-  - AF
-  - Adaptive fence
 keywords: "af, adaptive fence, linear models, generalised linear models"
 series: "Adaptive fence"
 bibliography: jss.bib

@@ -159,6 +159,10 @@ Mueller, S. and Welsh, A. H. (2010), On model
   Murray, K., Heritier, S. and Mueller, S. (2013), Graphical
   tools for model selection in generalized linear models.
   Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
+  
+  Tarr G, Mueller S and Welsh AH (2018). mplot: An R Package for 
+  Graphical Model Stability and Variable Selection Procedures.” 
+  Journal of Statistical Software, 83(9), pp. 1-28. doi: 10.18637/jss.v083.i09
 }
 \seealso{
 \code{\link{vis}}

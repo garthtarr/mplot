@@ -1,22 +1,20 @@
-year <- sub("-.*", "", meta$Date)
-note <- sprintf("R package version %s", meta$Version)
+bibentry(bibtype = "Article",
+  title        = "{mplot}: An {R} Package for Graphical Model Stability and Variable Selection Procedures",
+  author       = c(person(given = "Garth",
+                          family = "Tarr",
+                          email = "garth.tarr@sydney.edu.au"),
+                   person(given = "Samuel",
+                          family = "M{\\\"u}ller",
+                          email = "samuel.mueller@sydney.edu.au"),
+                   person(given = c("Alan", "H."),
+                          family = "Welsh",
+                          email = "alan.welsh@anu.edu.au")),
+  journal      = "Journal of Statistical Software",
+  year         = "2018",
+  volume       = "83",
+  number       = "9",
+  pages        = "1--28",
+  doi          = "10.18637/jss.v083.i09",
 
-bibentry("Article",
-   title = "{{mplot}: An R package for graphical model stability and variable selection}",
-   author = c(person("Garth","Tarr"), person("Samuel","Mueller"), person(given = "Alan H.", family = "Welsh")),
-   year = 2017,
-   journal = "Journal of Statistical Software",
-   Note = "In press",
-   url = "http://arxiv.org/abs/1509.07583",
-   mheader = "To cite mplot in publications use:"
+  header       = "To cite mplot in publications use:"
 )
-
-bibentry("Manual",
-   title = "{mplot}: graphical model stability and variable selection procedures",
-   author = c(person("G.","Tarr"), 
-              person("S.","M{\"u}ller"),
-              person("A.H.","Welsh")),
-    year = year,
-    note = note,
-    url = "https://github.com/garthtarr/mplot"
-  )

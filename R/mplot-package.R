@@ -4,6 +4,9 @@
 #' @docType package
 #' @title Graphical model stability and model selection procedures
 #' @keywords package
+#' @references Tarr G, Mueller S and Welsh AH (2018). mplot: An R Package for 
+#'   Graphical Model Stability and Variable Selection Procedures. 
+#'   Journal of Statistical Software, 83(9), pp. 1-28. doi: 10.18637/jss.v083.i09
 NULL
 
 #' Body fat data set

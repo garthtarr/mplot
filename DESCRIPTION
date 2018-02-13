@@ -1,8 +1,8 @@
 Package: mplot
 Type: Package
 Title: Graphical Model Stability and Variable Selection Procedures
-Version: 0.8.2
-Date: 2018-01-05
+Version: 1.0.0
+Date: 2018-02-13
 Authors@R: c(person("Garth", "Tarr", role = c("aut", "cre"), email = "garth.tarr@gmail.com"), person("Samuel", "Mueller", role = "aut", email = "samuel.mueller@sydney.edu.au"), person("Alan H", "Welsh", role = "aut", email = "alan.welsh@anu.edu.au"))
 Description: Model stability and variable inclusion plots [Mueller and Welsh
     (2010, <doi:10.1111/j.1751-5823.2010.00108.x>); Murray, Heritier and Mueller
