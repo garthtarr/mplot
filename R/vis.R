@@ -62,7 +62,7 @@
 #' dat = data.frame(y, x1, x2, x3, x4, x5)
 #' lm1 = lm(y ~ ., data = dat)
 #' \dontshow{
-#' v1 = vis(lm1, B = 10, cores = 1, seed = 1)
+#' v1 = vis(lm1, B = 5, cores = 1, seed = 1)
 #' plot(v1, highlight = "x1", which = "lvk")
 #' plot(v1, which = "boot")
 #' plot(v1, which = "vip")
@@ -632,7 +632,7 @@ vis = function(mf,
 #' dat = data.frame(y,x1,x2,x3,x4,x5)
 #' lm1 = lm(y~.,data=dat)
 #' \dontshow{
-#' v1 = vis(lm1, B = 10, cores = 1, seed = 1)
+#' v1 = vis(lm1, B = 5, cores = 1, seed = 1)
 #' plot(v1, highlight = "x1", which = "lvk")
 #' plot(v1, which = "boot")
 #' plot(v1, which = "vip")
