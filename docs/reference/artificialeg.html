@@ -203,8 +203,7 @@ y against x8.</p>
 #&gt;     -0.1143       0.8019       0.4011      -0.8083      -0.3514       0.4927  
 #&gt;          x6           x7           x9  
 #&gt;     -0.7738      -0.5772       0.5478  
-#&gt; </div><span class='co'># NOT RUN {</span>
-<span class='co'># generating model</span>
+#&gt; </div><div class='input'><span class='co'># generating model</span>
 <span class='no'>n</span><span class='kw'>=</span><span class='fl'>50</span>
 <span class='fu'>set.seed</span>(<span class='fl'>8</span>) <span class='co'># a seed of 2 also works</span>
 <span class='no'>x1</span> <span class='kw'>=</span> <span class='fu'>rnorm</span>(<span class='no'>n</span>,<span class='fl'>0.22</span>,<span class='fl'>2</span>)
@@ -217,8 +216,7 @@ y against x8.</p>
 <span class='no'>x5</span> <span class='kw'>=</span> -<span class='fl'>0.5</span>*<span class='no'>x2</span>+<span class='fl'>0.5</span>*<span class='no'>x3</span>+<span class='fl'>0.5</span>*<span class='no'>x6</span>-<span class='fl'>0.5</span>*<span class='no'>x9</span>+<span class='fu'>rnorm</span>(<span class='no'>n</span>,<span class='fl'>0</span>,<span class='fl'>1.5</span>)
 <span class='no'>x8</span> <span class='kw'>=</span> <span class='no'>x1</span> + <span class='no'>x2</span> -<span class='fl'>2</span>*<span class='no'>x3</span> - <span class='fl'>0.3</span>*<span class='no'>x4</span> + <span class='no'>x5</span> - <span class='fl'>1.6</span>*<span class='no'>x6</span> - <span class='fl'>1</span>*<span class='no'>x7</span> + <span class='no'>x9</span> +<span class='fu'>rnorm</span>(<span class='no'>n</span>,<span class='fl'>0</span>,<span class='fl'>0.5</span>)
 <span class='no'>y</span> <span class='kw'>=</span> <span class='fl'>0.6</span>*<span class='no'>x8</span> + <span class='fu'>rnorm</span>(<span class='no'>n</span>,<span class='fl'>0</span>,<span class='fl'>2</span>)
-<span class='no'>artificialeg</span> <span class='kw'>=</span> <span class='fu'>round</span>(<span class='fu'>data.frame</span>(<span class='no'>x1</span>,<span class='no'>x2</span>,<span class='no'>x3</span>,<span class='no'>x4</span>,<span class='no'>x5</span>,<span class='no'>x6</span>,<span class='no'>x7</span>,<span class='no'>x8</span>,<span class='no'>x9</span>,<span class='no'>y</span>),<span class='fl'>1</span>)
-<span class='co'># }</span></pre>
+<span class='no'>artificialeg</span> <span class='kw'>=</span> <span class='fu'>round</span>(<span class='fu'>data.frame</span>(<span class='no'>x1</span>,<span class='no'>x2</span>,<span class='no'>x3</span>,<span class='no'>x4</span>,<span class='no'>x5</span>,<span class='no'>x6</span>,<span class='no'>x7</span>,<span class='no'>x8</span>,<span class='no'>x9</span>,<span class='no'>y</span>),<span class='fl'>1</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -367,10 +367,9 @@ corresponding model's bootstrapped selection probability.</p>
 <span class='no'>x5</span> <span class='kw'>=</span> <span class='no'>x1</span>*<span class='no'>x2</span>
 <span class='no'>y</span> <span class='kw'>=</span> <span class='fl'>1</span> + <span class='no'>x1</span> + <span class='no'>x2</span> + <span class='no'>e</span>
 <span class='no'>dat</span> <span class='kw'>=</span> <span class='fu'>data.frame</span>(<span class='no'>y</span>,<span class='no'>x1</span>,<span class='no'>x2</span>,<span class='no'>x3</span>,<span class='no'>x4</span>,<span class='no'>x5</span>)
-<span class='no'>lm1</span> <span class='kw'>=</span> <span class='fu'>lm</span>(<span class='no'>y</span>~<span class='no'>.</span>,<span class='kw'>data</span><span class='kw'>=</span><span class='no'>dat</span>)</div><span class='co'># NOT RUN {</span>
-<span class='no'>v1</span> <span class='kw'>=</span> <span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>lm1</span>)
-<span class='fu'>plot</span>(<span class='no'>v1</span>,<span class='kw'>highlight</span><span class='kw'>=</span><span class='st'>"x1"</span>,<span class='kw'>which</span><span class='kw'>=</span><span class='st'>"lvk"</span>)
-<span class='co'># }</span></pre>
+<span class='no'>lm1</span> <span class='kw'>=</span> <span class='fu'>lm</span>(<span class='no'>y</span>~<span class='no'>.</span>,<span class='kw'>data</span><span class='kw'>=</span><span class='no'>dat</span>)
+<span class='no'>v1</span> <span class='kw'>=</span> <span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>lm1</span>, <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>20</span>)
+<span class='fu'>plot</span>(<span class='no'>v1</span>, <span class='kw'>highlight</span> <span class='kw'>=</span> <span class='st'>"x1"</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"lvk"</span>)</div><div class='img'><img src='plot.vis-4.png' alt='' width='700' height='432.632880098887' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>v1</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"boot"</span>)</div><div class='img'><img src='plot.vis-5.png' alt='' width='700' height='432.632880098887' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>v1</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"vip"</span>)</div><div class='img'><img src='plot.vis-6.png' alt='' width='700' height='432.632880098887' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -184,10 +184,10 @@ and stability issues</p>
 <span class='no'>x5</span> <span class='kw'>=</span> <span class='no'>x1</span>*<span class='no'>x2</span>
 <span class='no'>y</span> <span class='kw'>=</span> <span class='fl'>1</span> + <span class='no'>x1</span> + <span class='no'>x2</span> + <span class='no'>e</span>
 <span class='no'>dat</span> <span class='kw'>=</span> <span class='fu'>round</span>(<span class='fu'>data.frame</span>(<span class='no'>y</span>,<span class='no'>x1</span>,<span class='no'>x2</span>,<span class='no'>x3</span>,<span class='no'>x4</span>,<span class='no'>x5</span>),<span class='fl'>2</span>)
-<span class='no'>lm1</span> <span class='kw'>=</span> <span class='fu'>lm</span>(<span class='no'>y</span>~<span class='no'>.</span>,<span class='kw'>data</span><span class='kw'>=</span><span class='no'>dat</span>)</div><span class='co'># NOT RUN {</span>
-<span class='no'>v1</span> <span class='kw'>=</span> <span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>lm1</span>,<span class='kw'>n.cores</span><span class='kw'>=</span><span class='fl'>3</span>)
-<span class='no'>af1</span> <span class='kw'>=</span> <span class='fu'><a href='af.html'>af</a></span>(<span class='no'>lm1</span>,<span class='kw'>n.cores</span><span class='kw'>=</span><span class='fl'>3</span>)
-<span class='fu'>mplot</span>(<span class='no'>lm1</span>,<span class='no'>v1</span>,<span class='no'>af1</span>)
+<span class='no'>lm1</span> <span class='kw'>=</span> <span class='fu'>lm</span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dat</span>)</div><span class='co'># NOT RUN {</span>
+<span class='no'>v1</span> <span class='kw'>=</span> <span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>lm1</span>, <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='no'>af1</span> <span class='kw'>=</span> <span class='fu'><a href='af.html'>af</a></span>(<span class='no'>lm1</span>, <span class='kw'>cores</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='fu'>mplot</span>(<span class='no'>lm1</span>, <span class='no'>v1</span>, <span class='no'>af1</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>

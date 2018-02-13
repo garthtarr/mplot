@@ -57,14 +57,13 @@
 #' x2 = rnorm(n)
 #' x3 = x1^2
 #' x4 = x2^2
-#' x5 = x1*x2
 #' y = 1 + x1 + x2 + e
-#' dat = data.frame(y, x1, x2, x3, x4, x5)
+#' dat = data.frame(y, x1, x2, x3, x4)
 #' lm1 = lm(y ~ ., data = dat)
-#' \dontrun{
-#' v1 = vis(lm1, seed = 1)
-#' plot(v1, highlight = "x1")
-#' }
+#' v1 = vis(lm1, B = 40, cores = 1, seed = 1)
+#' plot(v1, highlight = "x1", which = "lvk")
+#' plot(v1, which = "boot")
+#' plot(v1, which = "vip")
 
 vis = function(mf,
                nvmax,
@@ -623,10 +622,10 @@ vis = function(mf,
 #' y = 1 + x1 + x2 + e
 #' dat = data.frame(y,x1,x2,x3,x4,x5)
 #' lm1 = lm(y~.,data=dat)
-#' \dontrun{
-#' v1 = vis(lm1)
-#' plot(v1,highlight="x1",which="lvk")
-#' }
+#' v1 = vis(lm1, cores = 1, B = 20)
+#' plot(v1, highlight = "x1", which = "lvk")
+#' plot(v1, which = "boot")
+#' plot(v1, which = "vip")
 
 plot.vis = function(x,
                     highlight,

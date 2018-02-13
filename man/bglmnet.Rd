@@ -63,16 +63,11 @@ x5 = x1*x2
 y = 1 + x1 + x2 + e
 dat = data.frame(y, x1, x2, x3, x4, x5)
 lm1 = lm(y ~ ., data = dat)
-\dontrun{
-bg1 = bglmnet(lm1, seed = 1)
-plot(bg1)
-plot(bg1, which = "boot_size", interactive = TRUE)
+bg1 = bglmnet(lm1, seed = 1, B=20)
+# plot(bg1, which = "boot_size", interactive = TRUE)
 plot(bg1, which = "boot_size", interactive = FALSE)
-plot(bg1, which = "boot", interactive = TRUE)
-plot(bg1, which = "boot", interactive = FALSE)
-plot(bg1, which = "vip", interactive = TRUE)
+# plot(bg1, which = "vip", interactive = TRUE)
 plot(bg1, which = "vip", interactive = FALSE)
-}
 }
 \seealso{
 \code{\link{plot.bglmnet}}

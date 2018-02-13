@@ -4,6 +4,7 @@ mplot 1.0.0 [2018-02-13]
 * Version 1.0.0 release to coincide with appearance of
   Journal of Statistical Software article.
 * Documentation updates.
+* Examples simplified so that run time of each is <5 seconds
 
 
 mplot 0.8.2 [2017-11-26]
