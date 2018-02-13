@@ -95,12 +95,21 @@
 #' x2 = rnorm(n)
 #' x3 = x1^2
 #' x4 = x2^2
+#' x5 = x1*x2
 #' y = 1 + x1 + x2 + e
-#' dat = data.frame(y,x1,x2,x3,x4)
+#' dat = data.frame(y,x1,x2,x3,x4,x5)
 #' lm1 = lm(y ~ ., data = dat)
-#' af1 = af(lm1, cores = 1, B = 20, n.c = 10, initial.stepwise = TRUE, seed = 1)
+#' \dontshow{
+#' af1 = af(lm1, cores = 1, B = 5, n.c = 5, seed = 1)
 #' summary(af1)
 #' plot(af1)
+#' }
+#' \dontrun{
+#' af1 = af(lm1, initial.stepwise = TRUE, seed = 1)
+#' summary(af1)
+#' plot(af1)
+#' }
+
 
 af = function(mf,
               B = 60,

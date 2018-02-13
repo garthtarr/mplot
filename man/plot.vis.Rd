@@ -146,10 +146,18 @@ x5 = x1*x2
 y = 1 + x1 + x2 + e
 dat = data.frame(y,x1,x2,x3,x4,x5)
 lm1 = lm(y~.,data=dat)
-v1 = vis(lm1, cores = 1, B = 20)
+\dontshow{
+v1 = vis(lm1, B = 10, cores = 1, seed = 1)
 plot(v1, highlight = "x1", which = "lvk")
 plot(v1, which = "boot")
 plot(v1, which = "vip")
+}
+\dontrun{
+v1 = vis(lm1, seed = 1)
+plot(v1, highlight = "x1", which = "lvk")
+plot(v1, which = "boot")
+plot(v1, which = "vip")
+}
 }
 \references{
 Mueller, S. and Welsh, A. H. (2010), On model
