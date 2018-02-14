@@ -16,6 +16,7 @@ reference:
       - diabetes
       - fev
       - wallabies
+      - artificialeg
   - title: "Generic plot, print and summary methods"
     contents:
       - plot.af
