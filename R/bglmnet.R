@@ -27,6 +27,7 @@
 #' @details The result of this function is essentially just a
 #'   list. The supplied plot method provides a way to visualise the
 #'   results.
+#' @importFrom dplyr n
 #' @export
 #' @seealso \code{\link{plot.bglmnet}}
 #' @examples
@@ -86,6 +87,7 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
   X = Xy[,1:(kf - 1)]
   Y = Xy[,kf]
   n = m$n
+  n.obs = n
   X = scale(X) * sqrt(n)/sqrt(n - 1)
   #X[which(is.na(X))] = 0
   X = cbind(1, X)
@@ -113,7 +115,7 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
   betaboot = array(0,dim = c(kf,nlambda,B))
   rownames(betaboot) = names(mfstar$coef)
   for (j in 1:B) {
-    wts = stats::rexp(n = n, rate = 1) * m$wts
+    wts = stats::rexp(n = n.obs, rate = 1) * m$wts
     for (i in 1:nlambda) {
       temp = glmnet::glmnet(X, Y, #ystar[,j], 
                             alpha = 1,
