@@ -8,8 +8,8 @@
   tag = NULL, shiny = FALSE, nbest = "all", which = c("vip", "lvk",
   "boot"), width = 800, height = 400, fontSize = 12, left = 50,
   top = 30, chartWidth = "60\%", chartHeight = "80\%",
-  axisTitlesPosition = "out", dataOpacity = 0.5, options = NULL, ylim,
-  legend.position = "right", backgroundColor = "transparent",
+  axisTitlesPosition = "out", dataOpacity = 0.5, options = NULL,
+  ylim, legend.position = "right", backgroundColor = "transparent",
   text = FALSE, min.prob = 0.4, srt = 45, max.circle = 15,
   print.full.model = FALSE, jitterk = 0.1, seed = NULL, ...)
 }

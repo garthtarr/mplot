@@ -87,23 +87,27 @@ vis = function(mf,
                seed = NULL,
                ...) {
   # redundant not supported with glmulti yet
-  if (use.glmulti){
+  if (use.glmulti) {
     if (!requireNamespace("mvoutlier", quietly = TRUE)) {
       stop("mvoutlier package needed when screen=TRUE. Please install it.",
-           call. = FALSE)
+           call. = FALSE
+      )
     }
-    redundant = FALSE
+    redundant <- FALSE
   }
   
   set.seed(seed)
-  m = mextract(mf, screen = screen,
-               redundant = redundant)
-  fixed = m$fixed
-  yname = m$yname
-  fam = m$family
-  X = m$X
-  kf = m$k
-  n = m$n
+  m <- mextract(mf,
+                screen = screen,
+                redundant = redundant
+  )
+  fixed <- m$fixed
+  yname <- m$yname
+  fam <- m$family
+  X <- m$X
+  kf <- m$k
+  n <- m$n
+  n.obs <- n
   
   initial.weights = m$wts
   if (missing(nvmax))
@@ -194,7 +198,6 @@ vis = function(mf,
           1 * any(is.element(x, y)))))
       res.mat = data.frame(res.mat, ll = x@crits, k = x@K)
     }
-    n.obs = n
     mf <<- mf
     initial.weights <<- initial.weights
     
@@ -294,104 +297,107 @@ vis = function(mf,
   cl.visB = parallel::makeCluster(cores)
   doParallel::registerDoParallel(cl.visB)
   if (any(class(mf) == "glm") == TRUE & !use.glmulti) {
-    res = foreach(b = 1:B, 
-                  .packages = c("bestglm"),
-                  .options.RNG=seed) %dorng% {
-      wts = stats::rexp(n = n, rate = 1) * initial.weights
-      
-      em = bestglm::bestglm(
-        Xy = X,
-        family = fam,
-        IC = "BIC",
-        TopModels = 1,
-        weights = wts,
-        nvmax = nvmax
-      )
-      # starts with intercept row
-      rs.which = em$Subsets[, 1:kf] + 0
-      rs.stats = em$Subsets[,-c(1:kf)]
-      k = rowSums(rs.which)
-      rs.all = cbind(rs.which, rs.stats, k)
-      # in bestglm rs.all$logLikelihood comes from
-      # stats::logLik(model) unless Gaussian in which case
-      # -(n/2) * log(sum(resid(ans)^2)/n) is used
-      # note the bic in bestglm is calculated as:
-      # -2*rs.all$logLikelihood + log(n)*(rs.all$k-1)
-    }
+    res = foreach::foreach(
+      b = 1:B, 
+      .packages = c("bestglm"),
+      .options.RNG = seed,
+      .export = c("n.obs")) %dorng% {
+        wts = stats::rexp(n = n.obs, rate = 1) * initial.weights
+        
+        em = bestglm::bestglm(
+          Xy = X,
+          family = fam,
+          IC = "BIC",
+          TopModels = 1,
+          weights = wts,
+          nvmax = nvmax
+        )
+        # starts with intercept row
+        rs.which = em$Subsets[, 1:kf] + 0
+        rs.stats = em$Subsets[,-c(1:kf)]
+        k = rowSums(rs.which)
+        rs.all = cbind(rs.which, rs.stats, k)
+        # in bestglm rs.all$logLikelihood comes from
+        # stats::logLik(model) unless Gaussian in which case
+        # -(n/2) * log(sum(resid(ans)^2)/n) is used
+        # note the bic in bestglm is calculated as:
+        # -2*rs.all$logLikelihood + log(n)*(rs.all$k-1)
+      }
   } else if (any(class(mf) == "glm") == TRUE & use.glmulti) {
     res = foreach(b = 1:B, 
                   .packages = c("glmulti", "dplyr"),
                   .options.RNG=seed) %dorng% {
-      mf <<- mf
-      initial.weights <<- initial.weights
-      n.obs <<- n.obs
-      dryrun <<- dryrun
-      
-      em <-
-        glmulti::glmulti(
-          stats::formula(mf),
-          level = 1,
-          # No interaction considered
-          marginality = TRUE,
-          data = stats::model.frame(mf),
-          method = "h",
-          # Exhaustive approach
-          crit = "ll",
-          # AIC as criteria
-          confsetsize = dryrun,
-          # Keep 5 best models
-          plotty = FALSE,
-          report = FALSE,
-          # No plot or interim reports
-          fitfunction = "glm",
-          # glm function
-          includeobjects = FALSE,
-          family = stats::family(mf)[[1]],
-          weights = I(stats::rexp(n = n.obs, rate = 1) *
-                        initial.weights)
-        )
-      
-      rs.temp = glmulti.trans(em)
-      var.order = all.vars(stats::formula(mf))
-      rs.all = rs.temp[, var.order]
-      rs.all$logLikelihood = rs.temp$ll #-(rs.temp$aic - 2*(rs.temp$k))/2
-      rs.all$bic = -2 * rs.all$logLikelihood + rs.temp$k * log(n)
-      rs.all$aic = -2 * rs.all$logLikelihood + rs.temp$k * 2 #rs.temp$aic
-      rs.all$k = rs.temp$k
-      rs.all = dplyr::filter(dplyr::group_by(rs.all, k),
-                             logLikelihood == max(logLikelihood))
-      rs.all = base::data.frame(base::data.matrix(rs.all))
-      
-    }
+                    mf <<- mf
+                    initial.weights <<- initial.weights
+                    n.obs <<- n.obs
+                    dryrun <<- dryrun
+                    
+                    em <-
+                      glmulti::glmulti(
+                        stats::formula(mf),
+                        level = 1,
+                        # No interaction considered
+                        marginality = TRUE,
+                        data = stats::model.frame(mf),
+                        method = "h",
+                        # Exhaustive approach
+                        crit = "ll",
+                        # AIC as criteria
+                        confsetsize = dryrun,
+                        # Keep 5 best models
+                        plotty = FALSE,
+                        report = FALSE,
+                        # No plot or interim reports
+                        fitfunction = "glm",
+                        # glm function
+                        includeobjects = FALSE,
+                        family = stats::family(mf)[[1]],
+                        weights = I(stats::rexp(n = n.obs, rate = 1) *
+                                      initial.weights)
+                      )
+                    
+                    rs.temp = glmulti.trans(em)
+                    var.order = all.vars(stats::formula(mf))
+                    rs.all = rs.temp[, var.order]
+                    rs.all$logLikelihood = rs.temp$ll #-(rs.temp$aic - 2*(rs.temp$k))/2
+                    rs.all$bic = -2 * rs.all$logLikelihood + rs.temp$k * log(n)
+                    rs.all$aic = -2 * rs.all$logLikelihood + rs.temp$k * 2 #rs.temp$aic
+                    rs.all$k = rs.temp$k
+                    rs.all = dplyr::filter(dplyr::group_by(rs.all, k),
+                                           logLikelihood == max(logLikelihood))
+                    rs.all = base::data.frame(base::data.matrix(rs.all))
+                    
+                  }
   } else {
     res = foreach(b = 1:B, 
                   .packages = c("leaps"),
-                  .options.RNG = seed) %dorng% {
-      wts = stats::rexp(n = n, rate = 1) * initial.weights
-      em = leaps::regsubsets(
-        x = fixed,
-        data = X,
-        nbest = 1,
-        nvmax = nvmax,
-        intercept = TRUE,
-        force.in = force.in,
-        weights = wts,
-        really.big = TRUE
-      )
-      rs = summary(em)
-      # does not start with intercept row
-      rs.which = data.frame(rs$which + 0, row.names = NULL)
-      k = rowSums(rs.which)
-      # assuming Gaussian errors:
-      logLikelihood = -(n + n * log(2 * pi) + n * log(rs$rss / n)) / 2
-      rs.stats = cbind(logLikelihood, rs$rss, rs$bic,
-                       rs$cp, rs$rsq, rs$adjr2, k)
-      colnames(rs.stats) = c("logLikelihood", "rss", "bic",
-                             "cp", "rsq", "adjr2", "k")
-      rs.all = add.intercept.row(em, rs.which, rs.stats)
-      # note that the BIC in leaps (and add.intercept.row funtion)
-      # differs from the bestglm BIC buy a constant
-    }
+                  .options.RNG = seed,
+                  .export = c("n.obs")) %dorng% {
+                    wts = stats::rexp(n = n.obs, rate = 1) * initial.weights
+                    em = leaps::regsubsets(
+                      x = fixed,
+                      data = X,
+                      nbest = 1,
+                      nvmax = nvmax,
+                      intercept = TRUE,
+                      force.in = force.in,
+                      weights = wts,
+                      really.big = TRUE
+                    )
+                    rs = summary(em)
+                    # does not start with intercept row
+                    rs.which = data.frame(rs$which + 0, row.names = NULL)
+                    k = rowSums(rs.which)
+                    # assuming Gaussian errors:
+                    logLikelihood = -(n + n * log(2 * pi) + n * log(rs$rss / n)) / 2
+                    rs.stats = cbind(logLikelihood, rs$rss, rs$bic,
+                                     rs$cp, rs$rsq, rs$adjr2, k)
+                    colnames(rs.stats) = c("logLikelihood", "rss", "bic",
+                                           "cp", "rsq", "adjr2", "k")
+                    rs.all = add.intercept.row(em, rs.which, rs.stats)
+                    # note that the BIC in leaps (and add.intercept.row funtion)
+                    # differs from the bestglm BIC buy a constant
+                  }
   }
   stopCluster(cl.visB)
   
@@ -675,7 +681,7 @@ plot.vis = function(x,
   # reproducible jitter?
   if(!is.null(seed)) { 
     set.seed(seed)
-    }
+  }
   # to prevent the notes:
   # plot.vis: no visible binding for global variable k
   # plot.vis: no visible binding for global variable logLikelihood
@@ -1084,8 +1090,6 @@ plot.vis = function(x,
     }
   } else
     return(invisible())
-  
-  
 }
 
 

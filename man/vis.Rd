@@ -4,9 +4,9 @@
 \alias{vis}
 \title{Model stability and variable inclusion plots}
 \usage{
-vis(mf, nvmax, B = 100, lambda.max, nbest = "all", use.glmulti = FALSE,
-  cores, force.in = NULL, screen = FALSE, redundant = TRUE, seed = NULL,
-  ...)
+vis(mf, nvmax, B = 100, lambda.max, nbest = "all",
+  use.glmulti = FALSE, cores, force.in = NULL, screen = FALSE,
+  redundant = TRUE, seed = NULL, ...)
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call

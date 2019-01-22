@@ -4,14 +4,14 @@
 \alias{plot.bglmnet}
 \title{Plot diagnostics for a bglmnet object}
 \usage{
-\method{plot}{bglmnet}(x, highlight, interactive = FALSE, classic = NULL,
-  tag = NULL, shiny = FALSE, which = c("vip", "boot", "boot_size"),
-  width = 800, height = 400, fontSize = 12, left = 50, top = 30,
-  chartWidth = "60\%", chartHeight = "80\%", axisTitlesPosition = "out",
-  dataOpacity = 0.5, options = NULL, hAxis.logScale = TRUE, ylim,
-  text = FALSE, backgroundColor = "transparent",
-  legend.position = "right", jitterk = 0.1, srt = 45, max.circle = 15,
-  min.prob = 0.1, ...)
+\method{plot}{bglmnet}(x, highlight, interactive = FALSE,
+  classic = NULL, tag = NULL, shiny = FALSE, which = c("vip",
+  "boot", "boot_size"), width = 800, height = 400, fontSize = 12,
+  left = 50, top = 30, chartWidth = "60\%", chartHeight = "80\%",
+  axisTitlesPosition = "out", dataOpacity = 0.5, options = NULL,
+  hAxis.logScale = TRUE, ylim, text = FALSE,
+  backgroundColor = "transparent", legend.position = "right",
+  jitterk = 0.1, srt = 45, max.circle = 15, min.prob = 0.1, ...)
 }
 \arguments{
 \item{x}{\code{bglmnet} object, the result of \code{\link{bglmnet}}}
