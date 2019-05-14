@@ -25,9 +25,10 @@
 #' dat = round(data.frame(y,x1,x2,x3,x4,x5),2)
 #' lm1 = lm(y ~ ., data = dat)
 #' \dontrun{
-#' v1 = vis(lm1, cores = 3)
-#' af1 = af(lm1, cores = 3)
-#' mplot(lm1, v1, af1)
+#' v1 = vis(lm1)
+#' af1 = af(lm1)
+#' bg1 = bglmnet(lm1)
+#' mplot(lm1, v1, af1, bg1)
 #' }
 #'
 
@@ -112,7 +113,7 @@ mplot = function(mf,...){
                       min = -45, max = 90, value = 45)
         ),
         conditionalPanel(
-          condition = "input.lvp=='lvp' | input.lvp=='af' | input.lvp=='vip' | input.lvp=='bglmnet'",
+          condition = "input.lvp=='lvp' | input.lvp=='af' | input.lvp=='vip'",# | input.lvp=='bglmnet'",
           radioButtons("classic", label = "Interactive plots",
                        choices = c("Yes" = FALSE, "No" = TRUE),
                        selected = FALSE, inline = TRUE)
@@ -188,7 +189,7 @@ mplot = function(mf,...){
     
     output$screenui = renderUI({
       conditionalPanel(condition = "output.anyscreen=='TRUE'",
-                       radioButtons("screen", label = "Screen",
+                       radioButtons(inputId = "screen", label = "Screen",
                                     choices = c("Yes" = TRUE,"No" = FALSE),
                                     selected = FALSE,
                                     inline = TRUE))
@@ -209,6 +210,8 @@ mplot = function(mf,...){
         need(!is.null(lvp.res.screened) | !is.null(lvp.res), 
              "You did not include a vis object in the call to mplot.")
       )
+      req(input$screen) # seems this is needed to avoid a warning message
+      # Warning: Error in if: argument is of length zero
       if (input$screen) {
         validate(
           need(!is.null(lvp.res.screened), 
@@ -249,6 +252,7 @@ mplot = function(mf,...){
         need(!is.null(glmnet.res.screened) | !is.null(glmnet.res), 
              "You did not include a bglmnet object in the call to mplot.")
       )
+      
       if (input$screen) {
         validate(
           need(!is.null(glmnet.res.screened), 
@@ -266,6 +270,7 @@ mplot = function(mf,...){
     
     #### Model seleciton plot
     output$lvp.gvis <- googleVis::renderGvis({
+      # req(input$boot_lvp)
       lvp.data = visdat()
       if (input$boot_lvp == "No") {
         graphics::plot(lvp.data, shiny = TRUE, interactive = TRUE,
@@ -278,6 +283,7 @@ mplot = function(mf,...){
     
     output$lvp.classic <- renderPlot({
       lvp.data = visdat()
+      # req(input$boot_lvp)
       if (input$boot_lvp == "No") {
         graphics::plot(lvp.data, highlight = input$highlight,
                        which = "lvk", interactive = FALSE, nbest = as.numeric(input$nbest))
@@ -338,7 +344,7 @@ mplot = function(mf,...){
       bglmnet.data = bglmnetdat()
       graphics::plot(bglmnet.data, shiny = TRUE, interactive = TRUE,
                      highlight = input$highlight,
-                     which = "boot", plb = input$min.prob)
+                     which = "boot", min.prob = input$min.prob)
     })
   }
   

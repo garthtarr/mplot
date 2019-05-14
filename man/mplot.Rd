@@ -28,9 +28,10 @@ y = 1 + x1 + x2 + e
 dat = round(data.frame(y,x1,x2,x3,x4,x5),2)
 lm1 = lm(y ~ ., data = dat)
 \dontrun{
-v1 = vis(lm1, cores = 3)
-af1 = af(lm1, cores = 3)
-mplot(lm1, v1, af1)
+v1 = vis(lm1)
+af1 = af(lm1)
+bg1 = bglmnet(lm1)
+mplot(lm1, v1, af1, bg1)
 }
 
 }

@@ -1,4 +1,11 @@
-mplot 1.0.2 [2018-02-13]
+mplot 1.0.3 [2019-02-13]
+------------------------
+
+* Fix for plot.bglmnet with min.prob in mplot
+* Resolve warning messages around exporting objects
+
+
+mplot 1.0.2 [2019-01-22]
 ------------------------
 
 * Compatibility update with a new version of dplyr.

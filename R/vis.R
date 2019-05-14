@@ -300,8 +300,10 @@ vis = function(mf,
     res = foreach::foreach(
       b = 1:B, 
       .packages = c("bestglm"),
-      .options.RNG = seed,
-      .export = c("n.obs")) %dorng% {
+      .options.RNG = seed #,
+      # .export = c("n.obs") # don't seem to need to export this
+      # and get a warning when we do
+      ) %dorng% {
         wts = stats::rexp(n = n.obs, rate = 1) * initial.weights
         
         em = bestglm::bestglm(
@@ -371,8 +373,10 @@ vis = function(mf,
   } else {
     res = foreach(b = 1:B, 
                   .packages = c("leaps"),
-                  .options.RNG = seed,
-                  .export = c("n.obs")) %dorng% {
+                  .options.RNG = seed# ,
+                  # .export = c("n.obs") # don't seem to need to export this
+                  # and get a warning when we do
+                  ) %dorng% {
                     wts = stats::rexp(n = n.obs, rate = 1) * initial.weights
                     em = leaps::regsubsets(
                       x = fixed,
