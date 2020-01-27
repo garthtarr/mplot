@@ -29,7 +29,7 @@ processing the bootstrap}
 \item{nvmax}{size of the largest model that can still be
 considered as a viable candidate.  Included for performance
 reasons but if it is an active constraint it could lead to
-missleading results.}
+misleading results.}
 
 \item{c.max}{manually specify the upper boundary limit.
 Only applies when \code{initial.stepwise=FALSE}.}
