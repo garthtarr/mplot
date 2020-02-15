@@ -403,7 +403,7 @@ vis = function(mf,
                     # differs from the bestglm BIC buy a constant
                   }
   }
-  stopCluster(cl.visB)
+  parallel::stopCluster(cl.visB)
   
   ### Variable inclusion Plot Calculations
   if (missing(lambda.max))
