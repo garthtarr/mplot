@@ -12,7 +12,7 @@
 \item{canopy}{Percentage canopy cover}
 \item{distance}{Distance from diurnal refuge}
 \item{shelter}{Whether or not a plot occurred within a shelter point (large
-               rock or boulder pile)}
+rock or boulder pile)}
 \item{lat}{Latitude of the plot location}
 \item{long}{Longitude of the plot location}
 }}
@@ -27,18 +27,18 @@ of 7-13 per hectare. The presence or absence of fresh
 along with location and a selection of predictor variables.
 }
 \details{
-Macropods defaecate randomly as they forage and scat 
-  (faecal pellet) surveys are a reliable method for detecting the
-  presence of rock-wallabies and other macropods. 
-  Scats are used as an indication of spatial foraging patterns 
-  of rock-wallabies and sympatric macropods. Scats deposited while
-  foraging were not confused with scats deposited while
-  resting because the daytime refuge areas of rock-wallabies
-  were known in detail for each colony and no samples were
-  taken from those areas. Each of the 200 sites were 
-  examined separately to
-  account for the different levels of predation risk and the
-  abundance of rock-wallabies.
+Macropods defaecate randomly as they forage and scat
+(faecal pellet) surveys are a reliable method for detecting the
+presence of rock-wallabies and other macropods.
+Scats are used as an indication of spatial foraging patterns
+of rock-wallabies and sympatric macropods. Scats deposited while
+foraging were not confused with scats deposited while
+resting because the daytime refuge areas of rock-wallabies
+were known in detail for each colony and no samples were
+taken from those areas. Each of the 200 sites were
+examined separately to
+account for the different levels of predation risk and the
+abundance of rock-wallabies.
 }
 \examples{
 data(wallabies)
@@ -49,9 +49,9 @@ wdat = data.frame(subset(wallabies,select=-c(lat,long)),
 M1 = glm(rw~., family = binomial(link = "logit"), data = wdat)
 }
 \references{
-Tuft KD, Crowther MS, Connell K, Mueller S and McArthur C (2011), 
-   Predation risk and competitive interactions affect foraging of 
-   an endangered refuge-dependent herbivore. Animal Conservation, 
-   14: 447-457. doi: 10.1111/j.1469-1795.2011.00446.x
+Tuft KD, Crowther MS, Connell K, Mueller S and McArthur C (2011),
+Predation risk and competitive interactions affect foraging of
+an endangered refuge-dependent herbivore. Animal Conservation,
+14: 447-457. doi: 10.1111/j.1469-1795.2011.00446.x
 }
 \keyword{datasets}

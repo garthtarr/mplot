@@ -23,7 +23,6 @@
 #' @param redundant logical, whether or not to add a redundant
 #'   variable.  Default = \code{TRUE}.
 #' @param seed random seed for reproducible results
-#' @param ... further arguments (currently unused)
 #' @details The result of this function is essentially just a
 #'   list. The supplied plot method provides a way to visualise the
 #'   results.

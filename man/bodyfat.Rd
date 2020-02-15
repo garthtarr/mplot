@@ -14,7 +14,7 @@
 \item{Neck}{Neck circumference (cm)}
 \item{Chest}{Chest circumference (cm)}
 \item{Abdo}{Abdomen circumference (cm) "at the umbilicus
-           and level with the iliac crest"}
+and level with the iliac crest"}
 \item{Hip}{Hip circumference (cm)}
 \item{Thigh}{Thigh circumference (cm)}
 \item{Knee}{Knee circumference (cm)}
@@ -22,7 +22,7 @@
 \item{Bic}{Extended biceps circumference (cm)}
 \item{Fore}{Forearm circumference (cm)}
 \item{Wrist}{Wrist circumference (cm) "distal to the
-            styloid processes"}
+styloid processes"}
 }}
 \usage{
 data(bodyfat)
@@ -32,9 +32,9 @@ A data frame with 128 observations on 15 variables.
 }
 \details{
 A subset of the 252 observations available in the \code{mfp} package.
-  The selected observations avoid known high leverage points and
-  outliers.  The unused points from the data set could be used to validate
-  selected models.
+The selected observations avoid known high leverage points and
+outliers.  The unused points from the data set could be used to validate
+selected models.
 }
 \examples{
 data(bodyfat)
@@ -42,9 +42,9 @@ full.mod = lm(Bodyfat~.,data=subset(bodyfat,select=-Id))
 }
 \references{
 Johnson W (1996, Vol 4). Fitting percentage of
-  body fat to simple body measurements. Journal of Statistics
-  Education. Bodyfat data retrieved from
-  http://www.amstat.org/publications/jse/v4n1/datasets.johnson.html
-  An expanded version is included in the \code{mfp} R package.
+body fat to simple body measurements. Journal of Statistics
+Education. Bodyfat data retrieved from
+http://www.amstat.org/publications/jse/v4n1/datasets.johnson.html
+An expanded version is included in the \code{mfp} R package.
 }
 \keyword{datasets}

@@ -11,15 +11,15 @@
 \item{bmi}{Body mass index}
 \item{map}{Mean arterial pressure (average blood pressure)}
 \item{tc}{Total cholesterol (mg/dL)? Desirable range: below 200 mg/dL}
-\item{ldl}{Low-density lipoprotein ("bad" cholesterol)? 
-           Desirable range: below 130 mg/dL }
-\item{hdl}{High-density lipoprotein ("good" cholesterol)? 
-           Desirable range: above 40 mg/dL}
+\item{ldl}{Low-density lipoprotein ("bad" cholesterol)?
+Desirable range: below 130 mg/dL }
+\item{hdl}{High-density lipoprotein ("good" cholesterol)?
+Desirable range: above 40 mg/dL}
 \item{tch}{Blood serum measurement}
 \item{ltg}{Blood serum measurement}
 \item{glu}{Blood serum measurement (glucose?)}
-\item{y}{A quantitative measure of disease progression 
-         one year after baseline}
+\item{y}{A quantitative measure of disease progression
+one year after baseline}
 }}
 \usage{
 data(diabetes)
@@ -37,7 +37,7 @@ full.mod = lm(y~.,data=diabetes)
 }
 \references{
 Efron, B., Hastie, T., Johnstone, I., Tibshirani, R., (2004).
-  Least angle regression. The Annals of Statistics 32(2) 407-499.
-  DOI: 10.1214/009053604000000067
+Least angle regression. The Annals of Statistics 32(2) 407-499.
+DOI: 10.1214/009053604000000067
 }
 \keyword{datasets}

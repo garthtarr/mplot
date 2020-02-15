@@ -9,7 +9,7 @@ mplot(mf, ...)
 \arguments{
 \item{mf}{a fitted model.}
 
-\item{...}{objects of type vis or af or bglmnet.}
+\item{...}{objects of type \code{vis} or \code{af} or \code{bglmnet}.}
 }
 \description{
 Opens a shiny GUI to investigate a range of model selection
@@ -36,7 +36,7 @@ mplot(lm1, v1, af1, bg1)
 
 }
 \references{
-Tarr G, Mueller S and Welsh AH (2018). mplot: An R Package for 
-  Graphical Model Stability and Variable Selection Procedures. 
-  Journal of Statistical Software, 83(9), pp. 1-28. doi: 10.18637/jss.v083.i09
+Tarr G, Mueller S and Welsh AH (2018). mplot: An R Package for
+Graphical Model Stability and Variable Selection Procedures.
+Journal of Statistical Software, 83(9), pp. 1-28. doi: 10.18637/jss.v083.i09
 }

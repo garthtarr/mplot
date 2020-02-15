@@ -4,12 +4,28 @@
 \alias{plot.af}
 \title{Plot diagnostics for an af object}
 \usage{
-\method{plot}{af}(x, pch, interactive = FALSE, classic = NULL,
-  tag = NULL, shiny = FALSE, best.only = FALSE, width = 800,
-  height = 400, fontSize = 12, left = 50, top = 30,
-  chartWidth = "60\%", chartHeight = "80\%",
-  backgroundColor = "transparent", legend.position = "top",
-  model.wrap = NULL, legend.space = NULL, options = NULL, ...)
+\method{plot}{af}(
+  x,
+  pch,
+  interactive = FALSE,
+  classic = NULL,
+  tag = NULL,
+  shiny = FALSE,
+  best.only = FALSE,
+  width = 800,
+  height = 400,
+  fontSize = 12,
+  left = 50,
+  top = 30,
+  chartWidth = "60\%",
+  chartHeight = "80\%",
+  backgroundColor = "transparent",
+  legend.position = "top",
+  model.wrap = NULL,
+  legend.space = NULL,
+  options = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{\code{af} object, the result of \code{\link{af}}}

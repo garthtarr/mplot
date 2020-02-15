@@ -4,14 +4,35 @@
 \alias{plot.bglmnet}
 \title{Plot diagnostics for a bglmnet object}
 \usage{
-\method{plot}{bglmnet}(x, highlight, interactive = FALSE,
-  classic = NULL, tag = NULL, shiny = FALSE, which = c("vip",
-  "boot", "boot_size"), width = 800, height = 400, fontSize = 12,
-  left = 50, top = 30, chartWidth = "60\%", chartHeight = "80\%",
-  axisTitlesPosition = "out", dataOpacity = 0.5, options = NULL,
-  hAxis.logScale = TRUE, ylim, text = FALSE,
-  backgroundColor = "transparent", legend.position = "right",
-  jitterk = 0.1, srt = 45, max.circle = 15, min.prob = 0.1, ...)
+\method{plot}{bglmnet}(
+  x,
+  highlight,
+  interactive = FALSE,
+  classic = NULL,
+  tag = NULL,
+  shiny = FALSE,
+  which = c("vip", "boot", "boot_size"),
+  width = 800,
+  height = 400,
+  fontSize = 12,
+  left = 50,
+  top = 30,
+  chartWidth = "60\%",
+  chartHeight = "80\%",
+  axisTitlesPosition = "out",
+  dataOpacity = 0.5,
+  options = NULL,
+  hAxis.logScale = TRUE,
+  ylim,
+  text = FALSE,
+  backgroundColor = "transparent",
+  legend.position = "right",
+  jitterk = 0.1,
+  srt = 45,
+  max.circle = 15,
+  min.prob = 0.1,
+  ...
+)
 }
 \arguments{
 \item{x}{\code{bglmnet} object, the result of \code{\link{bglmnet}}}
@@ -23,25 +44,25 @@ googleVis plot is provided instead of the base graphics plot.
 Default is \code{interactive=FALSE}.}
 
 \item{classic}{logical.  Depricated. If \code{classic=TRUE} a
-base graphics plot is provided instead of a googleVis plot. 
-For now specifying \code{classic} will overwrite the 
+base graphics plot is provided instead of a googleVis plot.
+For now specifying \code{classic} will overwrite the
 default \code{interactive} behaviour, though this is
 likely to be removed in the future.}
 
-\item{tag}{Default NULL. Name tag of the objects to be extracted 
-from a gvis (googleVis) object. 
+\item{tag}{Default NULL. Name tag of the objects to be extracted
+from a gvis (googleVis) object.
 
-The default tag for is NULL, which will 
-result in R opening a browser window.  Setting \code{tag='chart'} 
-or setting \code{options(gvis.plot.tag='chart')} is useful when 
+The default tag for is NULL, which will
+result in R opening a browser window.  Setting \code{tag='chart'}
+or setting \code{options(gvis.plot.tag='chart')} is useful when
 googleVis is used in scripts, like knitr or rmarkdown.}
 
 \item{shiny}{Default FALSE. Set to TRUE when using in a shiny interface.}
 
 \item{which}{a vector specifying the plots to be output. Variable
 inclusion type plots \code{which = "vip"} or plots where the size
-of the point representing each model is proportional to selection 
-probabilities by model size \code{which = "boot_size"} 
+of the point representing each model is proportional to selection
+probabilities by model size \code{which = "boot_size"}
 or by penalty paramter \code{which = "boot"}.}
 
 \item{width}{Width of the googleVis chart canvas area, in pixels.

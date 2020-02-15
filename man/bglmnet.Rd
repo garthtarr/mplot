@@ -4,9 +4,18 @@
 \alias{bglmnet}
 \title{Model stability and variable importance plots for glmnet}
 \usage{
-bglmnet(mf, nlambda = 100, lambda = NULL, B = 100, penalty.factor,
-  screen = FALSE, redundant = TRUE, cores = NULL, force.in = NULL,
-  seed = NULL)
+bglmnet(
+  mf,
+  nlambda = 100,
+  lambda = NULL,
+  B = 100,
+  penalty.factor,
+  screen = FALSE,
+  redundant = TRUE,
+  cores = NULL,
+  force.in = NULL,
+  seed = NULL
+)
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call
@@ -40,16 +49,14 @@ processing the bootstrap (Not yet implemented.)}
 into all estimated models. (Not yet implemented.)}
 
 \item{seed}{random seed for reproducible results}
-
-\item{...}{further arguments (currently unused)}
 }
 \description{
 Model stability and variable importance plots for glmnet
 }
 \details{
 The result of this function is essentially just a
-  list. The supplied plot method provides a way to visualise the
-  results.
+list. The supplied plot method provides a way to visualise the
+results.
 }
 \examples{
 n = 100

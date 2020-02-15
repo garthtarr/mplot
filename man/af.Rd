@@ -4,8 +4,19 @@
 \alias{af}
 \title{The adaptive fence procedure}
 \usage{
-af(mf, B = 60, n.c = 20, initial.stepwise = FALSE, force.in = NULL,
-  cores, nvmax, c.max, screen = FALSE, seed = NULL, ...)
+af(
+  mf,
+  B = 60,
+  n.c = 20,
+  initial.stepwise = FALSE,
+  force.in = NULL,
+  cores,
+  nvmax,
+  c.max,
+  screen = FALSE,
+  seed = NULL,
+  ...
+)
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call
@@ -121,12 +132,12 @@ plot(af1)
 }
 \references{
 Jiang J., Nguyen T., Sunil Rao J. (2009),
-  A simplified adaptive fence procedure, Statistics &
-  Probability Letters, 79(5):625-629.  doi: 10.1016/j.spl.2008.10.014
+A simplified adaptive fence procedure, Statistics &
+Probability Letters, 79(5):625-629.  doi: 10.1016/j.spl.2008.10.014
 
-  Jiang J., Sunil Rao J., Gu Z, Nguyen T. (2008),
-  Fence methods for mixed model selection, Annals of Statistics,
-  36(4):1669-1692. doi: 10.1214/07-AOS517
+Jiang J., Sunil Rao J., Gu Z, Nguyen T. (2008),
+Fence methods for mixed model selection, Annals of Statistics,
+36(4):1669-1692. doi: 10.1214/07-AOS517
 }
 \seealso{
 \code{\link{plot.af}}

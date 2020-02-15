@@ -1,0 +1,16 @@
+pandoc: 2.7.3
+pkgdown: 1.4.1
+pkgdown_sha: ~
+articles:
+  af: af.html
+  artificial: artificial.html
+  background: background.html
+  birthweight: birthweight.html
+  diabetes: diabetes.html
+  interactive: interactive.html
+  msp: msp.html
+  people: people.html
+  publications: publications.html
+  timing: timing.html
+  vip: vip.html
+

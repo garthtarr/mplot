@@ -4,9 +4,20 @@
 \alias{vis}
 \title{Model stability and variable inclusion plots}
 \usage{
-vis(mf, nvmax, B = 100, lambda.max, nbest = "all",
-  use.glmulti = FALSE, cores, force.in = NULL, screen = FALSE,
-  redundant = TRUE, seed = NULL, ...)
+vis(
+  mf,
+  nvmax,
+  B = 100,
+  lambda.max,
+  nbest = "all",
+  use.glmulti = FALSE,
+  cores,
+  force.in = NULL,
+  screen = FALSE,
+  redundant = TRUE,
+  seed = NULL,
+  ...
+)
 }
 \arguments{
 \item{mf}{a fitted 'full' model, the result of a call
@@ -51,11 +62,11 @@ and bootstrap enhanced model stability plots (\code{lvk} and
 }
 \details{
 The result of this function is essentially just a
-  list. The supplied plot method provides a way to visualise the
-  results.
+list. The supplied plot method provides a way to visualise the
+results.
 
-  See \code{?plot.vis} or \code{help("plot.vis")} for details of the
-  plot method associated with the result.
+See \code{?plot.vis} or \code{help("plot.vis")} for details of the
+plot method associated with the result.
 }
 \examples{
 n = 100
@@ -84,16 +95,16 @@ plot(v1, which = "vip")
 }
 \references{
 Mueller, S. and Welsh, A. H. (2010), On model
-  selection curves. International Statistical Review, 78:240-256.
-  doi: 10.1111/j.1751-5823.2010.00108.x
+selection curves. International Statistical Review, 78:240-256.
+doi: 10.1111/j.1751-5823.2010.00108.x
 
-  Murray, K., Heritier, S. and Mueller, S. (2013), Graphical
-  tools for model selection in generalized linear models.
-  Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
-  
-  Tarr G, Mueller S and Welsh AH (2018). mplot: An R Package for 
-  Graphical Model Stability and Variable Selection Procedures. 
-  Journal of Statistical Software, 83(9), pp. 1-28. doi: 10.18637/jss.v083.i09
+Murray, K., Heritier, S. and Mueller, S. (2013), Graphical
+tools for model selection in generalized linear models.
+Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
+
+Tarr G, Mueller S and Welsh AH (2018). mplot: An R Package for
+Graphical Model Stability and Variable Selection Procedures.
+Journal of Statistical Software, 83(9), pp. 1-28. doi: 10.18637/jss.v083.i09
 }
 \seealso{
 \code{\link{plot.vis}}

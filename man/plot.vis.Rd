@@ -4,14 +4,37 @@
 \alias{plot.vis}
 \title{Plot diagnostics for a vis object}
 \usage{
-\method{plot}{vis}(x, highlight, interactive = FALSE, classic = NULL,
-  tag = NULL, shiny = FALSE, nbest = "all", which = c("vip", "lvk",
-  "boot"), width = 800, height = 400, fontSize = 12, left = 50,
-  top = 30, chartWidth = "60\%", chartHeight = "80\%",
-  axisTitlesPosition = "out", dataOpacity = 0.5, options = NULL,
-  ylim, legend.position = "right", backgroundColor = "transparent",
-  text = FALSE, min.prob = 0.4, srt = 45, max.circle = 15,
-  print.full.model = FALSE, jitterk = 0.1, seed = NULL, ...)
+\method{plot}{vis}(
+  x,
+  highlight,
+  interactive = FALSE,
+  classic = NULL,
+  tag = NULL,
+  shiny = FALSE,
+  nbest = "all",
+  which = c("vip", "lvk", "boot"),
+  width = 800,
+  height = 400,
+  fontSize = 12,
+  left = 50,
+  top = 30,
+  chartWidth = "60\%",
+  chartHeight = "80\%",
+  axisTitlesPosition = "out",
+  dataOpacity = 0.5,
+  options = NULL,
+  ylim,
+  legend.position = "right",
+  backgroundColor = "transparent",
+  text = FALSE,
+  min.prob = 0.4,
+  srt = 45,
+  max.circle = 15,
+  print.full.model = FALSE,
+  jitterk = 0.1,
+  seed = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{\code{vis} object, the result of \code{\link{vis}}}
@@ -161,16 +184,16 @@ plot(v1, which = "vip")
 }
 \references{
 Mueller, S. and Welsh, A. H. (2010), On model
-  selection curves. International Statistical Review, 78:240-256.
-  doi: 10.1111/j.1751-5823.2010.00108.x
+selection curves. International Statistical Review, 78:240-256.
+doi: 10.1111/j.1751-5823.2010.00108.x
 
-  Murray, K., Heritier, S. and Mueller, S. (2013), Graphical
-  tools for model selection in generalized linear models.
-  Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
-  
-  Tarr G, Mueller S and Welsh AH (2018). mplot: An R Package for 
-  Graphical Model Stability and Variable Selection Procedures. 
-  Journal of Statistical Software, 83(9), pp. 1-28. doi: 10.18637/jss.v083.i09
+Murray, K., Heritier, S. and Mueller, S. (2013), Graphical
+tools for model selection in generalized linear models.
+Statistics in Medicine, 32:4438-4451. doi: 10.1002/sim.5855
+
+Tarr G, Mueller S and Welsh AH (2018). mplot: An R Package for
+Graphical Model Stability and Variable Selection Procedures.
+Journal of Statistical Software, 83(9), pp. 1-28. doi: 10.18637/jss.v083.i09
 }
 \seealso{
 \code{\link{vis}}

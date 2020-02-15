@@ -5,7 +5,7 @@
 #'
 #'
 #' @param mf a fitted model.
-#' @param ... objects of type vis or af or bglmnet.
+#' @param ... objects of type `vis` or `af` or `bglmnet`.
 #' @export
 #' @import shiny
 #' @import shinydashboard
@@ -32,7 +32,7 @@
 #' }
 #'
 
-mplot = function(mf,...){
+mplot = function(mf, ...){
   full.model = mf
   input_list <- list(...)
   af.res = af.res.screened = NULL

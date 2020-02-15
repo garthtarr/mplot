@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Graphical Model Stability and Variable Selection Procedures • mplot</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Graphical Model Stability and Variable Selection Procedures">
 <meta property="og:description" content="Model stability and variable inclusion plots [Mueller and Welsh
     (2010, &lt;doi:10.1111/j.1751-5823.2010.00108.x&gt;); Murray, Heritier and Mueller
@@ -34,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">mplot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
       </span>
     </div>
 
@@ -129,6 +130,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="contents col-md-9">
 <div id="mplot-graphical-model-stability-and-variable-selection-procedures" class="section level1">
@@ -136,28 +138,28 @@
 <a href="#mplot-graphical-model-stability-and-variable-selection-procedures" class="anchor"></a>mplot: graphical model stability and variable selection procedures</h1></div>
 
 <p>The <code>mplot</code> package provides a collection of functions designed for exploratory model selection.</p>
-<p>We implement model stability and variable importance plots (<a href="http://doi.org/10.1111/j.1751-5823.2010.00108.x">Mueller and Welsh (2010)</a>; <a href="http://doi.org/10.1002/sim.5855">Murray, Heritier and Mueller (2013)</a>) as well as the adaptive fence (<a href="http://doi.org/10.1214/07-AOS517">Jiang et al. (2008)</a>; <a href="http://doi.org/10.1016/j.spl.2008.10.014">Jiang et al. (2009)</a>) for linear and generalised linear models. We address many practical implementation issues with sensible defaults and interactive graphics to highlight model selection stability. The speed of implementation comes from the leaps package and multicore support for bootstrapping.</p>
+<p>We implement model stability and variable importance plots (<a href="http://doi.org/10.1111/j.1751-5823.2010.00108.x">Mueller and Welsh (2010)</a>; <a href="http://doi.org/10.1002/sim.5855">Murray, Heritier and Mueller (2013)</a>) as well as the adaptive fence (<a href="http://doi.org/10.1214/07-AOS517">Jiang et al. (2008)</a>; <a href="http://doi.org/10.1016/j.spl.2008.10.014">Jiang et al. (2009)</a>) for linear and generalised linear models. We address many practical implementation issues with sensible defaults and interactive graphics to highlight model selection stability. The speed of implementation comes from the leaps package and multicore support for bootstrapping.</p>
 <p>The <code>mplot</code> currently only supports linear and generalised linear models, however work is progressing to incorporate survival models and mixed models.</p>
 <p>You can see an example of the output <a href="http://garthtarr.com/apps/mplot/">here</a>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Check that you’re running the most recent versions of your currently installed R packages:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><a class="sourceLine" id="cb1-1" data-line-number="1">update.packages()</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><span id="cb1-1"><a href="#cb1-1"></a>update.packages()</span></code></pre></div>
 <div id="stable-release-on-cran" class="section level3">
 <h3 class="hasAnchor">
 <a href="#stable-release-on-cran" class="anchor"></a>Stable release on CRAN</h3>
 <p>The mplot package has been on <a href="https://cran.r-project.org/package=mplot">CRAN</a> since June 2015. You can install it from CRAN in the usual way:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><a class="sourceLine" id="cb2-1" data-line-number="1">install.packages(<span class="st">"mplot"</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">library(<span class="st">"mplot"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><span id="cb2-1"><a href="#cb2-1"></a>install.packages(<span class="st">"mplot"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a>library(<span class="st">"mplot"</span>)</span></code></pre></div>
 </div>
 <div id="development-version-on-github" class="section level3">
 <h3 class="hasAnchor">
 <a href="#development-version-on-github" class="anchor"></a>Development version on Github</h3>
 <p>You can use the <strong>devtools</strong> package to install the development version of <strong>mplot</strong> from <a href="https://github.com/garthtarr/mplot">GitHub</a>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">devtools::</span>install_github(<span class="st">"garthtarr/mplot"</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">library(mplot)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># install.packages("devtools")</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">devtools::</span>install_github(<span class="st">"garthtarr/mplot"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a>library(mplot)</span></code></pre></div>
 </div>
 </div>
 <div id="usage" class="section level2">
@@ -173,8 +175,8 @@
 <li>Tarr G, Müller S and Welsh AH (2018). “mplot: An R Package for Graphical Model Stability and Variable Selection Procedures.” <em>Journal of Statistical Software</em>, <strong>83</strong>(9), pp. 1–28. doi: 10.18637/jss.v083.i09.</li>
 </ul>
 <p>From R you can use:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><a class="sourceLine" id="cb4-1" data-line-number="1">citation(<span class="st">"mplot"</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">toBibtex(citation(<span class="st">"mplot"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><span id="cb4-1"><a href="#cb4-1"></a>citation(<span class="st">"mplot"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>toBibtex(citation(<span class="st">"mplot"</span>))</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -204,9 +206,9 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Garth Tarr <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6605-7478" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
-<li>Samuel Mueller <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3087-8127" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
-<li>Alan H Welsh <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3165-9559" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
+<li>Garth Tarr <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6605-7478" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
+<li>Samuel Mueller <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3087-8127" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
+<li>Alan H Welsh <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3165-9559" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 </ul>
 </div>
 
@@ -222,17 +224,20 @@
 </div>
 </div>
 
+
       <footer><div class="copyright">
   <p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
