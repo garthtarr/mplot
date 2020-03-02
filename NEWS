@@ -1,3 +1,8 @@
+mplot 1.0.5 [2019-03-02]
+------------------------
+
+* reduce reliance on bestglm as it appears to be no longer maintained
+
 mplot 1.0.3 [2019-02-13]
 ------------------------
 
