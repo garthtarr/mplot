@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -40,7 +44,8 @@
 procedures to select a non-parsimonious model.
 The true model is a simple linear regression of
 y against x8." />
-<meta name="twitter:card" content="summary" />
+
+
 
 
 
@@ -56,9 +61,15 @@ y against x8." />
 
 
 
+  
+
+  
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -72,7 +83,7 @@ y against x8." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mplot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
       </span>
     </div>
 
@@ -183,7 +194,7 @@ The true model is a simple linear regression of
 y against x8.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>artificialeg</span>)</pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>artificialeg</span><span class='op'>)</span></code></pre></div>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
@@ -194,78 +205,78 @@ y against x8.</p>
     <p>Inspired by the pathoeg data set in the MPV pacakge.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>artificialeg</span>)
-<span class='no'>full.mod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>y</span>~<span class='no'>.</span>,<span class='kw'>data</span><span class='kw'>=</span><span class='no'>artificialeg</span>)
-<span class='fu'><a href='https://rdrr.io/r/stats/step.html'>step</a></span>(<span class='no'>full.mod</span>)</div><div class='output co'>#&gt; Start:  AIC=79.3
-#&gt; y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9
-#&gt; 
-#&gt;        Df Sum of Sq    RSS    AIC
-#&gt; - x8    1    0.2423 163.94 77.374
-#&gt; - x3    1    0.6946 164.39 77.512
-#&gt; - x2    1    0.7107 164.41 77.517
-#&gt; - x6    1    1.3051 165.00 77.698
-#&gt; - x5    1    1.4425 165.14 77.739
-#&gt; - x9    1    1.6065 165.31 77.789
-#&gt; - x7    1    1.8835 165.58 77.873
-#&gt; - x1    1    3.4999 167.20 78.358
-#&gt; - x4    1    5.7367 169.44 79.023
-#&gt; &lt;none&gt;              163.70 79.301
-#&gt; 
-#&gt; Step:  AIC=77.37
-#&gt; y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x9
-#&gt; 
-#&gt;        Df Sum of Sq    RSS     AIC
-#&gt; &lt;none&gt;              163.94  77.374
-#&gt; - x2    1    20.359 184.30  81.227
-#&gt; - x5    1    25.966 189.91  82.726
-#&gt; - x9    1    33.607 197.55  84.698
-#&gt; - x4    1    34.504 198.45  84.925
-#&gt; - x7    1    62.097 226.04  91.434
-#&gt; - x1    1    68.253 232.19  92.778
-#&gt; - x3    1    71.301 235.24  93.430
-#&gt; - x6    1   107.873 271.81 100.655</div><div class='output co'>#&gt; 
-#&gt; Call:
-#&gt; lm(formula = y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x9, data = artificialeg)
-#&gt; 
-#&gt; Coefficients:
-#&gt; (Intercept)           x1           x2           x3           x4           x5  
-#&gt;     -0.1143       0.8019       0.4011      -0.8083      -0.3514       0.4927  
-#&gt;          x6           x7           x9  
-#&gt;     -0.7738      -0.5772       0.5478  
-#&gt; </div><div class='input'><span class='co'># generating model</span>
-<span class='no'>n</span><span class='kw'>=</span><span class='fl'>50</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>8</span>) <span class='co'># a seed of 2 also works</span>
-<span class='no'>x1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>,<span class='fl'>0.22</span>,<span class='fl'>2</span>)
-<span class='no'>x7</span> <span class='kw'>=</span> <span class='fl'>0.5</span>*<span class='no'>x1</span> + <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>,<span class='fl'>0</span>,<span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>2</span>)
-<span class='no'>x6</span> <span class='kw'>=</span> -<span class='fl'>0.75</span>*<span class='no'>x1</span> + <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>,<span class='fl'>0</span>,<span class='fl'>3</span>)
-<span class='no'>x3</span> <span class='kw'>=</span> -<span class='fl'>0.5</span>-<span class='fl'>0.5</span>*<span class='no'>x6</span> + <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>,<span class='fl'>0</span>,<span class='fl'>2</span>)
-<span class='no'>x9</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>,<span class='fl'>0.6</span>,<span class='fl'>3.5</span>)
-<span class='no'>x4</span> <span class='kw'>=</span> <span class='fl'>0.5</span>*<span class='no'>x9</span> + <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>,<span class='fl'>0</span>,<span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>3</span>)
-<span class='no'>x2</span> <span class='kw'>=</span> -<span class='fl'>0.5</span> + <span class='fl'>0.5</span>*<span class='no'>x9</span> + <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>,<span class='fl'>0</span>,<span class='kw'>sd</span><span class='kw'>=</span><span class='fl'>2</span>)
-<span class='no'>x5</span> <span class='kw'>=</span> -<span class='fl'>0.5</span>*<span class='no'>x2</span>+<span class='fl'>0.5</span>*<span class='no'>x3</span>+<span class='fl'>0.5</span>*<span class='no'>x6</span>-<span class='fl'>0.5</span>*<span class='no'>x9</span>+<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>,<span class='fl'>0</span>,<span class='fl'>1.5</span>)
-<span class='no'>x8</span> <span class='kw'>=</span> <span class='no'>x1</span> + <span class='no'>x2</span> -<span class='fl'>2</span>*<span class='no'>x3</span> - <span class='fl'>0.3</span>*<span class='no'>x4</span> + <span class='no'>x5</span> - <span class='fl'>1.6</span>*<span class='no'>x6</span> - <span class='fl'>1</span>*<span class='no'>x7</span> + <span class='no'>x9</span> +<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>,<span class='fl'>0</span>,<span class='fl'>0.5</span>)
-<span class='no'>y</span> <span class='kw'>=</span> <span class='fl'>0.6</span>*<span class='no'>x8</span> + <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>,<span class='fl'>0</span>,<span class='fl'>2</span>)
-<span class='no'>artificialeg</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>x1</span>,<span class='no'>x2</span>,<span class='no'>x3</span>,<span class='no'>x4</span>,<span class='no'>x5</span>,<span class='no'>x6</span>,<span class='no'>x7</span>,<span class='no'>x8</span>,<span class='no'>x9</span>,<span class='no'>y</span>),<span class='fl'>1</span>)</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>artificialeg</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>full.mod</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>~</span><span class='va'>.</span>,data<span class='op'>=</span><span class='va'>artificialeg</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/stats/step.html'>step</a></span><span class='op'>(</span><span class='va'>full.mod</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Start:  AIC=79.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        Df Sum of Sq    RSS    AIC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x8    1    0.2423 163.94 77.374</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x3    1    0.6946 164.39 77.512</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x2    1    0.7107 164.41 77.517</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x6    1    1.3051 165.00 77.698</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x5    1    1.4425 165.14 77.739</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x9    1    1.6065 165.31 77.789</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x7    1    1.8835 165.58 77.873</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x1    1    3.4999 167.20 78.358</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x4    1    5.7367 169.44 79.023</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;none&gt;              163.70 79.301</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Step:  AIC=77.37</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        Df Sum of Sq    RSS     AIC</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;none&gt;              163.94  77.374</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x2    1    20.359 184.30  81.227</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x5    1    25.966 189.91  82.726</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x9    1    33.607 197.55  84.698</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x4    1    34.504 198.45  84.925</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x7    1    62.097 226.04  91.434</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x1    1    68.253 232.19  92.778</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x3    1    71.301 235.24  93.430</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - x6    1   107.873 271.81 100.655</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Call:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> lm(formula = y ~ x1 + x2 + x3 + x4 + x5 + x6 + x7 + x9, data = artificialeg)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Coefficients:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (Intercept)           x1           x2           x3           x4           x5  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     -0.1143       0.8019       0.4011      -0.8083      -0.3514       0.4927  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          x6           x7           x9  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     -0.7738      -0.5772       0.5478  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='co'># generating model</span></span>
+<span class='r-in'><span class='va'>n</span><span class='op'>=</span><span class='fl'>50</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>8</span><span class='op'>)</span> <span class='co'># a seed of 2 also works</span></span>
+<span class='r-in'><span class='va'>x1</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span>,<span class='fl'>0.22</span>,<span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x7</span> <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>*</span><span class='va'>x1</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span>,<span class='fl'>0</span>,sd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x6</span> <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.75</span><span class='op'>*</span><span class='va'>x1</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span>,<span class='fl'>0</span>,<span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x3</span> <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.5</span><span class='op'>-</span><span class='fl'>0.5</span><span class='op'>*</span><span class='va'>x6</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span>,<span class='fl'>0</span>,<span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x9</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span>,<span class='fl'>0.6</span>,<span class='fl'>3.5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x4</span> <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>*</span><span class='va'>x9</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span>,<span class='fl'>0</span>,sd<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x2</span> <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.5</span> <span class='op'>+</span> <span class='fl'>0.5</span><span class='op'>*</span><span class='va'>x9</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span>,<span class='fl'>0</span>,sd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x5</span> <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.5</span><span class='op'>*</span><span class='va'>x2</span><span class='op'>+</span><span class='fl'>0.5</span><span class='op'>*</span><span class='va'>x3</span><span class='op'>+</span><span class='fl'>0.5</span><span class='op'>*</span><span class='va'>x6</span><span class='op'>-</span><span class='fl'>0.5</span><span class='op'>*</span><span class='va'>x9</span><span class='op'>+</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span>,<span class='fl'>0</span>,<span class='fl'>1.5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x8</span> <span class='op'>=</span> <span class='va'>x1</span> <span class='op'>+</span> <span class='va'>x2</span> <span class='op'>-</span><span class='fl'>2</span><span class='op'>*</span><span class='va'>x3</span> <span class='op'>-</span> <span class='fl'>0.3</span><span class='op'>*</span><span class='va'>x4</span> <span class='op'>+</span> <span class='va'>x5</span> <span class='op'>-</span> <span class='fl'>1.6</span><span class='op'>*</span><span class='va'>x6</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>*</span><span class='va'>x7</span> <span class='op'>+</span> <span class='va'>x9</span> <span class='op'>+</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span>,<span class='fl'>0</span>,<span class='fl'>0.5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>y</span> <span class='op'>=</span> <span class='fl'>0.6</span><span class='op'>*</span><span class='va'>x8</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span>,<span class='fl'>0</span>,<span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>artificialeg</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>x1</span>,<span class='va'>x2</span>,<span class='va'>x3</span>,<span class='va'>x4</span>,<span class='va'>x5</span>,<span class='va'>x6</span>,<span class='va'>x7</span>,<span class='va'>x8</span>,<span class='va'>x9</span>,<span class='va'>y</span><span class='op'>)</span>,<span class='fl'>1</span><span class='op'>)</span></span>
+</code></pre></div>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p>
+  <p><p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -273,6 +284,8 @@ y against x8.</p>
 
   
 
+
+  
 
   </body>
 </html>

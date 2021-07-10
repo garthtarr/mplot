@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -41,7 +45,8 @@ one metre squared plots were surveyed. Plots were placed at a density
 of 7-13 per hectare. The presence or absence of fresh
 (&amp;lt;1 month old) scats of rock-wallabies was recorded for each plot
 along with location and a selection of predictor variables." />
-<meta name="twitter:card" content="summary" />
+
+
 
 
 
@@ -57,9 +62,15 @@ along with location and a selection of predictor variables." />
 
 
 
+  
+
+  
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -73,7 +84,7 @@ along with location and a selection of predictor variables." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mplot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
       </span>
     </div>
 
@@ -185,12 +196,12 @@ of 7-13 per hectare. The presence or absence of fresh
 along with location and a selection of predictor variables.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>wallabies</span>)</pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>wallabies</span><span class='op'>)</span></code></pre></div>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with 200 observations on 9 variables.</p><dl class='dl-horizontal'>
+    <p>A data frame with 200 observations on 9 variables.</p><dl>
 <dt>rw</dt><dd><p>Presence of rock-wallaby scat</p></dd>
 <dt>edible</dt><dd><p>Percentage cover of edible vegetation</p></dd>
 <dt>inedible</dt><dd><p>Percentage cover of inedible vegetation</p></dd>
@@ -202,6 +213,7 @@ rock or boulder pile)</p></dd>
 <dt>long</dt><dd><p>Longitude of the plot location</p></dd>
 
 </dl>
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Macropods defaecate randomly as they forage and scat
@@ -224,33 +236,29 @@ an endangered refuge-dependent herbivore. Animal Conservation,
 14: 447-457. doi: 10.1111/j.1469-1795.2011.00446.x</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>wallabies</span>)
-<span class='no'>wdat</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span>(<span class='no'>wallabies</span>,<span class='kw'>select</span><span class='kw'>=</span>-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>lat</span>,<span class='no'>long</span>)),
-  <span class='kw'>EaD</span> <span class='kw'>=</span> <span class='no'>wallabies</span>$<span class='no'>edible</span>*<span class='no'>wallabies</span>$<span class='no'>distance</span>,
-  <span class='kw'>EaS</span> <span class='kw'>=</span> <span class='no'>wallabies</span>$<span class='no'>edible</span>*<span class='no'>wallabies</span>$<span class='no'>shelter</span>,
-  <span class='kw'>DaS</span> <span class='kw'>=</span> <span class='no'>wallabies</span>$<span class='no'>distance</span>*<span class='no'>wallabies</span>$<span class='no'>shelter</span>)
-<span class='no'>M1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>rw</span>~<span class='no'>.</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(<span class='kw'>link</span> <span class='kw'>=</span> <span class='st'>"logit"</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>wdat</span>)</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>wallabies</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>wdat</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span><span class='op'>(</span><span class='va'>wallabies</span>,select<span class='op'>=</span><span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>lat</span>,<span class='va'>long</span><span class='op'>)</span><span class='op'>)</span>, </span>
+<span class='r-in'>  EaD <span class='op'>=</span> <span class='va'>wallabies</span><span class='op'>$</span><span class='va'>edible</span><span class='op'>*</span><span class='va'>wallabies</span><span class='op'>$</span><span class='va'>distance</span>,</span>
+<span class='r-in'>  EaS <span class='op'>=</span> <span class='va'>wallabies</span><span class='op'>$</span><span class='va'>edible</span><span class='op'>*</span><span class='va'>wallabies</span><span class='op'>$</span><span class='va'>shelter</span>,</span>
+<span class='r-in'>  DaS <span class='op'>=</span> <span class='va'>wallabies</span><span class='op'>$</span><span class='va'>distance</span><span class='op'>*</span><span class='va'>wallabies</span><span class='op'>$</span><span class='va'>shelter</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>M1</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>rw</span><span class='op'>~</span><span class='va'>.</span>, family <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span>link <span class='op'>=</span> <span class='st'>"logit"</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='va'>wdat</span><span class='op'>)</span></span>
+</code></pre></div>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p>
+  <p><p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -258,6 +266,8 @@ an endangered refuge-dependent herbivore. Animal Conservation,
 
   
 
+
+  
 
   </body>
 </html>

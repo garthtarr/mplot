@@ -93,12 +93,13 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
   colnames(X) = c("(Intercept)",colnames(X)[-1])
   if (missing(penalty.factor)) {
     # link this with force.in
-    penalty.factor = c(0, rep(1, kf))
+    penalty.factor = c(0, rep(1, kf-1))
   }
   if (!is.null(lambda)) {
     nlambda = length(lambda)
   }
-  temp = glmnet::glmnet(X, Y, alpha = 1, nlambda = nlambda,
+  temp = glmnet::glmnet(X, Y, alpha = 1, 
+                        nlambda = nlambda,
                         lambda = lambda,
                         penalty.factor = penalty.factor,
                         weights = m$wts)
@@ -138,8 +139,8 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
     data.frame() %>% 
     dplyr::mutate(k = rowSums(.)) %>% 
     dplyr::group_by_all() %>% 
-    dplyr::summarise(n = n()) %>% 
-    dplyr::arrange(k,n) %>% 
+    dplyr::summarise(n = n(), .groups = "drop") %>% 
+    dplyr::arrange(k, n) %>% 
     dplyr::mutate(
       k = k + 1
     ) %>% 

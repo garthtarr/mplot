@@ -6,19 +6,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simplified adaptive fence • mplot</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Simplified adaptive fence">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="mplot">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mplot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
       </span>
     </div>
 
@@ -106,7 +108,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/garthtarr/mplot">
+  <a href="https://github.com/garthtarr/mplot" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -127,13 +129,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="af_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Simplified adaptive fence</h1>
+      <h1 data-toc-skip>Simplified adaptive fence</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/garthtarr/mplot/blob/master/vignettes/af.Rmd"><code>vignettes/af.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/garthtarr/mplot/blob/master/vignettes/af.Rmd" class="external-link"><code>vignettes/af.Rmd</code></a></small>
       <div class="hidden name"><code>af.Rmd</code></div>
 
     </div>
@@ -147,13 +149,13 @@
 <p>The implementation we provide in the <strong>mplot</strong> package is inspired by the simplified adaptive fence proposed by <span class="citation">Jiang et al. (2009)</span>, which represents a significant advance over the original fence method proposed by <span class="citation">Jiang et al. (2008)</span>. The key difference is that the parameter <span class="math inline">\(c\)</span> is not fixed at a certain value, but is instead adaptively chosen. Simulation results have shown that the adaptive method improves the finite sample performance of the fence.</p>
 <p>The adaptive fence procedure entails bootstrapping over a range of values of the parameter <span class="math inline">\(c\)</span>. For each value of <span class="math inline">\(c\)</span> a parametric bootstrap is performed under <span class="math inline">\(\alpha_f\)</span>. For each bootstrap sample we identify the smallest model inside the fence, <span class="math inline">\(\hat{\alpha}(c)\)</span>. <span class="citation">Jiang et al. (2009)</span> suggest that if there is more than one model, choose the one with the smallest <span class="math inline">\(\hat{Q}(\alpha)\)</span>. Define the empirical probability of selecting model <span class="math inline">\(\alpha\)</span> for a given value of <span class="math inline">\(c\)</span> as <span class="math inline">\(p^*(c,\alpha)=P^*\{\hat{\alpha}(c)=\alpha\}\)</span>. Hence, if <span class="math inline">\(B\)</span> bootstrap replications are performed, <span class="math inline">\(p^*(c,\alpha)\)</span> is the proportion of times that model <span class="math inline">\(\alpha\)</span> is selected. Finally, define an overall selection probability, <span class="math inline">\(p^*(c)=\max_{\alpha\in\mathcal{A}}p^*(c,\alpha)\)</span> and plot <span class="math inline">\(p^*(c)\)</span> against <span class="math inline">\(c\)</span> to find the first peak. The value of <span class="math inline">\(c\)</span> at the first peak, <span class="math inline">\(c^*\)</span>, is then used with the standard fence procedure on the original data.</p>
 <p>Our implementation is provided through the <code><a href="../reference/af.html">af()</a></code> function and associated plot methods. An example with the artificial data set is generated using the following code.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><span id="cb1-1"><a href="#cb1-1"></a>af.art = af(lm.art, B = <span class="dv">150</span>, n.c = <span class="dv">50</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>plot(af.art, interactive = FALSE, best.only = TRUE)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>af.art = af(lm.art, B = <span class="dv">150</span>, n.c = <span class="dv">50</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>plot(af.art, interactive = FALSE, best.only = TRUE)</span></code></pre></div>
 <p>The arguments indicate that we perform <span class="math inline">\(B = 150\)</span> bootstrap resamples, over a grid of <span class="math inline">\(50\)</span> values of the parameter <span class="math inline">\(c\)</span>. In this example, there is only one peak, and the choice of <span class="math inline">\(c^*=21.1\)</span> is clear.</p>
 <div id="fig:plot-af">
 <p><img src="images/artafboTF.png"></p>
 </div>
-<p><em>Result of a call to <code><a href="https://rdrr.io/r/graphics/plot.html">plot(af.art, interactive = FALSE)</a></code> with additional arguments <code>best.only = TRUE</code> on the left and <code>best.only = FALSE</code> on the right. The more rapid decay after the <span class="math inline">\(x_8\)</span> model is typical of using <code>best.only = FALSE</code> where the troughs between candidate/dominant models are more pronounced.</em></p>
+<p><em>Result of a call to <code>plot(af.art, interactive = FALSE)</code> with additional arguments <code>best.only = TRUE</code> on the left and <code>best.only = FALSE</code> on the right. The more rapid decay after the <span class="math inline">\(x_8\)</span> model is typical of using <code>best.only = FALSE</code> where the troughs between candidate/dominant models are more pronounced.</em></p>
 <p>One might expect that there should be a peak corresponding to the full model at <span class="math inline">\(c=0\)</span>, but this is avoided by the inclusion of at least one redundant variable. Any model that includes the redundant variable is known to not be a <em>true</em> model and hence is not included in the calculation of <span class="math inline">\(p^*(c)\)</span>. This issue was first identified and addressed by <span class="citation">Jiang et al. (2009)</span>.</p>
 <p>There are a number of key differences between our implementation and the method proposed by <span class="citation">Jiang et al. (2009)</span>. Perhaps the most fundamental difference is in the philosophy underlying our implementation. Our approach is more closely aligned with the concept of model stability than with trying to pick a single <em>best</em> model. This can be seen through the plot methods we provide. Instead of simply using the plots to identify the first peak, we add a legend that highlights which models were the most frequently selected for each parameter value, that is, for each <span class="math inline">\(c\)</span> value we identify which model gave rise to the <span class="math inline">\(p^*(c)\)</span> value. In this way, researchers can ascertain if there are regions of stability for various models. In the example given above, there is no need to even define a <span class="math inline">\(c^*\)</span> value, it is obvious from the plot that there is only one viable candidate model, a regression of <span class="math inline">\(y\)</span> on <span class="math inline">\(x_8\)</span>.</p>
 <p>Our approach considers not just the best model of a given model size, but also allows users to view a plot that takes into account the possibility that more than one model of a given model size is within the fence. The <code>best.only = FALSE</code> option when plotting the results of the adaptive fence is a modification of the adaptive fence procedure which considers all models of a particular size that are within the fence when calculating the <span class="math inline">\(p^*(c)\)</span> values. In particular, for each value of <span class="math inline">\(c\)</span> and for each bootstrap replication, if a candidate model is found inside the fence, then we look to see if there are any other models of the same size that are also within the fence. If no other models of the same size are inside the fence, then that model is allocated a weight of 1. If there are two models inside the fence, then the best model is allocated a weight of 1/2. If three models are inside the fence, the best model gets a weight of 1/3, and so on. After <span class="math inline">\(B\)</span> bootstrap replications, we aggregate the weights by summing over the various models. The <span class="math inline">\(p^*(c)\)</span> value is the maximum aggregated weight divided by the number of bootstrap replications. This correction penalises the probability associated with the best model if there were other models of the same size inside the fence. The rationale is that if a model has no redundant variables then it will be the only model of that size inside the fence over a range of values of <span class="math inline">\(c\)</span>. The result is more pronounced peaks which can help to determine the location of the correct peak and identify the optimal <span class="math inline">\(c^*\)</span> value or more clearly differentiate regions of model stability. This can be seen in the right hand panel of the figure above.</p>
@@ -161,28 +163,28 @@
 <p>We have also provided an optional initial stepwise screening method that can help limit the range of <span class="math inline">\(c\)</span> values over which to perform the adaptive fence procedure. The initial stepwise procedure performs forward and backward stepwise model selection using both the AIC and BIC. From the four candidate models, we extract the size of smallest and largest models, <span class="math inline">\(k_L\)</span> and <span class="math inline">\(k_U\)</span> respectively. To obtain a sensible range of <span class="math inline">\(c\)</span> values we consider the set of models with dimension between <span class="math inline">\(k_L-2\)</span> and <span class="math inline">\(k_U+2\)</span>. Due to the inherent limitations of stepwise procedures, it can be useful to check <code>initial.stepwise = FALSE</code> with a small number of bootstrap replications over a sparse grid of <span class="math inline">\(c\)</span> values to ensure that the <code>initial.stepwise = TRUE</code> has produced a reasonable region.</p>
 <div id="references" class="section level4 unnumbered">
 <h4 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h4>
-<div id="refs" class="references">
-<div id="ref-Jiang:2014">
-<p>Jiang, J. (2014). The fence methods. <em>Advances in Statistics</em>, 2014, 1–14. DOI:<a href="https://doi.org/10.1155/2014/830821">10.1155/2014/830821</a></p>
+<a href="#references" class="anchor" aria-hidden="true"></a>References</h4>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-Jiang:2014" class="csl-entry">
+Jiang, J. (2014). The fence methods. <em>Advances in Statistics</em>, 2014, 1–14. DOI:<a href="https://doi.org/10.1155/2014/830821" class="external-link">10.1155/2014/830821</a>
 </div>
-<div id="ref-Jiang:2009">
-<p>Jiang, J., Nguyen, T., &amp; Rao, J. S. (2009). A simplified adaptive fence procedure. <em>Statistics &amp; Probability Letters</em>, 79(5), 625–629. DOI:<a href="https://doi.org/10.1016/j.spl.2008.10.014">10.1016/j.spl.2008.10.014</a></p>
+<div id="ref-Jiang:2009" class="csl-entry">
+Jiang, J., Nguyen, T., &amp; Rao, J. S. (2009). A simplified adaptive fence procedure. <em>Statistics &amp; Probability Letters</em>, 79(5), 625–629. DOI:<a href="https://doi.org/10.1016/j.spl.2008.10.014" class="external-link">10.1016/j.spl.2008.10.014</a>
 </div>
-<div id="ref-Jiang:2008">
-<p>Jiang, J., Rao, J. S., Gu, Z., &amp; Nguyen, T. (2008). Fence methods for mixed model selection. <em>The Annals of Statistics</em>, 36(4), 1669–1692. DOI:<a href="https://doi.org/10.1214/07-AOS517">10.1214/07-AOS517</a></p>
+<div id="ref-Jiang:2008" class="csl-entry">
+Jiang, J., Rao, J. S., Gu, Z., &amp; Nguyen, T. (2008). Fence methods for mixed model selection. <em>The Annals of Statistics</em>, 36(4), 1669–1692. DOI:<a href="https://doi.org/10.1214/07-AOS517" class="external-link">10.1214/07-AOS517</a>
 </div>
-<div id="ref-Lumley:2009">
-<p>Lumley, T., &amp; Miller, A. (2009). <em>leaps: Regression subset selection</em>. <a href="https://cran.r-project.org/package=leaps">https://cran.r-project.org/package=leaps</a></p>
+<div id="ref-Lumley:2009" class="csl-entry">
+Lumley, T., &amp; Miller, A. (2009). <em><span class="nocase">leaps</span>: Regression subset selection</em>. <a href="https://cran.r-project.org/package=leaps" class="external-link">https://cran.r-project.org/package=leaps</a>
 </div>
-<div id="ref-McLeod:2014">
-<p>McLeod, A. I., &amp; Xu, C. (2014). <em>bestglm: Best subset glm</em>. <a href="https://cran.r-project.org/package=bestglm">https://cran.r-project.org/package=bestglm</a></p>
+<div id="ref-McLeod:2014" class="csl-entry">
+McLeod, A. I., &amp; Xu, C. (2014). <em><span class="nocase">bestglm</span>: Best subset GLM</em>. <a href="https://cran.r-project.org/package=bestglm" class="external-link">https://cran.r-project.org/package=bestglm</a>
 </div>
 </div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
       </div>
 
@@ -191,11 +193,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p>
+  <p></p>
+<p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -203,6 +207,8 @@
 
   
 
+
+  
 
   </body>
 </html>

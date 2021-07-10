@@ -6,19 +6,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Birth weight example • mplot</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Birth weight example">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="mplot">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mplot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
       </span>
     </div>
 
@@ -106,7 +108,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/garthtarr/mplot">
+  <a href="https://github.com/garthtarr/mplot" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -127,13 +129,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="birthweight_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Birth weight example</h1>
+      <h1 data-toc-skip>Birth weight example</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/garthtarr/mplot/blob/master/vignettes/birthweight.Rmd"><code>vignettes/birthweight.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/garthtarr/mplot/blob/master/vignettes/birthweight.Rmd" class="external-link"><code>vignettes/birthweight.Rmd</code></a></small>
       <div class="hidden name"><code>birthweight.Rmd</code></div>
 
     </div>
@@ -141,17 +143,18 @@
     
     
 <p>The <code>birthwt</code> dataset from the <strong>MASS</strong> package has data on 189 births at the Baystate Medical Centre, Springfield, Massachusetts during 1986 <span class="citation">(Venables &amp; Ripley, 2002)</span>. The main variable of interest is low birth weight, a binary response variable <code>low</code> <span class="citation">(D. W. Hosmer &amp; Lemeshow, 1989)</span>. We have taken the same approach to modelling the full model as in <span class="citation">Venables &amp; Ripley (2002)</span>, where <code>ptl</code> is reduced to a binary indicator of past history and <code>ftv</code> is reduced to a factor with three levels.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"birthwt"</span>, <span class="dt">package =</span> <span class="st">"MASS"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>bwt &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/with.html">with</a></span>(birthwt, {</span>
-<span id="cb1-3"><a href="#cb1-3"></a>  race &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(race, <span class="dt">labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"white"</span>, <span class="st">"black"</span>, <span class="st">"other"</span>))</span>
-<span id="cb1-4"><a href="#cb1-4"></a>  ptd &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(ptl <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</span>
-<span id="cb1-5"><a href="#cb1-5"></a>  ftv &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(ftv)</span>
-<span id="cb1-6"><a href="#cb1-6"></a>  <span class="kw"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(ftv)[<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)] &lt;-<span class="st"> "2+"</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>  <span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">low =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(low), age, lwt, race, <span class="dt">smoke =</span> (smoke <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>), ptd, <span class="dt">ht =</span> (ht <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>), <span class="dt">ui =</span> (ui <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>), ftv)</span>
-<span id="cb1-8"><a href="#cb1-8"></a>})</span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="dt">contrasts =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"contr.treatment"</span>, <span class="st">"contr.poly"</span>))</span>
-<span id="cb1-10"><a href="#cb1-10"></a>bw.glm &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(low <span class="op">~</span><span class="st"> </span>., <span class="dt">family =</span> binomial, <span class="dt">data =</span> bwt)</span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="kw"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(bw.glm)<span class="op">$</span>coef, <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"birthwt"</span>, package <span class="op">=</span> <span class="st">"MASS"</span><span class="op">)</span>
+<span class="va">bwt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">birthwt</span>, <span class="op">{</span>
+  <span class="va">race</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">race</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"black"</span>, <span class="st">"other"</span><span class="op">)</span><span class="op">)</span>
+  <span class="va">ptd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">ptl</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>
+  <span class="va">ftv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">ftv</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">ftv</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"2+"</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>low <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">low</span><span class="op">)</span>, <span class="va">age</span>, <span class="va">lwt</span>, <span class="va">race</span>, smoke <span class="op">=</span> <span class="op">(</span><span class="va">smoke</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>, <span class="va">ptd</span>, ht <span class="op">=</span> <span class="op">(</span><span class="va">ht</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>, ui <span class="op">=</span> <span class="op">(</span><span class="va">ui</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>, <span class="va">ftv</span><span class="op">)</span>
+<span class="op">}</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>contrasts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"contr.treatment"</span>, <span class="st">"contr.poly"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">bw.glm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">low</span> <span class="op">~</span> <span class="va">.</span>, family <span class="op">=</span> <span class="va">binomial</span>, data <span class="op">=</span> <span class="va">bwt</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">bw.glm</span><span class="op">)</span><span class="op">$</span><span class="va">coef</span>, <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>##             Estimate Std. Error z value Pr(&gt;|z|)
 ## (Intercept)     0.82       1.24    0.66     0.51
 ## age            -0.04       0.04   -0.96     0.34
@@ -171,19 +174,59 @@
 <!-- </div> -->
 <!-- _Figure: birth weight example._ -->
 <p>The <code>vis</code> and <code>af</code> objects are generated using the fitted full model object as an argument to the <code><a href="../reference/vis.html">vis()</a></code> and <code><a href="../reference/af.html">af()</a></code> functions. Because this is very computationally intensive, the results have been saved in an RData file which can then be subsequently reloaded for future plotting.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>af.bw =<span class="st"> </span><span class="kw"><a href="../reference/af.html">af</a></span>(bw.glm, <span class="dt">B =</span> <span class="dv">150</span>, <span class="dt">c.max =</span> <span class="dv">20</span>, <span class="dt">n.c =</span> <span class="dv">40</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>vis.bw =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(bw.glm, <span class="dt">B =</span> <span class="dv">150</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw"><a href="https://rdrr.io/r/base/save.html">save</a></span>(bw.glm, af.bw, vis.bw, <span class="dt">file =</span> <span class="st">"bw_main.RData"</span>)</span></code></pre></div>
-<p>The results are shown below in the interactive plots. Note that they they display the larger set of variables more clearly than the static plot methods (where the legend might overwhelm the plot). An interactive plot is obtained using the <code>interactive = TRUE</code> parameter. As this is being rendered in an rmarkdown document, we use the rmarkdown chunk option <code>results = "asis"</code> along with the additional <code>tag = "chart"</code> parameter in the <code><a href="https://rdrr.io/r/graphics/plot.html">plot()</a></code> function.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://rdrr.io/r/base/load.html">load</a></span>(<span class="st">"bw_main.RData"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vis.bw, <span class="dt">which =</span> <span class="st">"vip"</span>, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</span></code></pre></div>
-<!-- LineChart generated in R 3.6.1 by googleVis 0.6.4 package -->
-<!-- Sat Feb 15 20:30:24 2020 -->
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">af.bw</span> <span class="op">=</span> <span class="fu"><a href="../reference/af.html">af</a></span><span class="op">(</span><span class="va">bw.glm</span>, B <span class="op">=</span> <span class="fl">150</span>, c.max <span class="op">=</span> <span class="fl">20</span>, n.c <span class="op">=</span> <span class="fl">40</span><span class="op">)</span>
+<span class="va">vis.bw</span> <span class="op">=</span> <span class="fu"><a href="../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">bw.glm</span>, B <span class="op">=</span> <span class="fl">150</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">bw.glm</span>, <span class="va">af.bw</span>, <span class="va">vis.bw</span>, file <span class="op">=</span> <span class="st">"bw_main.RData"</span><span class="op">)</span></code></pre></div>
+<p>The results are shown below in the interactive plots. Note that they they display the larger set of variables more clearly than the static plot methods (where the legend might overwhelm the plot). An interactive plot is obtained using the <code>interactive = TRUE</code> parameter. As this is being rendered in an rmarkdown document, we use the rmarkdown chunk option <code>results = "asis"</code> along with the additional <code>tag = "chart"</code> parameter in the <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> function.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="st">"bw_main.RData"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vis.bw</span>, which <span class="op">=</span> <span class="st">"vip"</span>, interactive <span class="op">=</span> <span class="cn">TRUE</span>, tag <span class="op">=</span> <span class="st">"chart"</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE</code></pre>
+<!-- LineChart generated in R 4.1.0 by googleVis 0.6.10 package -->
+<!-- Sat Jul 10 16:18:52 2021 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataLineChartID1192a63ff04bd () {
+function gvisDataLineChartID1567517cb43 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -19163,8 +19206,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartLineChartID1192a63ff04bd() {
-var data = gvisDataLineChartID1192a63ff04bd();
+function drawChartLineChartID1567517cb43() {
+var data = gvisDataLineChartID1567517cb43();
 var options = {};
 options["allowHtml"] = true;
 options["title"] = "Variable inclusion plot";
@@ -19185,7 +19228,7 @@ options["backgroundColor"] = "transparent";
 options["annotations"] = {style:'line'};
 
     var chart = new google.visualization.LineChart(
-    document.getElementById('LineChartID1192a63ff04bd')
+    document.getElementById('LineChartID1567517cb43')
     );
     chart.draw(data,options);
     
@@ -19209,9 +19252,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartLineChartID1192a63ff04bd);
+callbacks.push(drawChartLineChartID1567517cb43);
 })();
-function displayChartLineChartID1192a63ff04bd() {
+function displayChartLineChartID1567517cb43() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -19232,18 +19275,54 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID1192a63ff04bd"></script><!-- divChart --><div id="LineChartID1192a63ff04bd" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID1567517cb43"></script><!-- divChart --><div id="LineChartID1567517cb43" style="width: 800; height: 400;">
 
 </div>
 <p>In this example, it is far less clear which is the best model, or if indeed a <em>best model</em> exists. It is possible to infer an ordering of variable importance from the variable inclusion plots, but there is no clear cutoff as to which variables should be included and which should be excluded. The <code>ptdTRUE</code> variable is clearly important. It’s less obvious that the <code>htTRUE</code> and <code>lwt</code> variables are important as they are in the vicinity of the redundant variable curve (<code>RV</code>). The other variables lie below the redundant variable curve with <code>ftv2+</code> clearly the least important variable.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(vis.bw, <span class="dt">which =</span> <span class="st">"boot"</span>, <span class="dt">highlight =</span> <span class="st">"htTRUE"</span>, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>, <span class="dt">seed =</span> <span class="dv">1</span>)</span></code></pre></div>
-<!-- BubbleChart generated in R 3.6.1 by googleVis 0.6.4 package -->
-<!-- Sat Feb 15 20:30:26 2020 -->
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vis.bw</span>, which <span class="op">=</span> <span class="st">"boot"</span>, highlight <span class="op">=</span> <span class="st">"htTRUE"</span>, interactive <span class="op">=</span> <span class="cn">TRUE</span>, tag <span class="op">=</span> <span class="st">"chart"</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE</code></pre>
+<!-- BubbleChart generated in R 4.1.0 by googleVis 0.6.10 package -->
+<!-- Sat Jul 10 16:18:54 2021 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataBubbleChartID1192a3d4b84ec () {
+function gvisDataBubbleChartID156751478a94e () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -23150,8 +23229,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartBubbleChartID1192a3d4b84ec() {
-var data = gvisDataBubbleChartID1192a3d4b84ec();
+function drawChartBubbleChartID156751478a94e() {
+var data = gvisDataBubbleChartID156751478a94e();
 var options = {};
 options["title"] = "Model stability plot";
 options["fontSize"] = 12;
@@ -23176,7 +23255,7 @@ options["explorer"] = {axis: 'vertical',
           'rightClickToReset']};
 
     var chart = new google.visualization.BubbleChart(
-    document.getElementById('BubbleChartID1192a3d4b84ec')
+    document.getElementById('BubbleChartID156751478a94e')
     );
     chart.draw(data,options);
     
@@ -23200,9 +23279,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartBubbleChartID1192a3d4b84ec);
+callbacks.push(drawChartBubbleChartID156751478a94e);
 })();
-function displayChartBubbleChartID1192a3d4b84ec() {
+function displayChartBubbleChartID156751478a94e() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -23223,18 +23302,48 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBubbleChartID1192a3d4b84ec"></script><!-- divChart --><div id="BubbleChartID1192a3d4b84ec" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBubbleChartID156751478a94e"></script><!-- divChart --><div id="BubbleChartID156751478a94e" style="width: 800; height: 400;">
 
 </div>
 <p>In the model stability plot (below) the only dominant (non-trivial, i.e. not the full model or the null model) is the simple linear regression with <code>ptdTRUE</code> as the explanatory variable. In models of size 3, there are a range of competing models that perform similarly well.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(af.bw, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</span></code></pre></div>
-<!-- ScatterChart generated in R 3.6.1 by googleVis 0.6.4 package -->
-<!-- Sat Feb 15 20:30:26 2020 -->
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">af.bw</span>, interactive <span class="op">=</span> <span class="cn">TRUE</span>, tag <span class="op">=</span> <span class="st">"chart"</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE</code></pre>
+<!-- ScatterChart generated in R 4.1.0 by googleVis 0.6.10 package -->
+<!-- Sat Jul 10 16:18:54 2021 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataScatterChartID1192a358da145 () {
+function gvisDataScatterChartID156755d866c0 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -23280,7 +23389,7 @@ null,
 null,
 null,
 null,
-0.02,
+0.03,
 null,
 null,
 null,
@@ -23662,8 +23771,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartScatterChartID1192a358da145() {
-var data = gvisDataScatterChartID1192a358da145();
+function drawChartScatterChartID156755d866c0() {
+var data = gvisDataScatterChartID156755d866c0();
 var options = {};
 options["allowHtml"] = true;
 options["title"] = "Adaptive fence: c*=20";
@@ -23678,7 +23787,7 @@ options["width"] = 800;
 options["height"] = 400;
 
     var chart = new google.visualization.ScatterChart(
-    document.getElementById('ScatterChartID1192a358da145')
+    document.getElementById('ScatterChartID156755d866c0')
     );
     chart.draw(data,options);
     
@@ -23702,9 +23811,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartScatterChartID1192a358da145);
+callbacks.push(drawChartScatterChartID156755d866c0);
 })();
-function displayChartScatterChartID1192a358da145() {
+function displayChartScatterChartID156755d866c0() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -23725,7 +23834,7 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID1192a358da145"></script><!-- divChart --><div id="ScatterChartID1192a358da145" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID156755d866c0"></script><!-- divChart --><div id="ScatterChartID156755d866c0" style="width: 800; height: 400;">
 
 </div>
 <p>In the adaptive fence plot, the only model more complex than a single covariate regression model that shows up with some regularity is the model with <code>lwt</code>, <code>ptd</code> and <code>ht</code>, though at such low levels, it can hardly be considered as a region of stability. This model also stands out slightly in the model stability plot, where it is selected in 6% of bootstrap resamples and has a slightly lower description loss than other models of the same dimension. It is worth recalling that the bootstrap resamples generated for the adaptive fence are separate from those generated for the model stability plots. Indeed the adaptive fence procedure relies on a parametric bootstrap, whereas the model stability plots rely on an exponential weighted bootstrap. Thus, to find some agreement between these methods is reassuring.</p>
@@ -23737,26 +23846,67 @@ low ~ smoke + ptd + ht + ui + ftv + age + lwt + ui:smoke + ui:ht + ftv:age</code
 <p>As computation time can be an issue for GLMs, it is useful to approximate the results using weighted least squares <span class="citation">(David W. Hosmer et al., 1989)</span>. In practice this can be done by fitting the logistic regression and extracting the estimated logistic probabilities, <span class="math inline">\(\hat{\pi}_{i}\)</span>. A new dependent variable is then constructed,</p>
 <p><span class="math display">\[z_{i} = \log\left(\frac{\hat{\pi}_{i}}{1-\hat{\pi}_{i}}\right)  + \frac{y_{i}-\hat{\pi}_{i}}{\hat{\pi}_{i}(1-\hat{\pi}_{i})},\]</span></p>
 <p>along with observation weights <span class="math inline">\(v_{i}=\hat{\pi}_{i}(1-\hat{\pi}_{i})\)</span>. For any submodel <span class="math inline">\(\alpha\)</span> this approach produces the approximate coefficient estimates of <span class="citation">Lawless &amp; Singhal (1978)</span> and enables us to use the <strong>leaps</strong> package to perform the computations for best subsets logistic regression as follows.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>pihat =<span class="st"> </span>bw.glm<span class="op">$</span>fitted.values</span>
-<span id="cb8-2"><a href="#cb8-2"></a>r =<span class="st"> </span>bw.glm<span class="op">$</span>residuals </span>
-<span id="cb8-3"><a href="#cb8-3"></a>z =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(pihat<span class="op">/</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>pihat)) <span class="op">+</span><span class="st"> </span>r</span>
-<span id="cb8-4"><a href="#cb8-4"></a>v =<span class="st"> </span>pihat<span class="op">*</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>pihat)</span>
-<span id="cb8-5"><a href="#cb8-5"></a>nbwt =<span class="st"> </span>bwt</span>
-<span id="cb8-6"><a href="#cb8-6"></a>nbwt<span class="op">$</span>z =<span class="st"> </span>z</span>
-<span id="cb8-7"><a href="#cb8-7"></a>nbwt<span class="op">$</span>low =<span class="st"> </span><span class="ot">NULL</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a>bw.lm =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(z <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> nbwt, <span class="dt">weights =</span> v)</span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>bw.lm.vis =<span class="st"> </span><span class="kw"><a href="../reference/vis.html">vis</a></span>(bw.lm, <span class="dt">B =</span> <span class="dv">150</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a>bw.lm.af =<span class="st"> </span><span class="kw"><a href="../reference/af.html">af</a></span>(bw.lm, <span class="dt">B =</span> <span class="dv">150</span>, <span class="dt">c.max =</span> <span class="dv">20</span>, <span class="dt">n.c =</span> <span class="dv">40</span>)</span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="kw"><a href="https://rdrr.io/r/base/save.html">save</a></span>(bw.lm, bw.lm.vis, bw.lm.af, <span class="dt">file =</span> <span class="st">"bw_lm.RData"</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="https://rdrr.io/r/base/load.html">load</a></span>(<span class="st">"bw_lm.RData"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(bw.lm.vis, <span class="dt">which =</span> <span class="st">"vip"</span>, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</span></code></pre></div>
-<!-- LineChart generated in R 3.6.1 by googleVis 0.6.4 package -->
-<!-- Sat Feb 15 20:30:26 2020 -->
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pihat</span> <span class="op">=</span> <span class="va">bw.glm</span><span class="op">$</span><span class="va">fitted.values</span>
+<span class="va">r</span> <span class="op">=</span> <span class="va">bw.glm</span><span class="op">$</span><span class="va">residuals</span> 
+<span class="va">z</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">pihat</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">pihat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="va">r</span>
+<span class="va">v</span> <span class="op">=</span> <span class="va">pihat</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">pihat</span><span class="op">)</span>
+<span class="va">nbwt</span> <span class="op">=</span> <span class="va">bwt</span>
+<span class="va">nbwt</span><span class="op">$</span><span class="va">z</span> <span class="op">=</span> <span class="va">z</span>
+<span class="va">nbwt</span><span class="op">$</span><span class="va">low</span> <span class="op">=</span> <span class="cn">NULL</span>
+<span class="va">bw.lm</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">z</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">nbwt</span>, weights <span class="op">=</span> <span class="va">v</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">bw.lm.vis</span> <span class="op">=</span> <span class="fu"><a href="../reference/vis.html">vis</a></span><span class="op">(</span><span class="va">bw.lm</span>, B <span class="op">=</span> <span class="fl">150</span><span class="op">)</span>
+<span class="va">bw.lm.af</span> <span class="op">=</span> <span class="fu"><a href="../reference/af.html">af</a></span><span class="op">(</span><span class="va">bw.lm</span>, B <span class="op">=</span> <span class="fl">150</span>, c.max <span class="op">=</span> <span class="fl">20</span>, n.c <span class="op">=</span> <span class="fl">40</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">bw.lm</span>, <span class="va">bw.lm.vis</span>, <span class="va">bw.lm.af</span>, file <span class="op">=</span> <span class="st">"bw_lm.RData"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="st">"bw_lm.RData"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bw.lm.vis</span>, which <span class="op">=</span> <span class="st">"vip"</span>, interactive <span class="op">=</span> <span class="cn">TRUE</span>, tag <span class="op">=</span> <span class="st">"chart"</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE</code></pre>
+<!-- LineChart generated in R 4.1.0 by googleVis 0.6.10 package -->
+<!-- Sat Jul 10 16:18:54 2021 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataLineChartID1192a2d249dc2 () {
+function gvisDataLineChartID1567542c02e9e () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -42736,8 +42886,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartLineChartID1192a2d249dc2() {
-var data = gvisDataLineChartID1192a2d249dc2();
+function drawChartLineChartID1567542c02e9e() {
+var data = gvisDataLineChartID1567542c02e9e();
 var options = {};
 options["allowHtml"] = true;
 options["title"] = "Variable inclusion plot";
@@ -42758,7 +42908,7 @@ options["backgroundColor"] = "transparent";
 options["annotations"] = {style:'line'};
 
     var chart = new google.visualization.LineChart(
-    document.getElementById('LineChartID1192a2d249dc2')
+    document.getElementById('LineChartID1567542c02e9e')
     );
     chart.draw(data,options);
     
@@ -42782,9 +42932,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartLineChartID1192a2d249dc2);
+callbacks.push(drawChartLineChartID1567542c02e9e);
 })();
-function displayChartLineChartID1192a2d249dc2() {
+function displayChartLineChartID1567542c02e9e() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -42805,17 +42955,53 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID1192a2d249dc2"></script><!-- divChart --><div id="LineChartID1192a2d249dc2" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartLineChartID1567542c02e9e"></script><!-- divChart --><div id="LineChartID1567542c02e9e" style="width: 800; height: 400;">
 
 </div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(bw.lm.vis, <span class="dt">which =</span> <span class="st">"boot"</span>, <span class="dt">highlight =</span> <span class="st">"htTRUE"</span>, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</span></code></pre></div>
-<!-- BubbleChart generated in R 3.6.1 by googleVis 0.6.4 package -->
-<!-- Sat Feb 15 20:30:28 2020 -->
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bw.lm.vis</span>, which <span class="op">=</span> <span class="st">"boot"</span>, highlight <span class="op">=</span> <span class="st">"htTRUE"</span>, interactive <span class="op">=</span> <span class="cn">TRUE</span>, tag <span class="op">=</span> <span class="st">"chart"</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE</code></pre>
+<!-- BubbleChart generated in R 4.1.0 by googleVis 0.6.10 package -->
+<!-- Sat Jul 10 16:18:56 2021 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataBubbleChartID1192a5152995b () {
+function gvisDataBubbleChartID1567542576c9c () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -46274,8 +46460,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartBubbleChartID1192a5152995b() {
-var data = gvisDataBubbleChartID1192a5152995b();
+function drawChartBubbleChartID1567542576c9c() {
+var data = gvisDataBubbleChartID1567542576c9c();
 var options = {};
 options["title"] = "Model stability plot";
 options["fontSize"] = 12;
@@ -46300,7 +46486,7 @@ options["explorer"] = {axis: 'vertical',
           'rightClickToReset']};
 
     var chart = new google.visualization.BubbleChart(
-    document.getElementById('BubbleChartID1192a5152995b')
+    document.getElementById('BubbleChartID1567542576c9c')
     );
     chart.draw(data,options);
     
@@ -46324,9 +46510,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartBubbleChartID1192a5152995b);
+callbacks.push(drawChartBubbleChartID1567542576c9c);
 })();
-function displayChartBubbleChartID1192a5152995b() {
+function displayChartBubbleChartID1567542576c9c() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -46347,17 +46533,47 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBubbleChartID1192a5152995b"></script><!-- divChart --><div id="BubbleChartID1192a5152995b" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBubbleChartID1567542576c9c"></script><!-- divChart --><div id="BubbleChartID1567542576c9c" style="width: 800; height: 400;">
 
 </div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(bw.lm.af, <span class="dt">interactive =</span> <span class="ot">TRUE</span>, <span class="dt">tag =</span> <span class="st">"chart"</span>)</span></code></pre></div>
-<!-- ScatterChart generated in R 3.6.1 by googleVis 0.6.4 package -->
-<!-- Sat Feb 15 20:30:28 2020 -->
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bw.lm.af</span>, interactive <span class="op">=</span> <span class="cn">TRUE</span>, tag <span class="op">=</span> <span class="st">"chart"</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE
+
+## Warning in type.convert.default(gsub("px", "", options[[x]])): 'as.is' should be
+## specified by the caller; using TRUE</code></pre>
+<!-- ScatterChart generated in R 4.1.0 by googleVis 0.6.10 package -->
+<!-- Sat Jul 10 16:18:56 2021 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataScatterChartID1192a32456b61 () {
+function gvisDataScatterChartID15675560a8d25 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -46386,7 +46602,7 @@ null,
 null,
 null,
 null,
-0.02,
+0.03,
 null
 ],
 [
@@ -46399,7 +46615,7 @@ null,
 null,
 null,
 null,
-0.02,
+0.03,
 null,
 null
 ],
@@ -46925,8 +47141,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartScatterChartID1192a32456b61() {
-var data = gvisDataScatterChartID1192a32456b61();
+function drawChartScatterChartID15675560a8d25() {
+var data = gvisDataScatterChartID15675560a8d25();
 var options = {};
 options["allowHtml"] = true;
 options["title"] = "Adaptive fence: c*=20";
@@ -46941,7 +47157,7 @@ options["width"] = 800;
 options["height"] = 400;
 
     var chart = new google.visualization.ScatterChart(
-    document.getElementById('ScatterChartID1192a32456b61')
+    document.getElementById('ScatterChartID15675560a8d25')
     );
     chart.draw(data,options);
     
@@ -46965,9 +47181,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartScatterChartID1192a32456b61);
+callbacks.push(drawChartScatterChartID15675560a8d25);
 })();
-function displayChartScatterChartID1192a32456b61() {
+function displayChartScatterChartID15675560a8d25() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -46988,7 +47204,7 @@ callbacks.shift()();
 }
  
 // jsFooter
-</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID1192a32456b61"></script><!-- divChart --><div id="ScatterChartID1192a32456b61" style="width: 800; height: 400;">
+</script><!-- jsChart --><script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartScatterChartID15675560a8d25"></script><!-- divChart --><div id="ScatterChartID15675560a8d25" style="width: 800; height: 400;">
 
 </div>
 <p>The coefficients from <code>bw.lm</code> are identical to <code>bw.glm</code>. This approximation provides similar results, shown in the <a href="#fig:bwtapprox">figures above</a>, in a fraction of the time.</p>
@@ -47000,28 +47216,28 @@ callbacks.shift()();
 <!-- _Figure: birth weight example with linear model approximation._ -->
 <div id="references" class="section level4 unnumbered">
 <h4 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h4>
-<div id="refs" class="references">
-<div id="ref-Calcagno:2010">
-<p>Calcagno, V., &amp; Mazancourt, C. de. (2010). glmulti: An R package for easy automated model selection with (generalized) linear models. <em>Journal of Statistical Software</em>, 34(12), 1–29. <a href="http://www.jstatsoft.org/v34/i12">http://www.jstatsoft.org/v34/i12</a></p>
+<a href="#references" class="anchor" aria-hidden="true"></a>References</h4>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-Calcagno:2010" class="csl-entry">
+Calcagno, V., &amp; Mazancourt, C. de. (2010). <span class="nocase">glmulti</span>: An <span>R</span> package for easy automated model selection with (generalized) linear models. <em>Journal of Statistical Software</em>, 34(12), 1–29. <a href="http://www.jstatsoft.org/v34/i12" class="external-link">http://www.jstatsoft.org/v34/i12</a>
 </div>
-<div id="ref-Hosmer:1989">
-<p>Hosmer, D. W., Jovanovic, B., &amp; Lemeshow, S. (1989). Best subsets logistic regression. <em>Biometrics</em>, 45(4), 1265–1270. DOI:<a href="https://doi.org/10.2307/2531779">10.2307/2531779</a></p>
+<div id="ref-Hosmer:1989" class="csl-entry">
+Hosmer, David W., Jovanovic, B., &amp; Lemeshow, S. (1989). Best subsets logistic regression. <em>Biometrics</em>, 45(4), 1265–1270. DOI:<a href="https://doi.org/10.2307/2531779" class="external-link">10.2307/2531779</a>
 </div>
-<div id="ref-Hosmer:1989book">
-<p>Hosmer, D. W., &amp; Lemeshow, S. (1989). <em>Applied logistic regression</em>. New York: John Wiley &amp; Sons.</p>
+<div id="ref-Hosmer:1989book" class="csl-entry">
+Hosmer, D. W., &amp; Lemeshow, S. (1989). <em>Applied logistic regression</em>. New York: John Wiley &amp; Sons.
 </div>
-<div id="ref-Lawless:1978">
-<p>Lawless, J. F., &amp; Singhal, K. (1978). Efficient screening of nonnormal regression models. <em>Biometrics</em>, 34(2), 318–327. DOI:<a href="https://doi.org/10.2307/2530022">10.2307/2530022</a></p>
+<div id="ref-Lawless:1978" class="csl-entry">
+Lawless, J. F., &amp; Singhal, K. (1978). Efficient screening of nonnormal regression models. <em>Biometrics</em>, 34(2), 318–327. DOI:<a href="https://doi.org/10.2307/2530022" class="external-link">10.2307/2530022</a>
 </div>
-<div id="ref-Venables:2002">
-<p>Venables, W. N., &amp; Ripley, B. D. (2002). <em>Modern applied statistics with S</em> (Fourth). New York: Springer-Verlag.</p>
+<div id="ref-Venables:2002" class="csl-entry">
+Venables, W. N., &amp; Ripley, B. D. (2002). <em>Modern applied statistics with <span>S</span></em> (Fourth). New York: Springer-Verlag.
 </div>
 </div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
       </div>
 
@@ -47030,11 +47246,13 @@ callbacks.shift()();
 
 
       <footer><div class="copyright">
-  <p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p>
+  <p></p>
+<p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -47042,6 +47260,8 @@ callbacks.shift()();
 
   
 
+
+  
 
   </body>
 </html>

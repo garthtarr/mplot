@@ -163,7 +163,7 @@ vis = function(mf,
   ## Initial single pass
   ## (gives the minimum envelopping set of models)
   if (any(class(mf) == "glm") == TRUE & !use.glmulti) {
-    stop(!("bestglm" %in% rownames(installed.packages())))
+    stop(!("bestglm" %in% rownames(utils::installed.packages())))
     # no redundant variable
     # Xy = X 
     # Xy$REDUNDANT.VARIABLE = NULL # do want to keep it in
@@ -299,7 +299,7 @@ vis = function(mf,
   doParallel::registerDoParallel(cl.visB)
   if (any(class(mf) == "glm") == TRUE & !use.glmulti) {
     
-    stop(!("bestglm" %in% rownames(installed.packages())))
+    stop(!("bestglm" %in% rownames(utils::installed.packages())))
     
     res = foreach::foreach(
       b = 1:B, 

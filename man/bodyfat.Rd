@@ -4,7 +4,8 @@
 \name{bodyfat}
 \alias{bodyfat}
 \title{Body fat data set}
-\format{A data frame with 128 observations on 15 variables.
+\format{
+A data frame with 128 observations on 15 variables.
 \describe{
 \item{Id}{Identifier}
 \item{Bodyfat}{Bodyfat percentage}
@@ -23,7 +24,8 @@ and level with the iliac crest"}
 \item{Fore}{Forearm circumference (cm)}
 \item{Wrist}{Wrist circumference (cm) "distal to the
 styloid processes"}
-}}
+}
+}
 \usage{
 data(bodyfat)
 }

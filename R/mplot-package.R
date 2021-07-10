@@ -243,7 +243,7 @@ mextract = function(model, screen = FALSE, redundant = TRUE){
   n = nrow(X)
   # full model plus redundant variable
   exp.vars = names(model$coefficients)[names(model$coefficients) != "(Intercept)"]
-
+  
   if (redundant) {
     REDUNDANT.VARIABLE = stats::runif(n, min = 0, max = 1)
     X = cbind(X,REDUNDANT.VARIABLE)
@@ -258,10 +258,14 @@ mextract = function(model, screen = FALSE, redundant = TRUE){
   }
   colnames(X)[1] = yname
   X = data.frame(X)
-  fixed = stats::as.formula(c(paste(yname, "~"),
-                       paste(colnames(X)[-1], collapse = "+")))
+  fixed = stats::as.formula(
+    paste(
+      paste(yname, "~"),
+      paste(colnames(X)[-1], collapse = "+"), 
+      collapse=" ")
+  )
   Xy = X[c(2:ncol(X),1)]
-
+  
   k = length(exp.vars) + 1 # +1 for intercept
   if (screen) {
     if (!requireNamespace("mvoutlier", quietly = TRUE)) {
@@ -285,12 +289,12 @@ mextract = function(model, screen = FALSE, redundant = TRUE){
   if (is.null(wts)) {
     wts = rep(1,n)
   }
-
+  
   return(list(yname = yname, fixed = fixed,
               wts = wts, X = Xy, k = k,
               n = n, exp.vars = exp.vars,
               data = data, family = stats::family(model)))
-
+  
   # MIXED MODELS NOT IMPLEMENTED IN FIRST RELEASE
   #   if(class(model)=="lmerMod"){ # lme4 package
   #     X = stats::model.matrix(model)
@@ -360,11 +364,12 @@ txt.fn = function(score,UB,obj){
 #'
 #' @param fence.mod set of fence models
 #' @param fence.rank set of fence model ranks
-#' @noRd
+#' @export
+#' @keywords Internal
 process.fn = function(fence.mod,fence.rank){
   del2 = function(x) x[-c(1:2)]
   splitAt <- function(x, pos) unname(split(x, cumsum(seq_along(x) %in% pos)))
-
+  
   # best only (true fence)
   fence.mod.bo = fence.mod[fence.rank==1]
   #  temp.bo = sort(table(sapply(fence.mod.bo,deparse,
@@ -373,7 +378,7 @@ process.fn = function(fence.mod,fence.rank){
                  decreasing=TRUE)
   pstarj.bo = as.numeric(temp.bo[1]/length(fence.mod.bo))
   pstarnamej.bo = names(temp.bo)[1]
-
+  
   # all that pass the fence
   #temp.all = sort(table(sapply(fence.mod,deparse,
   #                             width.cutoff=500)),decreasing=TRUE)
@@ -391,13 +396,9 @@ process.fn = function(fence.mod,fence.rank){
   agg = agg[order(agg$x,decreasing = TRUE),]
   pstarj.all = agg[1,2]/sum(unlist.fence.rank==1)
   pstarnamej.all = agg[1,1]
-
+  
   return(c(pstarj.bo,pstarnamej.bo,pstarj.all,pstarnamej.all))
 }
-
-
-#' @importFrom dplyr "%>%"
-NULL
 
 #' @importFrom doRNG "%dorng%"
 NULL

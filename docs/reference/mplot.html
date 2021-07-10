@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,7 +42,8 @@
 <meta property="og:title" content="Model selection and stability curves — mplot" />
 <meta property="og:description" content="Opens a shiny GUI to investigate a range of model selection
 and stability issues" />
-<meta name="twitter:card" content="summary" />
+
+
 
 
 
@@ -54,9 +59,15 @@ and stability issues" />
 
 
 
+  
+
+  
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -70,7 +81,7 @@ and stability issues" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mplot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
       </span>
     </div>
 
@@ -179,7 +190,7 @@ and stability issues" />
 and stability issues</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mplot</span>(<span class='no'>mf</span>, <span class='no'>...</span>)</pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>mplot</span><span class='op'>(</span><span class='va'>mf</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,43 +212,41 @@ Graphical Model Stability and Variable Selection Procedures.
 Journal of Statistical Software, 83(9), pp. 1-28. doi: 10.18637/jss.v083.i09</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>11</span>)
-<span class='no'>e</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>)
-<span class='no'>x1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>)
-<span class='no'>x2</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n</span>)
-<span class='no'>x3</span> <span class='kw'>=</span> <span class='no'>x1</span>^<span class='fl'>2</span>
-<span class='no'>x4</span> <span class='kw'>=</span> <span class='no'>x2</span>^<span class='fl'>2</span>
-<span class='no'>x5</span> <span class='kw'>=</span> <span class='no'>x1</span>*<span class='no'>x2</span>
-<span class='no'>y</span> <span class='kw'>=</span> <span class='fl'>1</span> + <span class='no'>x1</span> + <span class='no'>x2</span> + <span class='no'>e</span>
-<span class='no'>dat</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>y</span>,<span class='no'>x1</span>,<span class='no'>x2</span>,<span class='no'>x3</span>,<span class='no'>x4</span>,<span class='no'>x5</span>),<span class='fl'>2</span>)
-<span class='no'>lm1</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>y</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>dat</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>v1</span> <span class='kw'>=</span> <span class='fu'><a href='vis.html'>vis</a></span>(<span class='no'>lm1</span>)
-<span class='no'>af1</span> <span class='kw'>=</span> <span class='fu'><a href='af.html'>af</a></span>(<span class='no'>lm1</span>)
-<span class='no'>bg1</span> <span class='kw'>=</span> <span class='fu'><a href='bglmnet.html'>bglmnet</a></span>(<span class='no'>lm1</span>)
-<span class='fu'>mplot</span>(<span class='no'>lm1</span>, <span class='no'>v1</span>, <span class='no'>af1</span>, <span class='no'>bg1</span>)
-}</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>n</span> <span class='op'>=</span> <span class='fl'>100</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>11</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>e</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x1</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x2</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x3</span> <span class='op'>=</span> <span class='va'>x1</span><span class='op'>^</span><span class='fl'>2</span></span>
+<span class='r-in'><span class='va'>x4</span> <span class='op'>=</span> <span class='va'>x2</span><span class='op'>^</span><span class='fl'>2</span></span>
+<span class='r-in'><span class='va'>x5</span> <span class='op'>=</span> <span class='va'>x1</span><span class='op'>*</span><span class='va'>x2</span></span>
+<span class='r-in'><span class='va'>y</span> <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>+</span> <span class='va'>x1</span> <span class='op'>+</span> <span class='va'>x2</span> <span class='op'>+</span> <span class='va'>e</span></span>
+<span class='r-in'><span class='va'>dat</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>y</span>,<span class='va'>x1</span>,<span class='va'>x2</span>,<span class='va'>x3</span>,<span class='va'>x4</span>,<span class='va'>x5</span><span class='op'>)</span>,<span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>lm1</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>y</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>dat</span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='va'>v1</span> <span class='op'>=</span> <span class='fu'><a href='vis.html'>vis</a></span><span class='op'>(</span><span class='va'>lm1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>af1</span> <span class='op'>=</span> <span class='fu'><a href='af.html'>af</a></span><span class='op'>(</span><span class='va'>lm1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>bg1</span> <span class='op'>=</span> <span class='fu'><a href='bglmnet.html'>bglmnet</a></span><span class='op'>(</span><span class='va'>lm1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>mplot</span><span class='op'>(</span><span class='va'>lm1</span>, <span class='va'>v1</span>, <span class='va'>af1</span>, <span class='va'>bg1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p>
+  <p><p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -245,6 +254,8 @@ Journal of Statistical Software, 83(9), pp. 1-28. doi: 10.18637/jss.v083.i09</p>
 
   
 
+
+  
 
   </body>
 </html>

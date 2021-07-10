@@ -4,7 +4,8 @@
 \name{diabetes}
 \alias{diabetes}
 \title{Blood and other measurements in diabetics}
-\format{A data frame with 442 observations on 11 variables.
+\format{
+A data frame with 442 observations on 11 variables.
 \describe{
 \item{age}{Age}
 \item{sex}{Gender}
@@ -20,7 +21,8 @@ Desirable range: above 40 mg/dL}
 \item{glu}{Blood serum measurement (glucose?)}
 \item{y}{A quantitative measure of disease progression
 one year after baseline}
-}}
+}
+}
 \usage{
 data(diabetes)
 }

@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,7 +41,8 @@
 
 <meta property="og:title" content="Plot diagnostics for an af object — plot.af" />
 <meta property="og:description" content="Summary plot of the bootstrap results of an af object." />
-<meta name="twitter:card" content="summary" />
+
+
 
 
 
@@ -53,9 +58,15 @@
 
 
 
+  
+
+  
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mplot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
       </span>
     </div>
 
@@ -177,29 +188,29 @@
     <p>Summary plot of the bootstrap results of an af object.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for af</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(
-  <span class='no'>x</span>,
-  <span class='no'>pch</span>,
-  <span class='kw'>interactive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>classic</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>shiny</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>best.only</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>800</span>,
-  <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>400</span>,
-  <span class='kw'>fontSize</span> <span class='kw'>=</span> <span class='fl'>12</span>,
-  <span class='kw'>left</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-  <span class='kw'>top</span> <span class='kw'>=</span> <span class='fl'>30</span>,
-  <span class='kw'>chartWidth</span> <span class='kw'>=</span> <span class='st'>"60%"</span>,
-  <span class='kw'>chartHeight</span> <span class='kw'>=</span> <span class='st'>"80%"</span>,
-  <span class='kw'>backgroundColor</span> <span class='kw'>=</span> <span class='st'>"transparent"</span>,
-  <span class='kw'>legend.position</span> <span class='kw'>=</span> <span class='st'>"top"</span>,
-  <span class='kw'>model.wrap</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>legend.space</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>options</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>
-)</pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='co'># S3 method for af</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>pch</span>,
+  interactive <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  classic <span class='op'>=</span> <span class='cn'>NULL</span>,
+  tag <span class='op'>=</span> <span class='cn'>NULL</span>,
+  shiny <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  best.only <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  width <span class='op'>=</span> <span class='fl'>800</span>,
+  height <span class='op'>=</span> <span class='fl'>400</span>,
+  fontSize <span class='op'>=</span> <span class='fl'>12</span>,
+  left <span class='op'>=</span> <span class='fl'>50</span>,
+  top <span class='op'>=</span> <span class='fl'>30</span>,
+  chartWidth <span class='op'>=</span> <span class='st'>"60%"</span>,
+  chartHeight <span class='op'>=</span> <span class='st'>"80%"</span>,
+  backgroundColor <span class='op'>=</span> <span class='st'>"transparent"</span>,
+  legend.position <span class='op'>=</span> <span class='st'>"top"</span>,
+  model.wrap <span class='op'>=</span> <span class='cn'>NULL</span>,
+  legend.space <span class='op'>=</span> <span class='cn'>NULL</span>,
+  options <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -232,7 +243,7 @@ likely to be removed in the future.</p></td>
 from a gvis (googleVis) object.</p>
 <p>The default tag for is NULL, which will
 result in R opening a browser window.  Setting <code>tag='chart'</code>
-or setting <code><a href='https://rdrr.io/r/base/options.html'>options(gvis.plot.tag='chart')</a></code> is useful when
+or setting <code>options(gvis.plot.tag='chart')</code> is useful when
 googleVis is used in scripts, like knitr or rmarkdown.</p></td>
     </tr>
     <tr>
@@ -336,24 +347,21 @@ $$p^*(c)=\max_{\alpha\in\mathcal{A}}p^*(c,\alpha)$$ and we plot
 colour coded by the model that yielded the highest inclusion probability.</p>
 
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p>
+  <p><p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -361,6 +369,8 @@ colour coded by the model that yielded the highest inclusion probability.</p>
 
   
 
+
+  
 
   </body>
 </html>

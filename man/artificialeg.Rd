@@ -4,7 +4,9 @@
 \name{artificialeg}
 \alias{artificialeg}
 \title{Artificial example}
-\format{A data frame with 50 observations on 10 variables.}
+\format{
+A data frame with 50 observations on 10 variables.
+}
 \usage{
 data(artificialeg)
 }

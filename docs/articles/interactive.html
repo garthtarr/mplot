@@ -6,19 +6,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Interactive graphics • mplot</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Interactive graphics">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="mplot">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mplot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
       </span>
     </div>
 
@@ -106,7 +108,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/garthtarr/mplot">
+  <a href="https://github.com/garthtarr/mplot" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -127,13 +129,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="interactive_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Interactive graphics</h1>
+      <h1 data-toc-skip>Interactive graphics</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/garthtarr/mplot/blob/master/vignettes/interactive.Rmd"><code>vignettes/interactive.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/garthtarr/mplot/blob/master/vignettes/interactive.Rmd" class="external-link"><code>vignettes/interactive.Rmd</code></a></small>
       <div class="hidden name"><code>interactive.Rmd</code></div>
 
     </div>
@@ -144,9 +146,10 @@
 <p>Overview of the interactive graphics provided by mplot.</p>
 </blockquote>
 <p>To facilitate that researchers can more easily gain value from the static plots (see <a href="msp#fig:plotvis">here</a> and <a href="af#fig:af.plot">here</a>) and to help them interact with the model selection problem more closely, we have provided a set of interactive graphics based on the <strong>googleVis</strong> package and wrapped them in a <strong>shiny</strong> user interface. It is still quite novel for a package to provide a shiny interface for its methods, but there is precedent, see, for example <span class="citation">McMurdie &amp; Holmes (2013)</span> or <span class="citation">Gabry (2015)</span>.</p>
-<p>Among the most important contributions of these interactive methods is: the provision of tooltips to identify the models and/or variables; pagination of the legend for the variable inclusion plots; and a way to quickly select which variable to highlight in the model stability plots. These interactive plots can be generated when the <code><a href="https://rdrr.io/r/graphics/plot.html">plot()</a></code> function is run on an <code>af</code> or <code>vis</code> object by specifying <code>interactive=TRUE</code>.</p>
+<p>Among the most important contributions of these interactive methods is: the provision of tooltips to identify the models and/or variables; pagination of the legend for the variable inclusion plots; and a way to quickly select which variable to highlight in the model stability plots. These interactive plots can be generated when the <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> function is run on an <code>af</code> or <code>vis</code> object by specifying <code>interactive=TRUE</code>.</p>
 <p>The <strong>mplot</strong> package takes interactivity a step further, embedding these plots within a shiny web interface. This is done through a call to the <code><a href="../reference/mplot.html">mplot()</a></code> function, which requires the full fitted model as the first argument and then a <code>vis</code> object and/or <code>af</code> object (in any order).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="../reference/mplot.html">mplot</a></span>(lm.art, vis.art, af.art)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/mplot.html">mplot</a></span><span class="op">(</span><span class="va">lm.art</span>, <span class="va">vis.art</span>, <span class="va">af.art</span><span class="op">)</span></code></pre></div>
 <p>Note that the <code><a href="../reference/vis.html">vis()</a></code> and <code><a href="../reference/af.html">af()</a></code> functions need to be run and the results stored prior to calling the <code><a href="../reference/mplot.html">mplot()</a></code> function. The result of a call to this function is a webpage built using the <strong>shiny</strong> package with <strong>shinydashboard</strong> stylings [<span class="citation">Chang et al. (2015)</span>;Chang:2015b]. Figure  shows a series of screen shots for the artificial example, equivalent to Figures  and , resulting from the above call to <code><a href="../reference/mplot.html">mplot()</a></code>.</p>
 <div id="fig:shiny">
 <p><img src="images/figure4a.png"><img src="images/figure4b.png"><img src="images/figure4c.png"></p>
@@ -158,22 +161,22 @@
 <p>The interactive graphics and shiny interface are most useful in the exploratory stage of model selection. Once the researcher has found the most informative plot through interactive analysis, the more traditional static plots may be used in a formal write up of the problem.</p>
 <div id="references" class="section level4 unnumbered">
 <h4 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h4>
-<div id="refs" class="references">
-<div id="ref-Chang:2015a">
-<p>Chang, W., Cheng, J., Allaire, J., Xie, Y., &amp; McPherson, J. (2015). <em>shiny: Web application framework for R</em>. <a href="http://shiny.rstudio.com">http://shiny.rstudio.com</a></p>
+<a href="#references" class="anchor" aria-hidden="true"></a>References</h4>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-Chang:2015a" class="csl-entry">
+Chang, W., Cheng, J., Allaire, J., Xie, Y., &amp; McPherson, J. (2015). <em><span class="nocase">shiny</span>: Web application framework for <span>R</span></em>. <a href="http://shiny.rstudio.com" class="external-link">http://shiny.rstudio.com</a>
 </div>
-<div id="ref-Gabry:2015">
-<p>Gabry, J. (2015). <em>shinystan: Interactive visual and numerical diagnostics and posterior analysis for for bayesian models</em>. <a href="https://cran.r-project.org/package=shinystan">https://cran.r-project.org/package=shinystan</a></p>
+<div id="ref-Gabry:2015" class="csl-entry">
+Gabry, J. (2015). <em><span class="nocase">shinystan</span>: Interactive visual and numerical diagnostics and posterior analysis for for bayesian models</em>. <a href="https://cran.r-project.org/package=shinystan" class="external-link">https://cran.r-project.org/package=shinystan</a>
 </div>
-<div id="ref-McMurdie:2013">
-<p>McMurdie, P. J., &amp; Holmes, S. (2013). phyloseq: An R package for reproducible interactive analysis and graphics of microbiome census data. <em>PLoS ONE</em>, 8(4), e61217. DOI:<a href="https://doi.org/10.1371/journal.pone.0061217">10.1371/journal.pone.0061217</a></p>
+<div id="ref-McMurdie:2013" class="csl-entry">
+McMurdie, P. J., &amp; Holmes, S. (2013). <span class="nocase">phyloseq</span>: An <span>R</span> package for reproducible interactive analysis and graphics of microbiome census data. <em><span>PLoS ONE</span></em>, 8(4), e61217. DOI:<a href="https://doi.org/10.1371/journal.pone.0061217" class="external-link">10.1371/journal.pone.0061217</a>
 </div>
 </div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
       </div>
 
@@ -182,11 +185,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p>
+  <p></p>
+<p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -194,6 +199,8 @@
 
   
 
+
+  
 
   </body>
 </html>

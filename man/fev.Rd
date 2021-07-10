@@ -4,7 +4,8 @@
 \name{fev}
 \alias{fev}
 \title{Forced Expiratory Volume}
-\format{A data frame with 654 observations on 5 variables.
+\format{
+A data frame with 654 observations on 5 variables.
 \describe{
 \item{age}{Age (years)}
 \item{fev}{Forced expiratory volume (liters).  Roughly the amount
@@ -14,7 +15,8 @@ a forceful breath.}
 \item{sex}{Female is 0. Male is 1.}
 \item{smoke}{A binary variable indicating whether or not the
 youth smokes. Nonsmoker is 0. Smoker is 1.}
-}}
+}
+}
 \usage{
 data(fev)
 }

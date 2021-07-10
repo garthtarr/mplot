@@ -4,7 +4,8 @@
 \name{wallabies}
 \alias{wallabies}
 \title{Rock-wallabies data set}
-\format{A data frame with 200 observations on 9 variables.
+\format{
+A data frame with 200 observations on 9 variables.
 \describe{
 \item{rw}{Presence of rock-wallaby scat}
 \item{edible}{Percentage cover of edible vegetation}
@@ -15,7 +16,8 @@
 rock or boulder pile)}
 \item{lat}{Latitude of the plot location}
 \item{long}{Longitude of the plot location}
-}}
+}
+}
 \usage{
 data(wallabies)
 }

@@ -6,19 +6,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Artificial example • mplot</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Artificial example">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="mplot">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mplot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
       </span>
     </div>
 
@@ -106,7 +108,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/garthtarr/mplot">
+  <a href="https://github.com/garthtarr/mplot" class="external-link">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -127,13 +129,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="artificial_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Artificial example</h1>
+      <h1 data-toc-skip>Artificial example</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/garthtarr/mplot/blob/master/vignettes/artificial.Rmd"><code>vignettes/artificial.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/garthtarr/mplot/blob/master/vignettes/artificial.Rmd" class="external-link"><code>vignettes/artificial.Rmd</code></a></small>
       <div class="hidden name"><code>artificial.Rmd</code></div>
 
     </div>
@@ -141,14 +143,16 @@
     
     
 <p>The artificially generated data set was originally designed to emphasise statistical deficiencies in stepwise procedures, but here it will be used to highlight the utility of the various procedures and plots provided by <strong>mplot</strong>. The data set and details of how it was generated are provided with the <strong>mplot</strong> package.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># install.packages("mplot")</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"artificialeg"</span>, <span class="dt">package =</span> <span class="st">"mplot"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw"><a href="https://rdrr.io/r/utils/help.html">help</a></span>(<span class="st">"artificialeg"</span>, <span class="dt">package =</span> <span class="st">"mplot"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("mplot")</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"artificialeg"</span>, package <span class="op">=</span> <span class="st">"mplot"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="st">"artificialeg"</span>, package <span class="op">=</span> <span class="st">"mplot"</span><span class="op">)</span></code></pre></div>
 <p>A scatterplot matrix of the data and the estimated pairwise correlations are given in the <a href="#fig:pairsplot">pairs plot</a> below. There are no outliers and we have not positioned the observations in a subspace of the artificially generated data set. All variables, while related, originate from a Gaussian distribution. Fitting the full model yields no individually significant variables.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"mplot"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"artificialeg"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a>full.model =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> artificialeg)</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(full.model)<span class="op">$</span>coef, <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="http://garthtarr.github.io/mplot" class="external-link">"mplot"</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"artificialeg"</span><span class="op">)</span>
+<span class="va">full.model</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">artificialeg</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">full.model</span><span class="op">)</span><span class="op">$</span><span class="va">coef</span>, <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
 ## (Intercept)    -0.10       0.33   -0.31     0.76
 ## x1              0.64       0.69    0.92     0.36
@@ -161,26 +165,28 @@
 ## x8              0.15       0.62    0.24     0.81
 ## x9              0.40       0.64    0.63     0.53</code></pre>
 <p>Performing default stepwise variable selection yields a model with all explanatory variables except <span class="math inline">\(x_8\)</span>. As an aside, the dramatic changes in the p-values indicate that there is substantial interdependence between the explanatory variables even though none of the pairwise correlations in the <a href="#fig:pairsplot">pairs plot</a> are particularly extreme.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="dt">mar=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">mgp=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="fl">0.5</span>,<span class="dv">0</span>), <span class="dt">tcl=</span><span class="op">-</span><span class="fl">0.3</span>, <span class="dt">bg =</span> <span class="st">"transparent"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2"></a>panel.cor &lt;-<span class="st"> </span><span class="cf">function</span>(x, y, <span class="dt">digits=</span><span class="dv">1</span>, <span class="dt">prefix=</span><span class="st">""</span>, cex.cor, ...)</span>
-<span id="cb4-3"><a href="#cb4-3"></a>{</span>
-<span id="cb4-4"><a href="#cb4-4"></a>  usr &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="st">"usr"</span>); <span class="kw"><a href="https://rdrr.io/r/base/on.exit.html">on.exit</a></span>(<span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(usr))</span>
-<span id="cb4-5"><a href="#cb4-5"></a>  <span class="kw"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="dt">usr =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
-<span id="cb4-6"><a href="#cb4-6"></a>  r &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span>(x, y))</span>
-<span id="cb4-7"><a href="#cb4-7"></a>  txt &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(r, <span class="fl">0.123456789</span>), <span class="dt">digits=</span>digits)[<span class="dv">1</span>]</span>
-<span id="cb4-8"><a href="#cb4-8"></a>  txt &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">""</span>, txt, <span class="dt">sep=</span><span class="st">""</span>)</span>
-<span id="cb4-9"><a href="#cb4-9"></a>  <span class="kw"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, txt, <span class="dt">cex =</span> <span class="dv">1</span>)</span>
-<span id="cb4-10"><a href="#cb4-10"></a>}</span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="kw"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span>(artificialeg, <span class="dt">upper.panel =</span> panel.cor, </span>
-<span id="cb4-12"><a href="#cb4-12"></a>      <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">col =</span> <span class="st">'#22558866'</span>, <span class="dt">oma =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>),</span>
-<span id="cb4-13"><a href="#cb4-13"></a>      <span class="dt">cex.labels =</span> <span class="fl">1.25</span>, <span class="dt">gap =</span> <span class="fl">0.2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, mgp<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0.5</span>,<span class="fl">0</span><span class="op">)</span>, tcl<span class="op">=</span><span class="op">-</span><span class="fl">0.3</span>, bg <span class="op">=</span> <span class="st">"transparent"</span><span class="op">)</span>
+<span class="va">panel.cor</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">digits</span><span class="op">=</span><span class="fl">1</span>, <span class="va">prefix</span><span class="op">=</span><span class="st">""</span>, <span class="va">cex.cor</span>, <span class="va">...</span><span class="op">)</span>
+<span class="op">{</span>
+  <span class="va">usr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"usr"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">usr</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>usr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+  <span class="va">r</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span>
+  <span class="va">txt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">r</span>, <span class="fl">0.123456789</span><span class="op">)</span>, digits<span class="op">=</span><span class="va">digits</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
+  <span class="va">txt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">""</span>, <span class="va">txt</span>, sep<span class="op">=</span><span class="st">""</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="va">txt</span>, cex <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="op">}</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html" class="external-link">pairs</a></span><span class="op">(</span><span class="va">artificialeg</span>, upper.panel <span class="op">=</span> <span class="va">panel.cor</span>, 
+      pch <span class="op">=</span> <span class="fl">19</span>, col <span class="op">=</span> <span class="st">'#22558866'</span>, oma <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span>,<span class="fl">1.5</span><span class="op">)</span>,
+      cex.labels <span class="op">=</span> <span class="fl">1.25</span>, gap <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></code></pre></div>
 <p><img src="artificial_files/figure-html/pairsplot-1.png" width="700"></p>
 <div id="fig:pairsplot">
 <!-- <img src="images/pairsplot.png"> -->
 </div>
 <p><em>Figure: scatterplot matrix of the artificially generated data set with estimated correlations in the upper right triangle. The true data generating process for the dependent variable is <span class="math inline">\(y=0.6\, x_8 + \varepsilon\)</span> where <span class="math inline">\(\varepsilon\sim\mathcal{N}(0,2^2)\)</span>.</em></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>step.model =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/step.html">step</a></span>(full.model, <span class="dt">trace =</span> <span class="dv">0</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="kw"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(step.model)<span class="op">$</span>coef, <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">step.model</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/step.html" class="external-link">step</a></span><span class="op">(</span><span class="va">full.model</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">step.model</span><span class="op">)</span><span class="op">$</span><span class="va">coef</span>, <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
 ## (Intercept)    -0.11       0.32   -0.36     0.72
 ## x1              0.80       0.19    4.13     0.00
@@ -196,22 +202,22 @@
 <p>An alternative to stepwise or regularisation procedures is to perform exhaustive searches of the model space. While exhaustive searches avoid the issue of local minima, they are computationally expensive, growing exponentially in the number of variables <span class="math inline">\(p\)</span>, with more than a thousand models when <span class="math inline">\(p=10\)</span> and a million when <span class="math inline">\(p=20\)</span>. The methods provided in the <strong>mplot</strong> package and described in the remainder of the article go beyond stepwise procedures by incorporating exhaustive searches where feasible and using resampling techniques to provide an indication of the stability of the selected model. The <strong>mplot</strong> package can feasibly handle up to 50 variables in linear regression models and a similar number for logistic regression models when an appropriate transformation (described in the <a href="birthweight.html">birth weight example</a>) is implemented.</p>
 <div id="references" class="section level4 unnumbered">
 <h4 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h4>
-<div id="refs" class="references">
-<div id="ref-Harrell:2001">
-<p>Harrell, F. E. (2001). <em>Regression modeling strategies: With applications to linear models, logistic regression, and survival analysis</em>. New York: Springer-Verlag.</p>
+<a href="#references" class="anchor" aria-hidden="true"></a>References</h4>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-Harrell:2001" class="csl-entry">
+Harrell, F. E. (2001). <em>Regression modeling strategies: With applications to linear models, logistic regression, and survival analysis</em>. New York: Springer-Verlag.
 </div>
-<div id="ref-Tibshirani:1996">
-<p>Tibshirani, R. J. (1996). Regression shrinkage and selection via the lasso. <em>Journal of the Royal Statistical Society: Series B (Methodological)</em>, 267–288.</p>
+<div id="ref-Tibshirani:1996" class="csl-entry">
+Tibshirani, R. J. (1996). Regression shrinkage and selection via the lasso. <em>Journal of the Royal Statistical Society: Series B (Methodological)</em>, 267–288.
 </div>
-<div id="ref-Tibshirani:2004">
-<p>Tibshirani, R. J., Johnstone, I., Hastie, T., &amp; Efron, B. (2004). Least angle regression. <em>The Annals of Statistics</em>, 32(2), 407–499. DOI:<a href="https://doi.org/10.1214/009053604000000067">10.1214/009053604000000067</a></p>
+<div id="ref-Tibshirani:2004" class="csl-entry">
+Tibshirani, R. J., Johnstone, I., Hastie, T., &amp; Efron, B. (2004). Least angle regression. <em>The Annals of Statistics</em>, 32(2), 407–499. DOI:<a href="https://doi.org/10.1214/009053604000000067" class="external-link">10.1214/009053604000000067</a>
 </div>
 </div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
       </div>
 
@@ -220,11 +226,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p>
+  <p></p>
+<p>Developed by Garth Tarr, Samuel Mueller, Alan H Welsh.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -232,6 +240,8 @@
 
   
 
+
+  
 
   </body>
 </html>
