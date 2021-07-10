@@ -37,7 +37,7 @@ Imports:
     dplyr,
     tidyr,
     magrittr
-URL: http://garthtarr.github.io/mplot, https://github.com/garthtarr/mplot
+URL: https://garthtarr.github.io/mplot/, https://github.com/garthtarr/mplot
 Roxygen: list(markdown = TRUE)
 LazyData: TRUE
 RoxygenNote: 7.1.1
