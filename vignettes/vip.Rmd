@@ -2,10 +2,9 @@
 title: Variable inclusion plots
 keywords: "VIP, variable inclusion plots"
 bibliography: jss.bib
+link-citations: yes
 csl: apa-old-doi-prefix.csl
-output: 
-  github_document:
-    toc_dept: 1
+output: rmarkdown::html_vignette
 ---
 
 > Overview of variable inclusion plots.

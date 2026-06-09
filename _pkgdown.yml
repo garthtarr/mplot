@@ -1,7 +1,10 @@
+url: https://garthtarr.github.io/mplot/
+
 template:
+  bootstrap: 5
   params:
-    bootswatch: lumen
     toc_depth: 3
+  math-rendering: mathjax
 
 reference:
   - title: "Core functions"
@@ -10,6 +13,8 @@ reference:
       - vis
       - bglmnet
       - mplot
+      - lmfence
+      - glmfence
   - title: "Data sets"
     contents:
       - bodyfat

@@ -26,7 +26,6 @@
 #' @details The result of this function is essentially just a
 #'   list. The supplied plot method provides a way to visualise the
 #'   results.
-#' @importFrom dplyr n
 #' @export
 #' @seealso \code{\link{plot.bglmnet}}
 #' @examples
@@ -132,23 +131,21 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
   get.names = function(x) paste(names(x)[x == 1],collapse = "+")
   
   
-  prob = NULL # hack for no visible binding for global variable 'prob'
-  mod.sum = betaboot %>% 
-    apply(3, get_unique_mods) %>% 
-    do.call(rbind, .) %>% 
-    data.frame() %>% 
-    dplyr::mutate(k = rowSums(.)) %>% 
-    dplyr::group_by_all() %>% 
-    dplyr::summarise(n = n(), .groups = "drop") %>% 
-    dplyr::arrange(k, n) %>% 
-    dplyr::mutate(
-      k = k + 1
-    ) %>% 
-    dplyr::group_by(k) %>% 
-    dplyr::mutate(
-      prob = n/sum(n)
-    ) %>% dplyr::ungroup()
-  mod.sum$mod.names = mod.sum %>% dplyr::select(-k,-n,-prob) %>% apply(.,1,get.names)
+  mod.sum = betaboot |>
+    apply(3, get_unique_mods) |>
+    (\(x) do.call(rbind, x))() |>
+    data.frame() |>
+    dplyr::mutate(k = rowSums(dplyr::across(dplyr::everything()))) |>
+    dplyr::group_by(dplyr::across(dplyr::everything())) |>
+    dplyr::summarise(n = dplyr::n(), .groups = "drop") |>
+    dplyr::arrange(k, n) |>
+    dplyr::mutate(k = k + 1) |>
+    dplyr::group_by(k) |>
+    dplyr::mutate(prob = n / sum(n)) |>
+    dplyr::ungroup()
+  mod.sum$mod.names = mod.sum |>
+    dplyr::select(!dplyr::all_of(c("k", "n", "prob"))) |>
+    apply(1, get.names)
   mod.sum$mod.names[mod.sum$mod.names == ""] = "1"
   mod.sum$mod.names = gsub(pattern = "X.Intercept.",
                            replacement = "1", x = mod.sum$mod.names)
@@ -343,15 +340,14 @@ plot.bglmnet = function(x, highlight, interactive = FALSE,
     colnames(vip.df) = gsub("REDUNDANT.VARIABLE", "RV", colnames(vip.df))
     sortnames = gsub("REDUNDANT.VARIABLE", "RV", sortnames)
     if(!interactive) { 
-      lambda = NULL # hack for no visible binding for global variable 'lambda'
-      ggdat = vip.df %>% 
-        tidyr::gather(-lambda, key = "variable", value = "prob")
+      ggdat = vip.df |>
+        tidyr::pivot_longer(cols = -"lambda", names_to = "variable", values_to = "prob")
       p = ggplot2::ggplot(
         data = ggdat,
-        ggplot2::aes_string(
-          x = "lambda",
-          y = "prob",
-          colour = "variable"
+        ggplot2::aes(
+          x = .data[["lambda"]],
+          y = .data[["prob"]],
+          colour = .data[["variable"]]
         )
       ) +
         ggplot2::geom_line() +
@@ -431,12 +427,12 @@ plot.bglmnet = function(x, highlight, interactive = FALSE,
       
       p = ggplot2::ggplot(
         data = df.sub,
-        ggplot2::aes_string(x = "l.vec", 
-                            y = "m2ll",
-                            label = "mod.names")) + 
+        ggplot2::aes(x = .data[["l.vec"]],
+                     y = .data[["m2ll"]],
+                     label = .data[["mod.names"]])) +
         ggplot2::geom_jitter(
-          ggplot2::aes_string(size = "mod.vec.prob",
-                              fill = "var.ident"),
+          ggplot2::aes(size = .data[["mod.vec.prob"]],
+                       fill = .data[["var.ident"]]),
           shape = 21,
           width = 0.0,
           alpha = 0.4) + 
@@ -525,15 +521,15 @@ plot.bglmnet = function(x, highlight, interactive = FALSE,
       
       p = ggplot2::ggplot(
         pd,
-        ggplot2::aes_string(
-          x = "k",
-          y = "m2ll",
-          group = "var.ident",
-          label = "mod.names"
+        ggplot2::aes(
+          x = .data[["k"]],
+          y = .data[["m2ll"]],
+          group = .data[["var.ident"]],
+          label = .data[["mod.names"]]
         )) +
         ggplot2::geom_jitter(
-          ggplot2::aes_string(size = "prob",
-                              fill = "var.ident"),
+          ggplot2::aes(size = .data[["prob"]],
+                       fill = .data[["var.ident"]]),
           shape = 21,
           width = jitterk
         ) +

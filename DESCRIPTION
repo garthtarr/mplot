@@ -15,7 +15,6 @@ Suggests:
     mvoutlier,
     glmulti,
     rmarkdown,
-    DT,
     MASS
 Imports:
     leaps,
@@ -32,13 +31,14 @@ Imports:
     stats,
     googleVis,
     ggplot2,
-    reshape2,
     scales,
     dplyr,
     tidyr,
-    magrittr
+    rlang
 URL: https://garthtarr.github.io/mplot/, https://github.com/garthtarr/mplot
+Depends:
+    R (>= 4.1.0)
 Roxygen: list(markdown = TRUE)
 LazyData: TRUE
-RoxygenNote: 7.1.1
 Encoding: UTF-8
+Config/roxygen2/version: 8.0.0

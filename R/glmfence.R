@@ -11,7 +11,7 @@
 #'   be considered in the model.
 #' @param adaptive logical. If \code{TRUE} the boundary of the fence is
 #'   given by cstar.  Otherwise, it the original (non-adaptive) fence
-#'   is performed where the boundary is cstar*hat(sigma)_{M,tildeM}.
+#'   is performed where the boundary is \eqn{c^* \hat{\sigma}_{M,\tilde{M}}}.
 #' @param trace logical. If \code{TRUE} the function prints out its
 #'   progress as it iterates up through the dimensions.
 #' @param ... further arguments (currently unused)

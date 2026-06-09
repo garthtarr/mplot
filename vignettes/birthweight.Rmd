@@ -2,10 +2,9 @@
 title: Birth weight example
 keywords: "example, AF, VIP, MSP, linear model"
 bibliography: jss.bib
+link-citations: yes
 csl: apa-old-doi-prefix.csl
-output: 
-  github_document:
-    toc_dept: 1
+output: rmarkdown::html_vignette
 ---
 
 The `birthwt` dataset from the **MASS** package has data on 189 births at the Baystate Medical Centre, Springfield, Massachusetts during 1986 [@Venables:2002].  The main variable of  interest is low birth weight, a binary response variable `low` [@Hosmer:1989book].  We have taken the same approach to modelling the full model as in @Venables:2002, where `ptl` is reduced to a binary indicator of past history and `ftv` is reduced to a factor with three levels.

@@ -6,10 +6,9 @@ tags:
   - MSP
 keywords: "VIP, variable inclusion plots, adaptive fence, model stability plots"
 bibliography: jss.bib
+link-citations: yes
 csl: apa-old-doi-prefix.csl
-output: 
-  github_document:
-    toc_dept: 1
+output: rmarkdown::html_vignette
 ---
 
 
@@ -36,7 +35,7 @@ Performing default stepwise variable selection yields a model with all explanato
 par(mar=c(0,0,0,0), mgp=c(1,0.5,0), tcl=-0.3, bg = "transparent")
 panel.cor <- function(x, y, digits=1, prefix="", cex.cor, ...)
 {
-  usr <- par("usr"); on.exit(par(usr))
+  usr <- par("usr"); on.exit(par(usr = usr))
   par(usr = c(0, 1, 0, 1))
   r <- abs(cor(x, y))
   txt <- format(c(r, 0.123456789), digits=digits)[1]

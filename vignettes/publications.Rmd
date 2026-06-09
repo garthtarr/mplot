@@ -1,10 +1,9 @@
 ---
 title: mplot in publications
 bibliography: jss.bib
+link-citations: yes
 csl: apa-old-doi-prefix.csl
-output: 
-  github_document:
-    toc_dept: 1
+output: rmarkdown::html_vignette
 ---
 
 ### Abundance and richness of key Antarctic seafloor fauna correlates with modelled food availability 

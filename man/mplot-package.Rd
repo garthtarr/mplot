@@ -3,13 +3,31 @@
 \docType{package}
 \name{mplot-package}
 \alias{mplot-package}
-\title{Graphical model stability and model selection procedures}
+\title{mplot: Graphical Model Stability and Variable Selection Procedures}
 \description{
-Graphical model stability and model selection procedures
+Model stability and variable inclusion plots [Mueller and Welsh (2010, \doi{10.1111/j.1751-5823.2010.00108.x}); Murray, Heritier and Mueller (2013, \doi{10.1002/sim.5855})] as well as the adaptive fence [Jiang et al. (2008, \doi{10.1214/07-AOS517}); Jiang et al. (2009, \doi{10.1016/j.spl.2008.10.014})] for linear and generalised linear models.
 }
 \references{
 Tarr G, Mueller S and Welsh AH (2018). mplot: An R Package for
 Graphical Model Stability and Variable Selection Procedures.
 Journal of Statistical Software, 83(9), pp. 1-28. doi: 10.18637/jss.v083.i09
 }
-\keyword{package}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://garthtarr.github.io/mplot/}
+  \item \url{https://github.com/garthtarr/mplot}
+}
+
+}
+\author{
+\strong{Maintainer}: Garth Tarr \email{garth.tarr@gmail.com} (\href{https://orcid.org/0000-0002-6605-7478}{ORCID})
+
+Authors:
+\itemize{
+  \item Garth Tarr \email{garth.tarr@gmail.com} (\href{https://orcid.org/0000-0002-6605-7478}{ORCID})
+  \item Samuel Mueller \email{samuel.mueller@sydney.edu.au} (\href{https://orcid.org/0000-0002-3087-8127}{ORCID})
+  \item Alan H Welsh \email{alan.welsh@anu.edu.au} (\href{https://orcid.org/0000-0002-3165-9559}{ORCID})
+}
+
+}

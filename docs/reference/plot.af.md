@@ -1,0 +1,150 @@
+# Plot diagnostics for an af object
+
+Summary plot of the bootstrap results of an af object.
+
+## Usage
+
+``` r
+# S3 method for class 'af'
+plot(
+  x,
+  pch,
+  interactive = FALSE,
+  classic = NULL,
+  tag = NULL,
+  shiny = FALSE,
+  best.only = FALSE,
+  width = 800,
+  height = 400,
+  fontSize = 12,
+  left = 50,
+  top = 30,
+  chartWidth = "60%",
+  chartHeight = "80%",
+  backgroundColor = "transparent",
+  legend.position = "top",
+  model.wrap = NULL,
+  legend.space = NULL,
+  options = NULL,
+  ...
+)
+```
+
+## Arguments
+
+- x:
+
+  `af` object, the result of
+  [`af`](https://garthtarr.github.io/mplot/reference/af.md)
+
+- pch:
+
+  plotting character, i.e., symbol to use
+
+- interactive:
+
+  logical. If `interactive=TRUE` a googleVis plot is provided instead of
+  the base graphics plot. Default is `interactive=FALSE`.
+
+- classic:
+
+  logical. Depricated. If `classic=TRUE` a base graphics plot is
+  provided instead of a googleVis plot. For now specifying `classic`
+  will overwrite the default `interactive` behaviour, though this is
+  likely to be removed in the future.
+
+- tag:
+
+  Default NULL. Name tag of the objects to be extracted from a gvis
+  (googleVis) object.
+
+  The default tag for is NULL, which will result in R opening a browser
+  window. Setting `tag='chart'` or setting
+  `options(gvis.plot.tag='chart')` is useful when googleVis is used in
+  scripts, like knitr or rmarkdown.
+
+- shiny:
+
+  Default FALSE. Set to TRUE when using in a shiny interface.
+
+- best.only:
+
+  logical determining whether the output used the standard fence
+  approach of only considering the best models that pass the fence
+  (`TRUE`) or if it should take into account all models that pass the
+  fence at each boundary value (`FALSE`).
+
+- width:
+
+  Width of the googleVis chart canvas area, in pixels. Default: 800.
+
+- height:
+
+  Height of the googleVis chart canvas area, in pixels. Default: 400.
+
+- fontSize:
+
+  font size used in googleVis chart. Default: 12.
+
+- left:
+
+  space at left of chart (pixels?). Default: "50".
+
+- top:
+
+  space at top of chart (pixels?). Default: "30".
+
+- chartWidth:
+
+  googleVis chart area width. A simple number is a value in pixels; a
+  string containing a number followed by `%` is a percentage. Default:
+  `"60%"`
+
+- chartHeight:
+
+  googleVis chart area height. A simple number is a value in pixels; a
+  string containing a number followed by `%` is a percentage. Default:
+  `"80%"`
+
+- backgroundColor:
+
+  The background colour for the main area of the chart. A simple HTML
+  color string, for example: 'red' or '#00cc00'. Default: 'transparent'
+
+- legend.position:
+
+  legend position, e.g. `"topleft"` or `"bottomright"`
+
+- model.wrap:
+
+  Optional parameter to split the legend names if they are too long for
+  classic plots. `model.wrap=2` means that there will be two variables
+  per line, `model.wrap=2` gives three variables per line and
+  `model.wrap=4` gives 4 variables per line.
+
+- legend.space:
+
+  Optional parameter to add additional space between the legend items
+  for the classic plot.
+
+- options:
+
+  If you want to specify the full set of googleVis options.
+
+- ...:
+
+  further arguments (currently unused)
+
+## Details
+
+For each value of \\c\\ a parametric bootstrap is performed under the
+full model. For each bootstrap sample we identify the smallest model
+inside the fence, \\\hat{\alpha}(c)\\. We calculate the empirical
+probability of selecting model \\\alpha\\ for a given value of \\c\\ as
+\$\$p^\*(c,\alpha)=P^\*\\\hat{\alpha}(c)=\alpha\\.\$\$ Hence, if \\B\\
+bootstrap replications are performed, \\p^\*(c,\alpha)\\ is the
+proportion of times that model \\\alpha\\ is selected. Finally, define
+an overall selection probability,
+\$\$p^\*(c)=\max\_{\alpha\in\mathcal{A}}p^\*(c,\alpha)\$\$ and we plot
+\\p^\*(c)\\ against \\c\\. The points on the scatter plot are colour
+coded by the model that yielded the highest inclusion probability.

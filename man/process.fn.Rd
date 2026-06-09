@@ -15,4 +15,4 @@ process.fn(fence.mod, fence.rank)
 This function is used by the af function to process
 the results when iterating over different boundary values
 }
-\keyword{Internal}
+\keyword{internal}

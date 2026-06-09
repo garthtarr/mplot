@@ -43,7 +43,7 @@ mplot = function(mf, ...){
   anyscreen = NULL
   anyScreen = FALSE
   for (j in 1:length(input_list)) {
-    if (class(input_list[[j]]) == "af") {
+    if (inherits(input_list[[j]], "af")) {
       if (input_list[[j]]$screen) {
         af.res.screened = input_list[[j]]
         anyScreen = TRUE
@@ -51,7 +51,7 @@ mplot = function(mf, ...){
         af.res = input_list[[j]]
       }
     }
-    if (class(input_list[[j]]) == "vis") {
+    if (inherits(input_list[[j]], "vis")) {
       if (input_list[[j]]$screen) {
         lvp.res.screened = input_list[[j]]
         anyScreen = TRUE
@@ -59,7 +59,7 @@ mplot = function(mf, ...){
         lvp.res = input_list[[j]]
       }
     }
-    if (class(input_list[[j]]) == "bglmnet") {
+    if (inherits(input_list[[j]], "bglmnet")) {
       if (input_list[[j]]$screen) {
         glmnet.res.screened = input_list[[j]]
         anyScreen = TRUE

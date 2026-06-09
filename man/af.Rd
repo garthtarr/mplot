@@ -142,8 +142,8 @@ Fence methods for mixed model selection, Annals of Statistics,
 \seealso{
 \code{\link{plot.af}}
 
-Other fence: 
-\code{\link{glmfence}()},
-\code{\link{lmfence}()}
+Other fence:
+\code{\link[=glmfence]{glmfence()}},
+\code{\link[=lmfence]{lmfence()}}
 }
 \concept{fence}

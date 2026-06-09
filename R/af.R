@@ -129,17 +129,17 @@ af = function(mf,
     initial.stepwise = FALSE
     warning("When c.max is specified, initial.stepwise=FALSE")
   }
-  if (!any(class(mf) == "lm")) {
+  if (!inherits(mf, "lm")) {
     warning("Adaptive fence currently only implemented for lm and glm")
     model.type = "lm"
   }
-  if (any(class(mf) == "glm") == TRUE) {
+  if (inherits(mf, "glm")) {
     family = stats::family(mf)
     if (!is.null(force.in)) {
       warning("force.in is not implemented for glms")
     }
     model.type = "glm"
-  } else if (class(mf) == "lm") {
+  } else if (inherits(mf, "lm")) {
     model.type = "lm"
   }
   m = mextract(mf, screen = screen)
@@ -249,6 +249,7 @@ af = function(mf,
   if (missing(cores))
     cores = max(detectCores() - 1, 1)
   cl.af = makeCluster(cores)
+  on.exit(parallel::stopCluster(cl.af), add = TRUE)
   doParallel::registerDoParallel(cl.af)
   j = NULL # avoid global variable NOTE in R CMD check
   p.star.all = foreach(j = 1:n.c,
@@ -564,9 +565,9 @@ plot.af = function(x,
     
     
     p = ggplot2::ggplot(data = ggdf,
-                        ggplot2::aes_string(x = "c.range",
-                                            y = "pstar",
-                                            color = "model")) +
+                        ggplot2::aes(x = .data[["c.range"]],
+                                     y = .data[["pstar"]],
+                                     color = .data[["model"]])) +
       ggplot2::geom_point() +
       ggplot2::ylim(0, 1) +
       ggplot2::theme_bw(base_size = 14) +

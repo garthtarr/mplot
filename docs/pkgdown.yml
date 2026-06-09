@@ -1,6 +1,6 @@
-pandoc: 2.11.4
-pkgdown: 1.6.1.9001
-pkgdown_sha: ce9781a15c7ea07df9fb17a11295ba4abec0b54b
+pandoc: 3.8.3
+pkgdown: 2.2.0
+pkgdown_sha: ~
 articles:
   af: af.html
   artificial: artificial.html
@@ -13,5 +13,7 @@ articles:
   publications: publications.html
   timing: timing.html
   vip: vip.html
-last_built: 2021-07-10T10:35Z
-
+last_built: 2026-06-09T00:55Z
+urls:
+  reference: https://garthtarr.github.io/mplot/reference
+  article: https://garthtarr.github.io/mplot/articles

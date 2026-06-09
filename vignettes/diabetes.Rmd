@@ -2,10 +2,9 @@
 title: Diabetes example
 keywords: "example, AF, VIP, MSP, linear model"
 bibliography: jss.bib
+link-citations: yes
 csl: apa-old-doi-prefix.csl
-output: 
-  github_document:
-    toc_dept: 1
+output: rmarkdown::html_vignette
 ---
 
 
@@ -13,7 +12,7 @@ The [table below](#tab:diabetes) shows a subset of the diabetes data used in @Ti
 
 ```{r}
 library(mplot)
-DT::datatable(diabetes, options = list(dom = 'tp'), elementId = "diabetestable")
+knitr::kable(head(diabetes))
 ```
 
 _Table: measurements on 442 diabetes patients over 10 potential predictor variables and the response variable, a measure of disease progression after one year._

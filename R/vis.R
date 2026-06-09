@@ -162,8 +162,9 @@ vis = function(mf,
   
   ## Initial single pass
   ## (gives the minimum envelopping set of models)
-  if (any(class(mf) == "glm") == TRUE & !use.glmulti) {
-    stop(!("bestglm" %in% rownames(utils::installed.packages())))
+  if (inherits(mf, "glm") & !use.glmulti) {
+    if (!("bestglm" %in% rownames(utils::installed.packages())))
+      stop("bestglm package needed for GLMs. Please install it.", call. = FALSE)
     # no redundant variable
     # Xy = X 
     # Xy$REDUNDANT.VARIABLE = NULL # do want to keep it in
@@ -296,11 +297,11 @@ vis = function(mf,
   if (missing(cores))
     cores = max(detectCores() - 1, 1)
   cl.visB = parallel::makeCluster(cores)
+  on.exit(parallel::stopCluster(cl.visB), add = TRUE)
   doParallel::registerDoParallel(cl.visB)
-  if (any(class(mf) == "glm") == TRUE & !use.glmulti) {
-    
-    stop(!("bestglm" %in% rownames(utils::installed.packages())))
-    
+  if (inherits(mf, "glm") & !use.glmulti) {
+    if (!("bestglm" %in% rownames(utils::installed.packages())))
+      stop("bestglm package needed for GLMs. Please install it.", call. = FALSE)
     res = foreach::foreach(
       b = 1:B, 
       .packages = c("bestglm"),
@@ -452,8 +453,7 @@ vis = function(mf,
   res.df = do.call(rbind.data.frame, res.best)
   
   if (use.glmulti) {
-    res.df = dplyr::group_by(res.df, k)
-    res.df = dplyr::count_(res.df, vars = nms)
+    res.df = dplyr::count(res.df, dplyr::across(dplyr::all_of(nms)))
     res.df = base::data.frame(base::data.matrix(res.df))
     res.df$freq = res.df$n
     res.df$n = NULL
@@ -726,8 +726,8 @@ plot.vis = function(x,
     var.ident = n.var.ident = NA
     lvk.dat = data.frame(x$res.single.pass)
     if(is.numeric(nbest)){
-      lvk.dat = lvk.dat %>% 
-        dplyr::group_by(k) %>% 
+      lvk.dat = lvk.dat |>
+        dplyr::group_by(k) |>
         dplyr::top_n(n = nbest, wt = logLikelihood)
     }
     #m2ll = -2 * lvk.dat$logLikelihood
@@ -741,9 +741,9 @@ plot.vis = function(x,
       lvk.dat$kj = lvk.dat$k + (unlist(lvk.dat[, vars[1]]) - 0.5) / 4
       lvk.dat[, vars[1]] = as.logical(unlist(lvk.dat[, vars[1]]))
       
-      p = ggplot2::ggplot(data = lvk.dat, ggplot2::aes_string(x = "kj", y = "m2ll")) +
+      p = ggplot2::ggplot(data = lvk.dat, ggplot2::aes(x = .data[["kj"]], y = .data[["m2ll"]])) +
         ggplot2::geom_jitter(
-          ggplot2::aes_string(color = vars[1]),
+          ggplot2::aes(color = .data[[vars[1]]]),
           shape = 19,
           width = jitterk,
           size = 2
@@ -870,16 +870,16 @@ plot.vis = function(x,
       dat$int_k = round(dat$k, 0)
       p = ggplot2::ggplot(
         dat,
-        ggplot2::aes_string(
-          x = "int_k",
-          y = "LL",
-          group = "var.ident",
-          label = "mod.lab"
+        ggplot2::aes(
+          x = .data[["int_k"]],
+          y = .data[["LL"]],
+          group = .data[["var.ident"]],
+          label = .data[["mod.lab"]]
         )
       ) +
         ggplot2::geom_jitter(
-          ggplot2::aes_string(size = "prob",
-                              fill = "var.ident"),
+          ggplot2::aes(size = .data[["prob"]],
+                       fill = .data[["var.ident"]]),
           shape = 21,
           width = jitterk
         ) +
@@ -1018,14 +1018,18 @@ plot.vis = function(x,
       lwds = rev(2 * lwds / max(lwds))
       
       vip.ggdf = cbind(classic.lambda, classic.vip.df)
-      vip.ggdfL = reshape2::melt(vip.ggdf, id = "classic.lambda")
-      
+      vip.ggdfL = tidyr::pivot_longer(
+        vip.ggdf,
+        cols = -"classic.lambda",
+        names_to = "variable",
+        values_to = "value"
+      )
       p = ggplot2::ggplot(
         data = vip.ggdfL,
-        ggplot2::aes_string(
-          x = "classic.lambda",
-          y = "value",
-          colour = "variable"
+        ggplot2::aes(
+          x = .data[["classic.lambda"]],
+          y = .data[["value"]],
+          colour = .data[["variable"]]
         )
       ) +
         ggplot2::geom_line() +
