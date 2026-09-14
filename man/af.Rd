@@ -49,7 +49,9 @@ Only applies when \code{initial.stepwise=FALSE}.}
 screen for outliers.  Highly experimental, use at own risk.
 Default = FALSE.}
 
-\item{seed}{random seed for reproducible results}
+\item{seed}{random seed for reproducible results. When set, results are
+reproducible across runs regardless of \code{cores} value. Uses
+\code{future}'s native seeding via \code{furrr_options(seed = TRUE)}.}
 
 \item{...}{further arguments (currently unused)}
 }
@@ -106,6 +108,11 @@ the location of the correct peak and identify the optimal c*.
 
 See \code{?plot.af} or \code{help("plot.af")} for details of the
 plot method associated with the result.
+
+The \code{cores} argument controls parallelization backend:
+when \code{cores > 1}, a \code{future::multisession} plan is registered
+for the duration of the function. The caller's existing future plan is
+preserved and restored on exit.
 }
 \examples{
 n = 100

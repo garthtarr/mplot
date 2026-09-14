@@ -42,3 +42,51 @@ test_that("af works with multiple cores", {
 
   expect_s3_class(result, "af")
 })
+
+test_that("af produces reproducible results with same seed", {
+  n <- 50
+  x1 <- rnorm(n)
+  x2 <- rnorm(n)
+  y <- 1 + x1 + x2 + rnorm(n)
+  dat <- data.frame(y, x1, x2)
+
+  lm_fit <- lm(y ~ ., data = dat)
+  result1 <- af(lm_fit, cores = 1, B = 5, n.c = 5, seed = 4827)
+  result2 <- af(lm_fit, cores = 1, B = 5, n.c = 5, seed = 4827)
+
+  expect_identical(result1$bestOnly$p.star, result2$bestOnly$p.star)
+  expect_identical(result1$all$p.star, result2$all$p.star)
+})
+
+test_that("af produces reproducible results across core counts", {
+  n <- 50
+  x1 <- rnorm(n)
+  x2 <- rnorm(n)
+  y <- 1 + x1 + x2 + rnorm(n)
+  dat <- data.frame(y, x1, x2)
+
+  lm_fit <- lm(y ~ ., data = dat)
+  result_seq <- af(lm_fit, cores = 1, B = 5, n.c = 5, seed = 5931)
+  result_par <- af(lm_fit, cores = 2, B = 5, n.c = 5, seed = 5931)
+
+  expect_identical(result_seq$bestOnly$p.star, result_par$bestOnly$p.star)
+  expect_identical(result_seq$all$p.star, result_par$all$p.star)
+})
+
+test_that("af restores the caller's future plan on exit", {
+  n <- 50
+  x1 <- rnorm(n)
+  x2 <- rnorm(n)
+  y <- 1 + x1 + x2 + rnorm(n)
+  dat <- data.frame(y, x1, x2)
+  lm_fit <- lm(y ~ ., data = dat)
+
+  future::plan(future::multisession, workers = 2)
+  on.exit(future::plan(future::sequential), add = TRUE)
+
+  plan_before <- future::plan()
+  af(lm_fit, cores = 1, B = 5, n.c = 5, seed = 111)
+  plan_after <- future::plan()
+
+  expect_identical(class(plan_before), class(plan_after))
+})

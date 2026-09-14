@@ -24,6 +24,8 @@ Imports:
     bestglm,
     doParallel,
     doRNG,
+    future,
+    furrr,
     plyr,
     shinydashboard,
     shiny,
@@ -42,5 +44,5 @@ Depends:
 Roxygen: list(markdown = TRUE)
 LazyData: TRUE
 Encoding: UTF-8
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
 Config/testthat/edition: 3

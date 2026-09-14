@@ -18,4 +18,13 @@ import(parallel)
 import(shiny)
 import(shinydashboard)
 importFrom(doRNG,"%dorng%")
+importFrom(furrr,
+  furrr_options,
+  future_map
+)
+importFrom(future,
+  multisession,
+  plan,
+  sequential
+)
 importFrom(rlang,.data)

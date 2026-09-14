@@ -44,7 +44,7 @@ abundance of rock-wallabies.
 }
 \examples{
 data(wallabies)
-wdat = data.frame(subset(wallabies,select=-c(lat,long)), 
+wdat = data.frame(subset(wallabies,select=-c(lat,long)),
   EaD = wallabies$edible*wallabies$distance,
   EaS = wallabies$edible*wallabies$shelter,
   DaS = wallabies$distance*wallabies$shelter)

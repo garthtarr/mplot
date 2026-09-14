@@ -73,8 +73,14 @@
 #' @param screen logical, whether or not to perform an initial
 #'   screen for outliers.  Highly experimental, use at own risk.
 #'   Default = FALSE.
-#' @param seed random seed for reproducible results
+#' @param seed random seed for reproducible results. When set, results are
+#'   reproducible across runs regardless of \code{cores} value. Uses
+#'   \code{future}'s native seeding via \code{furrr_options(seed = TRUE)}.
 #' @param ... further arguments (currently unused)
+#' @details The \code{cores} argument controls parallelization backend:
+#'   when \code{cores > 1}, a \code{future::multisession} plan is registered
+#'   for the duration of the function. The caller's existing future plan is
+#'   preserved and restored on exit.
 #' @seealso \code{\link{plot.af}}
 #' @references Jiang J., Nguyen T., Sunil Rao J. (2009),
 #'   A simplified adaptive fence procedure, Statistics &
@@ -86,6 +92,8 @@
 #' @export
 #' @import foreach
 #' @import parallel
+#' @importFrom furrr future_map furrr_options
+#' @importFrom future plan sequential multisession
 #' @family fence
 #' @examples
 #' n = 100
@@ -262,21 +270,24 @@ af <- function(
   if (missing(cores)) {
     cores <- max(detectCores() - 1, 1)
   }
-  cl.af <- makeCluster(cores)
-  on.exit(parallel::stopCluster(cl.af), add = TRUE)
-  doParallel::registerDoParallel(cl.af)
-  j <- NULL # avoid global variable NOTE in R CMD check
-  p.star.all <- foreach(
-    j = 1:n.c,
-    .combine = rbind,
-    .packages = c("mplot"),
-    .options.RNG = seed
-  ) %dorng%
-    {
+
+  old_plan <- future::plan()
+  on.exit(future::plan(old_plan), add = TRUE)
+  if (cores > 1) {
+    future::plan(future::multisession, workers = cores)
+  } else {
+    # explicitly force sequential execution; otherwise a pre-existing
+    # parallel plan set by the caller would remain active even though
+    # cores = 1 was requested
+    future::plan(future::sequential)
+  }
+
+  p.star.list <- furrr::future_map(
+    seq_along(c.range),
+    \(j) {
       fence.mod <- list()
       fence.rank <- list()
       ystar <- stats::simulate(object = mfstar, nsim = B)
-      initial.weights <<- m$wts
       if (model.type == "glm") {
         for (i in 1:B) {
           Xy[yname] <- ystar[, i]
@@ -286,7 +297,7 @@ af <- function(
               fixed,
               data = Xy,
               family = family,
-              weights = initial.weights
+              weights = m$wts
             )
           )
           fms <- glmfence(
@@ -304,7 +315,7 @@ af <- function(
           Xy[yname] <- ystar[, i]
           mfstarB <- do.call(
             "lm",
-            list(fixed, data = Xy, weights = initial.weights)
+            list(fixed, data = Xy, weights = m$wts)
           )
           fms <- lmfence(
             mfstarB,
@@ -319,7 +330,11 @@ af <- function(
         }
       }
       process.fn(fence.mod, fence.rank)
-    }
+    },
+    .options = furrr::furrr_options(seed = seed)
+  )
+
+  p.star.all <- do.call(rbind, p.star.list)
 
   # Another function that processes results within af function
   #

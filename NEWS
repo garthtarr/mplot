@@ -1,3 +1,10 @@
+mplot (development version)
+----------------------------
+
+* af() now uses future::multisession via furrr::future_map() instead of
+  foreach/doParallel/doRNG, and no longer relies on a <<- global assignment
+  inside the parallel worker (#11)
+
 mplot 1.0.5 [2019-03-02]
 ------------------------
 
