@@ -7,7 +7,8 @@
 #' @param lambda manually specify the penalty values (optional).
 #' @param B number of bootstrap replications
 #' @param cores number of cores to be used when parallel
-#'   processing the bootstrap (Not yet implemented.)
+#'   processing the bootstrap. Defaults to one less than the number of
+#'   available cores (minimum 1).
 #' @param force.in the names of variables that should be forced
 #'   into all estimated models. (Not yet implemented.)
 #' @param penalty.factor Separate penalty factors can be applied to each
@@ -22,11 +23,23 @@
 #'   Default = FALSE.
 #' @param redundant logical, whether or not to add a redundant
 #'   variable.  Default = \code{TRUE}.
-#' @param seed random seed for reproducible results
+#' @param seed random seed for reproducible results. When set, results are
+#'   reproducible across runs regardless of \code{cores} value. Uses
+#'   \code{future}'s native seeding via \code{furrr_options(seed = seed)}.
 #' @details The result of this function is essentially just a
 #'   list. The supplied plot method provides a way to visualise the
 #'   results.
+#'
+#'   The \code{cores} argument controls parallelization backend: when
+#'   \code{cores > 1}, a \code{future::multisession} plan is registered
+#'   for the duration of the function and the bootstrap loop over \code{B}
+#'   replications is run in parallel (the inner loop over \code{nlambda}
+#'   penalty values remains sequential within each worker). The caller's
+#'   existing future plan is preserved and restored on exit.
 #' @export
+#' @import parallel
+#' @importFrom furrr future_map furrr_options
+#' @importFrom future plan sequential multisession
 #' @seealso \code{\link{plot.bglmnet}}
 #' @examples
 #' n = 100
@@ -131,30 +144,63 @@ bglmnet <- function(
   #ystar = stats::simulate(object = mfstar, nsim = B)
   #ystar[is.na(ystar)] = Xy[is.na(ystar),yname]
 
-  betaboot <- array(0, dim = c(kf, nlambda, B))
-  rownames(betaboot) <- names(mfstar$coef)
-  for (j in 1:B) {
-    wts <- stats::rexp(n = n.obs, rate = 1) * m$wts
-    for (i in 1:nlambda) {
-      temp <- glmnet::glmnet(
-        X,
-        Y, #ystar[,j],
-        alpha = 1,
-        lambda = lambda[i],
-        intercept = TRUE,
-        #penalty.factor = penalty.factor,
-        family = fam,
-        weights = wts
-      )
-      betaboot[, i, j] <- (temp$beta[, 1] != 0)
-    }
+  if (is.null(cores)) {
+    cores <- max(parallel::detectCores() - 1, 1)
   }
+
+  old_plan <- future::plan()
+  on.exit(future::plan(old_plan), add = TRUE)
+  if (cores > 1) {
+    future::plan(future::multisession, workers = cores)
+  } else {
+    # explicitly force sequential execution; otherwise a pre-existing
+    # parallel plan set by the caller would remain active even though
+    # cores = 1 was requested
+    future::plan(future::sequential)
+  }
+
+  betaboot_list <- furrr::future_map(
+    seq_len(B),
+    \(j) {
+      # Avoid BLAS-thread oversubscription when running in worker
+      # processes alongside future::multisession parallelism.
+      if (cores > 1) {
+        mplot_pin_blas_threads()
+      }
+      wts <- stats::rexp(n = n.obs, rate = 1) * m$wts
+      betaboot_j <- matrix(0, nrow = kf, ncol = nlambda)
+      for (i in 1:nlambda) {
+        temp <- glmnet::glmnet(
+          X,
+          Y, #ystar[,j],
+          alpha = 1,
+          lambda = lambda[i],
+          intercept = TRUE,
+          #penalty.factor = penalty.factor,
+          family = fam,
+          weights = wts
+        )
+        betaboot_j[, i] <- (temp$beta[, 1] != 0)
+      }
+      betaboot_j
+    },
+    .options = furrr::furrr_options(seed = seed)
+  )
+
+  betaboot <- simplify2array(betaboot_list)
+  dim(betaboot) <- c(kf, nlambda, B)
+  rownames(betaboot) <- names(mfstar$coef)
   # looking at model selection across bootstrap replications
   get_unique_mods <- function(x) unique(t((x)))
   get.names <- function(x) paste(names(x)[x == 1], collapse = "+")
 
   mod.sum <- betaboot |>
-    apply(3, get_unique_mods) |>
+    # simplify = FALSE guarantees a list is returned even when every
+    # bootstrap replication happens to produce the same number of
+    # unique selected models (otherwise apply() silently simplifies
+    # the result to an array, and do.call(rbind, .) below fails with
+    # "second argument must be a list")
+    apply(3, get_unique_mods, simplify = FALSE) |>
     (\(x) do.call(rbind, x))() |>
     data.frame() |>
     dplyr::mutate(k = rowSums(dplyr::across(dplyr::everything()))) |>

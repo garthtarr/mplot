@@ -43,12 +43,15 @@ Default = FALSE.}
 variable.  Default = \code{TRUE}.}
 
 \item{cores}{number of cores to be used when parallel
-processing the bootstrap (Not yet implemented.)}
+processing the bootstrap. Defaults to one less than the number of
+available cores (minimum 1).}
 
 \item{force.in}{the names of variables that should be forced
 into all estimated models. (Not yet implemented.)}
 
-\item{seed}{random seed for reproducible results}
+\item{seed}{random seed for reproducible results. When set, results are
+reproducible across runs regardless of \code{cores} value. Uses
+\code{future}'s native seeding via \code{furrr_options(seed = seed)}.}
 }
 \description{
 Model stability and variable importance plots for glmnet
@@ -57,6 +60,13 @@ Model stability and variable importance plots for glmnet
 The result of this function is essentially just a
 list. The supplied plot method provides a way to visualise the
 results.
+
+The \code{cores} argument controls parallelization backend: when
+\code{cores > 1}, a \code{future::multisession} plan is registered
+for the duration of the function and the bootstrap loop over \code{B}
+replications is run in parallel (the inner loop over \code{nlambda}
+penalty values remains sequential within each worker). The caller's
+existing future plan is preserved and restored on exit.
 }
 \examples{
 n = 100

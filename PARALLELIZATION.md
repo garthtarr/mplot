@@ -9,12 +9,14 @@ Tracked in GitHub issues [#11](https://github.com/garthtarr/mplot/issues/11)–[
 | P1 | Fix duplicate cluster closure in `af()` / `vis()` | ✅ Done | [#17](https://github.com/garthtarr/mplot/issues/17) (closed), `8793a21` |
 | P2 | Migrate `af()` to `future`/`furrr`; remove global (`<<-`) assignment | ✅ Done | [#11](https://github.com/garthtarr/mplot/issues/11) (closed), `5b19a78` |
 | P2 | Migrate `vis()` to `future`/`furrr`; remove global assignment; fix `.packages` inconsistency | ✅ Done | [#12](https://github.com/garthtarr/mplot/issues/12) (closed) |
-| P3 | Add parallelization to `bglmnet()` | Open | [#13](https://github.com/garthtarr/mplot/issues/13) |
-| P3 | Fix `do.call(rbind, .)` data-processing bug in `bglmnet()` | Open | [#14](https://github.com/garthtarr/mplot/issues/14) |
+| P3 | Add parallelization to `bglmnet()` | ✅ Done | [#13](https://github.com/garthtarr/mplot/issues/13) |
+| P3 | Fix `do.call(rbind, .)` data-processing bug in `bglmnet()` | ✅ Done | [#14](https://github.com/garthtarr/mplot/issues/14) |
 | P3 | Reorder nested-loop parallelization in `af()` (flatten `n.c × B` grid) | Open | [#15](https://github.com/garthtarr/mplot/issues/15) |
 | P4 | Progress bars, backend selection, benchmarking | Open | [#16](https://github.com/garthtarr/mplot/issues/16) |
 
 **Latest update:** `af()` and `vis()` each called `parallel::stopCluster()` explicitly *and* registered it via `on.exit()`, closing the cluster twice and raising `invalid connection` errors — this was blocking the test suite. Fixed by removing the redundant explicit calls, relying on `on.exit()` alone. Verified with `cores = 1` and `cores = 2`. Tests updated to exercise the real code paths instead of skipping. See commit `8793a21`.
+
+**BLAS oversubscription:** worker processes still use whatever BLAS/LAPACK build R is linked against (OpenBLAS, MKL, Accelerate), which may itself be multithreaded. Combined with `future::multisession` process-level parallelism, this can spawn up to `cores^2` threads and cause CPU thrashing rather than a speedup. Added `mplot_pin_blas_threads()` (`R/utils-parallel.R`), an internal, dependency-optional helper (no-op unless `RhpcBLASctl` is installed) that pins BLAS/OpenMP threads to 1 inside a worker. It is called at the top of each `future_map()` worker body in `af()` and `vis()`, guarded by `cores > 1` so single-core (sequential) runs don't have their thread count altered. `RhpcBLASctl` was added to `Suggests`. `bglmnet()` (#13) now follows this same pattern: its `B` bootstrap loop runs via `furrr::future_map()` (the inner `nlambda` loop stays sequential per worker), respects the existing `cores` argument, uses `furrr_options(seed = seed)` for cross-core reproducibility, and calls `mplot_pin_blas_threads()` inside each worker guarded by `cores > 1`.
 
 ---
 
@@ -99,16 +101,16 @@ for (j in 1:B) {
 }
 ```
 
-**Remaining issues:**
-1. **No parallelization at all** — fully sequential nested loops (`B` × `nlambda` model fits), despite being the most computationally intensive of the three functions.
-2. **Separate data-processing bug** — lines ~156-158 raise `Error in do.call(rbind, x): second argument must be a list` for some inputs:
+**Remaining issues (both since resolved — see #13 and #14 above):**
+1. ~~**No parallelization at all**~~ — fixed in #13: the `B` loop now runs via `furrr::future_map()`.
+2. ~~**Separate data-processing bug**~~ — fixed in #14. `apply(betaboot, 3, get_unique_mods)` silently simplified to an array (instead of a list) whenever every bootstrap replication produced the same number of unique selected models, and the subsequent `do.call(rbind, x)` then errored with `second argument must be a list`:
    ```r
    mod.sum <- betaboot |>
      apply(3, get_unique_mods) |>
      (\(x) do.call(rbind, x))() |>  # fails when apply() returns a matrix, not a list
      ...
    ```
-   This is a correctness bug independent of parallelization and is why `test-bglmnet.R` still has a skipped test.
+   Fixed by passing `simplify = FALSE` to `apply()`, which guarantees a list is always returned regardless of whether individual results happen to have matching dimensions. Covered by a regression test in `test-bglmnet.R` using seeds known to trigger the equal-count case.
 
 ---
 
@@ -182,7 +184,7 @@ betaboot_list <- furrr::future_map(
 betaboot <- array(unlist(betaboot_list), dim = c(kf, nlambda, B))
 ```
 
-Note: the `do.call(rbind, .)` bug in the downstream summary step should be fixed independently of this — it will surface regardless of how `betaboot` is computed.
+Note: the `do.call(rbind, .)` bug in the downstream summary step was fixed independently of this (see #14 above) — it surfaces regardless of how `betaboot` is computed.
 
 ### P2: Fix global variable issues
 
@@ -230,19 +232,19 @@ test_that("bglmnet respects cores argument once parallelized", {
   - [x] Confirm tests pass with `devtools::test()`
   - [x] Enable previously-skipped `af()`/`vis()` tests
 
-- [ ] **Phase 2 (Short-term)**
-  - [ ] Add `future`, `furrr` to DESCRIPTION `Imports`
-  - [ ] Refactor `af()` to use `furrr::future_map_dfr()`
-  - [ ] Refactor `vis()` to use `furrr::future_map()`
-  - [ ] Remove `<<-` global assignments in both functions
-  - [ ] Update tests to verify seed-based reproducibility
-  - [ ] Document cluster/backend behavior in function help
+- [x] **Phase 2 (Short-term)** — #11, #12
+  - [x] Add `future`, `furrr` to DESCRIPTION `Imports`
+  - [x] Refactor `af()` to use `furrr::future_map()`
+  - [x] Refactor `vis()` to use `furrr::future_map()`
+  - [x] Remove `<<-` global assignments in both functions
+  - [x] Update tests to verify seed-based reproducibility
+  - [x] Document cluster/backend behavior in function help
 
-- [ ] **Phase 3 (Medium-term)**
-  - [ ] Add parallelization to `bglmnet()`
-  - [ ] Fix `do.call(rbind, .)` bug in `bglmnet()`'s model-summary step
+- [x] **Phase 3 (Medium-term)** — #13, #14
+  - [x] Add parallelization to `bglmnet()`
+  - [x] Fix `do.call(rbind, .)` bug in `bglmnet()`'s model-summary step
   - [ ] Reorder `af()`'s nested-loop parallelization (flatten `n.c × B` grid)
-  - [ ] Add comprehensive tests for `bglmnet()`
+  - [x] Add comprehensive tests for `bglmnet()`
 
 - [ ] **Phase 4 (Optional)**
   - [ ] Add progress bars via `progressr`

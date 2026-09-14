@@ -284,6 +284,11 @@ af <- function(
   p.star.list <- furrr::future_map(
     seq_along(c.range),
     \(j) {
+      # Avoid BLAS-thread oversubscription when running in worker
+      # processes alongside future::multisession parallelism.
+      if (cores > 1) {
+        mplot_pin_blas_threads()
+      }
       fence.mod <- list()
       fence.rank <- list()
       ystar <- stats::simulate(object = mfstar, nsim = B)

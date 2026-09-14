@@ -337,6 +337,11 @@ vis <- function(
     res <- furrr::future_map(
       1:B,
       \(b) {
+        # Avoid BLAS-thread oversubscription when running in worker
+        # processes alongside future::multisession parallelism.
+        if (cores > 1) {
+          mplot_pin_blas_threads()
+        }
         wts <- stats::rexp(n = n.obs, rate = 1) * initial.weights
 
         em <- suppressMessages(bestglm::bestglm(
@@ -365,6 +370,11 @@ vis <- function(
     res <- furrr::future_map(
       1:B,
       \(b) {
+        # Avoid BLAS-thread oversubscription when running in worker
+        # processes alongside future::multisession parallelism.
+        if (cores > 1) {
+          mplot_pin_blas_threads()
+        }
         em <-
           glmulti::glmulti(
             stats::formula(mf),
@@ -410,6 +420,11 @@ vis <- function(
     res <- furrr::future_map(
       1:B,
       \(b) {
+        # Avoid BLAS-thread oversubscription when running in worker
+        # processes alongside future::multisession parallelism.
+        if (cores > 1) {
+          mplot_pin_blas_threads()
+        }
         wts <- stats::rexp(n = n.obs, rate = 1) * initial.weights
         em <- leaps::regsubsets(
           x = fixed,
