@@ -15,7 +15,8 @@ Suggests:
     mvoutlier,
     glmulti,
     rmarkdown,
-    MASS
+    MASS,
+    testthat (>= 3.0.0)
 Imports:
     leaps,
     foreach,
@@ -42,3 +43,4 @@ Roxygen: list(markdown = TRUE)
 LazyData: TRUE
 Encoding: UTF-8
 Config/roxygen2/version: 8.0.0
+Config/testthat/edition: 3
