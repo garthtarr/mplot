@@ -25,11 +25,18 @@
 #'   Default = \code{FALSE}.
 #' @param redundant logical, whether or not to add a redundant
 #'   variable.  Default = \code{TRUE}.
-#' @param seed random seed for reproducible results
+#' @param seed random seed for reproducible results. When set, results are
+#'   reproducible across runs regardless of \code{cores} value. Uses
+#'   \code{future}'s native seeding via \code{furrr_options(seed = TRUE)}.
 #' @param ... further arguments (currently unused)
 #' @details The result of this function is essentially just a
 #'   list. The supplied plot method provides a way to visualise the
 #'   results.
+#'
+#'   The \code{cores} argument controls parallelization backend: when
+#'   \code{cores > 1}, a \code{future::multisession} plan is registered
+#'   for the duration of the function. The caller's existing future plan
+#'   is preserved and restored on exit.
 #'
 #'   See \code{?plot.vis} or \code{help("plot.vis")} for details of the
 #'   plot method associated with the result.
@@ -47,8 +54,9 @@
 #'   Graphical Model Stability and Variable Selection Procedures.
 #'   Journal of Statistical Software, 83(9), pp. 1-28. doi: 10.18637/jss.v083.i09
 #' @export
-#' @import foreach
 #' @import parallel
+#' @importFrom furrr future_map furrr_options
+#' @importFrom future plan sequential multisession
 #' @examples
 #' n = 100
 #' set.seed(11)
@@ -212,9 +220,6 @@ vis <- function(
       }))
       res.mat <- data.frame(res.mat, ll = x@crits, k = x@K)
     }
-    mf <<- mf
-    initial.weights <<- initial.weights
-
     dryrun <- glmulti::glmulti(
       stats::formula(mf),
       level = 1,
@@ -229,7 +234,7 @@ vis <- function(
       weights = mf$initial.weights
     )
 
-    dryrun <<- as.numeric(dryrun)
+    dryrun <- as.numeric(dryrun)
 
     n <- stats::nobs(mf)
 
@@ -313,21 +318,25 @@ vis <- function(
   if (missing(cores)) {
     cores <- max(detectCores() - 1, 1)
   }
-  cl.visB <- parallel::makeCluster(cores)
-  on.exit(parallel::stopCluster(cl.visB), add = TRUE)
-  doParallel::registerDoParallel(cl.visB)
+
+  old_plan <- future::plan()
+  on.exit(future::plan(old_plan), add = TRUE)
+  if (cores > 1) {
+    future::plan(future::multisession, workers = cores)
+  } else {
+    # explicitly force sequential execution; otherwise a pre-existing
+    # parallel plan set by the caller would remain active even though
+    # cores = 1 was requested
+    future::plan(future::sequential)
+  }
+
   if (inherits(mf, "glm") & !use.glmulti) {
     if (!("bestglm" %in% rownames(utils::installed.packages()))) {
       stop("bestglm package needed for GLMs. Please install it.", call. = FALSE)
     }
-    res <- foreach::foreach(
-      b = 1:B,
-      .packages = c("bestglm"),
-      .options.RNG = seed #,
-      # .export = c("n.obs") # don't seem to need to export this
-      # and get a warning when we do
-    ) %dorng%
-      {
+    res <- furrr::future_map(
+      1:B,
+      \(b) {
         wts <- stats::rexp(n = n.obs, rate = 1) * initial.weights
 
         em <- bestglm::bestglm(
@@ -348,19 +357,14 @@ vis <- function(
         # -(n/2) * log(sum(resid(ans)^2)/n) is used
         # note the bic in bestglm is calculated as:
         # -2*rs.all$logLikelihood + log(n)*(rs.all$k-1)
-      }
+        rs.all
+      },
+      .options = furrr::furrr_options(seed = seed)
+    )
   } else if (any(class(mf) == "glm") == TRUE & use.glmulti) {
-    res <- foreach(
-      b = 1:B,
-      .packages = c("glmulti", "dplyr"),
-      .options.RNG = seed
-    ) %dorng%
-      {
-        mf <<- mf
-        initial.weights <<- initial.weights
-        n.obs <<- n.obs
-        dryrun <<- dryrun
-
+    res <- furrr::future_map(
+      1:B,
+      \(b) {
         em <-
           glmulti::glmulti(
             stats::formula(mf),
@@ -398,17 +402,14 @@ vis <- function(
           dplyr::group_by(rs.all, k),
           logLikelihood == max(logLikelihood)
         )
-        rs.all <- base::data.frame(base::data.matrix(rs.all))
-      }
+        base::data.frame(base::data.matrix(rs.all))
+      },
+      .options = furrr::furrr_options(seed = seed)
+    )
   } else {
-    res <- foreach(
-      b = 1:B,
-      .packages = c("leaps"),
-      .options.RNG = seed # ,
-      # .export = c("n.obs") # don't seem to need to export this
-      # and get a warning when we do
-    ) %dorng%
-      {
+    res <- furrr::future_map(
+      1:B,
+      \(b) {
         wts <- stats::rexp(n = n.obs, rate = 1) * initial.weights
         em <- leaps::regsubsets(
           x = fixed,
@@ -444,10 +445,12 @@ vis <- function(
           "adjr2",
           "k"
         )
-        rs.all <- add.intercept.row(em, rs.which, rs.stats)
         # note that the BIC in leaps (and add.intercept.row funtion)
         # differs from the bestglm BIC buy a constant
-      }
+        add.intercept.row(em, rs.which, rs.stats)
+      },
+      .options = furrr::furrr_options(seed = seed)
+    )
   }
 
   ### Variable inclusion Plot Calculations

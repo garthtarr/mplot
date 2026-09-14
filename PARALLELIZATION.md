@@ -7,8 +7,8 @@ Tracked in GitHub issues [#11](https://github.com/garthtarr/mplot/issues/11)–[
 | Priority | Item | Status | Issue / Commit |
 |----------|------|--------|-----------------|
 | P1 | Fix duplicate cluster closure in `af()` / `vis()` | ✅ Done | [#17](https://github.com/garthtarr/mplot/issues/17) (closed), `8793a21` |
-| P2 | Migrate `af()` to `future`/`furrr`; remove global (`<<-`) assignment | ✅ Done | [#11](https://github.com/garthtarr/mplot/issues/11) (closed), `236fd89` |
-| P2 | Migrate `vis()` to `future`/`furrr`; remove global assignment; fix `.packages` inconsistency | Open | [#12](https://github.com/garthtarr/mplot/issues/12) |
+| P2 | Migrate `af()` to `future`/`furrr`; remove global (`<<-`) assignment | ✅ Done | [#11](https://github.com/garthtarr/mplot/issues/11) (closed), `5b19a78` |
+| P2 | Migrate `vis()` to `future`/`furrr`; remove global assignment; fix `.packages` inconsistency | ✅ Done | [#12](https://github.com/garthtarr/mplot/issues/12) (closed) |
 | P3 | Add parallelization to `bglmnet()` | Open | [#13](https://github.com/garthtarr/mplot/issues/13) |
 | P3 | Fix `do.call(rbind, .)` data-processing bug in `bglmnet()` | Open | [#14](https://github.com/garthtarr/mplot/issues/14) |
 | P3 | Reorder nested-loop parallelization in `af()` (flatten `n.c × B` grid) | Open | [#15](https://github.com/garthtarr/mplot/issues/15) |

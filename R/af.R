@@ -90,7 +90,6 @@
 #'   Fence methods for mixed model selection, Annals of Statistics,
 #'   36(4):1669-1692. doi: 10.1214/07-AOS517
 #' @export
-#' @import foreach
 #' @import parallel
 #' @importFrom furrr future_map furrr_options
 #' @importFrom future plan sequential multisession

@@ -73,3 +73,51 @@ test_that("vis works with multiple cores", {
 
   expect_s3_class(result, "vis")
 })
+
+test_that("vis produces reproducible results with same seed", {
+  n <- 40
+  x1 <- rnorm(n)
+  x2 <- rnorm(n)
+  y <- 1 + x1 + x2 + rnorm(n)
+  dat <- data.frame(y, x1, x2)
+
+  lm_fit <- lm(y ~ ., data = dat)
+  result1 <- vis(lm_fit, cores = 1, B = 5, seed = 8021)
+  result2 <- vis(lm_fit, cores = 1, B = 5, seed = 8021)
+
+  expect_identical(result1$res.df, result2$res.df)
+  expect_identical(result1$var.in, result2$var.in)
+})
+
+test_that("vis produces reproducible results across core counts", {
+  n <- 40
+  x1 <- rnorm(n)
+  x2 <- rnorm(n)
+  y <- 1 + x1 + x2 + rnorm(n)
+  dat <- data.frame(y, x1, x2)
+
+  lm_fit <- lm(y ~ ., data = dat)
+  result_seq <- vis(lm_fit, cores = 1, B = 5, seed = 6142)
+  result_par <- vis(lm_fit, cores = 2, B = 5, seed = 6142)
+
+  expect_identical(result_seq$res.df, result_par$res.df)
+  expect_identical(result_seq$var.in, result_par$var.in)
+})
+
+test_that("vis restores the caller's future plan on exit", {
+  n <- 40
+  x1 <- rnorm(n)
+  x2 <- rnorm(n)
+  y <- 1 + x1 + x2 + rnorm(n)
+  dat <- data.frame(y, x1, x2)
+  lm_fit <- lm(y ~ ., data = dat)
+
+  future::plan(future::multisession, workers = 2)
+  on.exit(future::plan(future::sequential), add = TRUE)
+
+  plan_before <- future::plan()
+  vis(lm_fit, cores = 1, B = 5, seed = 111)
+  plan_after <- future::plan()
+
+  expect_identical(class(plan_before), class(plan_after))
+})

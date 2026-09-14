@@ -405,8 +405,5 @@ process.fn <- function(fence.mod, fence.rank) {
   return(c(pstarj.bo, pstarnamej.bo, pstarj.all, pstarnamej.all))
 }
 
-#' @importFrom doRNG "%dorng%"
-NULL
-
 globalVariables(".")
 #  # hack for no visible binding for global variable '.'

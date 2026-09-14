@@ -51,7 +51,9 @@ Default = \code{FALSE}.}
 \item{redundant}{logical, whether or not to add a redundant
 variable.  Default = \code{TRUE}.}
 
-\item{seed}{random seed for reproducible results}
+\item{seed}{random seed for reproducible results. When set, results are
+reproducible across runs regardless of \code{cores} value. Uses
+\code{future}'s native seeding via \code{furrr_options(seed = TRUE)}.}
 
 \item{...}{further arguments (currently unused)}
 }
@@ -64,6 +66,11 @@ and bootstrap enhanced model stability plots (\code{lvk} and
 The result of this function is essentially just a
 list. The supplied plot method provides a way to visualise the
 results.
+
+The \code{cores} argument controls parallelization backend: when
+\code{cores > 1}, a \code{future::multisession} plan is registered
+for the duration of the function. The caller's existing future plan
+is preserved and restored on exit.
 
 See \code{?plot.vis} or \code{help("plot.vis")} for details of the
 plot method associated with the result.
