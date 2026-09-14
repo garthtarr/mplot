@@ -320,7 +320,6 @@ af <- function(
       }
       process.fn(fence.mod, fence.rank)
     }
-  stopCluster(cl.af)
 
   # Another function that processes results within af function
   #

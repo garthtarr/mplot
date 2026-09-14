@@ -1,10 +1,44 @@
-# Tests for af function are challenging due to parallel processing
-# and the computational nature of the adaptive fence procedure.
-# These placeholder tests demonstrate the test structure.
-# Once the af() function's parallel cluster handling is reviewed,
-# more robust tests can be added.
+test_that("af works with basic linear model and single core", {
+  set.seed(123)
+  n <- 50
+  x1 <- rnorm(n)
+  x2 <- rnorm(n)
+  y <- 1 + x1 + x2 + rnorm(n)
+  dat <- data.frame(y, x1, x2)
 
-test_that("af returns an object of class af", {
-  skip("af function requires parallel cluster configuration")
-  # Implementation will be added once cluster handling is fixed
+  lm_fit <- lm(y ~ ., data = dat)
+  result <- af(lm_fit, cores = 1, B = 5, n.c = 5, seed = 123)
+
+  expect_s3_class(result, "af")
+  expect_type(result, "list")
+  expect_named(result, c("bestOnly", "all", "call", "screen", "k.range"))
+})
+
+test_that("af returns non-null bestOnly and all model summaries", {
+  set.seed(456)
+  n <- 50
+  x1 <- rnorm(n)
+  x2 <- rnorm(n)
+  y <- 1 + x1 + x2 + rnorm(n)
+  dat <- data.frame(y, x1, x2)
+
+  lm_fit <- lm(y ~ ., data = dat)
+  result <- af(lm_fit, cores = 1, B = 5, n.c = 5, seed = 456)
+
+  expect_false(is.null(result$bestOnly))
+  expect_false(is.null(result$all))
+})
+
+test_that("af works with multiple cores", {
+  set.seed(789)
+  n <- 50
+  x1 <- rnorm(n)
+  x2 <- rnorm(n)
+  y <- 1 + x1 + x2 + rnorm(n)
+  dat <- data.frame(y, x1, x2)
+
+  lm_fit <- lm(y ~ ., data = dat)
+  result <- af(lm_fit, cores = 2, B = 5, n.c = 5, seed = 789)
+
+  expect_s3_class(result, "af")
 })
