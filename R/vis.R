@@ -186,14 +186,14 @@ vis <- function(
     # no redundant variable
     # Xy = X
     # Xy$REDUNDANT.VARIABLE = NULL # do want to keep it in
-    em <- bestglm::bestglm(
+    em <- suppressMessages(bestglm::bestglm(
       Xy = X,
       family = fam,
       IC = "AIC",
       TopModels = nbest + 1,
       nvmax = nvmax,
       weights = initial.weights
-    )
+    ))
     # has an intercept row
     rs.which <- em$BestModels[, 1:(kf - 1)] + 0
     k <- rowSums(rs.which) + 1
@@ -339,14 +339,14 @@ vis <- function(
       \(b) {
         wts <- stats::rexp(n = n.obs, rate = 1) * initial.weights
 
-        em <- bestglm::bestglm(
+        em <- suppressMessages(bestglm::bestglm(
           Xy = X,
           family = fam,
           IC = "BIC",
           TopModels = 1,
           weights = wts,
           nvmax = nvmax
-        )
+        ))
         # starts with intercept row
         rs.which <- em$Subsets[, 1:kf] + 0
         rs.stats <- em$Subsets[, -c(1:kf)]
