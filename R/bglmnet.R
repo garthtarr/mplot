@@ -52,86 +52,108 @@
 #' plot(bg1, which = "vip", interactive = FALSE)
 #' }
 
-
-bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
-                   penalty.factor, screen = FALSE,
-                   redundant = TRUE,
-                   cores = NULL,
-                   force.in = NULL,
-                   seed = NULL) {
-  
-  if(!is.null(seed)) {
+bglmnet <- function(
+  mf,
+  nlambda = 100,
+  lambda = NULL,
+  B = 100,
+  penalty.factor,
+  screen = FALSE,
+  redundant = TRUE,
+  cores = NULL,
+  force.in = NULL,
+  seed = NULL
+) {
+  if (!is.null(seed)) {
     set.seed(seed)
   }
-  
-  m = mextract(mf, screen = screen,
-               redundant = redundant)
-  
-  fixed = m$fixed
-  yname = m$yname
-  X = m$X
-  kf = m$k
-  n = m$n
-  family = m$family
-  fam = family$family
-  if (!is.element(fam,c("gaussian", "binomial", "poisson","multinomial", "cox", "mgaussian"))) {
-    stop(paste("family is",fam,
-               "but it needs to be one of gaussian, binomial, poisson, multinomial, cox, mgaussian"),
-         call. = FALSE)
+
+  m <- mextract(mf, screen = screen, redundant = redundant)
+
+  fixed <- m$fixed
+  yname <- m$yname
+  X <- m$X
+  kf <- m$k
+  n <- m$n
+  family <- m$family
+  fam <- family$family
+  if (
+    !is.element(
+      fam,
+      c("gaussian", "binomial", "poisson", "multinomial", "cox", "mgaussian")
+    )
+  ) {
+    stop(
+      paste(
+        "family is",
+        fam,
+        "but it needs to be one of gaussian, binomial, poisson, multinomial, cox, mgaussian"
+      ),
+      call. = FALSE
+    )
   }
-  
-  Xy = m$X
-  kf = m$k
-  X = Xy[,1:(kf - 1)]
-  Y = Xy[,kf]
-  n = m$n
-  n.obs = n
-  X = scale(X) * sqrt(n)/sqrt(n - 1)
+
+  Xy <- m$X
+  kf <- m$k
+  X <- Xy[, 1:(kf - 1)]
+  Y <- Xy[, kf]
+  n <- m$n
+  n.obs <- n
+  X <- scale(X) * sqrt(n) / sqrt(n - 1)
   #X[which(is.na(X))] = 0
-  X = cbind(1, X)
-  colnames(X) = c("(Intercept)",colnames(X)[-1])
+  X <- cbind(1, X)
+  colnames(X) <- c("(Intercept)", colnames(X)[-1])
   if (missing(penalty.factor)) {
     # link this with force.in
-    penalty.factor = c(0, rep(1, kf-1))
+    penalty.factor <- c(0, rep(1, kf - 1))
   }
   if (!is.null(lambda)) {
-    nlambda = length(lambda)
+    nlambda <- length(lambda)
   }
-  temp = glmnet::glmnet(X, Y, alpha = 1, 
-                        nlambda = nlambda,
-                        lambda = lambda,
-                        penalty.factor = penalty.factor,
-                        weights = m$wts)
-  mat = NULL
+  temp <- glmnet::glmnet(
+    X,
+    Y,
+    alpha = 1,
+    nlambda = nlambda,
+    lambda = lambda,
+    penalty.factor = penalty.factor,
+    weights = m$wts
+  )
+  mat <- NULL
   # redefine lambda explicitly
-  lambda = temp$lambda
-  nlambda = length(lambda)
-  compteur = matrix(0, kf, nlambda)
-  mfstar = do.call("glm",list(fixed, data = Xy, family = family, weights = m$wts))
+  lambda <- temp$lambda
+  nlambda <- length(lambda)
+  compteur <- matrix(0, kf, nlambda)
+  mfstar <- do.call(
+    "glm",
+    list(fixed, data = Xy, family = family, weights = m$wts)
+  )
   #ystar = stats::simulate(object = mfstar, nsim = B)
   #ystar[is.na(ystar)] = Xy[is.na(ystar),yname]
-  
-  betaboot = array(0,dim = c(kf,nlambda,B))
-  rownames(betaboot) = names(mfstar$coef)
+
+  betaboot <- array(0, dim = c(kf, nlambda, B))
+  rownames(betaboot) <- names(mfstar$coef)
   for (j in 1:B) {
-    wts = stats::rexp(n = n.obs, rate = 1) * m$wts
+    wts <- stats::rexp(n = n.obs, rate = 1) * m$wts
     for (i in 1:nlambda) {
-      temp = glmnet::glmnet(X, Y, #ystar[,j], 
-                            alpha = 1,
-                            lambda = lambda[i],
-                            intercept = TRUE,
-                            #penalty.factor = penalty.factor,
-                            family = fam,
-                            weights = wts)
-      betaboot[,i,j] = (temp$beta[, 1] != 0)
+      temp <- glmnet::glmnet(
+        X,
+        Y, #ystar[,j],
+        alpha = 1,
+        lambda = lambda[i],
+        intercept = TRUE,
+        #penalty.factor = penalty.factor,
+        family = fam,
+        weights = wts
+      )
+      betaboot[, i, j] <- (temp$beta[, 1] != 0)
     }
   }
   # looking at model selection across bootstrap replications
-  get_unique_mods = function(x) unique(t((x)))
-  get.names = function(x) paste(names(x)[x == 1],collapse = "+")
-  
-  
-  mod.sum = betaboot |>
+  get_unique_mods <- function(x) unique(t((x)))
+  get.names <- function(x) paste(names(x)[x == 1], collapse = "+")
+
+  mod.sum <- betaboot |>
     apply(3, get_unique_mods) |>
     (\(x) do.call(rbind, x))() |>
     data.frame() |>
@@ -143,29 +165,34 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
     dplyr::group_by(k) |>
     dplyr::mutate(prob = n / sum(n)) |>
     dplyr::ungroup()
-  mod.sum$mod.names = mod.sum |>
+  mod.sum$mod.names <- mod.sum |>
     dplyr::select(!dplyr::all_of(c("k", "n", "prob"))) |>
     apply(1, get.names)
-  mod.sum$mod.names[mod.sum$mod.names == ""] = "1"
-  mod.sum$mod.names = gsub(pattern = "X.Intercept.",
-                           replacement = "1", x = mod.sum$mod.names)
-  mod.sum$logLikelihood = NA
-  
+  mod.sum$mod.names[mod.sum$mod.names == ""] <- "1"
+  mod.sum$mod.names <- gsub(
+    pattern = "X.Intercept.",
+    replacement = "1",
+    x = mod.sum$mod.names
+  )
+  mod.sum$logLikelihood <- NA
+
   for (i in 1:nrow(mod.sum)) {
     # don't need to do this for models that include REDUNDANT.VARIABLE
-    mod.sum$logLikelihood[i] = stats::logLik(stats::glm(stats::as.formula(paste(yname,"~",mod.sum$mod.names[i])),
-                                                        data = Xy,
-                                                        family = family,
-                                                        weights = m$wts))
+    mod.sum$logLikelihood[i] <- stats::logLik(stats::glm(
+      stats::as.formula(paste(yname, "~", mod.sum$mod.names[i])),
+      data = Xy,
+      family = family,
+      weights = m$wts
+    ))
   }
-  
+
   # looking at variable inclusion across lambda values
-  compteur2 = apply(betaboot, c(1,2), sum)
-  probavariable = compteur2/B
-  colnames(probavariable) = round(lambda,3)
-  mods = list()
+  compteur2 <- apply(betaboot, c(1, 2), sum)
+  probavariable <- compteur2 / B
+  colnames(probavariable) <- round(lambda, 3)
+  mods <- list()
   for (k in 1:length(lambda)) {
-    mods[[k]] = table(apply(betaboot[,k,],2,get.names))
+    mods[[k]] <- table(apply(betaboot[, k, ], 2, get.names))
   }
   # all.mods = unique(names(unlist(mods)))
   # all.mods[all.mods == ""] = "1"
@@ -183,14 +210,16 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
   # }
   # all.k[all.mods=="1"] = 1
   # mod.sum2 = data.frame(mod.names = all.mods, ll=all.ll, k=all.k)
-  blarout = list(frequency = probavariable,
-                 lambda = lambda,
-                 mods = mods,
-                 mod.sum = mod.sum,
-                 screen = screen,
-                 vars = names(mfstar$coef),
-                 call = match.call())
-  class(blarout) = "bglmnet"
+  blarout <- list(
+    frequency = probavariable,
+    lambda = lambda,
+    mods = mods,
+    mod.sum = mod.sum,
+    screen = screen,
+    vars = names(mfstar$coef),
+    call = match.call()
+  )
+  class(blarout) <- "bglmnet"
   return(blarout)
 }
 
@@ -205,24 +234,24 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
 #'   googleVis plot is provided instead of the base graphics plot.
 #'   Default is \code{interactive=FALSE}.
 #' @param classic logical.  Depricated. If \code{classic=TRUE} a
-#'   base graphics plot is provided instead of a googleVis plot. 
-#'   For now specifying \code{classic} will overwrite the 
+#'   base graphics plot is provided instead of a googleVis plot.
+#'   For now specifying \code{classic} will overwrite the
 #'   default \code{interactive} behaviour, though this is
 #'   likely to be removed in the future.
-#' @param tag Default NULL. Name tag of the objects to be extracted 
-#' from a gvis (googleVis) object. 
-#' 
-#' The default tag for is NULL, which will 
-#' result in R opening a browser window.  Setting \code{tag='chart'} 
-#' or setting \code{options(gvis.plot.tag='chart')} is useful when 
-#' googleVis is used in scripts, like knitr or rmarkdown. 
-#' 
+#' @param tag Default NULL. Name tag of the objects to be extracted
+#' from a gvis (googleVis) object.
+#'
+#' The default tag for is NULL, which will
+#' result in R opening a browser window.  Setting \code{tag='chart'}
+#' or setting \code{options(gvis.plot.tag='chart')} is useful when
+#' googleVis is used in scripts, like knitr or rmarkdown.
+#'
 #' @param shiny Default FALSE. Set to TRUE when using in a shiny interface.
-#' 
+#'
 #' @param which a vector specifying the plots to be output. Variable
 #'   inclusion type plots \code{which = "vip"} or plots where the size
-#'   of the point representing each model is proportional to selection 
-#'   probabilities by model size \code{which = "boot_size"} 
+#'   of the point representing each model is proportional to selection
+#'   probabilities by model size \code{which = "boot_size"}
 #'   or by penalty paramter \code{which = "boot"}.
 #' @param width Width of the googleVis chart canvas area, in pixels.
 #'   Default: 800.
@@ -273,76 +302,107 @@ bglmnet = function(mf, nlambda = 100, lambda = NULL, B = 100,
 #' @export
 #' @seealso \code{\link{bglmnet}}
 
-plot.bglmnet = function(x, highlight, interactive = FALSE, 
-                        classic = NULL, 
-                        tag = NULL, shiny = FALSE,
-                        which=c("vip","boot","boot_size"),
-                        width=800, height=400, fontSize=12,
-                        left=50, top=30,
-                        chartWidth="60%",
-                        chartHeight="80%",
-                        axisTitlesPosition="out",
-                        dataOpacity=0.5,
-                        options=NULL,
-                        hAxis.logScale = TRUE,
-                        ylim, text = FALSE,
-                        backgroundColor = 'transparent',
-                        legend.position = "right",
-                        jitterk = 0.1,
-                        srt = 45,
-                        max.circle = 15,
-                        min.prob = 0.1, ...) {
-  if (!is.null(classic)) interactive = !classic
-  if (backgroundColor == "transparent") {
-    backgroundColor = "{stroke:null, fill:'null', strokeSize: 0}"
-  } else {
-    backgroundColor = paste("{stroke:null, fill:'",backgroundColor,
-                            "', strokeSize: 0}", sep = "")
+plot.bglmnet <- function(
+  x,
+  highlight,
+  interactive = FALSE,
+  classic = NULL,
+  tag = NULL,
+  shiny = FALSE,
+  which = c("vip", "boot", "boot_size"),
+  width = 800,
+  height = 400,
+  fontSize = 12,
+  left = 50,
+  top = 30,
+  chartWidth = "60%",
+  chartHeight = "80%",
+  axisTitlesPosition = "out",
+  dataOpacity = 0.5,
+  options = NULL,
+  hAxis.logScale = TRUE,
+  ylim,
+  text = FALSE,
+  backgroundColor = 'transparent',
+  legend.position = "right",
+  jitterk = 0.1,
+  srt = 45,
+  max.circle = 15,
+  min.prob = 0.1,
+  ...
+) {
+  if (!is.null(classic)) {
+    interactive <- !classic
   }
-  B = sum(x$mods[[1]])
-  gvis.hAxis = paste("{title:'Penalty parameter',
-                    logScale:'",hAxis.logScale,"' ,
-                    baseline:",0," ,
-                     maxValue:",max(x$lambda)*1.1," ,
-                     minValue:",min(x$lambda),"}",sep="")
-  
-  
+  if (backgroundColor == "transparent") {
+    backgroundColor <- "{stroke:null, fill:'null', strokeSize: 0}"
+  } else {
+    backgroundColor <- paste(
+      "{stroke:null, fill:'",
+      backgroundColor,
+      "', strokeSize: 0}",
+      sep = ""
+    )
+  }
+  B <- sum(x$mods[[1]])
+  gvis.hAxis <- paste(
+    "{title:'Penalty parameter',
+                    logScale:'",
+    hAxis.logScale,
+    "' ,
+                    baseline:",
+    0,
+    " ,
+                     maxValue:",
+    max(x$lambda) * 1.1,
+    " ,
+                     minValue:",
+    min(x$lambda),
+    "}",
+    sep = ""
+  )
+
   if (base::missing(highlight)) {
-    no.highlight = TRUE
-    highlight =  x$vars[2]
+    no.highlight <- TRUE
+    highlight <- x$vars[2]
     # if(sum(df.sub$k==2)>0){ # highlight best bivariate variable
     #   dfk2 = unique(df.sub[df.sub$k==2,c(1,5)])
     #   highlight = dfk2$mod.names[which.min(dfk2$ll)]
     # } else highlight =  x$vars[2]
   }
-  
+
   reverselog_trans <- function(base = 10) {
     trans <- function(x) -base::log(x, base)
     inv <- function(x) base^(-x)
-    scales::trans_new(base::paste0("reverselog-", base::format(base)), 
-                      trans, inv, 
-                      scales::log_breaks(base = base), 
-                      domain = c(1e-100, Inf))
+    scales::trans_new(
+      base::paste0("reverselog-", base::format(base)),
+      trans,
+      inv,
+      scales::log_breaks(base = base),
+      domain = c(1e-100, Inf)
+    )
   }
-  
-  
+
   if ("vip" %in% which) {
-    
-    var.names = x$vars[x$vars != "(Intercept)"]
-    p.var = t(x$freq)
-    p.var = p.var[,colnames(p.var) %in% var.names]
-    sortnames = names(sort(apply(p.var, 2, mean), decreasing = TRUE))
-    vip.df = p.var[,sortnames]
-    rownames(vip.df) = NULL
-    vip.df = data.frame(lambda = x$lambda, vip.df)
+    var.names <- x$vars[x$vars != "(Intercept)"]
+    p.var <- t(x$freq)
+    p.var <- p.var[, colnames(p.var) %in% var.names]
+    sortnames <- names(sort(apply(p.var, 2, mean), decreasing = TRUE))
+    vip.df <- p.var[, sortnames]
+    rownames(vip.df) <- NULL
+    vip.df <- data.frame(lambda = x$lambda, vip.df)
     #tid = c(1,2,4,6:dim(vip.df)[2])
     #vip.df[, tid] = sapply(vip.df[, tid], as.numeric)
-    colnames(vip.df) = gsub("REDUNDANT.VARIABLE", "RV", colnames(vip.df))
-    sortnames = gsub("REDUNDANT.VARIABLE", "RV", sortnames)
-    if(!interactive) { 
-      ggdat = vip.df |>
-        tidyr::pivot_longer(cols = -"lambda", names_to = "variable", values_to = "prob")
-      p = ggplot2::ggplot(
+    colnames(vip.df) <- gsub("REDUNDANT.VARIABLE", "RV", colnames(vip.df))
+    sortnames <- gsub("REDUNDANT.VARIABLE", "RV", sortnames)
+    if (!interactive) {
+      ggdat <- vip.df |>
+        tidyr::pivot_longer(
+          cols = -"lambda",
+          names_to = "variable",
+          values_to = "prob"
+        )
+      p <- ggplot2::ggplot(
         data = ggdat,
         ggplot2::aes(
           x = .data[["lambda"]],
@@ -352,184 +412,221 @@ plot.bglmnet = function(x, highlight, interactive = FALSE,
       ) +
         ggplot2::geom_line() +
         ggplot2::theme_bw(base_size = 14) +
-        ggplot2::labs(y = "Bootstrap inclusion probability",
-                      x = "Penalty") +
+        ggplot2::labs(y = "Bootstrap inclusion probability", x = "Penalty") +
         ggplot2::scale_x_log10() +
         ggplot2::theme(
           legend.title = ggplot2::element_blank(),
           legend.key = ggplot2::element_blank(),
           legend.position = legend.position
         )
-      
+
       return(p)
-      
-    } else { # interactive = TRUE
-      
-      gvis.title = "Variable inclusion plot (lasso)"
-      chartArea = paste("{left:",left,
-                        ",top:",top,
-                        ",width:'",chartWidth,
-                        "',height:'",chartHeight,"'}", sep = "")
+    } else {
+      # interactive = TRUE
+
+      gvis.title <- "Variable inclusion plot (lasso)"
+      chartArea <- paste(
+        "{left:",
+        left,
+        ",top:",
+        top,
+        ",width:'",
+        chartWidth,
+        "',height:'",
+        chartHeight,
+        "'}",
+        sep = ""
+      )
       if (is.null(options)) {
-        use.options = list(title = gvis.title,
-                           fontSize = fontSize,
-                           vAxis = "{title:'Bootstrapped probability'}",
-                           hAxis = gvis.hAxis,
-                           sizeAxis = "{minValue: 0, minSize: 1,
+        use.options <- list(
+          title = gvis.title,
+          fontSize = fontSize,
+          vAxis = "{title:'Bootstrapped probability'}",
+          hAxis = gvis.hAxis,
+          sizeAxis = "{minValue: 0, minSize: 1,
                            maxSize: 20, maxValue:1}",
-                           axisTitlesPosition = axisTitlesPosition,
-                           chartArea = chartArea,
-                           width = width, height = height,
-                           backgroundColor = backgroundColor,
-                           annotations = "{style:'line'}")
-    } else {use.options = options}
-      fplot = googleVis::gvisLineChart(data = vip.df,
-                                       xvar = "lambda",
-                                       yvar = sortnames,
-                                       options = use.options)
-      if(shiny){
+          axisTitlesPosition = axisTitlesPosition,
+          chartArea = chartArea,
+          width = width,
+          height = height,
+          backgroundColor = backgroundColor,
+          annotations = "{style:'line'}"
+        )
+      } else {
+        use.options <- options
+      }
+      fplot <- googleVis::gvisLineChart(
+        data = vip.df,
+        xvar = "lambda",
+        yvar = sortnames,
+        options = use.options
+      )
+      if (shiny) {
         return(fplot)
       } else {
         return(graphics::plot(fplot, tag = tag))
       }
     }
   }
-  
-  if("boot" %in% which){
-    
-    l.vec = rep(x$lambda, times = lapply(x$mods,length))
-    mod.vec = unlist(x$mods)
-    mod.names = names(mod.vec)
-    mod.names[mod.names==""] = "1"
-    mod.vec.counts = as.numeric(mod.vec)
-    mod.vec.prob = mod.vec.counts/B
-    df.temp = data.frame(l.vec,mod.vec.counts,mod.vec.prob,mod.names)
+
+  if ("boot" %in% which) {
+    l.vec <- rep(x$lambda, times = lapply(x$mods, length))
+    mod.vec <- unlist(x$mods)
+    mod.names <- names(mod.vec)
+    mod.names[mod.names == ""] <- "1"
+    mod.vec.counts <- as.numeric(mod.vec)
+    mod.vec.prob <- mod.vec.counts / B
+    df.temp <- data.frame(l.vec, mod.vec.counts, mod.vec.prob, mod.names)
     # remove redundant variables
-    df = df.temp[-grep("REDUNDANT.VARIABLE",df.temp$mod.names),]
-    df.full = merge(df,x$mod.sum,all.x = TRUE)
-    if(all(df.full$mod.vec.prob<min.prob))
-      min.prob = stats::quantile(df.full$mod.vec.prob,0.75)
-    df.sub = subset(df.full, df.full$mod.vec.prob > min.prob)
-    df.sub$mod.names = as.character(df.sub$mod.names)
-    
-    
-    mod.parts = lapply(df.sub$mod.names,FUN = strsplit,"+",fixed=TRUE)
-    find.var = function(x,highlight){
-      is.element(highlight,unlist(x))
+    df <- df.temp[-grep("REDUNDANT.VARIABLE", df.temp$mod.names), ]
+    df.full <- merge(df, x$mod.sum, all.x = TRUE)
+    if (all(df.full$mod.vec.prob < min.prob)) {
+      min.prob <- stats::quantile(df.full$mod.vec.prob, 0.75)
     }
-    var.ident = unlist(lapply(mod.parts, find.var,highlight=highlight))
-    var.ident[var.ident==TRUE] =  paste("With",highlight)
-    var.ident[var.ident==FALSE] =  paste("Without",highlight)
-    df.sub$var.ident = var.ident
-    df.sub$m2ll = -2*df.sub$logLikelihood
-    
-    if (! interactive) {
-      
-      p = ggplot2::ggplot(
+    df.sub <- subset(df.full, df.full$mod.vec.prob > min.prob)
+    df.sub$mod.names <- as.character(df.sub$mod.names)
+
+    mod.parts <- lapply(df.sub$mod.names, FUN = strsplit, "+", fixed = TRUE)
+    find.var <- function(x, highlight) {
+      is.element(highlight, unlist(x))
+    }
+    var.ident <- unlist(lapply(mod.parts, find.var, highlight = highlight))
+    var.ident[var.ident == TRUE] <- paste("With", highlight)
+    var.ident[var.ident == FALSE] <- paste("Without", highlight)
+    df.sub$var.ident <- var.ident
+    df.sub$m2ll <- -2 * df.sub$logLikelihood
+
+    if (!interactive) {
+      p <- ggplot2::ggplot(
         data = df.sub,
-        ggplot2::aes(x = .data[["l.vec"]],
-                     y = .data[["m2ll"]],
-                     label = .data[["mod.names"]])) +
+        ggplot2::aes(
+          x = .data[["l.vec"]],
+          y = .data[["m2ll"]],
+          label = .data[["mod.names"]]
+        )
+      ) +
         ggplot2::geom_jitter(
-          ggplot2::aes(size = .data[["mod.vec.prob"]],
-                       fill = .data[["var.ident"]]),
+          ggplot2::aes(
+            size = .data[["mod.vec.prob"]],
+            fill = .data[["var.ident"]]
+          ),
           shape = 21,
           width = 0.0,
-          alpha = 0.4) + 
+          alpha = 0.4
+        ) +
         ggplot2::scale_x_continuous(trans = reverselog_trans()) +
-        ggplot2::theme_bw(base_size = 14) + 
-        ggplot2::labs(y = "-2*Log-likelihood",
-                      x = "Penalty parameter") + 
-        ggplot2::theme(legend.title = ggplot2::element_blank(),
-                       legend.key = ggplot2::element_blank(),
-                       legend.position = "right") +
-        ggplot2::scale_fill_manual(values = ggplot2::alpha(c("red","blue"), .4)) +
+        ggplot2::theme_bw(base_size = 14) +
+        ggplot2::labs(y = "-2*Log-likelihood", x = "Penalty parameter") +
+        ggplot2::theme(
+          legend.title = ggplot2::element_blank(),
+          legend.key = ggplot2::element_blank(),
+          legend.position = "right"
+        ) +
+        ggplot2::scale_fill_manual(
+          values = ggplot2::alpha(c("red", "blue"), .4)
+        ) +
         ggplot2::guides(
           fill = ggplot2::guide_legend(
             override.aes = list(
               shape = 22,
               size = 5,
-              fill = ggplot2::alpha(c("red","blue"), .4)
+              fill = ggplot2::alpha(c("red", "blue"), .4)
             )
           )
         )
-      
-      # if (!missing(ylim)) 
+
+      # if (!missing(ylim))
       #   p = p + ggplot2::ylim(ylim[1],ylim[2])
-      
+
       return(p)
-      
-    } else { # interactive = TRUE
-      
-      gvis.title = paste("Model stability plot for glmnet",sep="")
+    } else {
+      # interactive = TRUE
+
+      gvis.title <- paste("Model stability plot for glmnet", sep = "")
       #x.ticks=paste(1:max(x$lk$k),collapse=",")
-      chartArea = paste("{left:",left,
-                        ",top:",top,
-                        ",width:'",chartWidth,
-                        "',height:'",chartHeight,"'}",sep="")
-      bubble = paste("{opacity:",dataOpacity,
-                     ", textStyle: {color: 'none'}}",sep="")
-      
-      if(is.null(options)){
-        use.options=list(title=gvis.title,
-                         fontSize = fontSize,
-                         vAxis="{title:'-2*Log-likelihood'}",
-                         hAxis=gvis.hAxis,
-                         sizeAxis = "{minValue: 0, minSize: 1,
+      chartArea <- paste(
+        "{left:",
+        left,
+        ",top:",
+        top,
+        ",width:'",
+        chartWidth,
+        "',height:'",
+        chartHeight,
+        "'}",
+        sep = ""
+      )
+      bubble <- paste(
+        "{opacity:",
+        dataOpacity,
+        ", textStyle: {color: 'none'}}",
+        sep = ""
+      )
+
+      if (is.null(options)) {
+        use.options <- list(
+          title = gvis.title,
+          fontSize = fontSize,
+          vAxis = "{title:'-2*Log-likelihood'}",
+          hAxis = gvis.hAxis,
+          sizeAxis = "{minValue: 0, minSize: 1,
                          maxSize: 20, maxValue:1}",
-                         axisTitlesPosition=axisTitlesPosition,
-                         bubble = bubble,
-                         chartArea=chartArea,
-                         width=width, height=height,
-                         backgroundColor=backgroundColor,
-                         explorer= "{axis: 'vertical',
+          axisTitlesPosition = axisTitlesPosition,
+          bubble = bubble,
+          chartArea = chartArea,
+          width = width,
+          height = height,
+          backgroundColor = backgroundColor,
+          explorer = "{axis: 'vertical',
                          keepInBounds: true,
                          maxZoomOut: 1,
                          maxZoomIn: 0.01,
                          actions: ['dragToZoom',
-                         'rightClickToReset']}")
-      } else {use.options = options}
-      
-      fplot = googleVis::gvisBubbleChart(data = df.sub,
-                                         idvar = "mod.names",
-                                         xvar = "l.vec",
-                                         yvar = "m2ll", 
-                                         colorvar = "var.ident",
-                                         sizevar = "mod.vec.prob",
-                                         options = use.options)
-      if(shiny){
+                         'rightClickToReset']}"
+        )
+      } else {
+        use.options <- options
+      }
+
+      fplot <- googleVis::gvisBubbleChart(
+        data = df.sub,
+        idvar = "mod.names",
+        xvar = "l.vec",
+        yvar = "m2ll",
+        colorvar = "var.ident",
+        sizevar = "mod.vec.prob",
+        options = use.options
+      )
+      if (shiny) {
         return(fplot)
       } else {
         graphics::plot(fplot, tag = tag)
       }
     }
   }
-  
-  if("boot_size" %in% which) {
-    
-    
-    pd = x$mod.sum
-    pd$var.ident.tf = NA
-    pd$var.ident.tf = pd[, highlight[1]] == 1
+
+  if ("boot_size" %in% which) {
+    pd <- x$mod.sum
+    pd$var.ident.tf <- NA
+    pd$var.ident.tf <- pd[, highlight[1]] == 1
     #vi = var.ident
-    pd$var.ident = NA
-    pd$var.ident[pd$var.ident.tf == TRUE] = paste("With", highlight[1])
-    pd$var.ident[pd$var.ident.tf == FALSE] = paste("Without", highlight[1])
-    pd$m2ll = -2*pd$logLikelihood
-    
-    if(!interactive){
-      
-      p = ggplot2::ggplot(
+    pd$var.ident <- NA
+    pd$var.ident[pd$var.ident.tf == TRUE] <- paste("With", highlight[1])
+    pd$var.ident[pd$var.ident.tf == FALSE] <- paste("Without", highlight[1])
+    pd$m2ll <- -2 * pd$logLikelihood
+
+    if (!interactive) {
+      p <- ggplot2::ggplot(
         pd,
         ggplot2::aes(
           x = .data[["k"]],
           y = .data[["m2ll"]],
           group = .data[["var.ident"]],
           label = .data[["mod.names"]]
-        )) +
+        )
+      ) +
         ggplot2::geom_jitter(
-          ggplot2::aes(size = .data[["prob"]],
-                       fill = .data[["var.ident"]]),
+          ggplot2::aes(size = .data[["prob"]], fill = .data[["var.ident"]]),
           shape = 21,
           width = jitterk
         ) +
@@ -542,23 +639,30 @@ plot.bglmnet = function(x, highlight, interactive = FALSE,
           legend.key = ggplot2::element_blank(),
           legend.position = legend.position
         ) +
-        ggplot2::scale_fill_manual(values = ggplot2::alpha(c("red", "blue"), .4)) +
-        ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(
-          shape = 22,
-          size = 5,
-          fill = ggplot2::alpha(c("red", "blue"), .4)
-        )))
-      if (!base::missing(ylim))
-        p = p + ggplot2::ylim(ylim[1], ylim[2])
-      if (text) {
-        p = p + ggplot2::geom_text(hjust = 0, angle = srt)
+        ggplot2::scale_fill_manual(
+          values = ggplot2::alpha(c("red", "blue"), .4)
+        ) +
+        ggplot2::guides(
+          fill = ggplot2::guide_legend(
+            override.aes = list(
+              shape = 22,
+              size = 5,
+              fill = ggplot2::alpha(c("red", "blue"), .4)
+            )
+          )
+        )
+      if (!base::missing(ylim)) {
+        p <- p + ggplot2::ylim(ylim[1], ylim[2])
       }
-      return(p)  
-      
-    } else { # interactive = TRUE
-      gvis.title = paste("Model stability plot (lasso)", sep = "")
-      x.ticks = paste(1:max(pd$k), collapse = ",")
-      gvis.hAxis = paste(
+      if (text) {
+        p <- p + ggplot2::geom_text(hjust = 0, angle = srt)
+      }
+      return(p)
+    } else {
+      # interactive = TRUE
+      gvis.title <- paste("Model stability plot (lasso)", sep = "")
+      x.ticks <- paste(1:max(pd$k), collapse = ",")
+      gvis.hAxis <- paste(
         "{title:'Number of parameters',
         maxValue:",
         max(pd$k) + 0.5,
@@ -570,20 +674,28 @@ plot.bglmnet = function(x, highlight, interactive = FALSE,
         x.ticks,
         "]}"
       )
-      y.min = min(pd$m2ll) - 0.02*(max(pd$m2ll)- min(pd$m2ll))
-      gvis.vAxis = paste("{title:'-2*Log-likelihood', minValue:",
-                         y.min, "}")
-      chartArea = paste(
-        "{left:", left, ",top:", top,
-        ",width:'", chartWidth, "',height:'", chartHeight,
-        "'}", sep = ""
+      y.min <- min(pd$m2ll) - 0.02 * (max(pd$m2ll) - min(pd$m2ll))
+      gvis.vAxis <- paste("{title:'-2*Log-likelihood', minValue:", y.min, "}")
+      chartArea <- paste(
+        "{left:",
+        left,
+        ",top:",
+        top,
+        ",width:'",
+        chartWidth,
+        "',height:'",
+        chartHeight,
+        "'}",
+        sep = ""
       )
-      bubble = paste("{opacity:",
-                     dataOpacity,
-                     ", textStyle: {color: 'none'}}",
-                     sep = "")
+      bubble <- paste(
+        "{opacity:",
+        dataOpacity,
+        ", textStyle: {color: 'none'}}",
+        sep = ""
+      )
       if (is.null(options)) {
-        use.options = list(
+        use.options <- list(
           title = gvis.title,
           fontSize = fontSize,
           vAxis = gvis.vAxis,
@@ -604,9 +716,9 @@ plot.bglmnet = function(x, highlight, interactive = FALSE,
           'rightClickToReset']}"
         )
       } else {
-        use.options = options
+        use.options <- options
       }
-      fplot = googleVis::gvisBubbleChart(
+      fplot <- googleVis::gvisBubbleChart(
         data = pd,
         idvar = "mod.names",
         xvar = "k",
@@ -621,6 +733,7 @@ plot.bglmnet = function(x, highlight, interactive = FALSE,
         graphics::plot(fplot, tag = tag)
       }
     }
-  } else return(invisible())
-  
+  } else {
+    return(invisible())
+  }
 }

@@ -110,118 +110,128 @@
 #' plot(af1)
 #' }
 
-
-af = function(mf,
-              B = 60,
-              n.c = 20,
-              initial.stepwise = FALSE,
-              force.in = NULL,
-              cores,
-              nvmax,
-              c.max,
-              screen = FALSE,
-              seed = NULL,
-              ...) {
+af <- function(
+  mf,
+  B = 60,
+  n.c = 20,
+  initial.stepwise = FALSE,
+  force.in = NULL,
+  cores,
+  nvmax,
+  c.max,
+  screen = FALSE,
+  seed = NULL,
+  ...
+) {
   set.seed(seed)
-  method = "ML"
-  af.call = match.call()
+  method <- "ML"
+  af.call <- match.call()
   if (!missing(c.max) & initial.stepwise == TRUE) {
-    initial.stepwise = FALSE
+    initial.stepwise <- FALSE
     warning("When c.max is specified, initial.stepwise=FALSE")
   }
   if (!inherits(mf, "lm")) {
     warning("Adaptive fence currently only implemented for lm and glm")
-    model.type = "lm"
+    model.type <- "lm"
   }
   if (inherits(mf, "glm")) {
-    family = stats::family(mf)
+    family <- stats::family(mf)
     if (!is.null(force.in)) {
       warning("force.in is not implemented for glms")
     }
-    model.type = "glm"
+    model.type <- "glm"
   } else if (inherits(mf, "lm")) {
-    model.type = "lm"
+    model.type <- "lm"
   }
-  m = mextract(mf, screen = screen)
-  fixed = m$fixed
-  yname = m$yname
-  family = m$family
-  Xy = m$X
-  kf = m$k
-  n = m$n
-  Xy$initial.weights = m$wts
-  initial.weights = m$wts
-  null.ff = stats::as.formula(paste(yname, "~1"))
+  m <- mextract(mf, screen = screen)
+  fixed <- m$fixed
+  yname <- m$yname
+  family <- m$family
+  Xy <- m$X
+  kf <- m$k
+  n <- m$n
+  Xy$initial.weights <- m$wts
+  initial.weights <- m$wts
+  null.ff <- stats::as.formula(paste(yname, "~1"))
   if (model.type == "glm") {
-    m0 = stats::glm(null.ff,
-                    data = Xy,
-                    family = family,
-                    weights = initial.weights)
-    mfstar = stats::glm(fixed,
-                        data = Xy,
-                        family = family,
-                        weights = initial.weights)
+    m0 <- stats::glm(
+      null.ff,
+      data = Xy,
+      family = family,
+      weights = initial.weights
+    )
+    mfstar <- stats::glm(
+      fixed,
+      data = Xy,
+      family = family,
+      weights = initial.weights
+    )
   } else {
-    m0 = stats::lm(null.ff, data = Xy, weights = initial.weights)
-    mfstar = stats::lm(fixed, data = Xy, weights = initial.weights)
+    m0 <- stats::lm(null.ff, data = Xy, weights = initial.weights)
+    mfstar <- stats::lm(fixed, data = Xy, weights = initial.weights)
   }
-  Qm0 = Qm(m0, method = method)
-  Qmfstar = Qm(mfstar, method = method)
+  Qm0 <- Qm(m0, method = method)
+  Qmfstar <- Qm(mfstar, method = method)
   if (!is.null(force.in)) {
-    small.ff = stats::as.formula(paste(yname, "~", paste(force.in, collapse =
-                                                           "+")))
+    small.ff <- stats::as.formula(paste(
+      yname,
+      "~",
+      paste(force.in, collapse = "+")
+    ))
   } else {
-    small.ff = null.ff
+    small.ff <- null.ff
   }
   if (initial.stepwise) {
     if (model.type == "glm") {
-      small.mod = stats::glm(small.ff,
-                             data = Xy,
-                             family = family,
-                             weights = initial.weights)
+      small.mod <- stats::glm(
+        small.ff,
+        data = Xy,
+        family = family,
+        weights = initial.weights
+      )
     } else {
-      small.mod = stats::lm(small.ff, data = Xy, weights = initial.weights)
+      small.mod <- stats::lm(small.ff, data = Xy, weights = initial.weights)
     }
     # backwards and forwards model selection using
     # BIC (conservative) and AIC (less conservative)
-    bwds.BIC = stats::step(
+    bwds.BIC <- stats::step(
       mfstar,
       scope = list(lower = small.ff, upper = fixed),
       direction = "backward",
       k = log(n),
       trace = 0
     )
-    fwds.BIC = stats::step(
+    fwds.BIC <- stats::step(
       small.mod,
       scope = list(lower = small.ff, upper = fixed),
       direction = "forward",
       k = log(n),
       trace = 0
     )
-    bwds.AIC = stats::step(
+    bwds.AIC <- stats::step(
       mfstar,
       scope = list(lower = small.ff, upper = fixed),
       direction = "backward",
       k = 2,
       trace = 0
     )
-    fwds.AIC = stats::step(
+    fwds.AIC <- stats::step(
       small.mod,
       scope = list(lower = small.ff, upper = fixed),
       direction = "forward",
       k = 2,
       trace = 0
     )
-    k.vals = c(
+    k.vals <- c(
       length(bwds.BIC$coef),
       length(fwds.BIC$coef),
       length(bwds.AIC$coef),
       length(fwds.AIC$coef)
     )
-    k.min = max(min(k.vals) - 2, 1)
-    k.max = min(max(k.vals) + 2, kf)
-    k.range = list(k.min = k.min, k.max = k.max)
-    Q.range = qrange(
+    k.min <- max(min(k.vals) - 2, 1)
+    k.max <- min(max(k.vals) + 2, kf)
+    k.range <- list(k.min = k.min, k.max = k.max)
+    Q.range <- qrange(
       k.range = k.range,
       data = Xy,
       yname = yname,
@@ -231,124 +241,135 @@ af = function(mf,
       model.type = model.type,
       family = family
     )
-    c.max = (Q.range$Q.max - Qmfstar) * 1.1
-    c.min = max(Q.range$Q.min - Qmfstar, 0) * 0.9
-    c.range = seq(c.min, c.max, length.out = n.c)
-    if (missing(nvmax))
-      nvmax = k.max
+    c.max <- (Q.range$Q.max - Qmfstar) * 1.1
+    c.min <- max(Q.range$Q.min - Qmfstar, 0) * 0.9
+    c.range <- seq(c.min, c.max, length.out = n.c)
+    if (missing(nvmax)) {
+      nvmax <- k.max
+    }
   } else {
-    k.range = list(k.min = 1, k.max = kf)
-    if (missing(c.max))
-      c.max = (Qm0 - Qmfstar) * 1.1
-    c.min = 0.1
-    c.range = seq(c.min, c.max, length.out = n.c)
-    if (missing(nvmax))
-      nvmax = kf
+    k.range <- list(k.min = 1, k.max = kf)
+    if (missing(c.max)) {
+      c.max <- (Qm0 - Qmfstar) * 1.1
+    }
+    c.min <- 0.1
+    c.range <- seq(c.min, c.max, length.out = n.c)
+    if (missing(nvmax)) {
+      nvmax <- kf
+    }
   }
-  
-  if (missing(cores))
-    cores = max(detectCores() - 1, 1)
-  cl.af = makeCluster(cores)
+
+  if (missing(cores)) {
+    cores <- max(detectCores() - 1, 1)
+  }
+  cl.af <- makeCluster(cores)
   on.exit(parallel::stopCluster(cl.af), add = TRUE)
   doParallel::registerDoParallel(cl.af)
-  j = NULL # avoid global variable NOTE in R CMD check
-  p.star.all = foreach(j = 1:n.c,
-                       .combine = rbind,
-                       .packages = c("mplot"),
-                       .options.RNG=seed) %dorng% {
-                         fence.mod = list()
-                         fence.rank = list()
-                         ystar = stats::simulate(object = mfstar, nsim = B)
-                         initial.weights <<- m$wts
-                         if (model.type == "glm") {
-                           for (i in 1:B) {
-                             Xy[yname] = ystar[, i]
-                             mfstarB = do.call("glm",
-                                               list(
-                                                 fixed,
-                                                 data = Xy,
-                                                 family = family,
-                                                 weights = initial.weights
-                                               ))
-                             fms = glmfence(
-                               mfstarB,
-                               cstar = c.range[j],
-                               trace = FALSE,
-                               nvmax = nvmax,
-                               adaptive = TRUE
-                             )
-                             fence.mod = c(fence.mod, fms)
-                             fence.rank = c(fence.rank, 1:length(fms))
-                           }
-                         } else {
-                           for (i in 1:B) {
-                             Xy[yname] = ystar[, i]
-                             mfstarB = do.call("lm", list(fixed, data = Xy, weights = initial.weights))
-                             fms = lmfence(
-                               mfstarB,
-                               cstar = c.range[j],
-                               trace = FALSE,
-                               nvmax = nvmax,
-                               force.in = force.in,
-                               adaptive = TRUE
-                             )
-                             fence.mod = c(fence.mod, fms)
-                             fence.rank = c(fence.rank, 1:length(fms))
-                           }
-                         }
-                         process.fn(fence.mod, fence.rank)
-                       }
+  j <- NULL # avoid global variable NOTE in R CMD check
+  p.star.all <- foreach(
+    j = 1:n.c,
+    .combine = rbind,
+    .packages = c("mplot"),
+    .options.RNG = seed
+  ) %dorng%
+    {
+      fence.mod <- list()
+      fence.rank <- list()
+      ystar <- stats::simulate(object = mfstar, nsim = B)
+      initial.weights <<- m$wts
+      if (model.type == "glm") {
+        for (i in 1:B) {
+          Xy[yname] <- ystar[, i]
+          mfstarB <- do.call(
+            "glm",
+            list(
+              fixed,
+              data = Xy,
+              family = family,
+              weights = initial.weights
+            )
+          )
+          fms <- glmfence(
+            mfstarB,
+            cstar = c.range[j],
+            trace = FALSE,
+            nvmax = nvmax,
+            adaptive = TRUE
+          )
+          fence.mod <- c(fence.mod, fms)
+          fence.rank <- c(fence.rank, 1:length(fms))
+        }
+      } else {
+        for (i in 1:B) {
+          Xy[yname] <- ystar[, i]
+          mfstarB <- do.call(
+            "lm",
+            list(fixed, data = Xy, weights = initial.weights)
+          )
+          fms <- lmfence(
+            mfstarB,
+            cstar = c.range[j],
+            trace = FALSE,
+            nvmax = nvmax,
+            force.in = force.in,
+            adaptive = TRUE
+          )
+          fence.mod <- c(fence.mod, fms)
+          fence.rank <- c(fence.rank, 1:length(fms))
+        }
+      }
+      process.fn(fence.mod, fence.rank)
+    }
   stopCluster(cl.af)
-  
+
   # Another function that processes results within af function
   #
   # This function is used by the af function to process
   # the results when iterating over different boundary values
-  
-  pstar.fn = function(input, type) {
+
+  pstar.fn <- function(input, type) {
     if (type == "bo") {
-      p.star = input[, 1:2]
+      p.star <- input[, 1:2]
     } else if (type == "all") {
-      p.star = input[, 3:4]
+      p.star <- input[, 3:4]
     }
-    pstarmods = sort(table(p.star[, 2]), decreasing = TRUE)
-    n.pstarmods = length(pstarmods)
-    p.star = data.frame(
+    pstarmods <- sort(table(p.star[, 2]), decreasing = TRUE)
+    n.pstarmods <- length(pstarmods)
+    p.star <- data.frame(
       pstar = as.numeric(p.star[, 1]),
       model = as.character(p.star[, 2]),
       modelident = match(p.star[, 2], names(pstarmods))
     )
-    redundent.vars = grepl("REDUNDANT.VARIABLE", as.character(p.star$model))
-    c.range = c.range[!redundent.vars]
-    p.star = p.star[!redundent.vars, ]
-    p.star$model = droplevels(as.factor(p.star$model))
+    redundent.vars <- grepl("REDUNDANT.VARIABLE", as.character(p.star$model))
+    c.range <- c.range[!redundent.vars]
+    p.star <- p.star[!redundent.vars, ]
+    p.star$model <- droplevels(as.factor(p.star$model))
     # if want runs of (near) maximums
-    max.p = max(p.star[, 1]) #- 2/B
-    tf = p.star[, 1] >= max.p
-    a = rle(tf)
-    pos = which(a$values == TRUE)
+    max.p <- max(p.star[, 1]) #- 2/B
+    tf <- p.star[, 1] >= max.p
+    a <- rle(tf)
+    pos <- which(a$values == TRUE)
     # what if there was a sequence of falses of the same length?
     # keep only the position of these runs where we had true values
-    pos = pos[a$values[pos] == TRUE]
-    mid = NA
+    pos <- pos[a$values[pos] == TRUE]
+    mid <- NA
     for (i in 1:length(pos)) {
       # find the midpoint
       if (pos[i] == 1) {
-        mid[i] = sum(a$lengths[1:pos[i]] + 1) / 2
+        mid[i] <- sum(a$lengths[1:pos[i]] + 1) / 2
       } else {
-        mid[i] = (sum(a$length[1:pos[i]]) + sum(a$lengths[1:(pos[i] - 1)]) + 1) /
+        mid[i] <- (sum(a$length[1:pos[i]]) +
+          sum(a$lengths[1:(pos[i] - 1)]) +
+          1) /
           2
       }
     }
-    mid = floor(mid)
-    c.star = min(c.range[mid])
+    mid <- floor(mid)
+    c.star <- min(c.range[mid])
     if (model.type == "glm") {
-      afmod = glmfence(mf,
-                       cstar = c.star,
-                       trace = FALSE,
-                       nvmax = nvmax)[[1]]
+      afmod <- glmfence(mf, cstar = c.star, trace = FALSE, nvmax = nvmax)[[1]]
     } else {
-      afmod = lmfence(
+      afmod <- lmfence(
         mf,
         cstar = c.star,
         trace = FALSE,
@@ -356,7 +377,7 @@ af = function(mf,
         force.in = force.in
       )[[1]]
     }
-    p.star[, 1] = as.numeric(as.character(p.star[, 1]))
+    p.star[, 1] <- as.numeric(as.character(p.star[, 1]))
     return(list(
       p.star = p.star,
       c.range = c.range,
@@ -365,23 +386,23 @@ af = function(mf,
     ))
   }
   # set up the output object class
-  afout = list()
-  afout$bestOnly = pstar.fn(p.star.all, type = "bo")
-  afout$all = pstar.fn(p.star.all, type = "all")
-  afout$call = af.call
-  afout$screen = screen
+  afout <- list()
+  afout$bestOnly <- pstar.fn(p.star.all, type = "bo")
+  afout$all <- pstar.fn(p.star.all, type = "all")
+  afout$call <- af.call
+  afout$screen <- screen
   if (initial.stepwise) {
-    afout$initial.stepwise = list(
+    afout$initial.stepwise <- list(
       fwds.AIC = stats::as.formula(fwds.AIC),
       fwds.BIC = stats::as.formula(fwds.BIC),
       bwds.AIC = stats::as.formula(bwds.AIC),
       bwds.BIC = stats::as.formula(bwds.BIC)
     )
   } else {
-    afout$initial.stepwise = NULL
+    afout$initial.stepwise <- NULL
   }
-  afout$k.range = k.range
-  class(afout) = "af"
+  afout$k.range <- k.range
+  class(afout) <- "af"
   return(afout)
 }
 
@@ -399,16 +420,18 @@ af = function(mf,
 #' @param ... further arguments (currently unused)
 #' @export
 # S3 method for class 'af'
-summary.af = function (object, best.only = TRUE, ...) {
+summary.af <- function(object, best.only = TRUE, ...) {
   if (best.only) {
-    xsub = object$bestOnly
+    xsub <- object$bestOnly
   } else {
-    xsub = object$all
+    xsub <- object$all
   }
-  cat("\nCall:\n",
-      paste(deparse(object$call), sep = "\n", collapse = "\n"),
-      "\n\n",
-      sep = "")
+  cat(
+    "\nCall:\n",
+    paste(deparse(object$call), sep = "\n", collapse = "\n"),
+    "\n\n",
+    sep = ""
+  )
   cat("Adaptive fence model (c*=")
   cat(round(xsub$c.star, 1))
   cat("):\n")
@@ -515,59 +538,69 @@ summary.af = function (object, best.only = TRUE, ...) {
 #' @param ... further arguments (currently unused)
 #' @export
 # S3 method for class 'af'
-plot.af = function(x,
-                   pch,
-                   interactive = FALSE,
-                   classic = NULL,
-                   tag = NULL,
-                   shiny = FALSE,
-                   best.only = FALSE,
-                   width = 800,
-                   height = 400,
-                   fontSize = 12,
-                   left = 50,
-                   top = 30,
-                   chartWidth = "60%",
-                   chartHeight = "80%",
-                   backgroundColor = 'transparent',
-                   legend.position = "top",
-                   model.wrap = NULL,
-                   legend.space = NULL,
-                   options = NULL,
-                   ...) {
-  if (!is.null(classic))
-    interactive = !classic
-  
+plot.af <- function(
+  x,
+  pch,
+  interactive = FALSE,
+  classic = NULL,
+  tag = NULL,
+  shiny = FALSE,
+  best.only = FALSE,
+  width = 800,
+  height = 400,
+  fontSize = 12,
+  left = 50,
+  top = 30,
+  chartWidth = "60%",
+  chartHeight = "80%",
+  backgroundColor = 'transparent',
+  legend.position = "top",
+  model.wrap = NULL,
+  legend.space = NULL,
+  options = NULL,
+  ...
+) {
+  if (!is.null(classic)) {
+    interactive <- !classic
+  }
+
   if (best.only) {
-    x = x$bestOnly
+    x <- x$bestOnly
   } else {
-    x = x$all
+    x <- x$all
   }
   if (!interactive) {
-    ggdf = cbind(x$p.star, c.range = x$c.range)
+    ggdf <- cbind(x$p.star, c.range = x$c.range)
     if (is.numeric(model.wrap)) {
       if (model.wrap == 1) {
-        ggdf$model = base::gsub("([^\\+]*\\+)", "\\1\n", ggdf$model)
+        ggdf$model <- base::gsub("([^\\+]*\\+)", "\\1\n", ggdf$model)
       } else if (model.wrap == 2) {
-        ggdf$model = base::gsub("([^\\+]*\\+[^\\+]*\\+)", "\\1\n", ggdf$model)
+        ggdf$model <- base::gsub("([^\\+]*\\+[^\\+]*\\+)", "\\1\n", ggdf$model)
       } else if (model.wrap == 3) {
-        ggdf$model = base::gsub("([^\\+]*\\+[^\\+]*\\+[^\\+]*\\+)",
-                                "\\1\n",
-                                ggdf$model)
+        ggdf$model <- base::gsub(
+          "([^\\+]*\\+[^\\+]*\\+[^\\+]*\\+)",
+          "\\1\n",
+          ggdf$model
+        )
       } else if (model.wrap == 4) {
-        ggdf$model = base::gsub("([^\\+]*\\+[^\\+]*\\+[^\\+]*\\+[^\\+]*\\+)",
-                                "\\1\n",
-                                ggdf$model)
+        ggdf$model <- base::gsub(
+          "([^\\+]*\\+[^\\+]*\\+[^\\+]*\\+[^\\+]*\\+)",
+          "\\1\n",
+          ggdf$model
+        )
       } else {
         warning("The model.wrap parameter can only be 1, 2, 3, 4 or NULL.")
       }
     }
-    
-    
-    p = ggplot2::ggplot(data = ggdf,
-                        ggplot2::aes(x = .data[["c.range"]],
-                                     y = .data[["pstar"]],
-                                     color = .data[["model"]])) +
+
+    p <- ggplot2::ggplot(
+      data = ggdf,
+      ggplot2::aes(
+        x = .data[["c.range"]],
+        y = .data[["pstar"]],
+        color = .data[["model"]]
+      )
+    ) +
       ggplot2::geom_point() +
       ggplot2::ylim(0, 1) +
       ggplot2::theme_bw(base_size = 14) +
@@ -579,18 +612,18 @@ plot.af = function(x,
         legend.position = legend.position
       )
     if (!is.null(legend.space)) {
-      p = p + ggplot2::guides(
-        color = ggplot2::guide_legend(
-          keyheight = legend.space,
-          keywidth = legend.space,
-          default.unit = "inch"
+      p <- p +
+        ggplot2::guides(
+          color = ggplot2::guide_legend(
+            keyheight = legend.space,
+            keywidth = legend.space,
+            default.unit = "inch"
+          )
         )
-      )
     }
-    
-    
+
     return(p)
-    
+
     # if(missing(pch)) pch=19
     # graphics::par(mar=c(3.4,3.4,2.1,0.1),mgp=c(2.0, 0.75, 0))
     # graphics::plot(x$p.star[,1]~x$c.range,
@@ -602,28 +635,24 @@ plot.af = function(x,
     # graphics::axis(side=3, at=x$c.star,
     #                labels=paste("c*=", round(x$c.star,1),sep=""))
   } else {
-    dat <- matrix(NA,
-                  nrow = nrow(x$p.star),
-                  ncol = nlevels(x$p.star$model) + 1)
+    dat <- matrix(NA, nrow = nrow(x$p.star), ncol = nlevels(x$p.star$model) + 1)
     for (i in 1:nlevels(x$p.star$model)) {
       lvl <- levels(x$p.star$model)[i]
       ind <- which(x$p.star$model == lvl)
       dat[ind, c(1, i + 1)] <- x$p.star$pstar[ind]
     }
-    plot.dat = data.frame(c.range = as.numeric(x$c.range),
-                          dat[, -1])
-    colnames(plot.dat) = c("c.range", levels(x$p.star$model))
-    plot.dat = round(plot.dat, 2)
+    plot.dat <- data.frame(c.range = as.numeric(x$c.range), dat[, -1])
+    colnames(plot.dat) <- c("c.range", levels(x$p.star$model))
+    plot.dat <- round(plot.dat, 2)
     # FOR FUN ON A RAINY DAY
     # INCLUDE ANNOTATION USING `ROLES'
     # SEE HERE: http://cran.r-project.org/web/packages/
     # googleVis/vignettes/Using_Roles_via_googleVis.html
-    gvis.title = paste("Adaptive fence: c*=", round(x$c.star, 1), sep =
-                         "")
+    gvis.title <- paste("Adaptive fence: c*=", round(x$c.star, 1), sep = "")
     namefunc <- function(v1) {
       deparse(substitute(v1))
     }
-    chartArea = paste(
+    chartArea <- paste(
       "{left:",
       left,
       ",top:",
@@ -636,7 +665,7 @@ plot.af = function(x,
       sep = ""
     )
     if (is.null(options)) {
-      options = list(
+      options <- list(
         title = gvis.title,
         fontSize = fontSize,
         vAxis = "{title:'p*',minValue:0,maxValue:1,
@@ -649,7 +678,7 @@ plot.af = function(x,
         height = height
       )
     }
-    fplot = googleVis::gvisScatterChart(data = plot.dat, options = options)
+    fplot <- googleVis::gvisScatterChart(data = plot.dat, options = options)
     if (shiny) {
       return(fplot)
     } else {
@@ -673,16 +702,18 @@ plot.af = function(x,
 #' @param ... further arguments (currently unused)
 #' @export
 # S3 print method for class 'af'
-print.af = function (x, best.only = TRUE, ...) {
+print.af <- function(x, best.only = TRUE, ...) {
   if (best.only) {
-    x = x$bestOnly
+    x <- x$bestOnly
   } else {
-    x = x$all
+    x <- x$all
   }
-  cat("\nCall:\n",
-      paste(deparse(x$call), sep = "\n", collapse = "\n"),
-      "\n\n",
-      sep = "")
+  cat(
+    "\nCall:\n",
+    paste(deparse(x$call), sep = "\n", collapse = "\n"),
+    "\n\n",
+    sep = ""
+  )
   cat("Adaptive fence model (c*=")
   cat(round(x$c.star, 1))
   cat("):\n")

@@ -10,8 +10,8 @@
 #'   only \code{method = "ML"} is supported (perhaps in the future
 #'   \code{method = "MVC"} will be implemented).
 #' @noRd
-Qm = function(object,method){
-  if(method=="ML"){
+Qm <- function(object, method) {
+  if (method == "ML") {
     return(-as.numeric(stats::logLik(object)))
   }
 }

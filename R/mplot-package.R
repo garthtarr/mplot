@@ -67,29 +67,29 @@ NULL
 #' \item{lat}{Latitude of the plot location}
 #' \item{long}{Longitude of the plot location}
 #' }
-#' @details Macropods defaecate randomly as they forage and scat 
+#' @details Macropods defaecate randomly as they forage and scat
 #'   (faecal pellet) surveys are a reliable method for detecting the
-#'   presence of rock-wallabies and other macropods. 
-#'   Scats are used as an indication of spatial foraging patterns 
+#'   presence of rock-wallabies and other macropods.
+#'   Scats are used as an indication of spatial foraging patterns
 #'   of rock-wallabies and sympatric macropods. Scats deposited while
 #'   foraging were not confused with scats deposited while
 #'   resting because the daytime refuge areas of rock-wallabies
 #'   were known in detail for each colony and no samples were
-#'   taken from those areas. Each of the 200 sites were 
+#'   taken from those areas. Each of the 200 sites were
 #'   examined separately to
 #'   account for the different levels of predation risk and the
 #'   abundance of rock-wallabies.
 #' @docType data
 #' @keywords datasets
 #' @usage data(wallabies)
-#' @references 
-#'    Tuft KD, Crowther MS, Connell K, Mueller S and McArthur C (2011), 
-#'    Predation risk and competitive interactions affect foraging of 
-#'    an endangered refuge-dependent herbivore. Animal Conservation, 
+#' @references
+#'    Tuft KD, Crowther MS, Connell K, Mueller S and McArthur C (2011),
+#'    Predation risk and competitive interactions affect foraging of
+#'    an endangered refuge-dependent herbivore. Animal Conservation,
 #'    14: 447-457. doi: 10.1111/j.1469-1795.2011.00446.x
 #' @examples
 #' data(wallabies)
-#' wdat = data.frame(subset(wallabies,select=-c(lat,long)), 
+#' wdat = data.frame(subset(wallabies,select=-c(lat,long)),
 #'   EaD = wallabies$edible*wallabies$distance,
 #'   EaS = wallabies$edible*wallabies$shelter,
 #'   DaS = wallabies$distance*wallabies$shelter)
@@ -110,14 +110,14 @@ NULL
 #' \item{bmi}{Body mass index}
 #' \item{map}{Mean arterial pressure (average blood pressure)}
 #' \item{tc}{Total cholesterol (mg/dL)? Desirable range: below 200 mg/dL}
-#' \item{ldl}{Low-density lipoprotein ("bad" cholesterol)? 
+#' \item{ldl}{Low-density lipoprotein ("bad" cholesterol)?
 #'            Desirable range: below 130 mg/dL }
-#' \item{hdl}{High-density lipoprotein ("good" cholesterol)? 
+#' \item{hdl}{High-density lipoprotein ("good" cholesterol)?
 #'            Desirable range: above 40 mg/dL}
 #' \item{tch}{Blood serum measurement}
 #' \item{ltg}{Blood serum measurement}
 #' \item{glu}{Blood serum measurement (glucose?)}
-#' \item{y}{A quantitative measure of disease progression 
+#' \item{y}{A quantitative measure of disease progression
 #'          one year after baseline}
 #' }
 #' @details Data sourced from http://web.stanford.edu/~hastie/Papers/LARS
@@ -131,8 +131,6 @@ NULL
 #' data(diabetes)
 #' full.mod = lm(y~.,data=diabetes)
 NULL
-
-
 
 
 #' Artificial example
@@ -169,40 +167,38 @@ NULL
 NULL
 
 
-
-
 #' Forced Expiratory Volume
 #'
-#' This data set consists of 654 observations on youths aged 3 to 19 from 
-#' East Boston recorded duing the middle to late 1970's. 
-#' Forced expiratory volume (FEV), a measure of lung capacity, is the 
-#' variable of interest. Age and height are two continuous predictors. 
+#' This data set consists of 654 observations on youths aged 3 to 19 from
+#' East Boston recorded duing the middle to late 1970's.
+#' Forced expiratory volume (FEV), a measure of lung capacity, is the
+#' variable of interest. Age and height are two continuous predictors.
 #' Sex and smoke are two categorical predictors.
 #'
 #' @name fev
 #' @format A data frame with 654 observations on 5 variables.
 #' \describe{
 #' \item{age}{Age (years)}
-#' \item{fev}{Forced expiratory volume (liters).  Roughly the amount 
-#'            of air an individual can exhale in the first second of 
+#' \item{fev}{Forced expiratory volume (liters).  Roughly the amount
+#'            of air an individual can exhale in the first second of
 #'            a forceful breath.}
 #' \item{height}{Height (inches).}
 #' \item{sex}{Female is 0. Male is 1.}
-#' \item{smoke}{A binary variable indicating whether or not the 
+#' \item{smoke}{A binary variable indicating whether or not the
 #'              youth smokes. Nonsmoker is 0. Smoker is 1.}
 #' }
-#' @details Copies of this data set can also be found in the 
+#' @details Copies of this data set can also be found in the
 #'  \code{coneproj} and \code{tmle} packages.
-#' @references 
-#'  Tager, I. B., Weiss, S. T., Rosner, B., and Speizer, F. E. (1979). 
-#'  Effect of parental cigarette smoking on pulmonary function in children. 
+#' @references
+#'  Tager, I. B., Weiss, S. T., Rosner, B., and Speizer, F. E. (1979).
+#'  Effect of parental cigarette smoking on pulmonary function in children.
 #'  \emph{American Journal of Epidemiology}, \bold{110}, 15-26.
-#'  
+#'
 #'  Rosner, B. (1999).
 #'  \emph{Fundamentals of Biostatistics}, 5th Ed., Pacific Grove, CA: Duxbury.
-#'   
+#'
 #'   Kahn, M.J. (2005). An Exhalent Problem for Teaching Statistics.
-#'   \emph{Journal of Statistics Education},  \bold{13}(2). 
+#'   \emph{Journal of Statistics Education},  \bold{13}(2).
 #'    http://www.amstat.org/publications/jse/v13n2/datasets.kahn.html
 #' @docType data
 #' @keywords datasets
@@ -212,8 +208,6 @@ NULL
 #' full.mod = lm(fev~.,data=fev)
 #' step(full.mod)
 NULL
-
-
 
 
 #' Extract model elements
@@ -229,67 +223,79 @@ NULL
 #' @param redundant logical, whether or not to add a redundant
 #'   variable.  Default = TRUE.
 #' @noRd
-mextract = function(model, screen = FALSE, redundant = TRUE){
+mextract <- function(model, screen = FALSE, redundant = TRUE) {
   # what's the name of the dependent variable?
-  yname = deparse(stats::formula(model)[[2]])
+  yname <- deparse(stats::formula(model)[[2]])
   # Set up the data frames for use
-  data = stats::model.frame(model)
-  X = stats::model.matrix(model)
-  n = nrow(X)
+  data <- stats::model.frame(model)
+  X <- stats::model.matrix(model)
+  n <- nrow(X)
   # full model plus redundant variable
-  exp.vars = names(model$coefficients)[names(model$coefficients) != "(Intercept)"]
-  
+  exp.vars <- names(model$coefficients)[
+    names(model$coefficients) != "(Intercept)"
+  ]
+
   if (redundant) {
-    REDUNDANT.VARIABLE = stats::runif(n, min = 0, max = 1)
-    X = cbind(X,REDUNDANT.VARIABLE)
-    data = cbind(data,REDUNDANT.VARIABLE)
-    exp.vars = c(exp.vars,"REDUNDANT.VARIABLE")
+    REDUNDANT.VARIABLE <- stats::runif(n, min = 0, max = 1)
+    X <- cbind(X, REDUNDANT.VARIABLE)
+    data <- cbind(data, REDUNDANT.VARIABLE)
+    exp.vars <- c(exp.vars, "REDUNDANT.VARIABLE")
   }
   if (colnames(X)[1] == "(Intercept)") {
     # overwrite intercept with y-variable
-    X[,1] = stats::model.frame(model)[,yname]
+    X[, 1] <- stats::model.frame(model)[, yname]
   } else {
-    X = cbind(stats::model.frame(model)[,yname],X)
+    X <- cbind(stats::model.frame(model)[, yname], X)
   }
-  colnames(X)[1] = yname
-  X = data.frame(X)
-  fixed = stats::as.formula(
+  colnames(X)[1] <- yname
+  X <- data.frame(X)
+  fixed <- stats::as.formula(
     paste(
       paste(yname, "~"),
-      paste(colnames(X)[-1], collapse = "+"), 
-      collapse=" ")
+      paste(colnames(X)[-1], collapse = "+"),
+      collapse = " "
+    )
   )
-  Xy = X[c(2:ncol(X),1)]
-  
-  k = length(exp.vars) + 1 # +1 for intercept
+  Xy <- X[c(2:ncol(X), 1)]
+
+  k <- length(exp.vars) + 1 # +1 for intercept
   if (screen) {
     if (!requireNamespace("mvoutlier", quietly = TRUE)) {
-      stop("mvoutlier package needed when screen=TRUE. Please install it.",
-           call. = FALSE)
+      stop(
+        "mvoutlier package needed when screen=TRUE. Please install it.",
+        call. = FALSE
+      )
     }
-    x.mad = apply(Xy, 2, stats::mad)
-    Xy.sub = Xy[,which(x.mad != 0)]
-    Xy = Xy[mvoutlier::pcout(Xy.sub)$wfinal01 == 1,]
-    n = dim(Xy)[1]
+    x.mad <- apply(Xy, 2, stats::mad)
+    Xy.sub <- Xy[, which(x.mad != 0)]
+    Xy <- Xy[mvoutlier::pcout(Xy.sub)$wfinal01 == 1, ]
+    n <- dim(Xy)[1]
     if (k >= n) {
       warning("Screening deleted too many observations.")
       return()
     }
   }
-  wts = model$weights
-  if (is.element("glm",class(model))) {
-    wts = model$prior.weights
-    Xy[,yname] = model$y
+  wts <- model$weights
+  if (is.element("glm", class(model))) {
+    wts <- model$prior.weights
+    Xy[, yname] <- model$y
   }
   if (is.null(wts)) {
-    wts = rep(1,n)
+    wts <- rep(1, n)
   }
-  
-  return(list(yname = yname, fixed = fixed,
-              wts = wts, X = Xy, k = k,
-              n = n, exp.vars = exp.vars,
-              data = data, family = stats::family(model)))
-  
+
+  return(list(
+    yname = yname,
+    fixed = fixed,
+    wts = wts,
+    X = Xy,
+    k = k,
+    n = n,
+    exp.vars = exp.vars,
+    data = data,
+    family = stats::family(model)
+  ))
+
   # MIXED MODELS NOT IMPLEMENTED IN FIRST RELEASE
   #   if(class(model)=="lmerMod"){ # lme4 package
   #     X = stats::model.matrix(model)
@@ -329,7 +335,7 @@ mextract = function(model, screen = FALSE, redundant = TRUE){
 #' @param expr expression to be safely deparsed
 #'
 #' @noRd
-safeDeparse <- function(expr){
+safeDeparse <- function(expr) {
   ret <- paste(deparse(expr), collapse = "")
   #rm whitespace
   gsub("[[:space:]][[:space:]]+", " ", ret)
@@ -344,10 +350,10 @@ safeDeparse <- function(expr){
 #' @param UB upper bound
 #' @param obj fitted model object
 #' @keywords internal
-txt.fn = function(score,UB,obj){
+txt.fn <- function(score, UB, obj) {
   cat("\n")
-  cat(paste("hatQm:", round(score,2),"; Upper bound:", round(UB,2)),"\n")
-  cat(paste("hatQm <= UB:",score<=UB,"\n"))
+  cat(paste("hatQm:", round(score, 2), "; Upper bound:", round(UB, 2)), "\n")
+  cat(paste("hatQm <= UB:", score <= UB, "\n"))
   cat(deparse(stats::formula(obj)))
   cat("\n")
 }
@@ -361,38 +367,42 @@ txt.fn = function(score,UB,obj){
 #' @param fence.rank set of fence model ranks
 #' @export
 #' @keywords internal
-process.fn = function(fence.mod,fence.rank){
-  del2 = function(x) x[-c(1:2)]
+process.fn <- function(fence.mod, fence.rank) {
+  del2 <- function(x) x[-c(1:2)]
   splitAt <- function(x, pos) unname(split(x, cumsum(seq_along(x) %in% pos)))
-  
+
   # best only (true fence)
-  fence.mod.bo = fence.mod[fence.rank==1]
+  fence.mod.bo <- fence.mod[fence.rank == 1]
   #  temp.bo = sort(table(sapply(fence.mod.bo,deparse,
   #                              width.cutoff=500)), decreasing=TRUE)
-  temp.bo = sort(table(unlist(lapply(lapply(fence.mod.bo,as.character),del2))),
-                 decreasing=TRUE)
-  pstarj.bo = as.numeric(temp.bo[1]/length(fence.mod.bo))
-  pstarnamej.bo = names(temp.bo)[1]
-  
+  temp.bo <- sort(
+    table(unlist(lapply(lapply(fence.mod.bo, as.character), del2))),
+    decreasing = TRUE
+  )
+  pstarj.bo <- as.numeric(temp.bo[1] / length(fence.mod.bo))
+  pstarnamej.bo <- names(temp.bo)[1]
+
   # all that pass the fence
   #temp.all = sort(table(sapply(fence.mod,deparse,
   #                             width.cutoff=500)),decreasing=TRUE)
-  temp.all = sort(table(unlist(lapply(lapply(fence.mod,as.character),del2))),
-                  decreasing=TRUE)
+  temp.all <- sort(
+    table(unlist(lapply(lapply(fence.mod, as.character), del2))),
+    decreasing = TRUE
+  )
   #old version
   #pstarj.all = as.numeric(temp.all[1]/length(fence.mod))
   #pstarnamej.all = names(temp.all)[1]
   # new version
-  unlist.fence.rank = unlist(fence.rank)
-  fence.rank.split = splitAt(unlist.fence.rank,which(unlist.fence.rank==1))
-  custom.p = 1/unlist(lapply(fence.rank.split,length))
-  custom.names = unlist(lapply(lapply(fence.mod.bo,as.character),del2))
-  agg = stats::aggregate(custom.p,by=list(custom.names),sum)
-  agg = agg[order(agg$x,decreasing = TRUE),]
-  pstarj.all = agg[1,2]/sum(unlist.fence.rank==1)
-  pstarnamej.all = agg[1,1]
-  
-  return(c(pstarj.bo,pstarnamej.bo,pstarj.all,pstarnamej.all))
+  unlist.fence.rank <- unlist(fence.rank)
+  fence.rank.split <- splitAt(unlist.fence.rank, which(unlist.fence.rank == 1))
+  custom.p <- 1 / unlist(lapply(fence.rank.split, length))
+  custom.names <- unlist(lapply(lapply(fence.mod.bo, as.character), del2))
+  agg <- stats::aggregate(custom.p, by = list(custom.names), sum)
+  agg <- agg[order(agg$x, decreasing = TRUE), ]
+  pstarj.all <- agg[1, 2] / sum(unlist.fence.rank == 1)
+  pstarnamej.all <- agg[1, 1]
+
+  return(c(pstarj.bo, pstarnamej.bo, pstarj.all, pstarnamej.all))
 }
 
 #' @importFrom doRNG "%dorng%"

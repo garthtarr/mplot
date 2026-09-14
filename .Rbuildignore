@@ -4,3 +4,5 @@
 ^docs$
 ^_pkgdown\.yml$
 vignettes/
+^\.vscode$
+^[.]?air[.]toml$

@@ -3,7 +3,7 @@
 # y = diabetes$y
 # df = data.frame(scale(cbind(y,x)))
 # lm1 = lm(y ~ ., data = df)
-# 
+#
 # sstab = function(mf, B = 100){
 #   full_coeff = coefficients(mf)
 #   kf = length(full_coeff)
@@ -18,7 +18,7 @@
 #   }
 #   return(coef.res)
 # }
-# 
+#
 # sj = sstab(lm1)
 # sj_ranks = apply(sj, 1, rank)
 # sj_rank_mean = sort(apply(sj_ranks, 1, mean), decreasing = TRUE)
