@@ -2,16 +2,17 @@
 
 ## Progress
 
-| Priority | Item | Status | Commit |
-|----------|------|--------|--------|
+Tracked in GitHub issues [#11](https://github.com/garthtarr/mplot/issues/11)–[#16](https://github.com/garthtarr/mplot/issues/16); check them off there as they're resolved.
+
+| Priority | Item | Status | Issue / Commit |
+|----------|------|--------|-----------------|
 | P1 | Fix duplicate cluster closure in `af()` / `vis()` | ✅ Done | `8793a21` |
-| P2 | Migrate `foreach`/`doParallel` to `future`/`furrr` | Not started | |
-| P2 | Remove global (`<<-`) assignment in workers | Not started | |
-| P2 | Fix package-loading inconsistency across `.packages` args | Not started | |
-| P3 | Add parallelization to `bglmnet()` | Not started | |
-| P3 | Reorder nested-loop parallelization in `af()` | Not started | |
-| P3 | Fix `do.call(rbind, .)` data-processing bug in `bglmnet()` | Not started | |
-| P4 | Progress bars, backend selection, benchmarking | Not started | |
+| P2 | Migrate `af()` to `future`/`furrr`; remove global (`<<-`) assignment | Open | [#11](https://github.com/garthtarr/mplot/issues/11) |
+| P2 | Migrate `vis()` to `future`/`furrr`; remove global assignment; fix `.packages` inconsistency | Open | [#12](https://github.com/garthtarr/mplot/issues/12) |
+| P3 | Add parallelization to `bglmnet()` | Open | [#13](https://github.com/garthtarr/mplot/issues/13) |
+| P3 | Fix `do.call(rbind, .)` data-processing bug in `bglmnet()` | Open | [#14](https://github.com/garthtarr/mplot/issues/14) |
+| P3 | Reorder nested-loop parallelization in `af()` (flatten `n.c × B` grid) | Open | [#15](https://github.com/garthtarr/mplot/issues/15) |
+| P4 | Progress bars, backend selection, benchmarking | Open | [#16](https://github.com/garthtarr/mplot/issues/16) |
 
 **Latest update:** `af()` and `vis()` each called `parallel::stopCluster()` explicitly *and* registered it via `on.exit()`, closing the cluster twice and raising `invalid connection` errors — this was blocking the test suite. Fixed by removing the redundant explicit calls, relying on `on.exit()` alone. Verified with `cores = 1` and `cores = 2`. Tests updated to exercise the real code paths instead of skipping. See commit `8793a21`.
 
