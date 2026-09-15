@@ -435,6 +435,11 @@ af <- function(
     afout$initial.stepwise <- NULL
   }
   afout$k.range <- k.range
+  # Internal detail (not part of the documented API): records the
+  # randomized future_map() dispatch order used for the bootstrap loop
+  # over c.range, so it can be inspected in tests. See PARALLELIZATION.md
+  # (#15) for why the dispatch order is shuffled.
+  attr(afout, "dispatch_order") <- shuffle_order
   class(afout) <- "af"
   return(afout)
 }

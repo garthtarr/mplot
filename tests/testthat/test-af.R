@@ -73,6 +73,38 @@ test_that("af produces reproducible results across core counts", {
   expect_identical(result_seq$all$p.star, result_par$all$p.star)
 })
 
+test_that("af's bootstrap dispatch order is shuffled but reproducible (#15)", {
+  # Regression test for #15: af() randomizes the order in which c.range
+  # values are dispatched to future_map(), to avoid furrr's default
+  # contiguous chunking systematically clustering cheap/expensive tasks
+  # together (see PARALLELIZATION.md). The randomized order is recorded
+  # as an internal (undocumented) "dispatch_order" attribute for testing.
+  n <- 50
+  x1 <- rnorm(n)
+  x2 <- rnorm(n)
+  y <- 1 + x1 + x2 + rnorm(n)
+  dat <- data.frame(y, x1, x2)
+  lm_fit <- lm(y ~ ., data = dat)
+
+  n.c <- 10
+  result1 <- af(lm_fit, cores = 1, B = 3, n.c = n.c, seed = 7331)
+  result2 <- af(lm_fit, cores = 1, B = 3, n.c = n.c, seed = 7331)
+  result3 <- af(lm_fit, cores = 1, B = 3, n.c = n.c, seed = 4242)
+
+  order1 <- attr(result1, "dispatch_order")
+  order2 <- attr(result2, "dispatch_order")
+  order3 <- attr(result3, "dispatch_order")
+
+  # It's a full permutation of the task indices...
+  expect_setequal(order1, seq_len(n.c))
+  # ...that is actually shuffled, not left in ascending order...
+  expect_false(identical(order1, seq_len(n.c)))
+  # ...deterministically, for a given seed...
+  expect_identical(order1, order2)
+  # ...but varies across seeds.
+  expect_false(identical(order1, order3))
+})
+
 test_that("af restores the caller's future plan on exit", {
   n <- 50
   x1 <- rnorm(n)
