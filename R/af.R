@@ -281,8 +281,19 @@ af <- function(
     future::plan(future::sequential)
   }
 
+  # Per-c-value task cost is not uniform (see PARALLELIZATION.md, #15):
+  # it tends to be roughly flat across most of the boundary range and
+  # then drop sharply for large c values. furrr's default (contiguous)
+  # chunking would otherwise systematically starve some workers and
+  # overload others. Shuffling the dispatch order decorrelates task
+  # cost from chunk membership; results are reordered back to match
+  # c.range immediately after. set.seed(seed) at the top of this
+  # function means the shuffle order (and hence results) stay
+  # reproducible for a given seed.
+  shuffle_order <- sample(seq_along(c.range))
+
   p.star.list <- furrr::future_map(
-    seq_along(c.range),
+    shuffle_order,
     \(j) {
       # Avoid BLAS-thread oversubscription when running in worker
       # processes alongside future::multisession parallelism.
@@ -337,6 +348,10 @@ af <- function(
     },
     .options = furrr::furrr_options(seed = seed)
   )
+
+  # Undo the dispatch-order shuffle so p.star.list[[j]] again
+  # corresponds to c.range[j], as downstream code expects.
+  p.star.list <- p.star.list[order(shuffle_order)]
 
   p.star.all <- do.call(rbind, p.star.list)
 

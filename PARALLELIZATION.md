@@ -11,7 +11,7 @@ Tracked in GitHub issues [#11](https://github.com/garthtarr/mplot/issues/11)–[
 | P2 | Migrate `vis()` to `future`/`furrr`; remove global assignment; fix `.packages` inconsistency | ✅ Done | [#12](https://github.com/garthtarr/mplot/issues/12) (closed) |
 | P3 | Add parallelization to `bglmnet()` | ✅ Done | [#13](https://github.com/garthtarr/mplot/issues/13) |
 | P3 | Fix `do.call(rbind, .)` data-processing bug in `bglmnet()` | ✅ Done | [#14](https://github.com/garthtarr/mplot/issues/14) |
-| P3 | Reorder nested-loop parallelization in `af()` (flatten `n.c × B` grid) | Open | [#15](https://github.com/garthtarr/mplot/issues/15) |
+| P3 | Fix per-`c`-value load imbalance in `af()`'s contiguous chunking | Open | [#15](https://github.com/garthtarr/mplot/issues/15) |
 | P4 | Progress bars, backend selection, benchmarking | Open | [#16](https://github.com/garthtarr/mplot/issues/16) |
 
 **Latest update:** `af()` and `vis()` each called `parallel::stopCluster()` explicitly *and* registered it via `on.exit()`, closing the cluster twice and raising `invalid connection` errors — this was blocking the test suite. Fixed by removing the redundant explicit calls, relying on `on.exit()` alone. Verified with `cores = 1` and `cores = 2`. Tests updated to exercise the real code paths instead of skipping. See commit `8793a21`.
@@ -144,25 +144,36 @@ p.star.all <- furrr::future_map_dfr(
 
 If avoiding new dependencies is preferred, `parallel::parLapply()` is a viable minimal alternative — see the appendix for a worked example.
 
-### P3: Reorder nested-loop parallelization in `af()`
+### P3: Fix per-`c`-value load imbalance in `af()`'s contiguous chunking
 
-Currently parallelizes the outer loop (`n.c` boundary values, typically ~20) and keeps `B` (typically ~60) sequential inside. Flattening to parallelize over the full `n.c × B` grid gives more, smaller tasks and better load balancing:
+`af()` parallelizes the outer loop (`n.c` boundary values, typically ~20) and keeps `B` (typically ~60) sequential inside each worker's task. This was originally scoped as "flatten the `n.c × B` grid so parallelization happens over individual (boundary value, replicate) pairs," on the theory that one task per `c` value under-utilizes cores.
+
+**That framing was rejected after benchmarking.** Individual bootstrap replications are cheap (~9ms each on a 12-predictor synthetic dataset) — dispatching a `future` task per replication would add per-task serialization/dispatch overhead comparable to or larger than the work itself, plausibly making things *slower*. Instrumenting `af()`'s per-`c` worker body and timing each task under `future::sequential` (`B = 30`, `n.c = 24`) instead showed:
+
+- Per-`c`-value task cost is **not uniform**: 14.3× max/min ratio, CV ≈ 0.29.
+- The variation is **systematic**, not random noise: cost is roughly flat across most of the boundary range, then drops sharply for large `c` values (bigger `c` → smaller candidate models pass the fence → cheaper to fit/compare).
+- `furrr`'s default `scheduling = 1` assigns each worker a **contiguous** block of `c` indices. Because the cheap region clusters at one end of `c.range`, this systematically starves some chunks and overloads others. Simulating against an ideal/greedy-balanced (LPT) schedule showed a 14–24% wall-clock penalty from contiguous chunking, growing with core count (2 cores: +14%, 4 cores: +16%, 8 cores: +24%).
+
+**Recommended fix** — keep task granularity at "one `c` value's full `B`-replicate loop," and address the imbalance directly:
 
 ```r
-task_grid <- expand.grid(c_idx = seq_len(n.c), b_idx = seq_len(B))
+# Option 1 (simpler): decorrelate task order from cost before chunking
+shuffled <- sample(seq_along(c.range))
+p.star.list <- furrr::future_map(
+  shuffled,
+  \(j) { ... },  # same per-c-value body as today
+  .options = furrr::furrr_options(seed = seed)
+)[order(shuffled)]
 
-results <- furrr::future_map_dfr(
-  seq_len(nrow(task_grid)),
-  function(idx) {
-    j <- task_grid$c_idx[idx]
-    ystar_col <- stats::simulate(object = mfstar, nsim = 1)
-    # ... fence procedure for this single (c, bootstrap) pair ...
-  },
-  .options = furrr_options(seed = TRUE)
+# Option 2: let furrr distribute more, smaller chunks round-robin
+p.star.list <- furrr::future_map(
+  seq_along(c.range),
+  \(j) { ... },
+  .options = furrr::furrr_options(seed = seed, scheduling = 4)
 )
-
-p.star.all <- results |> dplyr::group_by(c_idx) |> dplyr::summarise(...)
 ```
+
+Do not flatten to the full `n.c × B` grid — see the benchmark discussion above and issue #15 for why that was rejected.
 
 ### P3: Add parallelization to `bglmnet()`
 
@@ -243,7 +254,7 @@ test_that("bglmnet respects cores argument once parallelized", {
 - [x] **Phase 3 (Medium-term)** — #13, #14
   - [x] Add parallelization to `bglmnet()`
   - [x] Fix `do.call(rbind, .)` bug in `bglmnet()`'s model-summary step
-  - [ ] Reorder `af()`'s nested-loop parallelization (flatten `n.c × B` grid)
+  - [ ] Fix per-`c`-value load imbalance in `af()`'s contiguous chunking (not a full `n.c × B` flatten)
   - [x] Add comprehensive tests for `bglmnet()`
 
 - [ ] **Phase 4 (Optional)**
