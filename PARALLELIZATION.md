@@ -2,17 +2,20 @@
 
 ## Progress
 
-Tracked in GitHub issues [#11](https://github.com/garthtarr/mplot/issues/11)–[#17](https://github.com/garthtarr/mplot/issues/17); check them off there as they're resolved.
+Tracked in GitHub issues [#11](https://github.com/garthtarr/mplot/issues/11)–[#20](https://github.com/garthtarr/mplot/issues/20); check them off there as they're resolved.
 
 | Priority | Item | Status | Issue / Commit |
 |----------|------|--------|-----------------|
 | P1 | Fix duplicate cluster closure in `af()` / `vis()` | ✅ Done | [#17](https://github.com/garthtarr/mplot/issues/17) (closed), `8793a21` |
 | P2 | Migrate `af()` to `future`/`furrr`; remove global (`<<-`) assignment | ✅ Done | [#11](https://github.com/garthtarr/mplot/issues/11) (closed), `5b19a78` |
 | P2 | Migrate `vis()` to `future`/`furrr`; remove global assignment; fix `.packages` inconsistency | ✅ Done | [#12](https://github.com/garthtarr/mplot/issues/12) (closed) |
-| P3 | Add parallelization to `bglmnet()` | ✅ Done | [#13](https://github.com/garthtarr/mplot/issues/13) |
-| P3 | Fix `do.call(rbind, .)` data-processing bug in `bglmnet()` | ✅ Done | [#14](https://github.com/garthtarr/mplot/issues/14) |
-| P3 | Fix per-`c`-value load imbalance in `af()`'s contiguous chunking | Open | [#15](https://github.com/garthtarr/mplot/issues/15) |
-| P4 | Progress bars, backend selection, benchmarking | Open | [#16](https://github.com/garthtarr/mplot/issues/16) |
+| P3 | Add parallelization to `bglmnet()` | ✅ Done | [#13](https://github.com/garthtarr/mplot/issues/13) (closed), `dc78e9f` |
+| P3 | Fix `do.call(rbind, .)` data-processing bug in `bglmnet()` | ✅ Done | [#14](https://github.com/garthtarr/mplot/issues/14) (closed), `dc78e9f` |
+| P3 | Fix per-`c`-value load imbalance in `af()`'s contiguous chunking | ✅ Done | [#15](https://github.com/garthtarr/mplot/issues/15) (closed), `54fb54f`, `985ef55` |
+| P4 | Progress bars, backend selection, benchmarking (originally bundled) | Split | [#16](https://github.com/garthtarr/mplot/issues/16) (closed, split into #18/#19/#20) |
+| P4 | Add progress bars (`progressr`) for `af()`/`vis()`/`bglmnet()` bootstrap loops | Open | [#18](https://github.com/garthtarr/mplot/issues/18) |
+| P4 | Add explicit parallel backend selection to `af()`/`vis()`/`bglmnet()` | Open | [#19](https://github.com/garthtarr/mplot/issues/19) |
+| P4 | Add benchmarking and automatic core-count heuristics (incl. memory-footprint docs) | Open | [#20](https://github.com/garthtarr/mplot/issues/20) |
 
 **Latest update:** `af()` and `vis()` each called `parallel::stopCluster()` explicitly *and* registered it via `on.exit()`, closing the cluster twice and raising `invalid connection` errors — this was blocking the test suite. Fixed by removing the redundant explicit calls, relying on `on.exit()` alone. Verified with `cores = 1` and `cores = 2`. Tests updated to exercise the real code paths instead of skipping. See commit `8793a21`.
 
@@ -254,13 +257,14 @@ test_that("bglmnet respects cores argument once parallelized", {
 - [x] **Phase 3 (Medium-term)** — #13, #14
   - [x] Add parallelization to `bglmnet()`
   - [x] Fix `do.call(rbind, .)` bug in `bglmnet()`'s model-summary step
-  - [ ] Fix per-`c`-value load imbalance in `af()`'s contiguous chunking (not a full `n.c × B` flatten)
+  - [x] Fix per-`c`-value load imbalance in `af()`'s contiguous chunking (not a full `n.c × B` flatten) — #15
   - [x] Add comprehensive tests for `bglmnet()`
 
-- [ ] **Phase 4 (Optional)**
-  - [ ] Add progress bars via `progressr`
-  - [ ] Add parallel backend selection option
-  - [ ] Add benchmarking / automatic core-count heuristics
+- [ ] **Phase 4 (Optional)** — originally #16, split into #18/#19/#20
+  - [ ] Add progress bars via `progressr` — #18
+  - [ ] Add parallel backend selection option — #19
+  - [ ] Add benchmarking / automatic core-count heuristics — #20
+  - [ ] Document memory considerations (Nx footprint with N workers) — #20
 
 ---
 
