@@ -6,3 +6,5 @@
 vignettes/
 ^\.vscode$
 ^[.]?air[.]toml$
+^\.posit/assistant$
+^PARALLELIZATION\.md$

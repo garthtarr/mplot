@@ -54,7 +54,7 @@
 #' dat = data.frame(y, x1, x2, x3, x4, x5)
 #' lm1 = lm(y ~ ., data = dat)
 #' \dontshow{
-#' bg1 = bglmnet(lm1, seed = 1, B=10)
+#' bg1 = bglmnet(lm1, seed = 1, B = 10, cores = 1)
 #' plot(bg1)
 #' }
 #' \dontrun{

@@ -5,3 +5,5 @@ inst/doc
 .DS_Store
 .posit/
 conversation-export.*
+*.tar.gz
+*.Rcheck/

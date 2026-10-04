@@ -1,6 +1,9 @@
-mplot (development version)
-----------------------------
+mplot 1.1.0 [2026-10-03]
+------------------------
 
+* fixed the "lost braces" NOTE flagged by CRAN in the glmfence.Rd and
+  lmfence.Rd manual pages by using proper \eqn markup for
+  cstar*hat(sigma)_{M,tildeM} (#21)
 * af() now uses future::multisession via furrr::future_map() instead of
   foreach/doParallel/doRNG, and no longer relies on a <<- global assignment
   inside the parallel worker (#11)
@@ -9,7 +12,31 @@ mplot (development version)
   (bestglm, glmulti, leaps), and no longer relies on <<- global
   assignments inside the glmulti parallel worker (#12)
 * foreach, doParallel and doRNG have been dropped as package dependencies
-  now that af() and vis() have been migrated to future/furrr (#11, #12)
+  now that af(), vis() and bglmnet() have been migrated to future/furrr
+  (#11, #12)
+* bglmnet() is now parallel via furrr::future_map(), honouring the
+  previously-unused cores argument; results are reproducible across
+  different core counts (#13)
+* fixed a bglmnet() bug where apply(betaboot, 3, get_unique_mods)
+  silently simplified to an array whenever every bootstrap replication
+  produced the same number of unique selected models, causing a
+  do.call(rbind, x) failure (#14)
+* the bglmnet() example now runs sequentially (cores = 1) so it stays
+  well under CRAN's 10 second limit for example run times
+* removed the defunct Travis-CI badge from README.md (CRAN flagged the
+  stale URL)
+* af() now shuffles the dispatch order of the c-value tasks to avoid
+  load imbalance across workers (the cheap large-c tail is no longer
+  clustered into a single chunk); results remain reproducible via the
+  existing seed argument (#15)
+* removed a duplicate cluster closure in af() and vis() that raised
+  'invalid connection' errors in non-interactive/test environments (#17)
+* vis() now suppresses bestglm's 'Morgan-Tatar search' message
+* workers now pin BLAS/LAPACK and OpenMP threads to 1 (when RhpcBLASctl
+  is installed) to avoid oversubscription when combined with
+  future::multisession
+* added a comprehensive testthat test suite
+* source code reformatted with air
 
 mplot 1.0.5 [2019-03-02]
 ------------------------
