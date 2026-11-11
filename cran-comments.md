@@ -29,6 +29,11 @@ moved Travis-CI URL in README.md, and the `bglmnet()` example exceeding 10s
 
 0 errors | 0 warnings | 0 notes on R-hub (Windows and Linux, R-devel).
 
+On win-builder (R-devel) the only NOTE was "The Date field is over a month old".
+That run was of a build made before I updated the Date field in DESCRIPTION to
+2026-11-11, which has since been fixed. Everything else passed, including the
+Rd files check, the examples (each under 10s) and the tests.
+
 The local macOS check shows 3 NOTEs that come from the local machine, not the
 package: pandoc is not installed (README.md cannot be checked), no Java runtime
 is available, and the installed HTML Tidy is too old.
