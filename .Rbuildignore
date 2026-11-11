@@ -8,3 +8,4 @@ vignettes/
 ^[.]?air[.]toml$
 ^\.posit/assistant$
 ^PARALLELIZATION\.md$
+^cran-comments\.md$
